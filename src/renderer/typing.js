@@ -1,14 +1,15 @@
 'use strict'
 
-exports = module.exports = {}
+import * as mouse from './mouse.js'
 
 const ESC = 69
 const BCK = 66
 const SPC = 32
 
 let currentNote = null
+let floating = true
 
-exports.handleKey = (e) => {
+let handle = (e) => {
   let charCode = e.key.charCodeAt(0)
 
   if(currentNote == null && charCode != SPC){
@@ -36,7 +37,13 @@ let newNote = () => {
 	currentNote = document.createElement('div')
 	currentNote.setAttribute('class', 'note')
 	currentNote.setAttribute('id', 'current')
+
 	document.body.append(currentNote)
+
+  currentNote.style.cssText = "top: "+mouse.getPosition().y+"px; left: "+mouse.getPosition().x+"px;"
+  // currentNote.style.top = mouse.getPosition().y
+
+  console.log('position at', mouse.getPosition().x, '/', mouse.getPosition().y);
 }
 
 let endNote = () => {
@@ -51,3 +58,5 @@ let handleKey = (char) => {
 let eraseCharacter = () => {
   currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
+
+export { handle, currentNote }

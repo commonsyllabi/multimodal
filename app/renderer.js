@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,16 +68,47 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
+
+
+let position = {
+  x : 0,
+  y: 0
+}
+
+let getPosition = () =>{;
+  return position
+}
+
+let handle = (event) => {
+  position.x = event.pageX
+  position.y = event.pageY
+}
+
+
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__typing_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__typing_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__typing_js__);
-__webpack_require__(1)
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(3);
+__webpack_require__(2)
+
 
 
 
 let init = () => {
 	window.addEventListener('keydown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_0__typing_js__["handleKey"](e)
+		__WEBPACK_IMPORTED_MODULE_1__typing_js__["a" /* handle */](e)
+	})
+
+	window.addEventListener('mousemove', (e) =>{
+		__WEBPACK_IMPORTED_MODULE_0__mouse_js__["b" /* handle */](e)
 	})
 }
 
@@ -86,27 +117,31 @@ window.init = init
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
+/* unused harmony export currentNote */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
 
 
-exports = module.exports = {}
+
 
 const ESC = 69
 const BCK = 66
 const SPC = 32
 
 let currentNote = null
+let floating = true
 
-exports.handleKey = (e) => {
+let handle = (e) => {
   let charCode = e.key.charCodeAt(0)
 
   if(currentNote == null && charCode != SPC){
@@ -134,7 +169,13 @@ let newNote = () => {
 	currentNote = document.createElement('div')
 	currentNote.setAttribute('class', 'note')
 	currentNote.setAttribute('id', 'current')
+
 	document.body.append(currentNote)
+
+  currentNote.style.cssText = "top: "+__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().y+"px; left: "+__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().x+"px;"
+  // currentNote.style.top = mouse.getPosition().y
+
+  console.log('position at', __WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().x, '/', __WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().y);
 }
 
 let endNote = () => {
@@ -149,6 +190,8 @@ let handleKey = (char) => {
 let eraseCharacter = () => {
   currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
+
+
 
 
 /***/ })

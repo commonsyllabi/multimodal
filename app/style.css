@@ -1,5 +1,7 @@
 body .note {
+  position: absolute;
   color: black; }
 
 body #current {
+  position: absolute;
   color: red; }
