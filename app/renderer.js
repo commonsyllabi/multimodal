@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,6 +70,9 @@
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(1);
+
+
 
 
 let position = {
@@ -84,6 +87,11 @@ let getPosition = () =>{;
 let handle = (event) => {
   position.x = event.pageX
   position.y = event.pageY
+
+  if(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* currentNote */] != null){
+    Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["d" /* setCurrrentPosition */])(position)
+  }
+
 }
 
 
@@ -94,10 +102,39 @@ let handle = (event) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return currentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return setCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrrentPosition; });
+
+
+let currentNote = null
+
+let setCurrentNote = (el) => {
+  currentNote = el
+}
+
+let getCurrentNote = () => {
+  return currentNote
+}
+
+let setCurrrentPosition = (pos) => {
+  currentNote.style.cssText = "top: "+pos.y+"px; left: "+pos.x+"px;"
+  console.log(currentNote.style.cssText);
+}
+
+
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(3);
-__webpack_require__(2)
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(4);
+__webpack_require__(3)
 
 
 
@@ -117,19 +154,20 @@ window.init = init
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
-/* unused harmony export currentNote */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(1);
+
 
 
 
@@ -142,10 +180,12 @@ let currentNote = null
 let floating = true
 
 let handle = (e) => {
+  currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentNote */])()
+
   let charCode = e.key.charCodeAt(0)
 
   if(currentNote == null && charCode != SPC){
-    console.log('key pressed',e.key,'with charCode',charCode, 'but no note created, ignoring...')
+    console.log('key pressed',e.key,'with charCode',charCode,'but no note created, ignoring...')
     return
   }
 
@@ -166,21 +206,19 @@ let handle = (e) => {
 }
 
 let newNote = () => {
-	currentNote = document.createElement('div')
-	currentNote.setAttribute('class', 'note')
-	currentNote.setAttribute('id', 'current')
+	let cn = document.createElement('div')
+	cn.setAttribute('class', 'note')
+	cn.setAttribute('id', 'current')
 
-	document.body.append(currentNote)
+	document.body.append(cn)
 
-  currentNote.style.cssText = "top: "+__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().y+"px; left: "+__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().x+"px;"
-  // currentNote.style.top = mouse.getPosition().y
-
-  console.log('position at', __WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().x, '/', __WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]().y);
+  Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(cn)
+  Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]())
 }
 
 let endNote = () => {
 	currentNote.removeAttribute('id')
-	currentNote = null
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(null)
 }
 
 let handleKey = (char) => {
