@@ -52,3 +52,4 @@ let handleKey = (char) => {
 }
 
 window.init = init
+window.prove = typing.proveExistence
