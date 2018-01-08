@@ -1,11 +1,10 @@
-
-// import * as typing from './typing.js'
+import * as typing from './typing.js'
 
 let isTyping = false
 let currentNote = null
 
 let init = () => {
-	document.addEventListener('keydown', (e) => {
+	window.addEventListener('keydown', (e) => {
 		if(currentNote == null && e.keyCode != 32){
 			console.log('key pressed',e.key, 'but no note created, ignoring...')
 			return
@@ -52,4 +51,4 @@ let handleKey = (char) => {
 	currentNote.innerText += char
 }
 
-document.body.onload = init
+window.init = init
