@@ -16,6 +16,8 @@ createWindow = () => {
 		slashes: true
 	}))
 
+	mainWindow.toggleDevTools();
+
 	mainWindow.on('closed', () => {
 		mainWindow = null
 	})

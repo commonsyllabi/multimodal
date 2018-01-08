@@ -6,8 +6,10 @@ let currentNote = null
 
 init = () => {
   document.addEventListener('keydown', (e) => {
-    const k = e.key
-    console.log('key pressed',e)
+    if(currentNote == null && e.keyCode != 32){
+      console.log('key pressed',e.key, 'but no note created, ignoring...')
+      return
+    }
 
     switch (e.keyCode) {
       case 32:
