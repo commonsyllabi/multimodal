@@ -1,6 +1,7 @@
 'use strict'
 
 import * as mouse from './mouse.js'
+import { getCurrentNote, setCurrentNote, setCurrrentPosition } from './globals.js'
 
 const ESC = 69
 const BCK = 66
@@ -10,10 +11,12 @@ let currentNote = null
 let floating = true
 
 let handle = (e) => {
+  currentNote = getCurrentNote()
+
   let charCode = e.key.charCodeAt(0)
 
   if(currentNote == null && charCode != SPC){
-    console.log('key pressed',e.key,'with charCode',charCode, 'but no note created, ignoring...')
+    console.log('key pressed',e.key,'with charCode',charCode,'but no note created, ignoring...')
     return
   }
 
@@ -34,21 +37,19 @@ let handle = (e) => {
 }
 
 let newNote = () => {
-	currentNote = document.createElement('div')
-	currentNote.setAttribute('class', 'note')
-	currentNote.setAttribute('id', 'current')
+	let cn = document.createElement('div')
+	cn.setAttribute('class', 'note')
+	cn.setAttribute('id', 'current')
 
-	document.body.append(currentNote)
+	document.body.append(cn)
 
-  currentNote.style.cssText = "top: "+mouse.getPosition().y+"px; left: "+mouse.getPosition().x+"px;"
-  // currentNote.style.top = mouse.getPosition().y
-
-  console.log('position at', mouse.getPosition().x, '/', mouse.getPosition().y);
+  setCurrentNote(cn)
+  setCurrrentPosition(mouse.getPosition())
 }
 
 let endNote = () => {
 	currentNote.removeAttribute('id')
-	currentNote = null
+	setCurrentNote(null)
 }
 
 let handleKey = (char) => {
@@ -59,4 +60,4 @@ let eraseCharacter = () => {
   currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
 
-export { handle, currentNote }
+export { handle }
