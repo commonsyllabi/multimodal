@@ -1,10 +1,12 @@
 body{
 
   .note{
+    position: absolute;
     color: black;
   }
 
   #current{
+    position: absolute;
     color: red;
   }
 }
