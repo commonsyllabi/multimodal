@@ -69,8 +69,10 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__typing_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__typing_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__typing_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__typing_js__);
+__webpack_require__(1)
+
 
 
 let isTyping = false
@@ -130,6 +132,12 @@ window.prove = __WEBPACK_IMPORTED_MODULE_0__typing_js__["proveExistence"]
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

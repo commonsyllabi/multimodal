@@ -1,3 +1,5 @@
+require('./sass/notes.scss')
+
 import * as typing from './typing.js'
 
 let isTyping = false
