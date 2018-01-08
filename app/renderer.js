@@ -175,6 +175,8 @@ window.init = init
 const ESC = 27
 const BCK = 8
 const SPC = 32
+const RET = 13
+const TAB = 9
 
 let currentNote = null
 let floating = true
@@ -200,6 +202,12 @@ let handle = (e) => {
     case ESC:
       endNote()
       break;
+    case TAB:
+      handleKey("\u00A0\u00A0")
+      break;
+    case RET:
+      handleKey("\n")
+      break;
     default:
       if(e.keyCode > 47)
         handleKey(e.key)
@@ -213,7 +221,7 @@ let newNote = () => {
 	let cn = document.createElement('div')
 	cn.setAttribute('class', 'note')
 	cn.setAttribute('id', 'current')
-
+  cn.innerText = "_"
 	document.body.append(cn)
 
   Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(cn)
@@ -222,17 +230,19 @@ let newNote = () => {
 
 let endNote = () => {
 	currentNote.removeAttribute('id')
+  currentNote.innerText = currentNote.innerText.slice(0, -1)
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(null)
 }
 
 let handleKey = (char) => {
   if(char == "Meta") return
-	currentNote.innerText += char
+  currentNote.innerText = currentNote.innerText.slice(0, -1)
+	currentNote.innerText += char + "_"
 }
 
 let eraseCharacter = () => {
-  currentNote.innerText = currentNote.innerText.slice(0, -1)
-}
+  currentNote.innerText = currentNote.innerText.slice(0, -2) + "_"
+ }
 
 
 
