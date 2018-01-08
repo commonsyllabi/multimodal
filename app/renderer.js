@@ -75,59 +75,14 @@ __webpack_require__(1)
 
 
 
-let isTyping = false
-let currentNote = null
-
 let init = () => {
 	window.addEventListener('keydown', (e) => {
-		if(currentNote == null && e.keyCode != 32){
-			console.log('key pressed',e.key, 'but no note created, ignoring...')
-			return
-		}
-
-		switch (e.keyCode) {
-		case 32:
-			if(!isTyping)
-				newNote()
-			else
-				handleKey(e.key)
-			break
-		case 27:
-			endNote()
-			break
-		default:
-			handleKey(e.key)
-			break
-		}
-
-		if(e.keyCode == 32 && !isTyping)
-			isTyping = true
-
-		if(e.keyCode == 27)
-			isTyping == false
+		__WEBPACK_IMPORTED_MODULE_0__typing_js__["handleKey"](e)
 	})
 }
 
-let newNote = () => {
-	currentNote = document.createElement('div')
-	currentNote.setAttribute('class', 'note')
-	currentNote.setAttribute('id', 'current')
-	document.body.append(currentNote)
-	isTyping = true
-}
-
-let endNote = () => {
-	currentNote.removeAttribute('id')
-	currentNote = null
-	isTyping = false
-}
-
-let handleKey = (char) => {
-	currentNote.innerText += char
-}
 
 window.init = init
-window.prove = __WEBPACK_IMPORTED_MODULE_0__typing_js__["proveExistence"]
 
 
 /***/ }),
@@ -145,8 +100,54 @@ window.prove = __WEBPACK_IMPORTED_MODULE_0__typing_js__["proveExistence"]
 
 exports = module.exports = {}
 
-exports.proveExistence = () => {
-  console.log('i am here');
+const ESC = 69
+const BCK = 66
+const SPC = 32
+
+let currentNote = null
+
+exports.handleKey = (e) => {
+  let charCode = e.key.charCodeAt(0)
+
+  if(currentNote == null && charCode != SPC){
+    console.log('key pressed',e.key,'with charCode',charCode, 'but no note created, ignoring...')
+    return
+  }
+
+  if(charCode == SPC)
+    if(currentNote == null)
+      newNote()
+    else
+      handleKey("\u00A0")
+
+  if(charCode > 47 && charCode < 58 || charCode > 96 && charCode < 123)
+    handleKey(e.key)
+
+  if(charCode == BCK)
+    eraseCharacter()
+
+  if(charCode == ESC)
+    endNote()
+}
+
+let newNote = () => {
+	currentNote = document.createElement('div')
+	currentNote.setAttribute('class', 'note')
+	currentNote.setAttribute('id', 'current')
+	document.body.append(currentNote)
+}
+
+let endNote = () => {
+	currentNote.removeAttribute('id')
+	currentNote = null
+}
+
+let handleKey = (char) => {
+	currentNote.innerText += char
+}
+
+let eraseCharacter = () => {
+  currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
 
 
