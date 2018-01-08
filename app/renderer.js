@@ -203,7 +203,7 @@ let handle = (e) => {
       endNote()
       break;
     case TAB:
-      handleKey("\u00A0\u00A0")
+      handleKey("\u00A0\u00A0\u00A0\u00A0")
       break;
     case RET:
       handleKey("\n")

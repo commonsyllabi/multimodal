@@ -897,6 +897,10 @@ electron-to-chromium@^1.2.7:
   dependencies:
     electron-releases "^2.1.0"
 
+electron-webpack-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/electron-webpack-plugin/-/electron-webpack-plugin-2.0.0.tgz#df5376b46430449b623ac55cb443a1eb3e374655"
+
 electron@^1.7.10:
   version "1.7.10"
   resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.10.tgz#3a3e83d965fd7fafe473be8ddf8f472561b6253d"
