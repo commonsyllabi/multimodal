@@ -125,6 +125,7 @@ let handleKey = (char) => {
 }
 
 window.init = init
+window.prove = __WEBPACK_IMPORTED_MODULE_0__typing_js__["proveExistence"]
 
 
 /***/ }),
@@ -135,6 +136,10 @@ window.init = init
 
 
 exports = module.exports = {}
+
+exports.proveExistence = () => {
+  console.log('i am here');
+}
 
 
 /***/ })
