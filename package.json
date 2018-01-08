@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "watch": "webpack --config webpack.config.js --watch",
-    "lint": "node_modules/.bin/eslint -f ./node_modules/eslint-friendly-formatter src app/js",
-    "lint:fix": "node_modules/.bin/eslint -f ./node_modules/eslint-friendly-formatter --fix src app/js"
+    "lint": "eslint src app/js",
+    "lint:fix": "node_modules/.bin/eslint --fix src app/js"
   },
   "repository": {
     "type": "git",
