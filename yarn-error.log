@@ -1,0 +1,52 @@
+Arguments: 
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add eslint --dev
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.3.2
+
+Node version: 
+  9.2.0
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+    "name": "multimodal",
+    "version": "1.0.0",
+    "description": "a tool for teaching",
+    "main": "main.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "electron ."
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com/periode/multimodal.git"
+    },
+    "keywords": [
+      "electron",
+      "teaching"
+    ],
+    "author": "pierre depaz",
+    "license": "MPL-2.0",
+    "bugs": {
+      "url": "https://github.com/periode/multimodal/issues"
+    },
+    "homepage": "https://github.com/periode/multimodal#readme",
+    "devDependencies": {
+      "electron": "^1.7.10"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: EACCES: permission denied, unlink '/home/pierre/code/electron/multimodal/node_modules/.yarn-integrity'
