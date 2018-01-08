@@ -7,7 +7,7 @@ const url = require('url')
 
 let mainWindow
 
-createWindow = () => {
+let createWindow = () => {
 	mainWindow = new BrowserWindow({width: 800, height: 800})
 
 	mainWindow.loadURL(url.format({
@@ -16,7 +16,7 @@ createWindow = () => {
 		slashes: true
 	}))
 
-	mainWindow.toggleDevTools();
+	mainWindow.toggleDevTools()
 
 	mainWindow.on('closed', () => {
 		mainWindow = null
