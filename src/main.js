@@ -8,7 +8,7 @@ const url = require('url')
 let mainWindow
 
 let createWindow = () => {
-	mainWindow = new BrowserWindow({width: 1000, height: 1000})
+	mainWindow = new BrowserWindow({width: 1000, height: 1000, icon: __dirname + '/icon-tmp.png'})
 
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, '../app/index.html'),
