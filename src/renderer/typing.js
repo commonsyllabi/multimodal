@@ -3,8 +3,8 @@
 import * as mouse from './mouse.js'
 import { getCurrentNote, setCurrentNote, setCurrrentPosition } from './globals.js'
 
-const ESC = 69
-const BCK = 66
+const ESC = 27
+const BCK = 8
 const SPC = 32
 
 let currentNote = null
@@ -13,27 +13,31 @@ let floating = true
 let handle = (e) => {
   currentNote = getCurrentNote()
 
-  let charCode = e.key.charCodeAt(0)
-
-  if(currentNote == null && charCode != SPC){
-    console.log('key pressed',e.key,'with charCode',charCode,'but no note created, ignoring...')
+  if(currentNote == null && e.keyCode != SPC){
+    console.log('key pressed',e.key,'with charCode',e.keyCode,'but no note created, ignoring...')
     return
   }
 
-  if(charCode == SPC)
-    if(currentNote == null)
-      newNote()
-    else
-      handleKey("\u00A0")
+  switch (e.keyCode) {
+    case SPC:
+      if(currentNote == null)
+        newNote()
+      else
+        handleKey("\u00A0")
+      break;
+    case BCK:
+      eraseCharacter()
+      break;
+    case ESC:
+      endNote()
+      break;
+    default:
+      if(e.keyCode > 47)
+        handleKey(e.key)
+      break;
+  }
 
-  if(charCode > 47 && charCode < 58 || charCode > 96 && charCode < 123)
-    handleKey(e.key)
 
-  if(charCode == BCK)
-    eraseCharacter()
-
-  if(charCode == ESC)
-    endNote()
 }
 
 let newNote = () => {
@@ -53,6 +57,7 @@ let endNote = () => {
 }
 
 let handleKey = (char) => {
+  if(char == "Meta") return
 	currentNote.innerText += char
 }
 
