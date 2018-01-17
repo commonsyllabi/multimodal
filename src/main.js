@@ -1,4 +1,5 @@
 const electron = require('electron')
+const ipc = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
@@ -22,6 +23,10 @@ let createWindow = () => {
 		mainWindow = null
 	})
 }
+
+ipc.on('save-session', (event, data)=>{
+	console.log('received', data[0])
+})
 
 app.on('ready', createWindow)
 
