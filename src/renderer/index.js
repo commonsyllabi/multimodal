@@ -2,6 +2,7 @@ require('./sass/notes.scss')
 
 import * as mouse from './mouse.js'
 import * as typing from './typing.js'
+import * as save from './save.js'
 
 let init = () => {
 	window.addEventListener('keydown', (e) => {
@@ -15,3 +16,4 @@ let init = () => {
 
 
 window.init = init
+window.saveSession = save.saveSession
