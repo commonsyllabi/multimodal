@@ -89,7 +89,7 @@ let handle = (event) => {
 	position.y = event.pageY
 
 	if(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* currentNote */] != null){
-		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["d" /* setCurrrentPosition */])(position)
+		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["f" /* setCurrrentPosition */])(position)
 	}
 
 }
@@ -103,12 +103,15 @@ let handle = (event) => {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return currentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return setCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
 
 
 let currentNote = null
+let currentConcept = 1
 
 let setCurrentNote = (el) => {
 	currentNote = el
@@ -116,6 +119,14 @@ let setCurrentNote = (el) => {
 
 let getCurrentNote = () => {
 	return currentNote
+}
+
+let setCurrentConcept = (index) => {
+	currentConcept = index
+}
+
+let getCurrentConcept = () => {
+	return currentConcept
 }
 
 let setCurrrentPosition = (pos) => {
@@ -134,8 +145,10 @@ let setCurrrentPosition = (pos) => {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(1);
 __webpack_require__(3)
+
 
 
 
@@ -154,6 +167,7 @@ let init = () => {
 
 window.init = init
 window.saveSession = __WEBPACK_IMPORTED_MODULE_2__save_js__["a" /* saveSession */]
+window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__globals_js__["d" /* setCurrentConcept */]
 
 
 /***/ }),
@@ -184,12 +198,11 @@ const TAB = 9
 let currentNote = null
 
 let handle = (e) => {
-	currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentNote */])()
+	currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* getCurrentNote */])()
 
-	if(currentNote == null && e.keyCode != SPC){
-		console.log('key pressed',e.key,'with charCode',e.keyCode,'but no note created, ignoring...')
+	if(currentNote == null && e.keyCode != SPC)
 		return
-	}
+	
 
 	switch (e.keyCode) {
 	case SPC:
@@ -222,18 +235,21 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('div')
 	cn.setAttribute('class', 'note')
+	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
 	cn.innerText = '_'
-	document.body.append(cn)
+	document.getElementById('container').append(cn)
 
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(cn)
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]())
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]())
 }
 
 let endNote = () => {
+	if(currentNote.innerText == '_')
+		document.getElementById('container').removeChild(currentNote)
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* setCurrentNote */])(null)
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(null)
 }
 
 let handleKey = (char) => {
@@ -250,15 +266,14 @@ let eraseCharacter = () => {
 
 
 /***/ }),
-/* 5 */,
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return saveSession; });
 
 
-const ipc = __webpack_require__(7).ipcRenderer
+const ipc = __webpack_require__(6).ipcRenderer
 
 let saveSession = () => {
 	let data = parseDocument()
@@ -285,7 +300,7 @@ console.log(el_notes)
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
