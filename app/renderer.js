@@ -68,7 +68,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGridPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(1);
 
@@ -80,8 +80,16 @@ let position = {
 	y: 0
 }
 
-let getPosition = () =>{
-	return position
+let getGridPosition = () =>{
+	let normalized_pos = {
+		x : 0,
+		y : 0
+	}
+
+	normalized_pos.x = Math.floor(map(position.x, 0, 1800, 0, 18))*100
+	normalized_pos.y = Math.floor(map(position.y, 0, 1000, 0, 25))*40
+
+	return normalized_pos
 }
 
 let handle = (event) => {
@@ -89,9 +97,13 @@ let handle = (event) => {
 	position.y = event.pageY
 
 	if(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* currentNote */] != null){
-		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["f" /* setCurrrentPosition */])(position)
+		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["f" /* setCurrrentPosition */])(getGridPosition())
 	}
 
+}
+
+let map = (value, start_1, end_1, start_2, end_2) => {
+	return start_2 + (end_2 - start_2) * (value - start_1) / (end_1 - start_1)
 }
 
 
@@ -241,7 +253,7 @@ let newNote = () => {
 	document.getElementById('container').append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getPosition */]())
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getGridPosition */]())
 }
 
 let endNote = () => {

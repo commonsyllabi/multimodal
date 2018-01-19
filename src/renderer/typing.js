@@ -55,7 +55,7 @@ let newNote = () => {
 	document.getElementById('container').append(cn)
 
 	setCurrentNote(cn)
-	setCurrrentPosition(mouse.getPosition())
+	setCurrrentPosition(mouse.getGridPosition())
 }
 
 let endNote = () => {
