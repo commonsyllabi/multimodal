@@ -88,7 +88,16 @@ let getCurrentNote = () => {
 }
 
 let setCurrentConcept = (index) => {
+	
 	currentConcept = index
+
+	let ns = document.getElementsByClassName('note')
+	for(let n of ns){
+		if(n.getAttribute('concept') == currentConcept)
+			n.style.display = 'block'
+		else
+			n.style.display = 'none'
+	}
 }
 
 let getCurrentConcept = () => {
