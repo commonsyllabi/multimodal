@@ -1,7 +1,7 @@
 'use strict'
 
 import * as mouse from './mouse.js'
-import { getCurrentNote, setCurrentNote, setCurrrentPosition } from './globals.js'
+import { getCurrentNote, setCurrentNote, setCurrrentPosition, getCurrentConcept } from './globals.js'
 
 const ESC = 27
 const BCK = 8
@@ -14,10 +14,9 @@ let currentNote = null
 let handle = (e) => {
 	currentNote = getCurrentNote()
 
-	if(currentNote == null && e.keyCode != SPC){
-		console.log('key pressed',e.key,'with charCode',e.keyCode,'but no note created, ignoring...')
+	if(currentNote == null && e.keyCode != SPC)
 		return
-	}
+	
 
 	switch (e.keyCode) {
 	case SPC:
@@ -50,15 +49,18 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('div')
 	cn.setAttribute('class', 'note')
+	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.innerText = '_'
-	document.body.append(cn)
+	document.getElementById('container').append(cn)
 
 	setCurrentNote(cn)
 	setCurrrentPosition(mouse.getPosition())
 }
 
 let endNote = () => {
+	if(currentNote.innerText == '_')
+		document.getElementById('container').removeChild(currentNote)
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
 	setCurrentNote(null)
