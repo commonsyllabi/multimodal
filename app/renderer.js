@@ -68,9 +68,49 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return currentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
+
+
+let currentNote = null
+let currentConcept = 1
+
+let setCurrentNote = (el) => {
+	currentNote = el
+}
+
+let getCurrentNote = () => {
+	return currentNote
+}
+
+let setCurrentConcept = (index) => {
+	currentConcept = index
+}
+
+let getCurrentConcept = () => {
+	return currentConcept
+}
+
+let setCurrrentPosition = (pos) => {
+	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px;'
+	console.log(currentNote.style.cssText)
+}
+
+
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGridPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(0);
 
 
 
@@ -110,55 +150,15 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return currentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
-
-
-let currentNote = null
-let currentConcept = 1
-
-let setCurrentNote = (el) => {
-	currentNote = el
-}
-
-let getCurrentNote = () => {
-	return currentNote
-}
-
-let setCurrentConcept = (index) => {
-	currentConcept = index
-}
-
-let getCurrentConcept = () => {
-	return currentConcept
-}
-
-let setCurrrentPosition = (pos) => {
-	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px;'
-	console.log(currentNote.style.cssText)
-}
-
-
-
-
-/***/ }),
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(0);
 __webpack_require__(3)
 
 
@@ -194,8 +194,8 @@ window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__globals_js__["d" /* setCurre
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(0);
 
 
 
@@ -257,10 +257,17 @@ let newNote = () => {
 }
 
 let endNote = () => {
+	// if current note has no text
 	if(currentNote.innerText == '_')
 		document.getElementById('container').removeChild(currentNote)
+
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
+	currentNote.addEventListener('click', (evt) => {
+		evt.target.setAttribute('id', 'current')
+		evt.target.innerText += '_'
+		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
+	})
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(null)
 }
 
