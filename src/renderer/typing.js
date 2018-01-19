@@ -59,10 +59,17 @@ let newNote = () => {
 }
 
 let endNote = () => {
+	// if current note has no text
 	if(currentNote.innerText == '_')
 		document.getElementById('container').removeChild(currentNote)
+
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
+	currentNote.addEventListener('click', (evt) => {
+		evt.target.setAttribute('id', 'current')
+		evt.target.innerText += '_'
+		setCurrentNote(evt.target)
+	})
 	setCurrentNote(null)
 }
 
