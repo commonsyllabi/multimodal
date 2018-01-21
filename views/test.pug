@@ -1,0 +1,14 @@
+doctype
+html
+	head
+		meta(charset="utf8")
+		title multimodal
+		script(src="./renderer.js")
+		link(rel='stylesheet', href='./style.css')
+	body(onload='init()')
+		div#container
+			button.save-session(onclick="saveSession()") Save Session
+			button.concept(onclick='switchConcept(1)') Concept 1
+			button.concept(onclick='switchConcept(2)') Concept 2
+	
+

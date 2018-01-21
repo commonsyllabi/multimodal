@@ -5,17 +5,34 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
+const pug = require('pug')
 
 let mainWindow
 
+let lesson_path = "views/"
+let lesson_name = "test"
+
+let generateLesson = () => {
+	let compiled_lesson = pug.renderFile(lesson_path + lesson_name + '.pug')
+
+	fs.writeFileSync(__dirname+'/../app/'+lesson_name+'.html', compiled_lesson)
+}
+
 let createWindow = () => {
+
+	generateLesson()
+
 	mainWindow = new BrowserWindow({width: 1800, height: 1000, icon: __dirname + '/icon-tmp.png'})
 
+	/*
 	mainWindow.loadURL(url.format({
-		pathname: path.join(__dirname, '../app/index.html'),
+		pathname: path.join(__dirname, 'views/'+lesson_name+'.html'),
 		protocol: 'file',
 		slashes: true
-	}))
+	}))*/
+
+	mainWindow.loadURL('file:///'+__dirname+'/../app/'+lesson_name+'.html')
 
 	mainWindow.toggleDevTools()
 
