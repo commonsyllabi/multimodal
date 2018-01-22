@@ -6,6 +6,7 @@ html
 		script(src="./renderer.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
+		canvas#drawing-board
 		div.container
 			div.interface-buttons
 				button.save-session(onclick="saveSession()") Save Session
@@ -14,7 +15,14 @@ html
 					button.concept(onclick='switchConcept(' + index + ')')= val[0]
 			each notes, index in concepts
 				each note  in notes
-					div.prep.note(concept= index)= note
+					if note.type == "text"
+						div.prep.note(concept= index)= note.content
+					if note.type == "link"
+						div.prep.note(concept= index)
+							a(href= note.url)= note.content
+					if note.type == "img"
+						div.prep.note(concept= index)
+							img(src= note.src)
 
 	
 
