@@ -17,8 +17,9 @@ let init = () => {
 
 	window.addEventListener('mousemove', (e) =>{
 	
-		drawing.draw(e)
 		mouse.handle(e)
+
+		drawing.draw(e)
 	})
 
 	window.addEventListener('mousedown', (e) => {
