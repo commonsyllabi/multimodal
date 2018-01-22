@@ -167,6 +167,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__drawing_js__ = __webpack_require__(9);
 __webpack_require__(3)
 __webpack_require__(8)
 
@@ -175,14 +176,29 @@ __webpack_require__(8)
 
 
 
+
 let init = () => {
+
+	__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* init */]()
+
 	window.addEventListener('keydown', (e) => {
 		__WEBPACK_IMPORTED_MODULE_1__typing_js__["a" /* handle */](e)
 	})
 
 	window.addEventListener('mousemove', (e) =>{
+	
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["b" /* draw */](e)
 		__WEBPACK_IMPORTED_MODULE_0__mouse_js__["b" /* handle */](e)
 	})
+
+	window.addEventListener('mousedown', (e) => {
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["a" /* beginDraw */](e)
+	})
+
+	window.addEventListener('mouseup', (e) => {
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["c" /* endDraw */](e)
+	})
+
 }
 
 
@@ -339,6 +355,53 @@ module.exports = require("electron");
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return init; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return beginDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return draw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return endDraw; });
+let cnv, ctx
+let isDrawing = false
+
+let init = () => {
+	cnv = document.getElementById('drawing-board')
+	cnv.width = 1800
+	cnv.height = 1000
+	ctx = cnv.getContext('2d')
+	ctx.lineWidth = 5
+	ctx.lineJoin = 'round'
+	ctx.lineCap = 'round'
+	ctx.strokeStyle = 'red'
+}
+
+let beginDraw = (e) => {
+
+	isDrawing = true
+	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
+	
+	ctx.beginPath()
+}
+
+let draw = (e) => {
+	if(!isDrawing) return
+
+	//ctx.beginPath()
+	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
+	//ctx.closePath()
+	ctx.stroke()
+}
+
+let endDraw = (e) => {
+	isDrawing = false
+}
+
+
+
 
 /***/ })
 /******/ ]);
