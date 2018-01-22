@@ -1,12 +1,32 @@
 body{
 
+    font-family: 'Inter UI';
+
   .note{
     position: absolute;
     color: black;
+    font-size: 2em;
   }
 
   #current{
     position: absolute;
     color: red;
+
+    font-weight: bold;
+  }
+
+  .prep{
+	  position: relative;
+	  display:none;
+
+	  font-family: 'Inter UI';
+	  font-style: italic;
+	  font-size: 3em;
+	  color: #444444;
+
+	  width: 80%;
+	  margin-left: 10%;
+	  margin-top: 5%;
+	  text-align: center;
   }
 }

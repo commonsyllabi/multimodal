@@ -1,7 +1,21 @@
-body .note {
-  position: absolute;
-  color: black; }
-
-body #current {
-  position: absolute;
-  color: red; }
+body {
+  font-family: 'Inter UI'; }
+  body .note {
+    position: absolute;
+    color: black;
+    font-size: 2em; }
+  body #current {
+    position: absolute;
+    color: red;
+    font-weight: bold; }
+  body .prep {
+    position: relative;
+    display: none;
+    font-family: 'Inter UI';
+    font-style: italic;
+    font-size: 3em;
+    color: #444444;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+    text-align: center; }
