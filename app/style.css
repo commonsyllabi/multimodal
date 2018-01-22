@@ -19,3 +19,27 @@ body {
     margin-left: 10%;
     margin-top: 5%;
     text-align: center; }
+button {
+  border: 2px solid #999999;
+  border-radius: 5px;
+  color: #333333;
+  background-color: #f0f0f0;
+  font-family: 'Inter UI';
+  font-size: 1.2em;
+  cursor: pointer; }
+
+.concept-buttons {
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  width: 15%; }
+
+.concept {
+  width: 90%;
+  margin-bottom: 5%;
+  display: block; }
+
+.interface-buttons {
+  position: absolute;
+  bottom: 10px;
+  right: 0px; }
