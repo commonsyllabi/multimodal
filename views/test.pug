@@ -6,11 +6,12 @@ html
 		script(src="./renderer.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
-		div#container
-			button.save-session(onclick="saveSession()") Save Session
-			button.concept(onclick='switchConcept(2)') Concept 2
-			each val, index in concepts
-				button.concept(onclick='switchConcept(' + index + ')')= val[0]
+		div.container
+			div.interface-buttons
+				button.save-session(onclick="saveSession()") Save Session
+			div.concept-buttons
+				each val, index in concepts
+					button.concept(onclick='switchConcept(' + index + ')')= val[0]
 			each notes, index in concepts
 				each note  in notes
 					div.prep.note(concept= index)= note

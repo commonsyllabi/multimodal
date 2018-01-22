@@ -1,0 +1,34 @@
+$mid-grey: #999999;
+$dark-grey: #333333;
+$light-grey: #f0f0f0;
+
+button {
+	border: 2px solid $mid-grey;
+	border-radius: 5px;
+	color: $dark-grey;
+	background-color: $light-grey;
+
+	font-family: 'Inter UI';
+	font-size: 1.2em;
+	
+	cursor: pointer;
+}
+
+.concept-buttons{
+	position: absolute;
+	top: 10px;
+	right: 0px;
+	width: 15%;
+}
+
+.concept {
+	width: 90%;
+	margin-bottom: 5%;
+	display: block;
+}
+
+.interface-buttons {
+	position: absolute;
+	bottom: 10px;
+	right: 0px;
+}
