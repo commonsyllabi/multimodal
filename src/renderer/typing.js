@@ -52,7 +52,7 @@ let newNote = () => {
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.innerText = '_'
-	document.getElementById('container').append(cn)
+	document.getElementById('writing-board').append(cn)
 
 	setCurrentNote(cn)
 	setCurrrentPosition(mouse.getGridPosition())
@@ -65,11 +65,11 @@ let endNote = () => {
 
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
-	currentNote.addEventListener('click', (evt) => {
+	currentNote.onclick =(evt) => {
 		evt.target.setAttribute('id', 'current')
 		evt.target.innerText += '_'
 		setCurrentNote(evt.target)
-	})
+	}
 	setCurrentNote(null)
 }
 
