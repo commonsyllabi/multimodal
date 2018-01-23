@@ -10,6 +10,8 @@ html
 		div.container#writing-board
 			div.interface-buttons
 				button.save-session(onclick="saveSession()") Save Session
+				button.toggle-draw(onclick="toggleDraw()") Writing
+				button.clear-board(onclick="clearBoard()") Clear Board
 			div.concept-buttons
 				each val, index in concepts
 					button.concept(onclick='switchConcept(' + index + ')')= val[0]

@@ -36,3 +36,5 @@ let init = () => {
 window.init = init
 window.saveSession = save.saveSession
 window.switchConcept = globals.setCurrentConcept
+window.clearBoard = drawing.clearBoard
+window.toggleDraw = drawing.toggleDraw
