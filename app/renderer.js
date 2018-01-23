@@ -197,7 +197,7 @@ let init = () => {
 	})
 
 	window.addEventListener('mouseup', (e) => {
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* endDraw */](e)
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* endDraw */]()
 	})
 
 }
@@ -341,7 +341,7 @@ let saveSession = () => {
 
 let parseDocument = () => {
 	let el_notes = document.getElementsByClassName('note')
-console.log(el_notes)	
+	console.log(el_notes)	
 	let notes = []
 	for(let n of el_notes)
 		notes.push(n.innerText)
@@ -396,13 +396,11 @@ let beginDraw = (e) => {
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
 
-	//ctx.beginPath()
 	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
-	//ctx.closePath()
 	ctx.stroke()
 }
 
-let endDraw = (e) => {
+let endDraw = () => {
 	if(!isDrawMode) return
 	isDrawing = false
 }
