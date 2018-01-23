@@ -27,7 +27,7 @@ let init = () => {
 	})
 
 	window.addEventListener('mouseup', (e) => {
-		drawing.endDraw(e)
+		drawing.endDraw()
 	})
 
 }

@@ -25,13 +25,11 @@ let beginDraw = (e) => {
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
 
-	//ctx.beginPath()
 	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
-	//ctx.closePath()
 	ctx.stroke()
 }
 
-let endDraw = (e) => {
+let endDraw = () => {
 	if(!isDrawMode) return
 	isDrawing = false
 }
