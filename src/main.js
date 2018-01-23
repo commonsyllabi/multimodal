@@ -14,7 +14,7 @@ let lesson_path = 'views/'
 let lesson_name = 'test'
 
 let generateLesson = () => {
-	let content = JSON.parse(fs.readFileSync(__dirname+'/../lessons/commlab/week1a.json'))
+	let content = JSON.parse(fs.readFileSync(__dirname+'/../lessons/alternate-realities/week1a.json'))
 	let compiled_lesson = pug.renderFile(lesson_path + lesson_name + '.pug', content)
 
 	fs.writeFileSync(__dirname+'/../app/'+lesson_name+'.html', compiled_lesson)
