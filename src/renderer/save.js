@@ -15,7 +15,7 @@ let saveSession = () => {
 
 let parseDocument = () => {
 	let el_notes = document.getElementsByClassName('note')
-console.log(el_notes)	
+	console.log(el_notes)	
 	let notes = []
 	for(let n of el_notes)
 		notes.push(n.innerText)
