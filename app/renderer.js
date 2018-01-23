@@ -164,12 +164,12 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__drawing_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__drawing_js__ = __webpack_require__(8);
 __webpack_require__(3)
-__webpack_require__(8)
+__webpack_require__(4)
 
 
 
@@ -179,7 +179,7 @@ __webpack_require__(8)
 
 let init = () => {
 
-	__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* init */]()
+	__WEBPACK_IMPORTED_MODULE_4__drawing_js__["e" /* init */]()
 
 	window.addEventListener('keydown', (e) => {
 		__WEBPACK_IMPORTED_MODULE_1__typing_js__["a" /* handle */](e)
@@ -189,7 +189,7 @@ let init = () => {
 	
 		__WEBPACK_IMPORTED_MODULE_0__mouse_js__["b" /* handle */](e)
 
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["b" /* draw */](e)
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["c" /* draw */](e)
 	})
 
 	window.addEventListener('mousedown', (e) => {
@@ -197,7 +197,7 @@ let init = () => {
 	})
 
 	window.addEventListener('mouseup', (e) => {
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["c" /* endDraw */](e)
+		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* endDraw */](e)
 	})
 
 }
@@ -206,6 +206,8 @@ let init = () => {
 window.init = init
 window.saveSession = __WEBPACK_IMPORTED_MODULE_2__save_js__["a" /* saveSession */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__globals_js__["d" /* setCurrentConcept */]
+window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__drawing_js__["b" /* clearBoard */]
+window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__drawing_js__["f" /* toggleDraw */]
 
 
 /***/ }),
@@ -216,6 +218,12 @@ window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__globals_js__["d" /* setCurre
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -311,14 +319,14 @@ let eraseCharacter = () => {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return saveSession; });
 
 
-const ipc = __webpack_require__(6).ipcRenderer
+const ipc = __webpack_require__(7).ipcRenderer
 
 let saveSession = () => {
 	let data = parseDocument()
@@ -345,29 +353,25 @@ console.log(el_notes)
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
-/* 7 */,
 /* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return init; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return init; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return beginDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return draw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return endDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return draw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return toggleDraw; });
 let cnv, ctx
 let isDrawing = false
+let isDrawMode = false
 
 let init = () => {
 	cnv = document.getElementById('drawing-board')
@@ -381,6 +385,7 @@ let init = () => {
 }
 
 let beginDraw = (e) => {
+	if(!isDrawMode) return
 
 	isDrawing = true
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
@@ -389,7 +394,7 @@ let beginDraw = (e) => {
 }
 
 let draw = (e) => {
-	if(!isDrawing) return
+	if(!isDrawing || !isDrawMode) return
 
 	//ctx.beginPath()
 	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
@@ -398,7 +403,20 @@ let draw = (e) => {
 }
 
 let endDraw = (e) => {
+	if(!isDrawMode) return
 	isDrawing = false
+}
+
+let clearBoard = () => {
+	ctx.clearRect(0, 0, 1800, 1000)
+}
+
+let toggleDraw = () => {
+	isDrawMode = !isDrawMode
+	if(isDrawMode)
+		document.getElementsByClassName('toggle-draw')[0].innerText = 'Drawing'
+	else
+		document.getElementsByClassName('toggle-draw')[0].innerText = 'Writing'
 }
 
 

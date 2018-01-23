@@ -1,5 +1,6 @@
 let cnv, ctx
 let isDrawing = false
+let isDrawMode = false
 
 let init = () => {
 	cnv = document.getElementById('drawing-board')
@@ -13,6 +14,7 @@ let init = () => {
 }
 
 let beginDraw = (e) => {
+	if(!isDrawMode) return
 
 	isDrawing = true
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
@@ -21,7 +23,7 @@ let beginDraw = (e) => {
 }
 
 let draw = (e) => {
-	if(!isDrawing) return
+	if(!isDrawing || !isDrawMode) return
 
 	//ctx.beginPath()
 	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
@@ -30,7 +32,20 @@ let draw = (e) => {
 }
 
 let endDraw = (e) => {
+	if(!isDrawMode) return
 	isDrawing = false
 }
 
-export { init, beginDraw, draw, endDraw }
+let clearBoard = () => {
+	ctx.clearRect(0, 0, 1800, 1000)
+}
+
+let toggleDraw = () => {
+	isDrawMode = !isDrawMode
+	if(isDrawMode)
+		document.getElementsByClassName('toggle-draw')[0].innerText = 'Drawing'
+	else
+		document.getElementsByClassName('toggle-draw')[0].innerText = 'Writing'
+}
+
+export { init, beginDraw, draw, endDraw, clearBoard, toggleDraw }
