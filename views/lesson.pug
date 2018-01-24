@@ -9,22 +9,23 @@ html
 		canvas#drawing-board
 		div.container#writing-board
 			div.interface-buttons
-				button.save-session(onclick="saveSession()") Save Session
-				button.toggle-draw(onclick="toggleDraw()") Writing
-				button.clear-board(onclick="clearBoard()") Clear Board
+				button.save-session(onclick="saveSession()") save
+				button.toggle-draw(onclick="toggleDraw()") write
+				button.clear-board(onclick="clearBoard()") clear
 			div.concept-buttons
 				each val, index in concepts
-					button.concept(onclick='switchConcept(' + index + ')')= val[0]
+					button.concept(onclick='switchConcept(this, ' + index + ')')= index + '. '+ val[0]
 			each notes, index in concepts
-				each note  in notes
-					if note.type == "text"
-						div.prep.note(concept= index)= note.content
-					if note.type == "link"
-						div.prep.note(concept= index)
-							a(href= note.url)= note.content
-					if note.type == "img"
-						div.prep.note(concept= index)
-							img(src= note.src)
+				div.prep-group
+					each note  in notes
+						if note.type == "text"
+							div.prep.note(concept= index)= note.content
+						if note.type == "link"
+							div.prep.note(concept= index)
+								a(href= note.url)= note.content
+						if note.type == "img"
+							div.prep.note(concept= index)
+								img(src= note.src)
 
 	
 

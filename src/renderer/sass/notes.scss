@@ -1,11 +1,16 @@
 body{
 
+  margin: 0px;
+  padding: 0px;
+
     font-family: 'Inter UI';
 
   .note{
     position: absolute;
     color: black;
     font-size: 2em;
+
+    transition: opacity 0.5s ease-in-out;
   }
 
   #current{
@@ -15,17 +20,23 @@ body{
     font-weight: bold;
   }
 
+  .prep-group{
+	  position: absolute;
+	  top: 5%;
+	  left: 10%;
+	  width: 60%;
+  }
+
   .prep{
 	  position: relative;
-	  display:none;
+	  opacity:0;
 
 	  font-family: 'Inter UI';
 	  font-style: italic;
 	  font-size: 3em;
 	  color: #444444;
 
-	  width: 60%;
-	  margin-left: 10%;
+	  width: 100%;
 	  margin-top: 5%;
 	  text-align: left;
   }

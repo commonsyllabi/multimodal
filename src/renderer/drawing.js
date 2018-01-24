@@ -1,9 +1,12 @@
-let cnv, ctx
+let cnv, ctx, ctn, toggle_btn
 let isDrawing = false
 let isDrawMode = false
 
 let init = () => {
 	cnv = document.getElementById('drawing-board')
+	ctn = document.getElementsByClassName('container')[0]
+	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
+	
 	cnv.width = 1800
 	cnv.height = 1000
 	ctx = cnv.getContext('2d')
@@ -40,10 +43,15 @@ let clearBoard = () => {
 
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
-	if(isDrawMode)
-		document.getElementsByClassName('toggle-draw')[0].innerText = 'Drawing'
-	else
-		document.getElementsByClassName('toggle-draw')[0].innerText = 'Writing'
+	if(isDrawMode){
+		toggle_btn.innerText = 'draw'
+		cnv.style.zIndex = 1
+		ctn.style.zIndex = 0
+	}else{
+		toggle_btn.innerText = 'write'
+		cnv.style.zIndex = 0
+		ctn.style.zIndex = 1
+	}
 }
 
 export { init, beginDraw, draw, endDraw, clearBoard, toggleDraw }

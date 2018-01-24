@@ -1,22 +1,29 @@
 body {
+  margin: 0px;
+  padding: 0px;
   font-family: 'Inter UI'; }
   body .note {
     position: absolute;
     color: black;
-    font-size: 2em; }
+    font-size: 2em;
+    transition: opacity 0.5s ease-in-out; }
   body #current {
     position: absolute;
     color: red;
     font-weight: bold; }
+  body .prep-group {
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    width: 60%; }
   body .prep {
     position: relative;
-    display: none;
+    opacity: 0;
     font-family: 'Inter UI';
     font-style: italic;
     font-size: 3em;
     color: #444444;
-    width: 60%;
-    margin-left: 10%;
+    width: 100%;
     margin-top: 5%;
     text-align: left; }
   body img {
@@ -27,31 +34,58 @@ body {
   top: 0px;
   left: 0px; }
 
+canvas {
+  z-index: 1; }
+
 .container {
   width: 100%;
   height: 100%; }
 
 button {
-  border: 2px solid #999999;
-  border-radius: 5px;
+  border: none;
   color: #333333;
   background-color: #f0f0f0;
   font-family: 'Inter UI';
   font-size: 1.2em;
   cursor: pointer; }
 
+button:hover {
+  background-color: #999999;
+  color: #f0f0f0; }
+
+button:active {
+  border: none; }
+
+.concept-buttons, .interface-buttons {
+  z-index: 2; }
+
 .concept-buttons {
   position: absolute;
-  top: 10px;
+  top: 0px;
   right: 0px;
-  width: 15%; }
+  width: 10%;
+  height: 100%;
+  background-color: #f0f0f0; }
 
 .concept {
-  width: 90%;
-  margin-bottom: 5%;
-  display: block; }
+  width: 100%;
+  margin: 0%;
+  display: block;
+  float: left;
+  padding-right: 20px;
+  text-align: right; }
+
+.current-concept {
+  background-color: #333333;
+  color: #f0f0f0; }
 
 .interface-buttons {
-  position: absolute;
-  bottom: 10px;
-  left: 10px; }
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  width: 100%;
+  background-color: #f0f0f0; }
+  .interface-buttons button {
+    margin-right: 2%; }
