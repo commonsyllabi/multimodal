@@ -11,16 +11,24 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index) => {
+let setCurrentConcept = (evt, index) => {
 	
 	currentConcept = index
 
+	let cs = document.getElementsByClassName('concept')
+	for(let c of cs)
+		c.setAttribute('class', 'concept')
+	evt.setAttribute('class', 'current-concept concept')
+
 	let ns = document.getElementsByClassName('note')
 	for(let n of ns){
-		if(n.getAttribute('concept') == currentConcept)
-			n.style.display = 'block'
-		else
-			n.style.display = 'none'
+		if(n.getAttribute('concept') == currentConcept){
+			setTimeout(()=>{
+				n.style.opacity = 1
+			}, 400)
+		}else{
+			n.style.opacity = 0
+		}
 	}
 }
 

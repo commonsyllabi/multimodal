@@ -66,6 +66,7 @@ let endNote = () => {
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
 	currentNote.onclick =(evt) => {
+		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
 		evt.target.innerText += '_'
 		setCurrentNote(evt.target)

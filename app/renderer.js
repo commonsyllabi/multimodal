@@ -87,16 +87,24 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index) => {
+let setCurrentConcept = (evt, index) => {
 	
 	currentConcept = index
 
+	let cs = document.getElementsByClassName('concept')
+	for(let c of cs)
+		c.setAttribute('class', 'concept')
+	evt.setAttribute('class', 'current-concept concept')
+
 	let ns = document.getElementsByClassName('note')
 	for(let n of ns){
-		if(n.getAttribute('concept') == currentConcept)
-			n.style.display = 'block'
-		else
-			n.style.display = 'none'
+		if(n.getAttribute('concept') == currentConcept){
+			setTimeout(()=>{
+				n.style.opacity = 1
+			}, 400)
+		}else{
+			n.style.opacity = 0
+		}
 	}
 }
 
@@ -298,6 +306,7 @@ let endNote = () => {
 	currentNote.removeAttribute('id')
 	currentNote.innerText = currentNote.innerText.slice(0, -1)
 	currentNote.onclick =(evt) => {
+		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
 		evt.target.innerText += '_'
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
@@ -369,12 +378,15 @@ module.exports = require("electron");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return toggleDraw; });
-let cnv, ctx
+let cnv, ctx, ctn, toggle_btn
 let isDrawing = false
 let isDrawMode = false
 
 let init = () => {
 	cnv = document.getElementById('drawing-board')
+	ctn = document.getElementsByClassName('container')[0]
+	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
+	
 	cnv.width = 1800
 	cnv.height = 1000
 	ctx = cnv.getContext('2d')
@@ -411,10 +423,15 @@ let clearBoard = () => {
 
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
-	if(isDrawMode)
-		document.getElementsByClassName('toggle-draw')[0].innerText = 'Drawing'
-	else
-		document.getElementsByClassName('toggle-draw')[0].innerText = 'Writing'
+	if(isDrawMode){
+		toggle_btn.innerText = 'draw'
+		cnv.style.zIndex = 1
+		ctn.style.zIndex = 0
+	}else{
+		toggle_btn.innerText = 'write'
+		cnv.style.zIndex = 0
+		ctn.style.zIndex = 1
+	}
 }
 
 
