@@ -10,14 +10,11 @@ const pug = require('pug')
 
 let mainWindow
 
-let lesson_path = 'views/'
-let template_name = 'lesson'
-let lesson_name = 'commlab/webdesign'
 let lesson = {
-	"path":"views/",
-	"class":"commlab",
-	"name":"webdesign",
-	"template":"lesson"
+	'path':'views/',
+	'class':'commlab',
+	'name':'webdesign',
+	'template':'lesson'
 }
 
 let generateLesson = () => {

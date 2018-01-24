@@ -25,7 +25,7 @@ let setCurrentConcept = (index) => {
 	let ns = document.getElementsByClassName('note')
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
-				n.style.opacity = 1
+			n.style.opacity = 1
 		}else{
 			n.style.opacity = 0
 		}
