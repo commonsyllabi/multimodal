@@ -6,7 +6,7 @@ body {
     position: absolute;
     color: black;
     font-size: 2em;
-    transition: opacity 0.5s ease-in-out; }
+    transition: opacity 0.5s ease-in; }
   body #current {
     position: absolute;
     color: red;
