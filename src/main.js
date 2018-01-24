@@ -11,13 +11,20 @@ const pug = require('pug')
 let mainWindow
 
 let lesson_path = 'views/'
-let lesson_name = 'test'
+let template_name = 'lesson'
+let lesson_name = 'commlab/webdesign'
+let lesson = {
+	"path":"views/",
+	"class":"commlab",
+	"name":"webdesign",
+	"template":"lesson"
+}
 
 let generateLesson = () => {
-	let content = JSON.parse(fs.readFileSync(__dirname+'/../lessons/alternate-realities/week1a.json'))
-	let compiled_lesson = pug.renderFile(lesson_path + lesson_name + '.pug', content)
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+lesson.class+'/'+lesson.name+'.json'))
+	let compiled = pug.renderFile(lesson.path +'/'+ lesson.template + '.pug', c)
 
-	fs.writeFileSync(__dirname+'/../app/'+lesson_name+'.html', compiled_lesson)
+	fs.writeFileSync(__dirname+'/../app/'+lesson.name+'.html', compiled)
 }
 
 let createWindow = () => {
@@ -26,7 +33,7 @@ let createWindow = () => {
 
 	mainWindow = new BrowserWindow({width: 1800, height: 1000, icon: __dirname + '/icon-tmp.png'})
 
-	mainWindow.loadURL('file:///'+__dirname+'/../app/'+lesson_name+'.html')
+	mainWindow.loadURL('file:///'+__dirname+'/../app/'+lesson.name+'.html')
 
 	mainWindow.toggleDevTools()
 
