@@ -87,21 +87,21 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (evt, index) => {
+let setCurrentConcept = (index) => {
 	
 	currentConcept = index
 
 	let cs = document.getElementsByClassName('concept')
-	for(let c of cs)
+	for(let c of cs){
 		c.setAttribute('class', 'concept')
-	evt.setAttribute('class', 'current-concept concept')
+		if(c.getAttribute('concept') == currentConcept)
+			c.setAttribute('class', 'concept current-concept')
+	}
 
 	let ns = document.getElementsByClassName('note')
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
-			setTimeout(()=>{
 				n.style.opacity = 1
-			}, 400)
 		}else{
 			n.style.opacity = 0
 		}
@@ -248,15 +248,30 @@ const BCK = 8
 const SPC = 32
 const RET = 13
 const TAB = 9
+const UP = 38
+const DOWN = 40
 
 let currentNote = null
 
 let handle = (e) => {
 	currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* getCurrentNote */])()
 
+	if(e.keyCode == UP){
+		let index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+		index = index - 1 >= 0 ? index - 1 : 0
+		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+	}
+
+	if(e.keyCode == DOWN){
+		let index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+		let len =  document.getElementsByClassName('concept').length-1
+		index = index + 1 < len ? index + 1 : len
+		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+	}
+
 	if(currentNote == null && e.keyCode != SPC)
 		return
-	
+	console.log(e.keyCode)	
 
 	switch (e.keyCode) {
 	case SPC:
