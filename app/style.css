@@ -15,10 +15,13 @@ body {
     font-style: italic;
     font-size: 3em;
     color: #444444;
-    width: 80%;
+    width: 60%;
     margin-left: 10%;
     margin-top: 5%;
-    text-align: center; }
+    text-align: left; }
+  body img {
+    max-width: 800px;
+    max-height: 600px; }
 .container, canvas {
   position: absolute;
   top: 0px;
