@@ -4,9 +4,12 @@ const electron = require('electron')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: './src/renderer/index.js',
+  entry: {
+	  lesson:'./src/renderer/index.js',
+	  create:'./src/renderer/create.js'
+  },
   output: {
-    filename: 'renderer.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'app')
   },
   module: {
