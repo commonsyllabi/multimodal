@@ -1,0 +1,16 @@
+doctype
+html
+	head
+		meta(charset='utf8')
+		title Multimodal - welcome
+		script(src='./create.js')
+		link(rel='stylesheet', href='./style.css')
+	body
+		div.container
+			div.lessons
+				each cl in classes
+					div= cl.title
+						each lesson in cl.lessons
+							div= lesson
+			button(onclick='createLesson()') create
+			button(onclick='openLesson()') open
