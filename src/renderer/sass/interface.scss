@@ -1,6 +1,4 @@
-$mid-grey: #999999;
-$dark-grey: #333333;
-$light-grey: #f0f0f0;
+@import 'globals';
 
 .container, canvas{
 	position: absolute;
@@ -17,7 +15,7 @@ canvas {
 	height: 100%;
 }
 
-button {
+.lesson-btn {
 	border: none;
 	color: $dark-grey;
 	background-color: $light-grey;
@@ -29,12 +27,12 @@ button {
 }
 
 
-button:hover{
+.lesson-btn:hover{
 	background-color: $mid-grey;
 	color: $light-grey;
 }
 
-button:active{
+.lesson-btn:active{
 	border: none;
 }
 

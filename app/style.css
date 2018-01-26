@@ -41,7 +41,7 @@ canvas {
   width: 100%;
   height: 100%; }
 
-button {
+.lesson-btn {
   border: none;
   color: #333333;
   background-color: #f0f0f0;
@@ -49,11 +49,11 @@ button {
   font-size: 1.2em;
   cursor: pointer; }
 
-button:hover {
+.lesson-btn:hover {
   background-color: #999999;
   color: #f0f0f0; }
 
-button:active {
+.lesson-btn:active {
   border: none; }
 
 .concept-buttons, .interface-buttons {
@@ -94,16 +94,28 @@ button:active {
 
 .create-container, .lessons-container {
   width: 50%;
-  height: 100%; }
+  height: 100%;
+  float: left; }
 
 .lessons {
-  width: 100%;
-  margin: 20%; }
+  padding: 5%; }
 
 .inter-class-title {
   width: 100%;
   font-weight: bold;
   font-size: 2em; }
 
-.inter-btn {
+.inter-btn, .inter-btn-main {
+  border: none;
+  color: #333333;
+  background-color: #f0f0f0;
+  font-family: 'Inter UI';
+  font-size: 1.2em;
+  cursor: pointer; }
+
+.inter-btn-main {
+  position: relative;
+  top: 50%;
+  left: 30%;
+  width: 40%;
   font-size: 3em; }

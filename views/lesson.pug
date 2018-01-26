@@ -9,9 +9,9 @@ html
 		canvas#drawing-board
 		div.container#writing-board
 			div.interface-buttons
-				button.save-session(onclick="saveSession()") save
-				button.toggle-draw(onclick="toggleDraw()") write
-				button.clear-board(onclick="clearBoard()") clear
+				button.lesson-btn.save-session(onclick="saveSession()") save
+				button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
+				button.lesson-btn.clear-board(onclick="clearBoard()") clear
 			div.concept-buttons
 				each val, index in concepts
 					button.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
