@@ -90,7 +90,7 @@ canvas {
   .interface-buttons button {
     margin-right: 2%; }
 .lessons-container {
-  overflow-y: scroll; }
+  overflow-y: auto; }
 
 .create-container, .lessons-container {
   width: 50%;

@@ -1,7 +1,7 @@
 @import 'globals';
 
 .lessons-container{
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .create-container, .lessons-container{

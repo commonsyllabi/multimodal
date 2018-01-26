@@ -16,11 +16,11 @@ let lesson = {
 	'template':'lesson'
 }
 
-let generateLesson = (cl, le) => {
-	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+cla+'/'+le+'.json'))
+let generateLesson = (data) => {
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.lesson+'.json'))
 	let compiled = pug.renderFile('views/'+ lesson.template + '.pug', c)
 
-	fs.writeFileSync(__dirname+'/../app/'+le+'.html', compiled)
+	fs.writeFileSync(__dirname+'/../app/'+data.lesson+'.html', compiled)
 }
 
 let listLessons = () => {
@@ -40,7 +40,8 @@ let listLessons = () => {
 		let lessons = fs.readdirSync(__dirname+'/../lessons/'+cl)
 
 		for(let l of lessons){
-			_class.lessons.push(l)	
+			let lesson_name = l.substring(0, l.indexOf('.'))
+			_class.lessons.push(lesson_name)	
 		}
 
 		data.classes.push(_class)
@@ -51,13 +52,16 @@ let listLessons = () => {
 }
 
 
-let createWindow = () => {
+let createWindow = (current, _width, _height) => {
+	
+	if(current.lesson == 'welcome')
+		listLessons()
+	else
+		generateLesson(current)
 
-	listLessons()
+	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png'})
 
-	mainWindow = new BrowserWindow({width: 900, height: 500, icon: __dirname + '/icon-tmp.png'})
-
-	mainWindow.loadURL('file:///'+__dirname+'/../app/welcome.html')
+	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current.lesson+'.html')
 
 	mainWindow.toggleDevTools()
 
@@ -66,10 +70,19 @@ let createWindow = () => {
 	})
 }
 
-ipc.on('save-session', (event, data)=>{
+
+// ------------------------------
+// ------------------------------ IPC MESSAGES
+// -----------------------------
+
+ipc.on('open-lesson', (event, data) => {
+	createWindow(data, 1800, 1000)
+})
+
+ipc.on('save-session', (event, data) => {
 	console.log('received', data[0])
 })
 
-app.on('ready', createWindow)
+app.on('ready', () => { createWindow({"lesson":'welcome'}, 900, 500) })
 
 app.on('window-all-closed', () => { app.quit() })
