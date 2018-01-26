@@ -178,6 +178,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__drawing_js__ = __webpack_require__(8);
 __webpack_require__(3)
 __webpack_require__(4)
+__webpack_require__(11)
 
 
 
@@ -451,6 +452,14 @@ let toggleDraw = () => {
 
 
 
+
+/***/ }),
+/* 9 */,
+/* 10 */,
+/* 11 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

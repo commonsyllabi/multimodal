@@ -1,0 +1,23 @@
+.lessons-container{
+	overflow-y: scroll;
+}
+
+.create-container, .lessons-container{
+	width: 50%;
+	height: 100%;
+}
+
+.lessons {
+	width: 100%;
+	margin: 20%;
+}
+
+.inter-class-title {
+	width: 100%;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+.inter-btn {
+	font-size: 3em;
+}
