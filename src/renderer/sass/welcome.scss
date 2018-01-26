@@ -1,3 +1,5 @@
+@import 'globals';
+
 .lessons-container{
 	overflow-y: scroll;
 }
@@ -5,11 +7,11 @@
 .create-container, .lessons-container{
 	width: 50%;
 	height: 100%;
+	float: left;
 }
 
-.lessons {
-	width: 100%;
-	margin: 20%;
+.lessons{
+	padding: 5%;
 }
 
 .inter-class-title {
@@ -18,6 +20,20 @@
 	font-size: 2em;
 }
 
-.inter-btn {
+.inter-btn, .inter-btn-main {
+	border: none;
+	color: $dark-grey;
+	background-color: $light-grey;
+	font-family: 'Inter UI';
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.inter-btn-main{
+	position: relative;
+	top: 50%;
+	left: 30%;
+	width: 40%;
 	font-size: 3em;
 }
+

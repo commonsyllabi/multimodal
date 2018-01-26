@@ -55,7 +55,7 @@ let createWindow = () => {
 
 	listLessons()
 
-	mainWindow = new BrowserWindow({width: 1800, height: 1000, icon: __dirname + '/icon-tmp.png'})
+	mainWindow = new BrowserWindow({width: 900, height: 500, icon: __dirname + '/icon-tmp.png'})
 
 	mainWindow.loadURL('file:///'+__dirname+'/../app/welcome.html')
 
