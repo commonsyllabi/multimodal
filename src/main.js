@@ -99,6 +99,12 @@ ipc.on('create-lesson', (event, data) => {
 	createWindow({'course':'create', 'lesson':'create'}, 1200, 800)
 })
 
+ipc.on('save-lesson', (event, lesson) => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
+		    console.log('succesfully written',lesson.title,'lesson to the',lesson.course,'folder')
+	})
+})
+
 ipc.on('save-session', (event, data) => {
 	console.log('received', data[0])
 })

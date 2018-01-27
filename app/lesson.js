@@ -76,7 +76,89 @@
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = require("electron");
+
+/***/ }),
+/* 4 */,
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(19);
+__webpack_require__(6)
+__webpack_require__(7)
+__webpack_require__(0)
+__webpack_require__(1)
+
+
+
+
+
+
+
+let init = () => {
+
+	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
+
+	window.addEventListener('keydown', (e) => {
+		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* handle */](e)
+	})
+
+	window.addEventListener('mousemove', (e) =>{
+	
+		__WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__["b" /* handle */](e)
+
+		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["c" /* draw */](e)
+	})
+
+	window.addEventListener('mousedown', (e) => {
+		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["a" /* beginDraw */](e)
+	})
+
+	window.addEventListener('mouseup', () => {
+		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["d" /* endDraw */]()
+	})
+
+}
+
+
+window.init = init
+window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* saveSession */]
+window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]
+window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
+window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -132,19 +214,13 @@ let setCurrrentPosition = (pos) => {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("electron");
-
-/***/ }),
-/* 4 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGridPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(15);
 
 
 
@@ -184,80 +260,13 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__typing_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__save_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__drawing_js__ = __webpack_require__(10);
-__webpack_require__(6)
-__webpack_require__(7)
-__webpack_require__(0)
-__webpack_require__(1)
-
-
-
-
-
-
-
-let init = () => {
-
-	__WEBPACK_IMPORTED_MODULE_4__drawing_js__["e" /* init */]()
-
-	window.addEventListener('keydown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_1__typing_js__["a" /* handle */](e)
-	})
-
-	window.addEventListener('mousemove', (e) =>{
-	
-		__WEBPACK_IMPORTED_MODULE_0__mouse_js__["b" /* handle */](e)
-
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["c" /* draw */](e)
-	})
-
-	window.addEventListener('mousedown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["a" /* beginDraw */](e)
-	})
-
-	window.addEventListener('mouseup', () => {
-		__WEBPACK_IMPORTED_MODULE_4__drawing_js__["d" /* endDraw */]()
-	})
-
-}
-
-
-window.init = init
-window.saveSession = __WEBPACK_IMPORTED_MODULE_2__save_js__["a" /* saveSession */]
-window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__globals_js__["d" /* setCurrentConcept */]
-window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__drawing_js__["b" /* clearBoard */]
-window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__drawing_js__["f" /* toggleDraw */]
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 8 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(15);
 
 
 
@@ -363,7 +372,7 @@ let eraseCharacter = () => {
 
 
 /***/ }),
-/* 9 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -397,7 +406,7 @@ let parseDocument = () => {
 
 
 /***/ }),
-/* 10 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

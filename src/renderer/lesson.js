@@ -3,11 +3,11 @@ require('./sass/interface.scss')
 require('./sass/welcome.scss')
 require('./sass/create.scss')
 
-import * as mouse from './mouse.js'
-import * as typing from './typing.js'
-import * as save from './save.js'
-import * as globals from './globals.js'
-import * as drawing from './drawing.js'
+import * as mouse from './lesson/mouse.js'
+import * as typing from './lesson/typing.js'
+import * as save from './lesson/save.js'
+import * as globals from './lesson/globals.js'
+import * as drawing from './lesson/drawing.js'
 
 let init = () => {
 

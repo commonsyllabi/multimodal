@@ -1,5 +1,7 @@
 'use strict'
 
+const ipc = require('electron').ipcRenderer
+
 let lesson = {
 	'course' : '',
 	'title' : '',
@@ -24,21 +26,27 @@ let createNote = (kind) => {
 	if(kind == 'text'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
+		text.setAttribute('placeholder', 'text')
+		text.setAttribute('kind', 'text')
 		text.setAttribute('class', 'create-concept-note')
 		note.appendChild(text)
 	}else if(kind == 'url'){
-		let text = document.createElement('input')
-		text.setAttribute('type', 'text')
-		text.setAttribute('class', 'create-concept-note')
-		note.appendChild(text)
-
 		let url = document.createElement('input')
 		url.setAttribute('type', 'text')
+		url.setAttribute('kind', 'url')
 		url.setAttribute('placeholder', 'url')
 		note.appendChild(url)
+
+		let text = document.createElement('input')
+		text.setAttribute('type', 'text')
+		text.setAttribute('kind', 'text')
+		text.setAttribute('placeholder', 'text')
+		text.setAttribute('class', 'create-concept-note')
+		note.appendChild(text)
 	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
+		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
 		note.appendChild(src)
 	}else{
@@ -120,4 +128,43 @@ let createOption = (val) => {
 	return el
 }
 
-export { selectCourse, addNote, removeNote, addConcept, removeConcept}
+let saveLesson = () => {
+	let dropdown = document.getElementsByClassName('create-courses-list')[0].value
+	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
+
+	lesson.title = document.getElementById('title').value
+
+	let concepts = document.getElementsByClassName('create-concept')
+	for(let _co of concepts){ // for each concepts
+		let concept = []
+		concept.push(_co.childNodes[0].value) //find its name
+
+		for(let note of _co.childNodes){ //go through all notes
+			if(note.hasChildNodes() && note.getAttribute('class') == 'create-note'){
+				
+				let _cn = note.childNodes
+
+				if(_cn[0].getAttribute('kind') == 'text')
+					concept.push({"type":"text", "text": _cn[0].value})
+				else if(_cn[0].getAttribute('kind') == 'url')
+					concept.push({"type":"url", "url": _cn[0].value, "text": _cn[1].value})
+				else if(_cn[0].getAttribute('kind') == 'img')
+					concept.push({"type":"img", "src": _cn[0].value})
+			}
+		}
+
+		lesson.concepts.push(concept)
+	}
+
+	console.log('saving:',lesson)
+
+	ipc.send('save-lesson', lesson)
+
+}
+
+let exitLesson = () => {
+	saveLesson()
+	//TODO return to main page
+}
+
+export { selectCourse, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
