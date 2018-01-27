@@ -18,44 +18,60 @@ let lesson = {
 
 let generateLesson = (data) => {
 	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.lesson+'.json'))
-	let compiled = pug.renderFile('views/'+ lesson.template + '.pug', c)
+	let compiled = pug.renderFile('views/lesson.pug', c)
 
 	fs.writeFileSync(__dirname+'/../app/'+data.lesson+'.html', compiled)
 }
 
 let listLessons = () => {
 	let data = {
-		'classes':[]
+		'courses':[]
 	}
 
-	let classes = fs.readdirSync(__dirname+'/../lessons')
+	let courses = fs.readdirSync(__dirname+'/../lessons')
 
-	for(let cl of classes){
+	for(let co of courses){
 		
-		let _class = {
-			'title':cl,
+		let course = {
+			'title':co,
 			'lessons': []
 		}
 
-		let lessons = fs.readdirSync(__dirname+'/../lessons/'+cl)
+		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co)
 
 		for(let l of lessons){
 			let lesson_name = l.substring(0, l.indexOf('.'))
-			_class.lessons.push(lesson_name)	
+			course.lessons.push(lesson_name)	
 		}
 
-		data.classes.push(_class)
+		data.courses.push(course)
 	}
 
 	let compiled = pug.renderFile('views/welcome.pug', data)
 	fs.writeFileSync(__dirname+'/../app/welcome.html', compiled)
 }
 
+let createLesson = () => {
+	let data = {
+		'courses':[]
+	}
+
+	data.courses = fs.readdirSync(__dirname+'/../lessons')
+	
+	let compiled = pug.renderFile('views/create.pug', data)
+	fs.writeFileSync(__dirname+'/../app/create.html', compiled)
+}
+
 
 let createWindow = (current, _width, _height) => {
-	
-	if(current.lesson == 'welcome')
+	mainWindow = null
+
+	if(current.course == 'welcome')
 		listLessons()
+	else if(current.course == 'create')
+		createLesson()
+	else if(current.course == 'edit')
+		editLesson(current.lesson)
 	else
 		generateLesson(current)
 
@@ -63,7 +79,7 @@ let createWindow = (current, _width, _height) => {
 
 	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current.lesson+'.html')
 
-	mainWindow.toggleDevTools()
+	//mainWindow.toggleDevTools()
 
 	mainWindow.on('closed', () => {
 		mainWindow = null
@@ -79,10 +95,14 @@ ipc.on('open-lesson', (event, data) => {
 	createWindow(data, 1800, 1000)
 })
 
+ipc.on('create-lesson', (event, data) => {
+	createWindow({'course':'create', 'lesson':'create'}, 1200, 800)
+})
+
 ipc.on('save-session', (event, data) => {
 	console.log('received', data[0])
 })
 
-app.on('ready', () => { createWindow({"lesson":'welcome'}, 900, 500) })
+app.on('ready', () => { createWindow({"course":'welcome', 'lesson':'welcome'}, 900, 500) })
 
 app.on('window-all-closed', () => { app.quit() })

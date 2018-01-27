@@ -6,8 +6,8 @@ let openLesson = (course_name, lesson_name) => {
 	ipc.send('open-lesson', {"course":course_name, "lesson": lesson_name})
 }
 
-let prepareLesson = () => {
-	ipc.send('prepare-lesson')
+let createLesson = () => {
+	ipc.send('create-lesson')
 }
 
-export { openLesson, prepareLesson }
+export { openLesson, createLesson }

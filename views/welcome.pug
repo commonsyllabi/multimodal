@@ -9,7 +9,7 @@ html
 		div.container
 			div.lessons-container
 				div.lessons
-					each cl in classes
+					each cl in courses
 						div.inter-class
 							div.inter-class-title= cl.title
 							ul
@@ -17,4 +17,4 @@ html
 									li
 										button.inter-btn(onclick='openLesson("'+cl.title+'","'+lesson+'")')= lesson
 			div.create-container
-				button.inter-btn-main(onclick='prepareLesson()') prepare a new lesson
+				button.inter-btn-main(onclick='createLesson()') prepare a new lesson
