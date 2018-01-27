@@ -1,0 +1,24 @@
+doctype
+html
+	head
+		title Create a new lesson
+		link(rel="text/css", href="./style.css")
+		script(src="./main.js")
+	body
+		div.container
+			div.create-course
+				select.create-courses-list
+					each cl in courses
+						option(value='"'+ cl+ '"')= cl
+					option(value="new course", selected) new course
+				input.create-new-course#new-course(type='text')
+				button.create-btn(onclick='selectCourse("custom")') set
+			div.create-lesson
+				div.create-concept
+					input.create-concept-name
+					input.create-concept.note(type='text')
+					select.create-add-note
+						option(value="text", onclick='addNote("text")') add text note
+						option(value="link", onclick='addNote("link")') add link note
+						option(value="img", onclick='addNote("img")') add image note
+			div.create-add-concept(onclick='addConcept()') add a concept

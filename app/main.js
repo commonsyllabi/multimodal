@@ -86,14 +86,19 @@ module.exports = require("electron");
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__welcome_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__create_js__);
 
 
 
 
 
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__welcome_js__["a" /* openLesson */]
-window.prepareLesson = __WEBPACK_IMPORTED_MODULE_0__welcome_js__["b" /* prepareLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__welcome_js__["b" /* openLesson */]
+window.createLesson = __WEBPACK_IMPORTED_MODULE_0__welcome_js__["a" /* createLesson */]
+
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__create_js__["e" /* selectCourse */]
+window.addNote = __WEBPACK_IMPORTED_MODULE_1__create_js__["b" /* addNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__create_js__["d" /* removeNote */]
+window.addConcept = __WEBPACK_IMPORTED_MODULE_1__create_js__["a" /* addConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__create_js__["c" /* removeConcept */]
 
 
 /***/ }),
@@ -101,8 +106,8 @@ window.prepareLesson = __WEBPACK_IMPORTED_MODULE_0__welcome_js__["b" /* prepareL
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return openLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return prepareLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return openLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
 
 
 const ipc = __webpack_require__(1).ipcRenderer
@@ -111,8 +116,8 @@ let openLesson = (course_name, lesson_name) => {
 	ipc.send('open-lesson', {"course":course_name, "lesson": lesson_name})
 }
 
-let prepareLesson = () => {
-	ipc.send('prepare-lesson')
+let createLesson = () => {
+	ipc.send('create-lesson')
 }
 
 
@@ -120,15 +125,52 @@ let prepareLesson = () => {
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-window.createLesson = () => {
-	console.log('creating')
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removeNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return removeConcept; });
+
+
+let lesson = {
+	'course' : '',
+	'title' : '',
+	'concepts': []
 }
 
-window.openLesson = () => {
-	console.log('opening')
+let selectCourse = (name) => {
+	if(name == 'new course')
+		document.getElementById('new-course').style.display = 'block';
+	else if(name == 'custom')
+		lesson.course = document.getElementById('new-course').value
+	else{
+		lesson.course = name
+		document.getElementById('new-course').style.display = 'none';
+	}
+
+	console.log('current course:', lesson.course)
 }
+
+let addNote = (el) => {
+
+}
+
+let removeNote = (el) => {
+
+}
+
+let addConcept = (el) => {
+
+}
+
+let removeConcept = (el) => {
+
+}
+
+
 
 
 /***/ })
