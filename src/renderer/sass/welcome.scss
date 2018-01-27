@@ -4,10 +4,16 @@
 	overflow-y: auto;
 }
 
-.create-container, .lessons-container{
+
+.buttons-container, .lessons-container{
+	position: absolute;
 	width: 50%;
 	height: 100%;
 	float: left;
+}
+
+.buttons-container {
+	right: 0px;
 }
 
 .lessons{
@@ -29,9 +35,14 @@
 	cursor: pointer;
 }
 
+.inter-btn:hover, .inter-btn-main:hover{
+	background-color: $mid-grey;
+}
+
 .inter-btn-main{
 	position: relative;
-	top: 50%;
+	display: block;
+	top: 30%;
 	left: 30%;
 	width: 40%;
 	font-size: 3em;

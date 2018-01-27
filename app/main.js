@@ -60,32 +60,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
+/* 0 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
-/* 2 */,
-/* 3 */,
 /* 4 */,
 /* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */,
 /* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__welcome_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__welcome_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__create_js__ = __webpack_require__(13);
+
+
+__webpack_require__(0)
+__webpack_require__(1)
 
 
 
@@ -102,7 +117,7 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__create_js__["c" /* removeCon
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -110,7 +125,7 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__create_js__["c" /* removeCon
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
 
 
-const ipc = __webpack_require__(1).ipcRenderer
+const ipc = __webpack_require__(3).ipcRenderer
 
 let openLesson = (course_name, lesson_name) => {
 	ipc.send('open-lesson', {"course":course_name, "lesson": lesson_name})
@@ -124,7 +139,7 @@ let createLesson = () => {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -152,17 +167,16 @@ let selectCourse = (name) => {
 	}
 }
 
-let addNote = (el) => {
-//need to add a main div + input div + select + options + remove
+let createNote = (kind) => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-note')
 	
-	if(el.value == 'text'){
+	if(kind == 'text'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('class', 'create-concept-note')
 		note.appendChild(text)
-	}else if(el.value == 'link'){
+	}else if(kind == 'url'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('class', 'create-concept-note')
@@ -172,7 +186,7 @@ let addNote = (el) => {
 		url.setAttribute('type', 'text')
 		url.setAttribute('placeholder', 'url')
 		note.appendChild(url)
-	}else if(el.value == 'img'){
+	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
 		src.setAttribute('placeholder', 'src')
@@ -185,46 +199,75 @@ let addNote = (el) => {
 	select.setAttribute('class', 'create-add-note')
 	select.setAttribute('onchange', 'addNote(this)')
 
-	let add = document.createElement('option')
-	add.setAttribute('value', 'add')
-	add.innerText = 'add -'
-	select.appendChild(add)
-
-	let o_text = document.createElement('option')
-	o_text.innerText = '- text note'
-	o_text.value = 'text'
-	select.appendChild(o_text)
-
-	let o_url = document.createElement('option')
-	o_url.innerText = '- url note'
-	o_url.value = 'url'
-	select.appendChild(o_url)
-
-	let o_img = document.createElement('option')
-	o_img.innerText = '- img note'
-	o_img.value = 'img'
-	select.appendChild(o_img)
+	select.appendChild(createOption('add'))
+	select.appendChild(createOption('text'))
+	select.appendChild(createOption('url'))
+	select.appendChild(createOption('img'))
 
 	note.appendChild(select)
 
-	el.parentNode.parentNode.appendChild(note)
-	
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-note')
+	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.innerText = '-'
+	note.appendChild(rem)
 
+	return note
+}
+
+let addNote = (el) => {
+
+	if(el.getAttribute('class') == 'create-add-note'){
+
+		let note = createNote(el.value)
+		el.parentNode.insertAdjacentElement('afterend', note)
+	}else if(el.getAttribute('class') == 'create-add-concept'){
+		let note = createNote('text')
+		return note
+	}
 }
 
 let removeNote = (el) => {
-
+	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
 let addConcept = (el) => {
 
+	let concept = document.createElement('div')
+	concept.setAttribute('class', 'create-concept')
+
 	let name = document.createElement('input')
 	name.setAttribute('class', 'create-concept-name')
 	name.setAttribute('placeholder', 'concept name')
+	concept.appendChild(name)
+
+	let note = addNote(el)
+	concept.appendChild(note)
+
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-concept')
+	add.setAttribute('onclick', 'addConcept(this)')
+	add.innerText = '+'
+	concept.appendChild(add)
+
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-concept')
+	rem.setAttribute('onclick', 'removeConcept(this)')
+	rem.innerText = '-'
+	concept.appendChild(rem)
+
+	el.parentNode.insertAdjacentElement('afterend', concept)
 }
 
 let removeConcept = (el) => {
+	el.parentNode.parentNode.removeChild(el.parentNode)
+}
 
+let createOption = (val) => {
+	let el = document.createElement('option')
+	el.innerText = '- '+val
+	el.value = val
+	return el
 }
 
 

@@ -75,7 +75,7 @@ let createWindow = (current, _width, _height) => {
 	else
 		generateLesson(current)
 
-	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png'})
+	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png', frame: false})
 
 	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current.lesson+'.html')
 

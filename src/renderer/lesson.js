@@ -1,6 +1,7 @@
 require('./sass/notes.scss')
 require('./sass/interface.scss')
 require('./sass/welcome.scss')
+require('./sass/create.scss')
 
 import * as mouse from './mouse.js'
 import * as typing from './typing.js'

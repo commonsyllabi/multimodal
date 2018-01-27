@@ -2,10 +2,10 @@ doctype
 html
 	head
 		title Create a new lesson
-		link(rel="text/css", href="./style.css")
+		link(rel="stylesheet", href="./style.css")
 		script(src="./main.js")
 	body
-		div.container
+		div.create-container
 			div.create-course
 				select.create-courses-list(onchange='selectCourse(this)')
 					each cl in courses
@@ -20,8 +20,10 @@ html
 					div.create-note
 						input.create-concept-note(type='text', placeholder='text note')
 						select.create-add-note(onchange='addNote(this)')
-							option(value='add') add -
-							option(value="text") - text note
-							option(value="link") - link note
-							option(value="img") - image note
-			button.create-add-concept(onclick='addConcept()') add a concept
+							option(value='add') - +
+							option(value="text") - text
+							option(value="url") - link
+							option(value="img") - image
+						button.create-remove-note(onclick='removeNote(this)') -
+					button.create-add-concept(onclick='addConcept(this)') +
+					button.create-remove-concept(onclick='removeConcept(this)') -

@@ -1,5 +1,9 @@
 'use strict'
 
+require('./sass/welcome.scss')
+require('./sass/create.scss')
+
+
 import * as welcome from './welcome.js'
 import * as create from './create.js'
 
