@@ -7,18 +7,21 @@ html
 	body
 		div.container
 			div.create-course
-				select.create-courses-list
+				select.create-courses-list(onchange='selectCourse(this)')
 					each cl in courses
 						option(value='"'+ cl+ '"')= cl
 					option(value="new course", selected) new course
 				input.create-new-course#new-course(type='text')
 				button.create-btn(onclick='selectCourse("custom")') set
 			div.create-lesson
+				input.create-lesson-name(placeholder='lesson name')
 				div.create-concept
-					input.create-concept-name
-					input.create-concept.note(type='text')
-					select.create-add-note
-						option(value="text", onclick='addNote("text")') add text note
-						option(value="link", onclick='addNote("link")') add link note
-						option(value="img", onclick='addNote("img")') add image note
-			div.create-add-concept(onclick='addConcept()') add a concept
+					input.create-concept-name(placeholder='concept name')
+					div.create-note
+						input.create-concept-note(type='text', placeholder='text note')
+						select.create-add-note(onchange='addNote(this)')
+							option(value='add') add -
+							option(value="text") - text note
+							option(value="link") - link note
+							option(value="img") - image note
+			button.create-add-concept(onclick='addConcept()') add a concept
