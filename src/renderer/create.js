@@ -17,17 +17,16 @@ let selectCourse = (name) => {
 	}
 }
 
-let addNote = (el) => {
-//need to add a main div + input div + select + options + remove
+let createNote = (kind) => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-note')
 	
-	if(el.value == 'text'){
+	if(kind == 'text'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('class', 'create-concept-note')
 		note.appendChild(text)
-	}else if(el.value == 'link'){
+	}else if(kind == 'url'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('class', 'create-concept-note')
@@ -37,7 +36,7 @@ let addNote = (el) => {
 		url.setAttribute('type', 'text')
 		url.setAttribute('placeholder', 'url')
 		note.appendChild(url)
-	}else if(el.value == 'img'){
+	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
 		src.setAttribute('placeholder', 'src')
@@ -50,46 +49,75 @@ let addNote = (el) => {
 	select.setAttribute('class', 'create-add-note')
 	select.setAttribute('onchange', 'addNote(this)')
 
-	let add = document.createElement('option')
-	add.setAttribute('value', 'add')
-	add.innerText = 'add -'
-	select.appendChild(add)
-
-	let o_text = document.createElement('option')
-	o_text.innerText = '- text note'
-	o_text.value = 'text'
-	select.appendChild(o_text)
-
-	let o_url = document.createElement('option')
-	o_url.innerText = '- url note'
-	o_url.value = 'url'
-	select.appendChild(o_url)
-
-	let o_img = document.createElement('option')
-	o_img.innerText = '- img note'
-	o_img.value = 'img'
-	select.appendChild(o_img)
+	select.appendChild(createOption('add'))
+	select.appendChild(createOption('text'))
+	select.appendChild(createOption('url'))
+	select.appendChild(createOption('img'))
 
 	note.appendChild(select)
 
-	el.parentNode.parentNode.appendChild(note)
-	
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-note')
+	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.innerText = '-'
+	note.appendChild(rem)
 
+	return note
+}
+
+let addNote = (el) => {
+
+	if(el.getAttribute('class') == 'create-add-note'){
+
+		let note = createNote(el.value)
+		el.parentNode.insertAdjacentElement('afterend', note)
+	}else if(el.getAttribute('class') == 'create-add-concept'){
+		let note = createNote('text')
+		return note
+	}
 }
 
 let removeNote = (el) => {
-
+	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
 let addConcept = (el) => {
 
+	let concept = document.createElement('div')
+	concept.setAttribute('class', 'create-concept')
+
 	let name = document.createElement('input')
 	name.setAttribute('class', 'create-concept-name')
 	name.setAttribute('placeholder', 'concept name')
+	concept.appendChild(name)
+
+	let note = addNote(el)
+	concept.appendChild(note)
+
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-concept')
+	add.setAttribute('onclick', 'addConcept(this)')
+	add.innerText = '+'
+	concept.appendChild(add)
+
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-concept')
+	rem.setAttribute('onclick', 'removeConcept(this)')
+	rem.innerText = '-'
+	concept.appendChild(rem)
+
+	el.parentNode.insertAdjacentElement('afterend', concept)
 }
 
 let removeConcept = (el) => {
+	el.parentNode.parentNode.removeChild(el.parentNode)
+}
 
+let createOption = (val) => {
+	let el = document.createElement('option')
+	el.innerText = '- '+val
+	el.value = val
+	return el
 }
 
 export { selectCourse, addNote, removeNote, addConcept, removeConcept}

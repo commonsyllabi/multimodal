@@ -16,5 +16,7 @@ html
 								each lesson in cl.lessons
 									li
 										button.inter-btn(onclick='openLesson("'+cl.title+'","'+lesson+'")')= lesson
-			div.create-container
-				button.inter-btn-main(onclick='createLesson()') prepare a new lesson
+			div.buttons-container
+				button.inter-btn-main(onclick='createLesson()') create
+				button.inter-btn-main(onclick='editLesson()') edit
+				button.inter-btn-main(onclick='openLesson()') open
