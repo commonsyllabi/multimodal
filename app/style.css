@@ -117,13 +117,16 @@ body {
   font-weight: bold;
   font-size: 2em; }
 
-.inter-btn, .inter-btn-main {
+.welcome-lesson, .inter-btn-main {
   border: none;
   color: #333333;
   background-color: #f0f0f0;
   font-family: 'Inter UI';
   font-size: 1.2em;
   cursor: pointer; }
+
+.selected {
+  background-color: green; }
 
 .inter-btn:hover, .inter-btn-main:hover {
   background-color: #999999; }

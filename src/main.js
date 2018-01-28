@@ -10,17 +10,11 @@ const pug = require('pug')
 
 let mainWindow
 
-let lesson = {
-	'class':'commlab',
-	'name':'webdesign',
-	'template':'lesson'
-}
-
-let generateLesson = (data) => {
+let generateHTML = (data, template) => {
 	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.lesson+'.json'))
-	let compiled = pug.renderFile('views/lesson.pug', c)
+	let compiled = pug.renderFile('views/'+template+'.pug', c)
 
-	fs.writeFileSync(__dirname+'/../app/'+data.lesson+'.html', compiled)
+	fs.writeFileSync(__dirname+'/../app/'+template+'.html', compiled)
 }
 
 let listLessons = () => {
@@ -66,18 +60,9 @@ let createLesson = () => {
 let createWindow = (current, _width, _height) => {
 	mainWindow = null
 
-	if(current.course == 'welcome')
-		listLessons()
-	else if(current.course == 'create')
-		createLesson()
-	else if(current.course == 'edit')
-		editLesson(current.lesson)
-	else
-		generateLesson(current)
-
 	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png', frame: true})
 
-	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current.lesson+'.html')
+	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current+'.html')
 
 	//mainWindow.toggleDevTools()
 
@@ -92,11 +77,18 @@ let createWindow = (current, _width, _height) => {
 // -----------------------------
 
 ipc.on('open-lesson', (event, data) => {
-	createWindow(data, 1800, 1000)
+	generateHTML(data, 'lesson')
+	createWindow('lesson', 1800, 1000)
+})
+
+ipc.on('edit-lesson', (event, data) => {
+	generateHTML(data, 'edit')
+	createWindow('edit', 1200, 800)
 })
 
 ipc.on('create-lesson', (event, data) => {
-	createWindow({'course':'create', 'lesson':'create'}, 1200, 800)
+	createLesson()
+	createWindow('create', 1200, 800)
 })
 
 ipc.on('save-lesson', (event, lesson) => {
@@ -109,6 +101,9 @@ ipc.on('save-session', (event, data) => {
 	console.log('received', data[0])
 })
 
-app.on('ready', () => { createWindow({"course":'welcome', 'lesson':'welcome'}, 900, 500) })
+app.on('ready', () => { 
+	listLessons()
+	createWindow('welcome', 900, 500) 
+})
 
 app.on('window-all-closed', () => { app.quit() })

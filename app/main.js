@@ -119,7 +119,9 @@ __webpack_require__(7)
 
 
 
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* openLesson */]
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* setLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* openLesson */]
+window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
 
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
@@ -137,18 +139,42 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return openLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return openLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setLesson; });
 
 
 const ipc = __webpack_require__(0).ipcRenderer
 
-let openLesson = (course_name, lesson_name) => {
-	ipc.send('open-lesson', {"course":course_name, "lesson": lesson_name})
+let current = {
+	"course":"",
+	"lesson":""
+}
+
+let setLesson = (_e, _c, _l) => {
+	current.course = _c
+	current.lesson = _l
+
+
+	let all_lessons = document.getElementsByClassName('welcome-lesson')
+	for(let less of all_lessons)
+		less.setAttribute('class', 'welcome-lesson')
+
+
+	_e.setAttribute('class', 'welcome-lesson selected')
+}
+
+let openLesson = () => {
+	ipc.send('open-lesson', {"course": current.course, "lesson": current.lesson})
 }
 
 let createLesson = () => {
 	ipc.send('create-lesson')
+}
+
+let editLesson = () => {
+	ipc.send('edit-lesson', {"course": current.course, "lesson": current.lesson})
 }
 
 
@@ -297,7 +323,11 @@ let createOption = (val) => {
 }
 
 let saveLesson = () => {
-	let dropdown = document.getElementsByClassName('create-courses-list')[0].value
+
+	lesson.concepts = []
+
+	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
+	console.log(dropdown)	
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
 
 	lesson.title = document.getElementById('title').value
@@ -312,6 +342,8 @@ let saveLesson = () => {
 				
 				let _cn = note.childNodes
 
+				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
+ 
 				if(_cn[0].getAttribute('kind') == 'text')
 					concept.push({"type":"text", "text": _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')

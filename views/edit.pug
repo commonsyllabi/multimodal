@@ -1,0 +1,34 @@
+doctype
+html
+	head
+		title Edit a lesson
+		link(rel="stylesheet", href="./style.css")
+		script(src="./main.js")
+	body
+		div.create-container
+			div.create-course
+				div.create-new-course#existing-course= course
+			div.create-lesson
+				input.create-lesson-title#title(value= title)
+			each concept in concepts
+				div.create-concept
+					input.create-concept-name(value= concept[0])
+					each note in concept
+						div.create-note
+							if note.type == 'text'
+								input.create-concept-note(type='text', kind='text', value= note.text)
+								include includes/add-note.pug
+							else if note.type == 'url'
+								input.create-concept-note(type='text', kind='text', value= note.text)
+								include includes/add-note.pug
+							else if note.type == 'img'
+								input.create-concept-note(type='text', kind='src', value= note.src)
+								include includes/add-note.pug
+
+				button.create-add-concept(onclick='addConcept(this)') +
+				button.create-remove-concept(onclick='removeConcept(this)') -
+
+			div.interface-buttons
+				button.lesson-btn.create-lesson-save(onclick='saveLesson()') save
+				button.lesson-btn.create-lesson-exit(onclick='exitLesson()') exit
+

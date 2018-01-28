@@ -129,7 +129,11 @@ let createOption = (val) => {
 }
 
 let saveLesson = () => {
-	let dropdown = document.getElementsByClassName('create-courses-list')[0].value
+
+	lesson.concepts = []
+
+	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
+	console.log(dropdown)	
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
 
 	lesson.title = document.getElementById('title').value
@@ -144,6 +148,8 @@ let saveLesson = () => {
 				
 				let _cn = note.childNodes
 
+				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
+ 
 				if(_cn[0].getAttribute('kind') == 'text')
 					concept.push({"type":"text", "text": _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')

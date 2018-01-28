@@ -1,0 +1,15 @@
+{
+	"title": "CommLab - Spring 2018 - Introduction",
+	"concepts":[
+		["welcome", {"type":"text", "content":"Communications Lab"}, {"type":"text", "content":"Spring 2018"}, {"type":"text", "content":"Interactive Media"}, {"type":"link", "url":"http://commlab.nyuad.im", "content":"commlab.nyuad.im"}],
+		["pierre", {"type":"text", "content":"Pierre Depaz"}, {"type":"text", "content":"pierre.depaz@nyu.edu"}, {"type":"text", "content":"Open-door policy"}],
+		["IM", {"type":"text", "content":"What is IM?"}, {"type":"link", "url":"http://nyuad.im", "content":"nyuad.im"},{"type":"text", "content":"Howler Radio"}, {"type":"text", "content":"24/X"}, {"type":"text", "content":"Stupid hackathon"}],
+		["commlab", {"type":"text", "content":"What is Commlab?"}],
+		["ends", {"type":"text", "content":"STORYTELLING"}, {"type":"text", "content":"TOOL BELT"}, {"type":"text", "content":"CRASH COURSE"}, {"type":"text", "content":"BOOT CAMP"}, {"type":"text", "content":"SURVEY"}],
+		["means", {"type":"text", "content":"WEB"}, {"type":"text", "content":"AUDIO"}, {"type":"text", "content":"ILLUSTRATION"}, {"type":"text", "content":"VIDEO"}, {"type":"text", "content":"ANIMATION"}],
+		["syllabus", {"type":"text", "content":"check out the website"}, {"type":"link", "url":"http://commlab.nyuad.im", "content":"commlab.nyuad.im"}],
+		["students", {"type":"text", "content":"your turn"}, {"type":"text", "content":"who are you?"}],
+		["<br>", {"type":"text", "content":"BREAK"}],
+		["first", {"type":"img", "src":"../assets/img/24ff.png"}]
+	]
+}
