@@ -1,7 +1,10 @@
 'use strict'
 
+require('./sass/globals.scss')
 require('./sass/welcome.scss')
 require('./sass/create.scss')
+require('./sass/notes.scss')
+require('./sass/interface.scss')
 
 
 import * as welcome from './main/welcome.js'

@@ -1,7 +1,8 @@
+'use strict'
+
+require('./sass/globals.scss')
 require('./sass/notes.scss')
 require('./sass/interface.scss')
-require('./sass/welcome.scss')
-require('./sass/create.scss')
 
 import * as mouse from './lesson/mouse.js'
 import * as typing from './lesson/typing.js'
