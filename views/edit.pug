@@ -9,10 +9,10 @@ html
 			div.create-course
 				div.create-new-course#existing-course= course
 			div.create-lesson
-				input.create-lesson-title#title(value= title)
+				input.create-lesson-title#title(type='text', value= title)
 			each concept in concepts
 				div.create-concept
-					input.create-concept-name(value= concept[0])
+					input.create-concept-name(type='text', value= concept[0])
 					each note in concept
 						div.create-note
 							if note.type == 'text'
@@ -25,8 +25,9 @@ html
 								input.create-concept-note(type='text', kind='src', value= note.src)
 								include includes/add-note.pug
 
-				button.create-add-concept(onclick='addConcept(this)') +
-				button.create-remove-concept(onclick='removeConcept(this)') -
+				div.create-concept-buttons
+					button.create-add-concept(onclick='addConcept(this)') +
+					button.create-remove-concept(onclick='removeConcept(this)') -
 
 			div.interface-buttons
 				button.lesson-btn.create-lesson-save(onclick='saveLesson()') save
