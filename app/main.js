@@ -63,33 +63,57 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
-/******/ ({
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
 
-/***/ 0:
+module.exports = require("electron");
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-
-/***/ 1:
+/* 2 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */
+/***/ (function(module, exports) {
 
-/***/ 11:
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(13);
 
 
-__webpack_require__(0)
+__webpack_require__(15)
 __webpack_require__(1)
+__webpack_require__(2)
+__webpack_require__(6)
+__webpack_require__(7)
 
 
 
@@ -109,8 +133,7 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 
 
 /***/ }),
-
-/***/ 20:
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -118,7 +141,7 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
 
 
-const ipc = __webpack_require__(3).ipcRenderer
+const ipc = __webpack_require__(0).ipcRenderer
 
 let openLesson = (course_name, lesson_name) => {
 	ipc.send('open-lesson', {"course":course_name, "lesson": lesson_name})
@@ -132,8 +155,7 @@ let createLesson = () => {
 
 
 /***/ }),
-
-/***/ 21:
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -146,7 +168,7 @@ let createLesson = () => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exitLesson; });
 
 
-const ipc = __webpack_require__(3).ipcRenderer
+const ipc = __webpack_require__(0).ipcRenderer
 
 let lesson = {
 	'course' : '',
@@ -317,12 +339,11 @@ let exitLesson = () => {
 
 
 /***/ }),
-
-/***/ 3:
+/* 14 */,
+/* 15 */
 /***/ (function(module, exports) {
 
-module.exports = require("electron");
+// removed by extract-text-webpack-plugin
 
 /***/ })
-
-/******/ });
+/******/ ]);
