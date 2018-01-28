@@ -26,13 +26,17 @@
 	font-size: 2em;
 }
 
-.inter-btn, .inter-btn-main {
+.welcome-lesson, .inter-btn-main {
 	border: none;
 	color: $dark-grey;
 	background-color: $light-grey;
 	font-family: 'Inter UI';
 	font-size: 1.2em;
 	cursor: pointer;
+}
+
+.selected {
+	background-color: green;
 }
 
 .inter-btn:hover, .inter-btn-main:hover{

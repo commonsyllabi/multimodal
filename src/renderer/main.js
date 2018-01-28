@@ -10,7 +10,9 @@ require('./sass/interface.scss')
 import * as welcome from './main/welcome.js'
 import * as create from './main/create.js'
 
+window.setLesson = welcome.setLesson
 window.openLesson = welcome.openLesson
+window.editLesson = welcome.editLesson
 window.createLesson = welcome.createLesson
 
 window.selectCourse = create.selectCourse
