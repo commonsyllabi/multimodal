@@ -18,6 +18,10 @@ let setLesson = (_e, _c, _l) => {
 
 
 	_e.setAttribute('class', 'welcome-lesson selected')
+
+	let btns = document.getElementsByClassName('inter-btn-main')
+	for(let btn of btns)
+		btn.disabled = false
 }
 
 let openLesson = () => {

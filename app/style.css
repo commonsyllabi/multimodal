@@ -125,19 +125,33 @@ body {
   font-size: 1.2em;
   cursor: pointer; }
 
+.welcome-lesson {
+  border: 2px solid #f0f0f0;
+  padding: 5px;
+  color: #999999; }
+
+.welcome-lesson:hover {
+  border-color: #999999;
+  color: #333333; }
+
 .selected {
-  background-color: green; }
+  color: #333333;
+  font-weight: bold; }
 
 .inter-btn:hover, .inter-btn-main:hover {
   background-color: #999999; }
 
 .inter-btn-main {
   position: relative;
-  display: block;
+  display: inline;
   top: 30%;
-  left: 30%;
-  width: 40%;
-  font-size: 3em; }
+  width: auto;
+  font-size: 1.7em; }
+
+.inter-btn-main:disabled {
+  cursor: default;
+  background-color: white;
+  color: #f0f0f0; }
 body {
   font-family: 'Inter UI'; }
 
