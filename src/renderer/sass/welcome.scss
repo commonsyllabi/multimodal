@@ -35,8 +35,20 @@
 	cursor: pointer;
 }
 
+.welcome-lesson {
+	border: 2px solid $light-grey;
+	padding: 5px;
+	color: $mid-grey;
+}
+
+.welcome-lesson:hover{
+	border-color: $mid-grey;;
+	color: $dark-grey;
+}
+
 .selected {
-	background-color: green;
+	color: $dark-grey;
+	font-weight: bold;
 }
 
 .inter-btn:hover, .inter-btn-main:hover{
@@ -45,10 +57,15 @@
 
 .inter-btn-main{
 	position: relative;
-	display: block;
+	display: inline;
 	top: 30%;
-	left: 30%;
-	width: 40%;
-	font-size: 3em;
+	width: auto;
+	font-size: 1.7em;
+}
+
+.inter-btn-main:disabled {
+	cursor: default;
+	background-color: white;
+	color: $light-grey;
 }
 

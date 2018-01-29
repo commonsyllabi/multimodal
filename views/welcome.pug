@@ -16,7 +16,7 @@ html
 								each lesson in cl.lessons
 									li.welcome-lesson(onclick='setLesson(this, "'+cl.title+'","'+lesson+'")')= lesson
 
-			div.buttons-container
+			div.interface-buttons
 				button.inter-btn-main(onclick='createLesson()') create
-				button.inter-btn-main(onclick='editLesson()') edit
-				button.inter-btn-main(onclick='openLesson()') open
+				button.inter-btn-main(onclick='editLesson()', disabled) edit
+				button.inter-btn-main(onclick='openLesson()', disabled) open
