@@ -36,6 +36,10 @@ canvas {
 	border: none;
 }
 
+.exit-lesson, .save-session {
+	float: right;
+}
+
 .concept-buttons, .interface-buttons {
 	z-index: 2;
 }
@@ -66,6 +70,7 @@ canvas {
 }
 .interface-buttons {
 	position: fixed;
+	z-index: 3;
 	bottom: 0px;
 	left: 0px;
 	padding-bottom: 10px;

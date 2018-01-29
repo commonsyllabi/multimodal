@@ -2,16 +2,12 @@ doctype
 html
 	head
 		meta(charset="utf8")
-		title= title
+		title= course + ' | '+ title
 		script(src="./lesson.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
 		canvas#drawing-board
 		div.lessons-container#writing-board
-			div.interface-buttons
-				button.lesson-btn.save-session(onclick="saveSession()") save
-				button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
-				button.lesson-btn.clear-board(onclick="clearBoard()") clear
 			div.concept-buttons
 				each val, index in concepts
 					button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
@@ -26,6 +22,8 @@ html
 						if note.type == "img"
 							div.prep.note(concept= index)
 								img(src= note.src)
-
-	
-
+		div.interface-buttons
+			button.lesson-btn.toggle-draw(onclick="toggleDraw()") draw
+			button.lesson-btn.clear-board(onclick="clearBoard()") clear
+			button.lesson-btn.exit-lesson(onclick="exitLesson()") exit
+			button.lesson-btn.save-session(onclick="saveSession()") save

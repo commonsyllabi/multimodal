@@ -4,7 +4,7 @@ let isDrawMode = false
 
 let init = () => {
 	cnv = document.getElementById('drawing-board')
-	ctn = document.getElementsByClassName('container')[0]
+	ctn = document.getElementsByClassName('lessons-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
 	
 	cnv.width = 1800
