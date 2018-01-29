@@ -63,7 +63,7 @@ let handle = (e) => {
 
 let newNote = () => {
 	let cn = document.createElement('div')
-	cn.setAttribute('class', 'note')
+	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.innerText = '_'

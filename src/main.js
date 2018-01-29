@@ -99,12 +99,14 @@ ipc.on('create-lesson', (event, data) => {
 
 ipc.on('save-lesson', (event, lesson) => {
 	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
-		    console.log('succesfully written',lesson.title,'lesson to the',lesson.course,'folder')
+		console.log('SAVE LESSON: written:',lesson.title,'to /',lesson.course)
 	})
 })
 
-ipc.on('save-session', (event, data) => {
-	console.log('received', data[0])
+ipc.on('save-session', (event, lesson) => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'-live.json', JSON.stringify(lesson), () => {
+		console.log('SAVE SESSION: written:',lesson.title,'to /',lesson.course)
+	}
 })
 
 ipc.on('exit-home', (event, data) => {
