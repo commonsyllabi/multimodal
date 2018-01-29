@@ -71,6 +71,12 @@ let createWindow = (current, _width, _height) => {
 	})
 }
 
+let replaceWindow = (_target, _width, _height) => {
+	mainWindow.setSize(_width,_height)
+
+	mainWindow.loadURL('file:///'+__dirname+'/../app/'+_target+'.html')
+}
+
 
 // ------------------------------
 // ------------------------------ IPC MESSAGES
@@ -78,17 +84,17 @@ let createWindow = (current, _width, _height) => {
 
 ipc.on('open-lesson', (event, data) => {
 	generateHTML(data, 'lesson')
-	createWindow('lesson', 1800, 1000)
+	replaceWindow('lesson', 1800, 1000)
 })
 
 ipc.on('edit-lesson', (event, data) => {
 	generateHTML(data, 'edit')
-	createWindow('edit', 1200, 800)
+	replaceWindow('edit', 1200, 800)
 })
 
 ipc.on('create-lesson', (event, data) => {
 	createLesson()
-	createWindow('create', 1200, 800)
+	replaceWindow('create', 1200, 800)
 })
 
 ipc.on('save-lesson', (event, lesson) => {
@@ -99,6 +105,11 @@ ipc.on('save-lesson', (event, lesson) => {
 
 ipc.on('save-session', (event, data) => {
 	console.log('received', data[0])
+})
+
+ipc.on('exit-home', (event, data) => {
+	listLessons()
+	createWindow('welcome', 900, 500)
 })
 
 app.on('ready', () => { 

@@ -170,7 +170,7 @@ let saveLesson = () => {
 
 let exitLesson = () => {
 	saveLesson()
-	//TODO return to main page
+	ipc.send('exit-home', {"coming":"back"})
 }
 
 export { selectCourse, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
