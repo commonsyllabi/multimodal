@@ -370,7 +370,7 @@ let saveLesson = () => {
 
 let exitLesson = () => {
 	saveLesson()
-	//TODO return to main page
+	ipc.send('exit-home', {"coming":"back"})
 }
 
 
