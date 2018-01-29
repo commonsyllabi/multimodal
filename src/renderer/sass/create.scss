@@ -3,20 +3,61 @@
 .create-container {
 	width: 80%;
 	margin-left: 10%;
+	margin-bottom: 70px;
+}
+
+.create-course{
+	width: 100%;
+	height: auto;
+	padding: 30px;
+	text-align: left;
+	background-color: $mid-grey;
 }
 
 .create-new-course{
 	font-size: 48px;
+	width: 50%;
+	text-align: right;
+	margin-left: 5px;
+
+	height: 32px;
+}
+
+.edit-existing-course{
 	width: 100%;
 	text-align: right;
-	background-color: $dark-grey;
+	font-size: 48px;
+	font-weight: bold;
 	color: $light-grey;
-	padding: 10px;
+}
+
+.create-btn {
+	float: right;
+	height: 32px;
+	cursor: pointer;
+}
+
+.create-courses-list {
+	font-size: 24px;
+	background-color: $light-grey;
+	color: $dark-grey;
+	border: none;
+
+	height: 32px;
 }
 
 .create-lesson {
 	margin: 10px;
 	font-size: 20px;
+}
+
+.create-lesson-title{
+	font-size: 32px;
+	background-color: $light-grey;
+	color: $dark-grey;
+	border: none;
+	border-bottom: 2px solid $dark-grey;
+	padding: 2px;
 }
 
 input[type=text]{
@@ -33,12 +74,17 @@ input[type=text]{
 }
 
 .create-concept-name {
-	background-color: $dark-grey;
+	background-color: $light-grey;
+	color: $dark-grey;
+	border: none;
+	font-size: 24px;
+	margin-bottom: 12px;
 }
 
 .create-note{
 	margin-bottom: 10px;
 	width: 60%;
+	margin-left: 20px;
 }
 
 .create-add-note, .create-remove-note {
@@ -51,7 +97,7 @@ input[type=text]{
 	height: 20px;
 }
 
-.create-add-concept, .create-remove-concept {
+.create-add-concept, .create-remove-concept, .create-btn {
 	float: right;
 	border: none;
 	width: 30px;
