@@ -106,7 +106,7 @@ ipc.on('save-lesson', (event, lesson) => {
 ipc.on('save-session', (event, lesson) => {
 	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'-live.json', JSON.stringify(lesson), () => {
 		console.log('SAVE SESSION: written:',lesson.title,'to /',lesson.course)
-	}
+	})
 })
 
 ipc.on('exit-home', (event, data) => {
