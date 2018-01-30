@@ -78,7 +78,11 @@
       }
     ],
     [
-      "suri"
+      "suri",
+      {
+        "src": "design-suri.jpg",
+        "type": "img"
+      }
     ],
     [
       "elements",
