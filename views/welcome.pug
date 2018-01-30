@@ -14,7 +14,7 @@ html
 							div.inter-class-title= cl.title
 							ul
 								each lesson in cl.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+cl.title+'","'+lesson+'")')= lesson
+									li.welcome-lesson(onclick='setLesson(this, "'+cl.title+'","'+lesson+'")', ondblclick='openLesson("'+cl.title+'", "'+lesson+'")')= lesson
 
 			div.interface-buttons
 				button.inter-btn-main(onclick='createLesson()') create

@@ -2,6 +2,7 @@ const electron = require('electron')
 const ipc = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const dialog = electron.dialog
 
 //const path = require('path')
 //const url = require('url')
@@ -89,12 +90,12 @@ ipc.on('open-lesson', (event, data) => {
 
 ipc.on('edit-lesson', (event, data) => {
 	generateHTML(data, 'edit')
-	replaceWindow('edit', 1200, 800)
+	replaceWindow('edit', 1800, 1000)
 })
 
 ipc.on('create-lesson', (event, data) => {
 	createLesson()
-	replaceWindow('create', 1200, 800)
+	replaceWindow('create', 1800, 1000)
 })
 
 ipc.on('save-lesson', (event, lesson) => {
@@ -111,12 +112,12 @@ ipc.on('save-session', (event, lesson) => {
 
 ipc.on('exit-home', (event, data) => {
 	listLessons()
-	createWindow('welcome', 900, 500)
+	replaceWindow('welcome', 1800, 1000)
 })
 
 app.on('ready', () => { 
 	listLessons()
-	createWindow('welcome', 900, 500) 
+	createWindow('welcome', 1800, 1000) 
 })
 
 app.on('window-all-closed', () => { app.quit() })
