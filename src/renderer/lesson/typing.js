@@ -31,14 +31,11 @@ let handle = (e) => {
 
 	if(currentNote == null && e.keyCode != SPC)
 		return
-	console.log(e.keyCode)	
+//	console.log(e.keyCode)	
 
 	switch (e.keyCode) {
 	case SPC:
-		if(currentNote == null)
-			newNote()
-		else
-			handleKey('\u00A0')
+		handleKey('\u00A0')
 		break
 	case BCK:
 		eraseCharacter()
@@ -99,4 +96,4 @@ let eraseCharacter = () => {
 	currentNote.innerText = currentNote.innerText.slice(0, -2) + '_'
 }
 
-export { handle }
+export { handle, newNote }

@@ -175,7 +175,9 @@ let setLesson = (_e, _c, _l) => {
 		btn.disabled = false
 }
 
-let openLesson = () => {
+let openLesson = (_c, _l) => {
+	let course = _c ? _c : current.course
+	let lesson = _l ? _l : current.lesson
 	ipc.send('open-lesson', {"course": current.course, "lesson": current.lesson})
 }
 

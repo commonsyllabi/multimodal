@@ -1,7 +1,7 @@
 'use strict'
 
 let currentNote = null
-let currentConcept = 1
+let currentConcept = 0
 
 let setCurrentNote = (el) => {
 	currentNote = el
@@ -13,7 +13,7 @@ let getCurrentNote = () => {
 
 let setCurrentConcept = (index) => {
 	
-	currentConcept = index
+	currentConcept = index ? index : 0
 
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){

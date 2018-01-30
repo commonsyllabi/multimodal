@@ -101,7 +101,7 @@ module.exports = require("electron");
 
 
 let currentNote = null
-let currentConcept = 1
+let currentConcept = 0
 
 let setCurrentNote = (el) => {
 	currentNote = el
@@ -113,7 +113,7 @@ let getCurrentNote = () => {
 
 let setCurrentConcept = (index) => {
 	
-	currentConcept = index
+	currentConcept = index ? index : 0
 
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){
@@ -202,6 +202,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(9);
 
 
+const remote = __webpack_require__(0).remote
+const {Menu, MenuItem, globalShortcut} = remote
+const menu = new Menu()
+
 __webpack_require__(1)
 __webpack_require__(2)
 __webpack_require__(3)
@@ -215,6 +219,11 @@ __webpack_require__(3)
 let init = () => {
 
 	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
+
+	window.ondblclick = () => {
+		if(__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["a" /* currentNote */] == null)
+			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["b" /* newNote */]()
+	}
 
 	window.addEventListener('keydown', (e) => {
 		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* handle */](e)
@@ -235,11 +244,32 @@ let init = () => {
 		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["d" /* endDraw */]()
 	})
 
+	__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]()
 }
 
+globalShortcut.register('CommandOrControl+S', () => {
+	__WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]()
+})
+
+globalShortcut.register('CmdOrCtrl+D', () => {
+	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]()
+})
+
+globalShortcut.register('CmdOrCtrl+Shift+C', () => {
+	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()
+})
+
+globalShortcut.register('CmdOrCtrl+H', () => {
+	__WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]()
+})
+
+window.onbeforeunload =  () => {
+	globalShortcut.unregisterAll()
+}
 
 window.init = init
-window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* saveSession */]
+window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
 window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]
@@ -251,6 +281,7 @@ window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* togg
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return newNote; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(4);
 
@@ -286,14 +317,11 @@ let handle = (e) => {
 
 	if(currentNote == null && e.keyCode != SPC)
 		return
-	console.log(e.keyCode)	
+//	console.log(e.keyCode)	
 
 	switch (e.keyCode) {
 	case SPC:
-		if(currentNote == null)
-			newNote()
-		else
-			handleKey('\u00A0')
+		handleKey('\u00A0')
 		break
 	case BCK:
 		eraseCharacter()
@@ -362,7 +390,8 @@ let eraseCharacter = () => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return saveSession; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return saveSession; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return exitLesson; });
 
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -415,9 +444,14 @@ let parseDocument = () => {
 		lesson.concepts.push(concept)
 	}
 
-	console.log(lesson)
+	console.log('saving:',lesson)
 
 	return lesson
+}
+
+let exitLesson = () => {
+	console.log('leaving lesson')
+	ipc.send('exit-home', {"coming":"back"})	
 }
 
 

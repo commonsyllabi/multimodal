@@ -50,9 +50,14 @@ let parseDocument = () => {
 		lesson.concepts.push(concept)
 	}
 
-	console.log(lesson)
+	console.log('saving:',lesson)
 
 	return lesson
 }
 
-export { saveSession }
+let exitLesson = () => {
+	console.log('leaving lesson')
+	ipc.send('exit-home', {"coming":"back"})	
+}
+
+export { saveSession, exitLesson }

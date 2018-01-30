@@ -6,6 +6,7 @@ body {
   font-family: 'Inter UI'; }
   body .note {
     position: absolute;
+    z-index: 5;
     color: black;
     font-size: 2em;
     transition: opacity 0.5s ease-in; }
