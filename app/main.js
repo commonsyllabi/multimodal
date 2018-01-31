@@ -113,10 +113,11 @@ __webpack_require__(3)
 
 
 
-window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* setLesson */]
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* openLesson */]
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* setLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]
 window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
+window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
 
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
@@ -145,22 +146,23 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return openLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return openLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
 const ipc = __webpack_require__(0).ipcRenderer
 
 let current = {
 	"course":"",
-	"lesson":""
+	"title":""
 }
 
 let setLesson = (_e, _c, _l) => {
 	current.course = _c
-	current.lesson = _l
+	current.title = _l
 
 
 	let all_lessons = document.getElementsByClassName('welcome-lesson')
@@ -177,8 +179,8 @@ let setLesson = (_e, _c, _l) => {
 
 let openLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
-	let lesson = _l ? _l : current.lesson
-	ipc.send('open-lesson', {"course": current.course, "lesson": current.lesson})
+	let title = _l ? _l : current.title
+	ipc.send('open-lesson', {"course": current.course, "title": current.title})
 }
 
 let createLesson = () => {
@@ -186,7 +188,20 @@ let createLesson = () => {
 }
 
 let editLesson = () => {
-	ipc.send('edit-lesson', {"course": current.course, "lesson": current.lesson})
+	ipc.send('edit-lesson', {"course": current.course, "title": current.title})
+}
+
+let exportLesson = () => {
+	ipc.send('export-lesson', {"course": current.course, "title": current.title})
+	let msg = 'exported '+current.title
+	setMessage(msg)
+}
+
+let setMessage = (_msg) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.style.opacity = 1
+	setTimeout(() => { el.style.opacity = 0 }, 2000)
 }
 
 

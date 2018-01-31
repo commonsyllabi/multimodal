@@ -1,5 +1,16 @@
 body {
   font-family: 'Inter UI'; }
+
+.msg-log {
+  float: right;
+  margin-right: 3%;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 1;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out; }
 body {
   margin: 0px;
   padding: 0px;
@@ -34,6 +45,17 @@ body {
     max-height: 600px; }
 body {
   font-family: 'Inter UI'; }
+
+.msg-log {
+  float: right;
+  margin-right: 3%;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 1;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out; }
 
 .lessons-container, canvas {
   position: absolute;
@@ -102,6 +124,17 @@ canvas {
 body {
   font-family: 'Inter UI'; }
 
+.msg-log {
+  float: right;
+  margin-right: 3%;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 1;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out; }
+
 .courses-container {
   overflow-y: auto; }
 
@@ -151,7 +184,7 @@ body {
   display: inline;
   top: 30%;
   width: auto;
-  font-size: 1.7em; }
+  font-size: 2.2em; }
 
 .inter-btn-main:disabled {
   cursor: default;
@@ -159,6 +192,17 @@ body {
   color: #f0f0f0; }
 body {
   font-family: 'Inter UI'; }
+
+.msg-log {
+  float: right;
+  margin-right: 3%;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 1;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out; }
 
 .create-container {
   width: 80%;

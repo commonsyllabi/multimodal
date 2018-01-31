@@ -1,0 +1,23 @@
+doctype
+html
+	head
+		meta(charset="utf8")
+		title= course + ' | '+ title
+	body
+		div.lessons-container#writing-board
+			div.concept-buttons
+				each val, index in concepts
+					//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
+			each notes, index in concepts
+				h3.concept-name= notes[0]
+				div.prep-group
+					each note  in notes
+						if note.type == "text"
+							div.prep.note(concept= index)= note.text
+						if note.type == "link"
+							div.prep.note(concept= index)
+								a(href= note.url)= note.text
+						if note.type == "img"
+							div.prep.note(concept= index)
+								img(src= note.src)
+				hr
