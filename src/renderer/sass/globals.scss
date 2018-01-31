@@ -2,6 +2,22 @@ $mid-grey: #999999;
 $dark-grey: #333333;
 $light-grey: #f0f0f0;
 
+$btn-size: 2.2em;
+
 body {
 	font-family: 'Inter UI';
+}
+
+.msg-log {
+	float: right;
+	margin-right: 3%;
+	padding: 5px;
+	font-weight: bold;
+	font-size: $btn-size;
+	opacity: 1;
+
+	background-color: $dark-grey;
+	color: $light-grey;
+
+	transition: opacity 0.5s ease-in-out;
 }

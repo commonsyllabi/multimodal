@@ -57,6 +57,17 @@ let createLesson = () => {
 	fs.writeFileSync(__dirname+'/../app/create.html', compiled)
 }
 
+let exportLesson = (lesson) => {
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'.json'))
+	let compiled = pug.renderFile('views/export.pug', c)
+	fs.writeFile(__dirname+'/../export/'+lesson.course+'/'+lesson.title+'.html', compiled, () => {
+		console.log('EXPORTED:',lesson.title,'to /export/'+lesson.title+'.html')
+	})
+}
+
+// ------------------------------
+// ------------------------------ WINDOW MANAGEMENT
+// -----------------------------
 
 let createWindow = (current, _width, _height) => {
 	mainWindow = null
@@ -96,6 +107,10 @@ ipc.on('edit-lesson', (event, data) => {
 ipc.on('create-lesson', (event, data) => {
 	createLesson()
 	replaceWindow('create', 1800, 1000)
+})
+
+ipc.on('export-lesson', (event, data) => {
+	exportLesson(data)
 })
 
 ipc.on('save-lesson', (event, lesson) => {
