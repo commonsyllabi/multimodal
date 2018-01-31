@@ -935,7 +935,7 @@ electron-webpack-plugin@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/electron-webpack-plugin/-/electron-webpack-plugin-2.0.0.tgz#df5376b46430449b623ac55cb443a1eb3e374655"
 
-electron@^1.7.10:
+electron@^1.7.11:
   version "1.7.11"
   resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.11.tgz#993b6aa79e0e79a7cfcc369f4c813fbd9a0b08d9"
   dependencies:
