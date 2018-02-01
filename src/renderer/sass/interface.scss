@@ -10,29 +10,37 @@ canvas {
 	z-index: 1;
 }
 
+.active{
+	cursor: crosshair;
+}
+
 .lessons-container {
 	width: 100%;
 	height: 100%;
 }
 
-.lesson-btn {
+.lesson-btn, .concept-btn {
 	border: none;
 	color: $dark-grey;
 	background-color: $light-grey;
 
 	font-family: 'Inter UI';
-	font-size: 1.2em;
+	font-size: $btn-size;
 	
 	cursor: pointer;
 }
 
+.concept-btn {
+	font-size: $btn-concept-size;
+}
 
-.lesson-btn:hover{
+
+.lesson-btn:hover, .concept-btn:hover{
 	background-color: $mid-grey;
 	color: $light-grey;
 }
 
-.lesson-btn:active{
+.lesson-btn:active, .lesson-btn:active{
 	border: none;
 }
 

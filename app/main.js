@@ -398,8 +398,8 @@ let saveLesson = () => {
 
 	dialog.showErrorBox(_title, _error)
 	}else{
-		console.log('saved')
-		ipc.send('save-lesson', current)
+		setMessage('saved!')
+		ipc.send('save-lesson', lesson)
 	}
 }
 
@@ -420,6 +420,13 @@ let exitLesson = () => {
 	}else {
 		ipc.send('exit-home', {"coming":"back"})
 	}
+}
+
+let setMessage = (_msg) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.style.opacity = 1
+	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 
 

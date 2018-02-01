@@ -17,9 +17,9 @@ let setCurrentConcept = (index) => {
 
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){
-		c.setAttribute('class', 'concept lesson-btn')
+		c.setAttribute('class', 'concept concept-btn')
 		if(c.getAttribute('concept') == currentConcept)
-			c.setAttribute('class', 'concept lesson-btn current-concept')
+			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
 	let ns = document.getElementsByClassName('note')

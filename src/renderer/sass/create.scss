@@ -17,10 +17,7 @@
 .create-new-course{
 	font-size: 48px;
 	width: 50%;
-	text-align: right;
 	margin-left: 5px;
-
-	height: 32px;
 }
 
 .edit-existing-course{
@@ -38,12 +35,11 @@
 }
 
 .create-courses-list {
-	font-size: 24px;
+	font-size: 48px;
 	background-color: $light-grey;
 	color: $dark-grey;
 	border: none;
 
-	height: 32px;
 }
 
 .create-lesson {
@@ -61,7 +57,7 @@
 }
 
 input[type=text]{
-	font-size: 20px;
+//	font-size: 20px;
 	border: none;
 	border-bottom: 2px solid black;
 	background-color: $light-grey;
@@ -71,6 +67,10 @@ input[type=text]{
 	margin: 20px;
 	padding: 10px;
 	border: 2px solid $mid-grey;
+}
+
+.create-concept-note {
+	font-size: 20px;
 }
 
 .create-concept-name {
