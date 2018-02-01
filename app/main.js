@@ -385,7 +385,7 @@ let saveLesson = () => {
 
 	console.log('saving:',lesson)
 
-//	ipc.send('save-lesson', lesson)
+	ipc.send('save-lesson', lesson)
 
 }
 

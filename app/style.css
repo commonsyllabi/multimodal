@@ -7,7 +7,7 @@ body {
   padding: 5px;
   font-weight: bold;
   font-size: 2.2em;
-  opacity: 1;
+  opacity: 0;
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
@@ -52,7 +52,7 @@ body {
   padding: 5px;
   font-weight: bold;
   font-size: 2.2em;
-  opacity: 1;
+  opacity: 0;
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
@@ -130,7 +130,7 @@ body {
   padding: 5px;
   font-weight: bold;
   font-size: 2.2em;
-  opacity: 1;
+  opacity: 0;
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
@@ -199,7 +199,7 @@ body {
   padding: 5px;
   font-weight: bold;
   font-size: 2.2em;
-  opacity: 1;
+  opacity: 0;
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
