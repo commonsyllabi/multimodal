@@ -12,7 +12,7 @@ const pug = require('pug')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.lesson+'.json'))
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.title+'.json'))
 	let compiled = pug.renderFile('views/'+template+'.pug', c)
 
 	fs.writeFileSync(__dirname+'/../app/'+template+'.html', compiled)
