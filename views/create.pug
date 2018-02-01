@@ -12,19 +12,14 @@ html
 						option(value= cl)= cl
 					option(value="new course", selected) new course
 				input.create-new-course#new-course(type='text')
-				button.create-btn(onclick='selectCourse("custom")') set
+				button.create-btn#set-new-course(onclick='selectCourse("custom")') set
 			div.create-lesson
 				input.create-lesson-title#title(placeholder='lesson name')
 				div.create-concept
 					input.create-concept-name(placeholder='concept name')
 					div.create-note
 						input.create-concept-note(type='text', kind='text', placeholder='text')
-						select.create-add-note(onchange='addNote(this)')
-							option(value='add') - +
-							option(value="text") - text
-							option(value="url") - link
-							option(value="img") - image
-						button.create-remove-note(onclick='removeNote(this)') -
+						include includes/add-note.pug
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
 
