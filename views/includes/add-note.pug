@@ -1,6 +1,4 @@
-select.create-add-note(onchange='addNote(this)')
-	option(value='add') - +
-	option(value='text') - text
-	option(value='url') - link
-	option(value='img') - img
+button.create-add-note(onclick='addNote(this)', value='text') txt
+button.create-add-note(onclick='addNote(this)', value='url') url
+button.create-add-note(onclick='addNote(this)', value='img') img
 button.create-remove-note(onclick='removeNote(this)') -

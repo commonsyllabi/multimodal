@@ -1,5 +1,6 @@
 'use strict'
 
+const {dialog} = require('electron').remote
 const ipc = require('electron').ipcRenderer
 
 let lesson = {
@@ -9,13 +10,15 @@ let lesson = {
 }
 
 let selectCourse = (name) => {
-	if(name.value == 'new course')
-		document.getElementById('new-course').style.display = 'block';
-	else if(name == 'custom')
+	if(name.value == 'new course'){
+		document.getElementById('new-course').style.display = 'inline'
+		document.getElementById('set-new-course').style.display = 'inline'
+	}else if(name == 'custom'){
 		lesson.course = document.getElementById('new-course').value
-	else{
+	}else{
 		lesson.course = name.value
-		document.getElementById('new-course').style.display = 'none';
+		document.getElementById('new-course').style.display = 'none'
+		document.getElementById('set-new-course').style.display = 'none'
 	}
 }
 
@@ -128,13 +131,13 @@ let createOption = (val) => {
 	return el
 }
 
-let saveLesson = () => {
+let parseLesson = () => {
 
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
-
+	console.log(lesson.course)
 	lesson.title = document.getElementById('title').value
 
 	let concepts = document.getElementsByClassName('create-concept')
@@ -161,15 +164,41 @@ let saveLesson = () => {
 		lesson.concepts.push(concept)
 	}
 
-	console.log('saving:',lesson)
+	console.log('parsed:',lesson)
+}
 
-	ipc.send('save-lesson', lesson)
+let saveLesson = () => {
+	parseLesson()
 
+	if(lesson.course == '' || lesson.title == ''){
+
+	let _title = "something is missing"
+	let _error = "it seems you haven't specified a course or a lesson title."
+
+	dialog.showErrorBox(_title, _error)
+	}else{
+		console.log('saved')
+		ipc.send('save-lesson', current)
+	}
 }
 
 let exitLesson = () => {
-	saveLesson()
-	ipc.send('exit-home', {"coming":"back"})
+
+	parseLesson()
+
+	let options = {	"type":"info",
+			"buttons":["cancel", "Quit anyways"],
+			"title":"are you sure?",
+			"message":"it seems you haven't specified a course or a lesson title. do you want to quit anyways?"
+			}
+
+	if(lesson.course == '' || lesson.title == ''){
+		if(dialog.showMessageBox(options) == 1) 
+			ipc.send('exit-home', {'coming':'back'})
+
+	}else {
+		ipc.send('exit-home', {"coming":"back"})
+	}
 }
 
 export { selectCourse, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
