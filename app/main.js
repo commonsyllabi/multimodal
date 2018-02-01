@@ -354,7 +354,6 @@ let saveLesson = () => {
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
-	console.log(dropdown)	
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
 
 	lesson.title = document.getElementById('title').value

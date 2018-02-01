@@ -16,7 +16,7 @@ html
 					each note  in notes
 						if note.type == "text"
 							div.prep.note(concept= index)= note.text
-						if note.type == "link"
+						if note.type == "url"
 							div.prep.note(concept= index)
 								a(href= note.url)= note.text
 						if note.type == "img"
