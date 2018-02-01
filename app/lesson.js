@@ -117,9 +117,9 @@ let setCurrentConcept = (index) => {
 
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){
-		c.setAttribute('class', 'concept lesson-btn')
+		c.setAttribute('class', 'concept concept-btn')
 		if(c.getAttribute('concept') == currentConcept)
-			c.setAttribute('class', 'concept lesson-btn current-concept')
+			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
 	let ns = document.getElementsByClassName('note')
@@ -514,10 +514,14 @@ let clearBoard = () => {
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
+
+		cnv.setAttribute('class', 'active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
+
+		cnv.setAttribute('class', '')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1

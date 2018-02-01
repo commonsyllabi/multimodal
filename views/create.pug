@@ -12,11 +12,12 @@ html
 						option(value= cl)= cl
 					option(value="new course", selected) new course
 				input.create-new-course#new-course(type='text')
-				button.create-btn#set-new-course(onclick='selectCourse("custom")') set
 			div.create-lesson
 				input.create-lesson-title#title(placeholder='lesson name')
 				div.create-concept
 					input.create-concept-name(placeholder='concept name')
+					div.create-note
+						include includes/add-note.pug
 					div.create-note
 						input.create-concept-note(type='text', kind='text', placeholder='text')
 						include includes/add-note.pug
@@ -26,4 +27,4 @@ html
 			div.interface-buttons
 				button.lesson-btn.create-lesson-save(onclick='saveLesson()') save
 				button.lesson-btn.create-lesson-exit(onclick='exitLesson()') exit
-
+				div.msg-log#msg-log 

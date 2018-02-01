@@ -4,7 +4,8 @@ body {
 .msg-log {
   float: right;
   margin-right: 3%;
-  padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-weight: bold;
   font-size: 2.2em;
   opacity: 0;
@@ -49,7 +50,8 @@ body {
 .msg-log {
   float: right;
   margin-right: 3%;
-  padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-weight: bold;
   font-size: 2.2em;
   opacity: 0;
@@ -65,23 +67,29 @@ body {
 canvas {
   z-index: 1; }
 
+.active {
+  cursor: crosshair; }
+
 .lessons-container {
   width: 100%;
   height: 100%; }
 
-.lesson-btn {
+.lesson-btn, .concept-btn {
   border: none;
   color: #333333;
   background-color: #f0f0f0;
   font-family: 'Inter UI';
-  font-size: 1.2em;
+  font-size: 2.2em;
   cursor: pointer; }
 
-.lesson-btn:hover {
+.concept-btn {
+  font-size: 1.3em; }
+
+.lesson-btn:hover, .concept-btn:hover {
   background-color: #999999;
   color: #f0f0f0; }
 
-.lesson-btn:active {
+.lesson-btn:active, .lesson-btn:active {
   border: none; }
 
 .exit-lesson, .save-session {
@@ -127,7 +135,8 @@ body {
 .msg-log {
   float: right;
   margin-right: 3%;
-  padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-weight: bold;
   font-size: 2.2em;
   opacity: 0;
@@ -196,7 +205,8 @@ body {
 .msg-log {
   float: right;
   margin-right: 3%;
-  padding: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-weight: bold;
   font-size: 2.2em;
   opacity: 0;
@@ -219,9 +229,7 @@ body {
 .create-new-course {
   font-size: 48px;
   width: 50%;
-  text-align: right;
-  margin-left: 5px;
-  height: 32px; }
+  margin-left: 5px; }
 
 .edit-existing-course {
   width: 100%;
@@ -236,11 +244,10 @@ body {
   cursor: pointer; }
 
 .create-courses-list {
-  font-size: 24px;
+  font-size: 48px;
   background-color: #f0f0f0;
   color: #333333;
-  border: none;
-  height: 32px; }
+  border: none; }
 
 .create-lesson {
   margin: 10px;
@@ -255,7 +262,6 @@ body {
   padding: 2px; }
 
 input[type=text] {
-  font-size: 20px;
   border: none;
   border-bottom: 2px solid black;
   background-color: #f0f0f0; }
@@ -264,6 +270,9 @@ input[type=text] {
   margin: 20px;
   padding: 10px;
   border: 2px solid #999999; }
+
+.create-concept-note {
+  font-size: 20px; }
 
 .create-concept-name {
   background-color: #f0f0f0;

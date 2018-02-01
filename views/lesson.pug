@@ -10,7 +10,7 @@ html
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each val, index in concepts
-					button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
+					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
 			each notes, index in concepts
 				div.prep-group
 					each note  in notes

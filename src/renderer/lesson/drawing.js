@@ -44,10 +44,14 @@ let clearBoard = () => {
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
+
+		cnv.setAttribute('class', 'active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
+
+		cnv.setAttribute('class', '')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1

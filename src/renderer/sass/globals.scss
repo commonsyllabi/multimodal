@@ -3,6 +3,7 @@ $dark-grey: #333333;
 $light-grey: #f0f0f0;
 
 $btn-size: 2.2em;
+$btn-concept-size: 1.3em;
 
 body {
 	font-family: 'Inter UI';
@@ -11,7 +12,8 @@ body {
 .msg-log {
 	float: right;
 	margin-right: 3%;
-	padding: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
 	font-weight: bold;
 	font-size: $btn-size;
 	opacity: 0;
