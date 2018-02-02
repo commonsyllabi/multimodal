@@ -17,6 +17,7 @@ window.createLesson = welcome.createLesson
 window.exportLesson = welcome.exportLesson
 
 window.selectCourse = create.selectCourse
+window.selectCoursePath = create.selectCoursePath
 window.addNote = create.addNote
 window.removeNote = create.removeNote
 window.addConcept = create.addConcept

@@ -120,6 +120,7 @@ window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* crea
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
 
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
+window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* selectCoursePath */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
 window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeNote */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
@@ -213,6 +214,7 @@ let setMessage = (_msg) => {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return selectCoursePath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
@@ -226,6 +228,10 @@ const ipc = __webpack_require__(0).ipcRenderer
 
 let lesson = {
 	'course' : '',
+	'path': {
+		'local': '',
+		'remote':''
+	},
 	'title' : '',
 	'concepts': []
 }
@@ -241,6 +247,19 @@ let selectCourse = (name) => {
 		document.getElementById('new-course').style.display = 'none'
 		document.getElementById('set-new-course').style.display = 'none'
 	}
+}
+
+let selectCoursePath = (_el) => {
+	let options = {
+		'title':'Select course folder',
+		'defaultPath':'~/',
+		'properties':['openDirectory']
+	}
+
+	dialog.showOpenDialog(options, (path) => {
+		lesson.path.local = path
+		document.getElementById('local-path').value = path
+	})
 }
 
 let createNote = (kind) => {

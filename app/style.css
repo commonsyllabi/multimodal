@@ -249,6 +249,31 @@ body {
   color: #333333;
   border: none; }
 
+.create-path {
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #999999; }
+
+.show-local-path, .create-remote-path {
+  font-size: 24px;
+  display: block;
+  float: left;
+  width: 50%; }
+
+.create-remote-path {
+  float: none; }
+
+.create-local-path {
+  display: inline;
+  border: none;
+  font-size: 24px;
+  margin-left: 5px;
+  background-color: #f0f0f0; }
+
+.create-local-path:hover {
+  background-color: #999999;
+  cursor: pointer; }
+
 .create-lesson {
   margin: 10px;
   font-size: 20px; }
