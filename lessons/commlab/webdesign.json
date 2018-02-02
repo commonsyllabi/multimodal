@@ -461,5 +461,9 @@
     ]
   ],
   "course": "commlab",
+  "path":{
+    "local":"",
+    "remote":""
+  },
   "title": "webdesign"
 }
