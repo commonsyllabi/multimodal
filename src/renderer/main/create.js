@@ -5,6 +5,10 @@ const ipc = require('electron').ipcRenderer
 
 let lesson = {
 	'course' : '',
+	'path': {
+		'local': '',
+		'remote':''
+	},
 	'title' : '',
 	'concepts': []
 }
@@ -20,6 +24,19 @@ let selectCourse = (name) => {
 		document.getElementById('new-course').style.display = 'none'
 		document.getElementById('set-new-course').style.display = 'none'
 	}
+}
+
+let selectCoursePath = (_el) => {
+	let options = {
+		'title':'Select course folder',
+		'defaultPath':'~/',
+		'properties':['openDirectory']
+	}
+
+	dialog.showOpenDialog(options, (path) => {
+		lesson.path.local = path
+		document.getElementById('local-path').value = path
+	})
 }
 
 let createNote = (kind) => {
@@ -208,4 +225,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 
-export { selectCourse, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
+export { selectCourse, selectCoursePath, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
