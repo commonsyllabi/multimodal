@@ -1,6 +1,19 @@
 'use strict'
 
+const {globalShortcut} = require('electron').remote
 const ipc = require('electron').ipcRenderer
+
+globalShortcut.register('CmdOrCtrl+E', () => {
+	exportLesson()
+})
+
+globalShortcut.register('CmdOrCtrl+N', () => {
+	createLesson()
+})
+
+window.onbeforeunload = () => {
+	globalShortcut.unregisterAll()
+}
 
 let current = {
 	'course':'',
@@ -39,6 +52,10 @@ let editLesson = () => {
 }
 
 let exportLesson = () => {
+	if(current.course == ''){
+		setMessage('no course selected!')
+		return
+	}
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 	let msg = 'exported '+current.title
 	setMessage(msg)

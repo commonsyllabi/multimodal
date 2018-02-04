@@ -100,14 +100,15 @@ input[type=text]{
 }
 
 .create-concept-note {
-	font-size: 20px;
+	font-size: 32px;
 }
 
 .create-concept-name {
 	background-color: $light-grey;
 	color: $dark-grey;
 	border: none;
-	font-size: 24px;
+	width: 50%;
+	font-size: 48px;
 	margin-bottom: 12px;
 }
 
@@ -120,6 +121,8 @@ input[type=text]{
 .create-add-note, .create-remove-note {
 	border: none;
 	margin: 5px;
+	font-size: 18px;
+	color: $dark-grey;
 }
 
 .create-concept-buttons {

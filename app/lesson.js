@@ -203,8 +203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const remote = __webpack_require__(0).remote
-const {Menu, MenuItem, globalShortcut} = remote
-const menu = new Menu()
+const {globalShortcut} = remote
 
 __webpack_require__(1)
 __webpack_require__(2)
@@ -317,7 +316,7 @@ let handle = (e) => {
 
 	if(currentNote == null && e.keyCode != SPC)
 		return
-//	console.log(e.keyCode)	
+	//	console.log(e.keyCode)	
 
 	switch (e.keyCode) {
 	case SPC:
@@ -397,9 +396,9 @@ let eraseCharacter = () => {
 const ipc = __webpack_require__(0).ipcRenderer
 
 let lesson = {
-	"course": "",
-	"title": "",
-	"concepts":[]
+	'course': '',
+	'title': '',
+	'concepts':[]
 }
 
 let saveSession = () => {
@@ -451,7 +450,7 @@ let parseDocument = () => {
 
 let exitLesson = () => {
 	console.log('leaving lesson')
-	ipc.send('exit-home', {"coming":"back"})	
+	ipc.send('exit-home', {'coming':'back'})	
 }
 
 

@@ -1,7 +1,15 @@
 'use strict'
 
-const {dialog} = require('electron').remote
+const {dialog, globalShortcut} = require('electron').remote
 const ipc = require('electron').ipcRenderer
+
+globalShortcut.register('CmdOrCtrl+S', () => {
+	saveLesson()
+})
+
+window.onbeforeunload = () => {
+	globalShortcut.unregisterAll()
+}
 
 let lesson = {
 	'course' : '',
@@ -55,6 +63,7 @@ let createNote = (kind) => {
 		url.setAttribute('type', 'text')
 		url.setAttribute('kind', 'url')
 		url.setAttribute('placeholder', 'url')
+		url.setAttribute('class', 'create-concept-note')
 		note.appendChild(url)
 
 		let text = document.createElement('input')
@@ -68,21 +77,35 @@ let createNote = (kind) => {
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
+		src.setAttribute('class', 'create-concept-note')
 		note.appendChild(src)
 	}else{
 		console.log('unexpected type for new note')
 	}
 
-	let select = document.createElement('select')
-	select.setAttribute('class', 'create-add-note')
-	select.setAttribute('onchange', 'addNote(this)')
+	let b_txt = document.createElement('button')
+	b_txt.setAttribute('class', 'create-add-note')
+	b_txt.setAttribute('onclick', 'addNote(this)')
+	b_txt.setAttribute('value', 'text')
+	b_txt.innerText = 'txt'
 
-	select.appendChild(createOption('add'))
-	select.appendChild(createOption('text'))
-	select.appendChild(createOption('url'))
-	select.appendChild(createOption('img'))
+	note.appendChild(b_txt)
 
-	note.appendChild(select)
+	let b_url = document.createElement('button')
+	b_url.setAttribute('class', 'create-add-note')
+	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('value', 'url')
+	b_url.innerText = 'url'
+
+	note.appendChild(b_url)
+
+	let b_img = document.createElement('button')
+	b_img.setAttribute('class', 'create-add-note')
+	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('value', 'img')
+	b_img.innerText = 'img'
+
+	note.appendChild(b_img)
 
 	let rem = document.createElement('button')
 	rem.setAttribute('class', 'create-remove-note')

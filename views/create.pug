@@ -12,8 +12,11 @@ html
 						option(value= cl)= cl
 					option(value="new course", selected) new course
 				input.create-new-course#new-course(type='text')
+				div.create-path
+					input.show-local-path#local-path(type='text', placeholder='course folder path', value='')
+					button.create-local-path(onclick='selectCoursePath(this)') select
 			div.create-lesson
-				input.create-lesson-title#title(placeholder='lesson name')
+				input.create-lesson-title#title(placeholder='lesson title')
 				div.create-concept
 					input.create-concept-name(placeholder='concept name')
 					div.create-note
