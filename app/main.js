@@ -154,11 +154,24 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
+const {globalShortcut} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
 
+globalShortcut.register('CmdOrCtrl+E', () => {
+	exportLesson()
+})
+
+globalShortcut.register('CmdOrCtrl+N', () => {
+	createLesson()
+})
+
+window.onbeforeunload = () => {
+	globalShortcut.unregisterAll()
+}
+
 let current = {
-	"course":"",
-	"title":""
+	'course':'',
+	'title':''
 }
 
 let setLesson = (_e, _c, _l) => {
@@ -181,7 +194,7 @@ let setLesson = (_e, _c, _l) => {
 let openLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
 	let title = _l ? _l : current.title
-	ipc.send('open-lesson', {"course": current.course, "title": current.title})
+	ipc.send('open-lesson', {'course': course, 'title': title})
 }
 
 let createLesson = () => {
@@ -189,11 +202,15 @@ let createLesson = () => {
 }
 
 let editLesson = () => {
-	ipc.send('edit-lesson', {"course": current.course, "title": current.title})
+	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
 }
 
 let exportLesson = () => {
-	ipc.send('export-lesson', {"course": current.course, "title": current.title})
+	if(current.course == ''){
+		setMessage('no course selected!')
+		return
+	}
+	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 	let msg = 'exported '+current.title
 	setMessage(msg)
 }
@@ -223,8 +240,16 @@ let setMessage = (_msg) => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exitLesson; });
 
 
-const {dialog} = __webpack_require__(0).remote
+const {dialog, globalShortcut} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
+
+globalShortcut.register('CmdOrCtrl+S', () => {
+	saveLesson()
+})
+
+window.onbeforeunload = () => {
+	globalShortcut.unregisterAll()
+}
 
 let lesson = {
 	'course' : '',
@@ -249,7 +274,7 @@ let selectCourse = (name) => {
 	}
 }
 
-let selectCoursePath = (_el) => {
+let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
 		'defaultPath':'~/',
@@ -278,6 +303,7 @@ let createNote = (kind) => {
 		url.setAttribute('type', 'text')
 		url.setAttribute('kind', 'url')
 		url.setAttribute('placeholder', 'url')
+		url.setAttribute('class', 'create-concept-note')
 		note.appendChild(url)
 
 		let text = document.createElement('input')
@@ -291,21 +317,35 @@ let createNote = (kind) => {
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
+		src.setAttribute('class', 'create-concept-note')
 		note.appendChild(src)
 	}else{
 		console.log('unexpected type for new note')
 	}
 
-	let select = document.createElement('select')
-	select.setAttribute('class', 'create-add-note')
-	select.setAttribute('onchange', 'addNote(this)')
+	let b_txt = document.createElement('button')
+	b_txt.setAttribute('class', 'create-add-note')
+	b_txt.setAttribute('onclick', 'addNote(this)')
+	b_txt.setAttribute('value', 'text')
+	b_txt.innerText = 'txt'
 
-	select.appendChild(createOption('add'))
-	select.appendChild(createOption('text'))
-	select.appendChild(createOption('url'))
-	select.appendChild(createOption('img'))
+	note.appendChild(b_txt)
 
-	note.appendChild(select)
+	let b_url = document.createElement('button')
+	b_url.setAttribute('class', 'create-add-note')
+	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('value', 'url')
+	b_url.innerText = 'url'
+
+	note.appendChild(b_url)
+
+	let b_img = document.createElement('button')
+	b_img.setAttribute('class', 'create-add-note')
+	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('value', 'img')
+	b_img.innerText = 'img'
+
+	note.appendChild(b_img)
 
 	let rem = document.createElement('button')
 	rem.setAttribute('class', 'create-remove-note')
@@ -375,7 +415,7 @@ let parseLesson = () => {
 
 	lesson.concepts = []
 
-	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
+	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
 	console.log(lesson.course)
 	lesson.title = document.getElementById('title').value
@@ -393,11 +433,11 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
  
 				if(_cn[0].getAttribute('kind') == 'text')
-					concept.push({"type":"text", "text": _cn[0].value})
+					concept.push({'type':'text', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
-					concept.push({"type":"url", "url": _cn[0].value, "text": _cn[1].value})
+					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')
-					concept.push({"type":"img", "src": _cn[0].value})
+					concept.push({'type':'img', 'src': _cn[0].value})
 			}
 		}
 
@@ -412,10 +452,10 @@ let saveLesson = () => {
 
 	if(lesson.course == '' || lesson.title == ''){
 
-	let _title = "something is missing"
-	let _error = "it seems you haven't specified a course or a lesson title."
+		let _title = 'something is missing'
+		let _error = 'it seems you haven\'t specified a course or a lesson title.'
 
-	dialog.showErrorBox(_title, _error)
+		dialog.showErrorBox(_title, _error)
 	}else{
 		setMessage('saved!')
 		ipc.send('save-lesson', lesson)
@@ -426,18 +466,18 @@ let exitLesson = () => {
 
 	parseLesson()
 
-	let options = {	"type":"info",
-			"buttons":["cancel", "Quit anyways"],
-			"title":"are you sure?",
-			"message":"it seems you haven't specified a course or a lesson title. do you want to quit anyways?"
-			}
+	let options = {	'type':'info',
+		'buttons':['cancel', 'Quit anyways'],
+		'title':'are you sure?',
+		'message':'it seems you haven\'t specified a course or a lesson title. do you want to quit anyways?'
+	}
 
 	if(lesson.course == '' || lesson.title == ''){
 		if(dialog.showMessageBox(options) == 1) 
 			ipc.send('exit-home', {'coming':'back'})
 
 	}else {
-		ipc.send('exit-home', {"coming":"back"})
+		ipc.send('exit-home', {'coming':'back'})
 	}
 }
 
