@@ -26,7 +26,7 @@ let selectCourse = (name) => {
 	}
 }
 
-let selectCoursePath = (_el) => {
+let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
 		'defaultPath':'~/',
@@ -152,7 +152,7 @@ let parseLesson = () => {
 
 	lesson.concepts = []
 
-	let dropdown = document.getElementById('course-list') != null ? document.getElementById("course-list").value :  document.getElementById('existing-course').innerText
+	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
 	console.log(lesson.course)
 	lesson.title = document.getElementById('title').value
@@ -170,11 +170,11 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
  
 				if(_cn[0].getAttribute('kind') == 'text')
-					concept.push({"type":"text", "text": _cn[0].value})
+					concept.push({'type':'text', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
-					concept.push({"type":"url", "url": _cn[0].value, "text": _cn[1].value})
+					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')
-					concept.push({"type":"img", "src": _cn[0].value})
+					concept.push({'type':'img', 'src': _cn[0].value})
 			}
 		}
 
@@ -189,10 +189,10 @@ let saveLesson = () => {
 
 	if(lesson.course == '' || lesson.title == ''){
 
-	let _title = "something is missing"
-	let _error = "it seems you haven't specified a course or a lesson title."
+		let _title = 'something is missing'
+		let _error = 'it seems you haven\'t specified a course or a lesson title.'
 
-	dialog.showErrorBox(_title, _error)
+		dialog.showErrorBox(_title, _error)
 	}else{
 		setMessage('saved!')
 		ipc.send('save-lesson', lesson)
@@ -203,18 +203,18 @@ let exitLesson = () => {
 
 	parseLesson()
 
-	let options = {	"type":"info",
-			"buttons":["cancel", "Quit anyways"],
-			"title":"are you sure?",
-			"message":"it seems you haven't specified a course or a lesson title. do you want to quit anyways?"
-			}
+	let options = {	'type':'info',
+		'buttons':['cancel', 'Quit anyways'],
+		'title':'are you sure?',
+		'message':'it seems you haven\'t specified a course or a lesson title. do you want to quit anyways?'
+	}
 
 	if(lesson.course == '' || lesson.title == ''){
 		if(dialog.showMessageBox(options) == 1) 
 			ipc.send('exit-home', {'coming':'back'})
 
 	}else {
-		ipc.send('exit-home', {"coming":"back"})
+		ipc.send('exit-home', {'coming':'back'})
 	}
 }
 

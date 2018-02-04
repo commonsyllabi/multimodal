@@ -1,8 +1,7 @@
 'use strict'
 
 const remote = require('electron').remote
-const {Menu, MenuItem, globalShortcut} = remote
-const menu = new Menu()
+const {globalShortcut} = remote
 
 require('./sass/globals.scss')
 require('./sass/notes.scss')

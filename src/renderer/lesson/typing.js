@@ -31,7 +31,7 @@ let handle = (e) => {
 
 	if(currentNote == null && e.keyCode != SPC)
 		return
-//	console.log(e.keyCode)	
+	//	console.log(e.keyCode)	
 
 	switch (e.keyCode) {
 	case SPC:

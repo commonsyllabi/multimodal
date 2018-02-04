@@ -3,9 +3,9 @@
 const ipc = require('electron').ipcRenderer
 
 let lesson = {
-	"course": "",
-	"title": "",
-	"concepts":[]
+	'course': '',
+	'title': '',
+	'concepts':[]
 }
 
 let saveSession = () => {
@@ -57,7 +57,7 @@ let parseDocument = () => {
 
 let exitLesson = () => {
 	console.log('leaving lesson')
-	ipc.send('exit-home', {"coming":"back"})	
+	ipc.send('exit-home', {'coming':'back'})	
 }
 
 export { saveSession, exitLesson }

@@ -3,8 +3,8 @@
 const ipc = require('electron').ipcRenderer
 
 let current = {
-	"course":"",
-	"title":""
+	'course':'',
+	'title':''
 }
 
 let setLesson = (_e, _c, _l) => {
@@ -27,7 +27,7 @@ let setLesson = (_e, _c, _l) => {
 let openLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
 	let title = _l ? _l : current.title
-	ipc.send('open-lesson', {"course": current.course, "title": current.title})
+	ipc.send('open-lesson', {'course': course, 'title': title})
 }
 
 let createLesson = () => {
@@ -35,11 +35,11 @@ let createLesson = () => {
 }
 
 let editLesson = () => {
-	ipc.send('edit-lesson', {"course": current.course, "title": current.title})
+	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
 }
 
 let exportLesson = () => {
-	ipc.send('export-lesson', {"course": current.course, "title": current.title})
+	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 	let msg = 'exported '+current.title
 	setMessage(msg)
 }
