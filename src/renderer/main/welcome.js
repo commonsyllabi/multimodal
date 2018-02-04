@@ -4,6 +4,11 @@ const {globalShortcut} = require('electron').remote
 const ipc = require('electron').ipcRenderer
 
 globalShortcut.register('CmdOrCtrl+E', () => {
+	editLesson()
+})
+
+
+globalShortcut.register('CmdOrCtrl+Shift+E', () => {
 	exportLesson()
 })
 
@@ -48,6 +53,10 @@ let createLesson = () => {
 }
 
 let editLesson = () => {
+	if(current.course == ''){
+		setMessage('no course selected!')
+		return
+	}
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
 }
 
