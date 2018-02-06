@@ -319,14 +319,14 @@ let createNote = (kind) => {
 		text.setAttribute('type', 'text')
 		text.setAttribute('kind', 'text')
 		text.setAttribute('placeholder', 'text')
-		text.setAttribute('class', 'create-concept-note')
+		text.setAttribute('class', 'create-concept-note url')
 		note.appendChild(text)
 	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
-		src.setAttribute('class', 'create-concept-note')
+		src.setAttribute('class', 'create-concept-note url')
 		note.appendChild(src)
 	}else{
 		console.log('unexpected type for new note')

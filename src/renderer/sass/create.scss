@@ -3,7 +3,7 @@
 .create-container {
 	width: 80%;
 	margin-left: 10%;
-	margin-bottom: 70px;
+	margin-bottom: 150px;
 }
 
 .create-course{
@@ -101,6 +101,7 @@ input[type=text]{
 
 .create-concept-note {
 	font-size: 32px;
+	margin-right: 10px;
 }
 
 .create-concept-name {
@@ -114,8 +115,12 @@ input[type=text]{
 
 .create-note{
 	margin-bottom: 10px;
-	width: 60%;
+	width: 80%;
 	margin-left: 20px;
+}
+
+.url {
+	font-style: italic;
 }
 
 .create-add-note, .create-remove-note {
