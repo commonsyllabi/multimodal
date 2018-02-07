@@ -416,8 +416,8 @@ let saveSession = () => {
 
 let parseDocument = () => {
 	let _title = document.title.split('|')
-	lesson.course = _title[0]
-	lesson.title =  _title[1]
+	lesson.course = _title[0].trim()
+	lesson.title =  _title[1].trim()
 	lesson.concepts = []
 
 	let _concepts = document.getElementsByClassName('concept')

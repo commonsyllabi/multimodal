@@ -9,6 +9,8 @@ const BrowserWindow = electron.BrowserWindow
 const fs = require('fs')
 const pug = require('pug')
 
+const utils = require('./utils.js')
+
 let mainWindow
 
 let generateHTML = (data, template) => {
@@ -114,14 +116,16 @@ ipc.on('export-lesson', (event, data) => {
 })
 
 ipc.on('save-lesson', (event, lesson) => {
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
-		console.log('SAVE LESSON: written:',lesson.title,'to /',lesson.course)
+	lesson.date = utils.date()
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
+		console.log('[SAVE LESSON]',lesson.title,'to /'+lesson.course,'at',utils.time())
 	})
 })
 
 ipc.on('save-session', (event, lesson) => {
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'-live.json', JSON.stringify(lesson), () => {
-		console.log('SAVE SESSION: written:',lesson.title,'to /',lesson.course)
+	lesson.date = utils.date()
+	fs.writeFile(__dirname+'/../sessions/'+lesson.course+'/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
+		console.log('[SAVE SESSION]',lesson.title,'to /'+lesson.course,'at',utils.time())
 	})
 })
 
