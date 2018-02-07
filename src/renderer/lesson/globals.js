@@ -26,8 +26,10 @@ let setCurrentConcept = (index) => {
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
 			n.style.opacity = 1
+			n.style.pointerEvents = 'auto'
 		}else{
 			n.style.opacity = 0
+			n.style.pointerEvents = 'none'
 		}
 	}
 }
