@@ -14,7 +14,7 @@ const utils = require('./utils.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/'+data.title+'.json'))
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/prep/'+data.title+'.json'))
 	let compiled = pug.renderFile('views/'+template+'.pug', c)
 
 	fs.writeFileSync(__dirname+'/../app/'+template+'.html', compiled)
@@ -34,7 +34,7 @@ let listLessons = () => {
 			'lessons': []
 		}
 
-		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co)
+		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co+'/prep')
 
 		for(let l of lessons){
 			let lesson_name = l.substring(0, l.indexOf('.'))
@@ -117,14 +117,14 @@ ipc.on('export-lesson', (event, data) => {
 
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/prep/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE LESSON]',lesson.title,'to /'+lesson.course,'at',utils.time())
 	})
 })
 
 ipc.on('save-session', (event, lesson) => {
 	lesson.date = utils.date()
-	fs.writeFile(__dirname+'/../sessions/'+lesson.course+'/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/../sessions/'+lesson.course+'/in-class/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE SESSION]',lesson.title,'to /'+lesson.course,'at',utils.time())
 	})
 })
