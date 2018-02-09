@@ -404,7 +404,7 @@ let lesson = {
 		'remote': ''
 	},
 	'title': '',
-	'concepts':[]
+	'contents':[]
 }
 
 let saveSession = () => {
@@ -423,7 +423,7 @@ let parseDocument = () => {
 	lesson.course = _title[0].trim()
 	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()
-	lesson.concepts = []
+	lesson.contents = []
 
 	let _concepts = document.getElementsByClassName('concept')
 	let _prep = document.getElementsByClassName('prep')
@@ -431,23 +431,47 @@ let parseDocument = () => {
 
 	for(let i in _concepts){
 		if(i == 'length') break
-		let concept = []
 
-		concept.push(_concepts[i].innerText)
+		let content =  {
+			'concept':_concepts[i].innerText,
+			'prep':[],
+			'notes':[]
+		}
 
+		//going through all the prep notes
+		//and appending them to content.prep
+		//as txt, url or img objects
 		for(let j in _prep){
 			if(j == 'length') break
-			if(_prep[j].getAttribute('concept') == i)
-				concept.push(_prep[j].innerText)  //TODO check for url and img)x
+
+			if(_prep[j].getAttribute('concept') == i){
+				if(_prep[j].childNodes[0].tagName == 'A'){
+					content.prep.push({
+						'type':'url',
+						'url':_prep[j].childNodes[0].getAttribute('href'),
+						'text':_prep[j].childNodes[0].innerText
+					})
+				}else if(_prep[j].childNodes[0].tagName == 'IMG'){
+					content.prep.push({
+						'type':'img',
+						'src':_prep[j].childNodes[0].getAttribute('src')
+					})
+				} else{
+					content.prep.push({
+						'type':'txt',
+						'text':_prep[j].innerText
+					})
+				}
+			}
 		}
 
 		for(let k in _written){
 			if(k == 'length') break
 			if(_written[k].getAttribute('concept') == i)
-				concept.push(_written[k].innerText)
+				content.notes.push(_written[k].innerText)
 		}
 
-		lesson.concepts.push(concept)
+		lesson.contents.push(content)
 	}
 
 	console.log('saving:',lesson)

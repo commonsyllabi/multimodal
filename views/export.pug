@@ -6,18 +6,21 @@ html
 	body
 		div.lessons-container#writing-board
 			div.concept-buttons
-				each val, index in concepts
+				each val, index in contents
 					//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
-			each notes, index in concepts
-				h3.concept-name= notes[0]
+			each content, index in contents
+				h3.concept-name= content.concept
 				div.prep-group
-					each note  in notes
-						if note.type == "text"
-							div.prep.note(concept= index)= note.text
-						if note.type == "link"
+					each prep in content.prep
+						if prep.type == "txt"
+							div.prep.note(concept= index)= prep.text
+						if prep.type == "url"
 							div.prep.note(concept= index)
-								a(href= note.url)= note.text
-						if note.type == "img"
+								a(href= prep.url)= prep.text
+						if prep.type == "img"
 							div.prep.note(concept= index)
-								img(src= note.src)
+								img(src= prep.src)
+				div.note-group
+					each note in content.notes
+						div.prep.note(concept= index)= note
 				hr
