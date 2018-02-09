@@ -117,7 +117,7 @@ ipc.on('export-lesson', (event, data) => {
 
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/prep/'+lesson.title+'-'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/prep/'+lesson.title+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE LESSON]',lesson.title,'to /'+lesson.course,'at',utils.time())
 	})
 })
