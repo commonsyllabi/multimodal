@@ -6,6 +6,8 @@ html
 		script(src="./lesson.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
+		div.lesson-path#local-path(style='visibility: hidden')= path.local
+		div.lesson-path#remote-path(style='visibility: hidden')= path.remote
 		canvas#drawing-board
 		div.lessons-container#writing-board
 			div.concept-buttons

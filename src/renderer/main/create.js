@@ -177,8 +177,9 @@ let parseLesson = () => {
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
 	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
-	console.log(lesson.course)
 	lesson.title = document.getElementById('title').value
+
+	lesson.path.local = document.getElementById('local-path').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts

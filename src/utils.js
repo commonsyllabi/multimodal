@@ -2,26 +2,30 @@
 
 exports = module.exports = {}
 
-module.exports.timestamp = () => {
-	let d = new Date()
 
-	let timestamp = [d.getFullYear(), d.getMonth()+1, d.getDate(), '-', d.getHours(), d.getMinutes()].join('')
 
-	return timestamp
-}
-
-module.exports.date = () => {
+let date = () => {
 	let d = new Date()
 
 	let date = {
 		'year':d.getFullYear(),
-		'month':d.getMonth()+1,
-		'day':d.getDate(),
-		'hour': d.getHours(),
-		'minutes': d.getMinutes()
+		'month':d.getMonth() >= 9 ? d.getMonth()+1 : '0'+(d.getMonth()+1),
+		'day':d.getDate().toString().length == 2 ? d.getDate() : '0'+d.getDate(),
+		'hour': d.getHours().toString().length == 2 ? d.getHours() : '0'+d.getHours(),
+		'minutes': d.getMinutes().toString().length == 2 ? d.getMinutes() : '0'+d.getMinutes()
 	}
 
 	return date
+}
+
+module.exports.date = date
+
+module.exports.timestamp = () => {
+	let d = date()
+
+	let timestamp = [d.year, d.month, d.day, '-', d.hour, d.minutes].join('')
+
+	return timestamp
 }
 
 module.exports.time = () => {
