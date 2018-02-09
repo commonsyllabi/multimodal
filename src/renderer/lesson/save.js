@@ -4,6 +4,10 @@ const ipc = require('electron').ipcRenderer
 
 let lesson = {
 	'course': '',
+	'path':{
+		'local':'',
+		'remote': ''
+	},
 	'title': '',
 	'concepts':[]
 }
@@ -22,6 +26,7 @@ let saveSession = () => {
 let parseDocument = () => {
 	let _title = document.title.split('|')
 	lesson.course = _title[0].trim()
+	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()
 	lesson.concepts = []
 

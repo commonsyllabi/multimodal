@@ -250,7 +250,7 @@
   ],
   "course": "alternate-realities",
   "path":{
-    "local":"",
+    "local":"/home/pierre/teaching/alternate-realities/repo",
     "remote":""
   },
   "title": "environments"
