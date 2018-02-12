@@ -1,20 +1,159 @@
 {
-	"title": "intro",
-	"course": "alternate-realities",
-	"path":{
-		"local":"",
-		"remote":""
-	},
-	"concepts":[
-		["welcome", {"type":"text", "content":"Alternate Realities"}, {"type":"text", "content":"Spring 2018"}, {"type":"text", "content":"Interactive Media"}, {"type":"link", "url":"http://alt-realities.nyuad.im", "content":"alt-realities.nyuad.im"}],
-		["pierre", {"type":"text", "content":"Pierre Depaz"}, {"type":"text", "content":"pierre.depaz@nyu.edu"}, {"type":"text", "content":"Open-door policy"}],
-		["IM", {"type":"text", "content":"What is IM?"}, {"type":"text", "content":"Howler Radio"}, {"type":"text", "content":"24/X"}, {"type":"text", "content":"mailing list"}],
-		["students", {"type":"text", "content":"your turn"}, {"type":"text", "content":"who are you?"}],
-		["alt-realities", {"type":"text", "content":"What is Alternate Realities?"}],
-		["ends", {"type":"text", "content":"VIRTUAL REALITY"}, {"type":"text", "content":"INTERACTION DESIGN"}, {"type":"text", "content":"ENVIRONMENTAL DESIGN"}, {"type":"text", "content":"SHARED EXPERIENCE"}, {"type":"text", "content":"POLISHED PROJECT"}],
-		["means", {"type":"text", "content":"UNITY"}, {"type":"text", "content":"PROCEDURAL GENERATION"}, {"type":"text", "content":"USER INPUT"}, {"type":"text", "content":"USER INTERFACE"}, {"type":"text", "content":"SOUND DESIGN"}],
-		["syllabus", {"type":"text", "content":"check out the website"}, {"type":"link", "url":"http://alt-realities.nyuad.im", "content":"alt-realities.nyuad.im"}, {"type":"link", "url":"http://github.com/periode/alternate-realities", "content":"github.com/periode/alternate-realities"}],
-		["<br>", {"type":"text", "content":"BREAK"}],
-		["first", {"type":"text", "content":"quick overview of VR"}]
-	]
+  "title": "intro",
+  "course": "alternate-realities",
+  "path": {
+    "local": "/home/pierre/teaching/alternate-realities/repo",
+    "remote": ""
+  },
+  "concepts": [
+    [
+      "welcome",
+      {
+        "type": "text",
+        "text": "Alternate Realities"
+      },
+      {
+        "type": "text",
+        "text": "Spring 2018"
+      },
+      {
+        "type": "text",
+        "text": "Interactive Media"
+      },
+      {
+        "type": "link",
+        "url": "http://alt-realities.nyuad.im",
+        "text": "alt-realities.nyuad.im"
+      }
+    ],
+    [
+      "pierre",
+      {
+        "type": "text",
+        "text": "Pierre Depaz"
+      },
+      {
+        "type": "text",
+        "text": "pierre.depaz@nyu.edu"
+      },
+      {
+        "type": "text",
+        "text": "Open-door policy"
+      }
+    ],
+    [
+      "IM",
+      {
+        "type": "text",
+        "text": "What is IM?"
+      },
+      {
+        "type": "text",
+        "text": "Howler Radio"
+      },
+      {
+        "type": "text",
+        "text": "24/X"
+      },
+      {
+        "type": "text",
+        "text": "mailing list"
+      }
+    ],
+    [
+      "students",
+      {
+        "type": "text",
+        "text": "your turn"
+      },
+      {
+        "type": "text",
+        "text": "who are you?"
+      }
+    ],
+    [
+      "alt-realities",
+      {
+        "type": "text",
+        "text": "What is Alternate Realities?"
+      }
+    ],
+    [
+      "ends",
+      {
+        "type": "text",
+        "text": "VIRTUAL REALITY"
+      },
+      {
+        "type": "text",
+        "text": "INTERACTION DESIGN"
+      },
+      {
+        "type": "text",
+        "text": "ENVIRONMENTAL DESIGN"
+      },
+      {
+        "type": "text",
+        "text": "SHARED EXPERIENCE"
+      },
+      {
+        "type": "text",
+        "text": "POLISHED PROJECT"
+      }
+    ],
+    [
+      "means",
+      {
+        "type": "text",
+        "text": "UNITY"
+      },
+      {
+        "type": "text",
+        "text": "PROCEDURAL GENERATION"
+      },
+      {
+        "type": "text",
+        "text": "USER INPUT"
+      },
+      {
+        "type": "text",
+        "text": "USER INTERFACE"
+      },
+      {
+        "type": "text",
+        "text": "SOUND DESIGN"
+      }
+    ],
+    [
+      "syllabus",
+      {
+        "type": "text",
+        "text": "check out the website"
+      },
+      {
+        "type": "link",
+        "url": "http://alt-realities.nyuad.im",
+        "text": "alt-realities.nyuad.im"
+      },
+      {
+        "type": "link",
+        "url": "http://github.com/periode/alternate-realities",
+        "text": "github.com/periode/alternate-realities"
+      }
+    ],
+    [
+      "<br>",
+      {
+        "type": "text",
+        "text": "BREAK"
+      }
+    ],
+    [
+      "first",
+      {
+        "type": "text",
+        "text": "quick overview of VR"
+      }
+    ]
+  ]
 }

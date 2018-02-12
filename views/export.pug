@@ -3,24 +3,31 @@ html
 	head
 		meta(charset="utf8")
 		title= course + ' | '+ title
+		link(rel='stylesheet', href='lesson.css')
 	body
-		div.lessons-container#writing-board
-			div.concept-buttons
-				each val, index in contents
-					//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
-			each content, index in contents
-				h3.concept-name= content.concept
-				div.prep-group
-					each prep in content.prep
-						if prep.type == "txt"
-							div.prep.note(concept= index)= prep.text
-						if prep.type == "url"
-							div.prep.note(concept= index)
-								a(href= prep.url)= prep.text
-						if prep.type == "img"
-							div.prep.note(concept= index)
-								img(src= prep.src)
-				div.note-group
-					each note in content.notes
-						div.prep.note(concept= index)= note
-				hr
+		header
+			h2
+				a(href="index.html")= course
+			h3= title
+		main
+			div.lessons-container#writing-board
+				div.concept-buttons
+					each val, index in contents
+						//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
+				each content, index in contents
+					div.concept-group
+						h3.concept-name= content.concept
+						div.prep-group
+							each prep in content.prep
+								if prep.type == "txt"
+									div.prep.note(concept= index)= prep.text
+								if prep.type == "url"
+									div.prep.note(concept= index)
+										a(href= prep.url)= prep.text
+								if prep.type == "img"
+									div.prep.note(concept= index)
+										img(src= prep.src)
+						div.note-group
+							each note in content.notes
+								div.prep.note(concept= index)= note
+					hr

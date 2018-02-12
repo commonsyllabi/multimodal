@@ -45,28 +45,30 @@ module.exports.create = () => {
 }
 
 let getNewest = (lesson) => {
-	let saves = fs.readdirSync(__dirname+'/../lessons/'+lesson.course+'/in-class')
+	let saves = fs.readdirSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title)
+
+	if(saves.length == 1) return saves
 	
 	let latest = {'year':0,'month':0, 'day':0, 'hour':0, 'minutes':0, 'save':''}
 	for(let save of saves){
 		let s = save.replace('.json', '').split('-')
 
-		let year = parseInt(s[1].substring(0, 4))
+		let year = parseInt(s[0].substring(0, 4))
 		if(year >= latest.year){
 			latest.year = year
-			let month =  parseInt(s[1].substring(4, 6))
+			let month =  parseInt(s[0].substring(4, 6))
 			if(month >= latest.month){
 				latest.month = month
 	
-				let day = parseInt(s[1].substring(6, 8))
+				let day = parseInt(s[0].substring(6, 8))
 
 				if(day >= latest.day){
 					latest.day = day
 
-					let hour = parseInt(s[2].substring(0, 2))
+					let hour = parseInt(s[1].substring(0, 2))
 					if(hour >= latest.hour){
 						latest.hour = hour
-						let minutes = parseInt(s[2].substring(2, 4))
+						let minutes = parseInt(s[1].substring(2, 4))
 						
 						if(minutes >= latest.minutes){
 							latest.save = save
@@ -85,7 +87,7 @@ let getNewest = (lesson) => {
 module.exports.export = (lesson) => {
 	let file_path = getNewest(lesson)
 
-	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+file_path))
+	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title+'/'+file_path))
 	let target_directory = c.path.local + '/docs/'
 
 	let compiled = pug.renderFile('views/export.pug', c)
