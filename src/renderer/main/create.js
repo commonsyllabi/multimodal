@@ -3,14 +3,6 @@
 const {dialog, globalShortcut} = require('electron').remote
 const ipc = require('electron').ipcRenderer
 
-globalShortcut.register('CmdOrCtrl+S', () => {
-	saveLesson()
-})
-
-window.onbeforeunload = () => {
-	globalShortcut.unregisterAll()
-}
-
 let lesson = {
 	'course' : '',
 	'path': {
@@ -50,7 +42,7 @@ let selectCoursePath = () => {
 let createNote = (kind) => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-note')
-	
+
 	if(kind == 'text'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
@@ -188,11 +180,11 @@ let parseLesson = () => {
 
 		for(let note of _co.childNodes){ //go through all notes
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-note'){
-				
+
 				let _cn = note.childNodes
 
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
- 
+
 				if(_cn[0].getAttribute('kind') == 'text')
 					concept.push({'type':'text', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
@@ -234,7 +226,7 @@ let exitLesson = () => {
 	}
 
 	if(lesson.course == '' || lesson.title == ''){
-		if(dialog.showMessageBox(options) == 1) 
+		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 
 	}else {

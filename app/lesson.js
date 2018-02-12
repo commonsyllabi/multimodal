@@ -204,8 +204,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(9);
 
 
-const remote = __webpack_require__(0).remote
-const {globalShortcut} = remote
+const ipc = __webpack_require__(0).ipcRenderer
 
 __webpack_require__(1)
 __webpack_require__(2)
@@ -231,7 +230,7 @@ let init = () => {
 	})
 
 	window.addEventListener('mousemove', (e) =>{
-	
+
 		__WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__["b" /* handle */](e)
 
 		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["c" /* draw */](e)
@@ -248,32 +247,17 @@ let init = () => {
 	__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]()
 }
 
-globalShortcut.register('CommandOrControl+S', () => {
-	__WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]()
-})
-
-globalShortcut.register('CmdOrCtrl+D', () => {
-	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]()
-})
-
-globalShortcut.register('CmdOrCtrl+Shift+C', () => {
-	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()
-})
-
-globalShortcut.register('CmdOrCtrl+H', () => {
-	__WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]()
-})
-
-window.onbeforeunload =  () => {
-	globalShortcut.unregisterAll()
-}
-
 window.init = init
 window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
 window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]
+
+ipc.on('menu-save', (event) => {window.saveSession()})
+ipc.on('menu-exit', (event) => {window.exitLesson()})
+ipc.on('menu-toggle', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]()})
+ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()})
 
 
 /***/ }),

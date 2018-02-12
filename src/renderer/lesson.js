@@ -1,7 +1,6 @@
 'use strict'
 
-const remote = require('electron').remote
-const {globalShortcut} = remote
+const ipc = require('electron').ipcRenderer
 
 require('./sass/globals.scss')
 require('./sass/notes.scss')
@@ -27,7 +26,7 @@ let init = () => {
 	})
 
 	window.addEventListener('mousemove', (e) =>{
-	
+
 		mouse.handle(e)
 
 		drawing.draw(e)
@@ -44,29 +43,14 @@ let init = () => {
 	globals.setCurrentConcept()
 }
 
-globalShortcut.register('CommandOrControl+S', () => {
-	save.saveSession()
-})
-
-globalShortcut.register('CmdOrCtrl+D', () => {
-	drawing.toggleDraw()
-})
-
-globalShortcut.register('CmdOrCtrl+Shift+C', () => {
-	drawing.clearBoard()
-})
-
-globalShortcut.register('CmdOrCtrl+H', () => {
-	save.exitLesson()
-})
-
-window.onbeforeunload =  () => {
-	globalShortcut.unregisterAll()
-}
-
 window.init = init
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept
 window.clearBoard = drawing.clearBoard
 window.toggleDraw = drawing.toggleDraw
+
+ipc.on('menu-save', (event) => {window.saveSession()})
+ipc.on('menu-exit', (event) => {window.exitLesson()})
+ipc.on('menu-toggle', (event) => {drawing.toggleDraw()})
+ipc.on('menu-clear-board', (event) => {drawing.clearBoard()})

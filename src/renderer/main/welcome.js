@@ -1,24 +1,6 @@
 'use strict'
 
-const {globalShortcut} = require('electron').remote
 const ipc = require('electron').ipcRenderer
-
-globalShortcut.register('CmdOrCtrl+E', () => {
-	editLesson()
-})
-
-
-globalShortcut.register('CmdOrCtrl+Shift+E', () => {
-	exportLesson()
-})
-
-globalShortcut.register('CmdOrCtrl+N', () => {
-	createLesson()
-})
-
-window.onbeforeunload = () => {
-	globalShortcut.unregisterAll()
-}
 
 let current = {
 	'course':'',

@@ -10,7 +10,7 @@ const fs = require('fs')
 const pug = require('pug')
 
 const utils = require('./utils.js')
-const lesson = require('./lesson.js');
+const lesson = require('./lesson.js')
 
 let mainWindow
 
@@ -37,6 +37,8 @@ let createWindow = (current, _width, _height) => {
 	mainWindow.on('closed', () => {
 		mainWindow = null
 	})
+
+	require('./menu.js').init(mainWindow)
 }
 
 let replaceWindow = (_target, _width, _height) => {
@@ -88,9 +90,9 @@ ipc.on('exit-home', () => {
 	replaceWindow('welcome', 1800, 1000)
 })
 
-app.on('ready', () => { 
+app.on('ready', () => {
 	lesson.list()
-	createWindow('welcome', 1800, 1000) 
+	createWindow('welcome', 1800, 1000)
 })
 
 app.on('window-all-closed', () => { app.quit() })
