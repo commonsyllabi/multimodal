@@ -103,6 +103,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(14);
 
 
+const ipc = __webpack_require__(0).ipcRenderer
+
 __webpack_require__(1)
 __webpack_require__(11)
 __webpack_require__(12)
@@ -119,15 +121,22 @@ window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLe
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
 
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]
+
+ipc.on('menu-create', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
+ipc.on('menu-open', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
+ipc.on('menu-edit', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
+ipc.on('menu-export', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
+ipc.on('menu-save', (event) => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
+ipc.on('menu-exit', (event) => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
+
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
 window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* selectCoursePath */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
 window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeNote */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
 window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* removeConcept */]
-
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]
 
 
 /***/ }),
@@ -154,25 +163,7 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLes
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
-const {globalShortcut} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
-
-globalShortcut.register('CmdOrCtrl+E', () => {
-	editLesson()
-})
-
-
-globalShortcut.register('CmdOrCtrl+Shift+E', () => {
-	exportLesson()
-})
-
-globalShortcut.register('CmdOrCtrl+N', () => {
-	createLesson()
-})
-
-window.onbeforeunload = () => {
-	globalShortcut.unregisterAll()
-}
 
 let current = {
 	'course':'',
@@ -252,14 +243,6 @@ let setMessage = (_msg) => {
 const {dialog, globalShortcut} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
 
-globalShortcut.register('CmdOrCtrl+S', () => {
-	saveLesson()
-})
-
-window.onbeforeunload = () => {
-	globalShortcut.unregisterAll()
-}
-
 let lesson = {
 	'course' : '',
 	'path': {
@@ -299,7 +282,7 @@ let selectCoursePath = () => {
 let createNote = (kind) => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-note')
-	
+
 	if(kind == 'text'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
@@ -437,11 +420,11 @@ let parseLesson = () => {
 
 		for(let note of _co.childNodes){ //go through all notes
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-note'){
-				
+
 				let _cn = note.childNodes
 
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
- 
+
 				if(_cn[0].getAttribute('kind') == 'text')
 					concept.push({'type':'text', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
@@ -483,7 +466,7 @@ let exitLesson = () => {
 	}
 
 	if(lesson.course == '' || lesson.title == ''){
-		if(dialog.showMessageBox(options) == 1) 
+		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 
 	}else {
