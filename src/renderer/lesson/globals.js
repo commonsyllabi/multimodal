@@ -1,5 +1,7 @@
 'use strict'
 
+import * as drawing from './drawing.js'
+
 let currentNote = null
 let currentConcept = 0
 
@@ -32,6 +34,8 @@ let setCurrentConcept = (index) => {
 			n.style.pointerEvents = 'none'
 		}
 	}
+
+	drawing.selectCanvas(currentConcept)
 }
 
 let getCurrentConcept = () => {

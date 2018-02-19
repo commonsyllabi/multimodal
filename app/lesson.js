@@ -98,6 +98,9 @@ module.exports = require("electron");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(9);
+
+
 
 
 let currentNote = null
@@ -132,6 +135,8 @@ let setCurrentConcept = (index) => {
 			n.style.pointerEvents = 'none'
 		}
 	}
+
+	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["f" /* selectCanvas */](currentConcept)
 }
 
 let getCurrentConcept = () => {
@@ -252,11 +257,11 @@ window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSe
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
-window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]
+window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]
 
 ipc.on('menu-save', (event) => {window.saveSession()})
 ipc.on('menu-exit', (event) => {window.exitLesson()})
-ipc.on('menu-toggle', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["f" /* toggleDraw */]()})
+ipc.on('menu-toggle', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]()})
 ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()})
 
 
@@ -481,23 +486,54 @@ let exitLesson = () => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return draw; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return toggleDraw; });
-let cnv, ctx, ctn, toggle_btn
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return toggleDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return selectCanvas; });
+let canvases, cnv, ctx, ctn, toggle_btn
+let contexts = []
 let isDrawing = false
 let isDrawMode = false
 
 let init = () => {
-	cnv = document.getElementById('drawing-board')
+	canvases = document.getElementsByClassName('drawing-board')
+	let cnv = canvases[0]
 	ctn = document.getElementsByClassName('lessons-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
-	
-	cnv.width = 1800
-	cnv.height = 1000
-	ctx = cnv.getContext('2d')
-	ctx.lineWidth = 5
-	ctx.lineJoin = 'round'
-	ctx.lineCap = 'round'
-	ctx.strokeStyle = 'red'
+
+	for(let i in canvases){
+		if(i == 'length') break
+		setupCanvas(i)
+	}
+
+	selectCanvas(0)
+
+}
+
+let setupCanvas = (i) => {
+
+	contexts[i] = canvases[i].getContext('2d')
+	canvases[i].width = 1800
+	canvases[i].height = 1000
+	contexts[i].lineWidth = 5
+	contexts[i].lineJoin = 'round'
+	contexts[i].lineCap = 'round'
+	contexts[i].strokeStyle = 'red'
+
+
+	contexts[i].beginPath()
+}
+
+let selectCanvas = (_currentConcept) => {
+
+	for(let i in canvases){
+		if(i == 'length') break
+		if(canvases[i].getAttribute('concept') == _currentConcept){
+			canvases[i].setAttribute('class', 'drawing-board active')
+			cnv = canvases[i]
+			ctx = contexts[i]
+		}else{
+			canvases[i].setAttribute('class', 'drawing-board inactive')
+		}
+	}
 }
 
 let beginDraw = (e) => {
@@ -506,7 +542,7 @@ let beginDraw = (e) => {
 	isDrawing = true
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
 	
-	ctx.beginPath()
+	//ctx.beginPath()
 }
 
 let draw = (e) => {
@@ -529,13 +565,13 @@ let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
 
-		cnv.setAttribute('class', 'active')
+		cnv.setAttribute('class', 'drawing-board active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
 
-		cnv.setAttribute('class', '')
+		cnv.setAttribute('class', 'drawing-board')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1

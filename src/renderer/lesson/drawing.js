@@ -1,19 +1,49 @@
-let cnv, ctx, ctn, toggle_btn
+let canvases, cnv, ctx, ctn, toggle_btn
+let contexts = []
 let isDrawing = false
 let isDrawMode = false
 
 let init = () => {
-	cnv = document.getElementById('drawing-board')
+	canvases = document.getElementsByClassName('drawing-board')
+	let cnv = canvases[0]
 	ctn = document.getElementsByClassName('lessons-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
-	
-	cnv.width = 1800
-	cnv.height = 1000
-	ctx = cnv.getContext('2d')
-	ctx.lineWidth = 5
-	ctx.lineJoin = 'round'
-	ctx.lineCap = 'round'
-	ctx.strokeStyle = 'red'
+
+	for(let i in canvases){
+		if(i == 'length') break
+		setupCanvas(i)
+	}
+
+	selectCanvas(0)
+
+}
+
+let setupCanvas = (i) => {
+
+	contexts[i] = canvases[i].getContext('2d')
+	canvases[i].width = 1800
+	canvases[i].height = 1000
+	contexts[i].lineWidth = 5
+	contexts[i].lineJoin = 'round'
+	contexts[i].lineCap = 'round'
+	contexts[i].strokeStyle = 'red'
+
+
+	contexts[i].beginPath()
+}
+
+let selectCanvas = (_currentConcept) => {
+
+	for(let i in canvases){
+		if(i == 'length') break
+		if(canvases[i].getAttribute('concept') == _currentConcept){
+			canvases[i].setAttribute('class', 'drawing-board active')
+			cnv = canvases[i]
+			ctx = contexts[i]
+		}else{
+			canvases[i].setAttribute('class', 'drawing-board inactive')
+		}
+	}
 }
 
 let beginDraw = (e) => {
@@ -22,7 +52,7 @@ let beginDraw = (e) => {
 	isDrawing = true
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
 	
-	ctx.beginPath()
+	//ctx.beginPath()
 }
 
 let draw = (e) => {
@@ -45,17 +75,17 @@ let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
 
-		cnv.setAttribute('class', 'active')
+		cnv.setAttribute('class', 'drawing-board active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
 
-		cnv.setAttribute('class', '')
+		cnv.setAttribute('class', 'drawing-board')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1
 	}
 }
 
-export { init, beginDraw, draw, endDraw, clearBoard, toggleDraw }
+export { init, beginDraw, draw, endDraw, clearBoard, toggleDraw, selectCanvas }
