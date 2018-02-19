@@ -8,12 +8,12 @@ html
 	body(onload='init()')
 		div.lesson-path#local-path(style='visibility: hidden')= path.local
 		div.lesson-path#remote-path(style='visibility: hidden')= path.remote
-		canvas#drawing-board
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each val, index in concepts
 					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
 			each notes, index in concepts
+				canvas.drawing-board(concept= index)
 				div.prep-group
 					each note  in notes
 						if note.type == "text"

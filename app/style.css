@@ -68,7 +68,13 @@ canvas {
   z-index: 1; }
 
 .active {
+  visibility: visible;
+  pointer-events: auto;
   cursor: crosshair; }
+
+.inactive {
+  visibility: hidden;
+  pointer-events: none; }
 
 .lessons-container {
   width: 100%;

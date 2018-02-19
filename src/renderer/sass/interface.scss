@@ -11,7 +11,14 @@ canvas {
 }
 
 .active{
+	visibility: visible;
+	pointer-events: auto;
 	cursor: crosshair;
+}
+
+.inactive {
+	visibility: hidden;
+	pointer-events: none;
 }
 
 .lessons-container {
