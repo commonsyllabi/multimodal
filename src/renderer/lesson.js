@@ -1,4 +1,4 @@
-'use strict'
+'ust strict'
 
 const ipc = require('electron').ipcRenderer
 
