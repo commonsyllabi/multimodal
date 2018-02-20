@@ -23,3 +23,9 @@ body {
 
 	transition: opacity 0.5s ease-in-out;
 }
+
+div, img {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}

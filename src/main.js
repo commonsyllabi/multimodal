@@ -80,8 +80,13 @@ ipc.on('save-lesson', (event, lesson) => {
 
 ipc.on('save-session', (event, lesson) => {
 	lesson.date = utils.date()
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title+'/'+utils.timestamp()+'.json', JSON.stringify(lesson), () => {
-		console.log('[SAVE SESSION]',lesson.title,'to /'+lesson.course,'at',utils.time())
+	let _path = __dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title
+	let _file = utils.timestamp()+'.json'
+
+	utils.touchDirectory(_path)
+
+	fs.writeFile(_path+'/'+_file, JSON.stringify(lesson), () => {
+		console.log('[SAVE SESSION]',lesson.title,'to /'+_path,'at',utils.time())
 	})
 })
 

@@ -12,6 +12,11 @@ body {
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
+
+div, img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
 body {
   margin: 0px;
   padding: 0px;
@@ -58,6 +63,11 @@ body {
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
+
+div, img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
 
 .lessons-container, canvas {
   position: absolute;
@@ -150,6 +160,11 @@ body {
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
 
+div, img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
+
 .courses-container {
   overflow-y: auto; }
 
@@ -219,6 +234,11 @@ body {
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
+
+div, img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
 
 .create-container {
   width: 80%;

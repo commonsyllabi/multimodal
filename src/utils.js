@@ -2,6 +2,7 @@
 
 exports = module.exports = {}
 
+const fs = require('fs')
 
 
 let date = () => {
@@ -34,4 +35,16 @@ module.exports.time = () => {
 	let time = d.getHours()+':'+d.getMinutes()
 
 	return time
+}
+
+module.exports.touchDirectory = (_path) => {
+	try {
+		fs.mkdirSync(_path)
+		console.log('[SUCCESS] created path:',_path);
+	}catch(err) {
+		if(err.code == 'EEXIST')
+			console.log('path already exists');
+		else
+			console.log('[ERROR] creating path:',_path+'\n'+err)
+	}
 }
