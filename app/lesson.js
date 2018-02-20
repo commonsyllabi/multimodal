@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -98,7 +98,7 @@ module.exports = require("electron");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(6);
 
 
 
@@ -201,13 +201,118 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return init; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return beginDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return draw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return toggleDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return selectCanvas; });
+let canvases, cnv, ctx, ctn, toggle_btn
+let contexts = []
+let isDrawing = false
+let isDrawMode = false
+
+let init = () => {
+	canvases = document.getElementsByClassName('drawing-board')
+	let cnv = canvases[0]
+	ctn = document.getElementsByClassName('lessons-container')[0]
+	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
+
+	for(let i in canvases){
+		if(i == 'length') break
+		setupCanvas(i)
+	}
+
+	selectCanvas(0)
+
+}
+
+let setupCanvas = (i) => {
+
+	contexts[i] = canvases[i].getContext('2d')
+	canvases[i].width = 1800
+	canvases[i].height = 1000
+	contexts[i].lineWidth = 5
+	contexts[i].lineJoin = 'round'
+	contexts[i].lineCap = 'round'
+	contexts[i].strokeStyle = 'red'
+
+
+	contexts[i].beginPath()
+}
+
+let selectCanvas = (_currentConcept) => {
+
+	for(let i in canvases){
+		if(i == 'length') break
+		if(canvases[i].getAttribute('concept') == _currentConcept){
+			canvases[i].setAttribute('class', 'drawing-board active')
+			cnv = canvases[i]
+			ctx = contexts[i]
+		}else{
+			canvases[i].setAttribute('class', 'drawing-board inactive')
+		}
+	}
+}
+
+let beginDraw = (e) => {
+	if(!isDrawMode) return
+
+	isDrawing = true
+	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
+	
+	//ctx.beginPath()
+}
+
+let draw = (e) => {
+	if(!isDrawing || !isDrawMode) return
+
+	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
+	ctx.stroke()
+}
+
+let endDraw = () => {
+	if(!isDrawMode) return
+	isDrawing = false
+}
+
+let clearBoard = () => {
+	ctx.clearRect(0, 0, 1800, 1000)
+}
+
+let toggleDraw = () => {
+	isDrawMode = !isDrawMode
+	if(isDrawMode){
+
+		cnv.setAttribute('class', 'drawing-board active')
+		toggle_btn.innerText = 'draw'
+		cnv.style.zIndex = 1
+		ctn.style.zIndex = 0
+	}else{
+
+		cnv.setAttribute('class', 'drawing-board')
+		toggle_btn.innerText = 'write'
+		cnv.style.zIndex = 0
+		ctn.style.zIndex = 1
+	}
+}
+
+
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(9);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(6);
+'ust strict'
 
 const ipc = __webpack_require__(0).ipcRenderer
 
@@ -266,7 +371,7 @@ ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawi
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -376,7 +481,7 @@ let eraseCharacter = () => {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -471,111 +576,6 @@ let parseDocument = () => {
 let exitLesson = () => {
 	console.log('leaving lesson')
 	ipc.send('exit-home', {'coming':'back'})	
-}
-
-
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return init; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return beginDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return draw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return toggleDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return selectCanvas; });
-let canvases, cnv, ctx, ctn, toggle_btn
-let contexts = []
-let isDrawing = false
-let isDrawMode = false
-
-let init = () => {
-	canvases = document.getElementsByClassName('drawing-board')
-	let cnv = canvases[0]
-	ctn = document.getElementsByClassName('lessons-container')[0]
-	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
-
-	for(let i in canvases){
-		if(i == 'length') break
-		setupCanvas(i)
-	}
-
-	selectCanvas(0)
-
-}
-
-let setupCanvas = (i) => {
-
-	contexts[i] = canvases[i].getContext('2d')
-	canvases[i].width = 1800
-	canvases[i].height = 1000
-	contexts[i].lineWidth = 5
-	contexts[i].lineJoin = 'round'
-	contexts[i].lineCap = 'round'
-	contexts[i].strokeStyle = 'red'
-
-
-	contexts[i].beginPath()
-}
-
-let selectCanvas = (_currentConcept) => {
-
-	for(let i in canvases){
-		if(i == 'length') break
-		if(canvases[i].getAttribute('concept') == _currentConcept){
-			canvases[i].setAttribute('class', 'drawing-board active')
-			cnv = canvases[i]
-			ctx = contexts[i]
-		}else{
-			canvases[i].setAttribute('class', 'drawing-board inactive')
-		}
-	}
-}
-
-let beginDraw = (e) => {
-	if(!isDrawMode) return
-
-	isDrawing = true
-	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
-	
-	//ctx.beginPath()
-}
-
-let draw = (e) => {
-	if(!isDrawing || !isDrawMode) return
-
-	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
-	ctx.stroke()
-}
-
-let endDraw = () => {
-	if(!isDrawMode) return
-	isDrawing = false
-}
-
-let clearBoard = () => {
-	ctx.clearRect(0, 0, 1800, 1000)
-}
-
-let toggleDraw = () => {
-	isDrawMode = !isDrawMode
-	if(isDrawMode){
-
-		cnv.setAttribute('class', 'drawing-board active')
-		toggle_btn.innerText = 'draw'
-		cnv.style.zIndex = 1
-		ctn.style.zIndex = 0
-	}else{
-
-		cnv.setAttribute('class', 'drawing-board')
-		toggle_btn.innerText = 'write'
-		cnv.style.zIndex = 0
-		ctn.style.zIndex = 1
-	}
 }
 
 
