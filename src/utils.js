@@ -42,9 +42,7 @@ module.exports.touchDirectory = (_path) => {
 		fs.mkdirSync(_path)
 		console.log('[SUCCESS] created path:',_path);
 	}catch(err) {
-		if(err.code == 'EEXIST')
-			console.log('path already exists');
-		else
-			console.log('[ERROR] creating path:',_path+'\n'+err)
+		if(err.code != 'EEXIST')
+			console.log('[WARNING] creating path:',_path+'\n'+err)
 	}
 }
