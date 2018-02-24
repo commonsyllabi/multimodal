@@ -114,9 +114,12 @@ let addNote = (el) => {
 
 		let note = createNote(el.value)
 		el.parentNode.insertAdjacentElement('afterend', note)
+
 	}else if(el.getAttribute('class') == 'create-add-concept'){
+
 		let note = createNote('text')
 		return note
+
 	}
 }
 
@@ -134,8 +137,34 @@ let addConcept = (el) => {
 	name.setAttribute('placeholder', 'concept name')
 	concept.appendChild(name)
 
-	let note = addNote(el)
-	concept.appendChild(note)
+	let note = document.createElement('div')
+	note.setAttribute('class', 'create-note')
+
+	let b_txt = document.createElement('button')
+	b_txt.setAttribute('class', 'create-add-note')
+	b_txt.setAttribute('onclick', 'addNote(this)')
+	b_txt.setAttribute('value', 'text')
+	b_txt.innerText = 'txt'
+
+	note.appendChild(b_txt)
+
+	let b_url = document.createElement('button')
+	b_url.setAttribute('class', 'create-add-note')
+	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('value', 'url')
+	b_url.innerText = 'url'
+
+	note.appendChild(b_url)
+
+	let b_img = document.createElement('button')
+	b_img.setAttribute('class', 'create-add-note')
+	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('value', 'img')
+	b_img.innerText = 'img'
+
+	note.appendChild(b_img)
+
+	concept.append(note)
 
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
