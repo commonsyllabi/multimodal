@@ -3,7 +3,7 @@ body{
   margin: 0px;
   padding: 0px;
 
-    font-family: 'Inter UI';
+  font-family: 'Inter UI';
 
   .note{
     position: absolute;
@@ -12,6 +12,11 @@ body{
     font-size: 2em;
 
     transition: opacity 0.5s ease-in;
+  }
+
+  .title {
+    font-size: 2.3em;
+    font-weight: bold;
   }
 
   #current{
