@@ -15,6 +15,7 @@ html
 			each notes, index in concepts
 				canvas.drawing-board(concept= index)
 				div.prep-group
+					div.prep.note.title(concept= index)= notes[0]
 					each note  in notes
 						if note.type == "text"
 							div.prep.note(concept= index)= note.text
