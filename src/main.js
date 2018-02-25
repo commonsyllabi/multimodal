@@ -86,10 +86,12 @@ ipc.on('save-lesson', (event, lesson) => {
 
 ipc.on('save-session', (event, lesson) => {
 	lesson.date = utils.date()
-	let _path = __dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title
+	let _path = __dirname+'/../lessons/'+lesson.course
 	let _file = utils.timestamp()+'.json'
-
+	//TODO fix the below
 	utils.touchDirectory(_path)
+	utils.touchDirectory(_path + '/in-class/')
+	utils.touchDirectory(_path + '/in-class/' + lesson.title)
 
 	fs.writeFile(_path+'/'+_file, JSON.stringify(lesson), () => {
 		console.log('[SAVE SESSION]',lesson.title,'to /'+_path,'at',utils.time())
