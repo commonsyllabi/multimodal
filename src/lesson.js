@@ -91,6 +91,7 @@ module.exports.export = (_l) => {
 	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'/'+file_path))
 	let target_directory = lesson.path.local+'/'
 
+	//TODO this should have a callback
 	switchBranch(lesson, 'gh-pages')
 
 	//first render the lesson

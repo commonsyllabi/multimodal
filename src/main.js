@@ -93,7 +93,7 @@ ipc.on('save-session', (event, lesson) => {
 	utils.touchDirectory(_path + '/in-class/')
 	utils.touchDirectory(_path + '/in-class/' + lesson.title)
 
-	fs.writeFile(_path+'/'+_file, JSON.stringify(lesson), () => {
+	fs.writeFile(_path+'/in-class/'+lesson.title +'/'+_file, JSON.stringify(lesson), () => {
 		console.log('[SAVE SESSION]',lesson.title,'to /'+_path,'at',utils.time())
 	})
 })
