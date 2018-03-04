@@ -91,61 +91,73 @@ module.exports.export = (_l) => {
 	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'/'+file_path))
 	let target_directory = lesson.path.local+'/'
 
-	//TODO this should have a callback
-	switchBranch(lesson, 'gh-pages')
+	switchBranch(lesson, 'gh-pages', render)
+}
 
-	//first render the lesson
-	let compiled = pug.renderFile('views/export.pug', lesson)
+let render = (_lesson) => {
+	let compiled = pug.renderFile('views/export.pug', _lesson)
 
-	fs.writeFile(target_directory+lesson.title+'.html', compiled, (err) => {
+	fs.writeFile(_lesson.path.local+'/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
-		console.log('[EXPORTED]', target_directory+lesson.title+'.html')
+			console.log('[EXPORTED]', _lesson.path.local+'/'+_lesson.title+'.html')
 
-		//then rebuild the index
+		//rebuild the index
 		let exported_lessons = []
-		let local_files = fs.readdirSync(target_directory)
+		let local_files = fs.readdirSync(_lesson.path.local+'/')
 		for(let f of local_files)
 			if(f != 'index.html' && f.indexOf('.html') > -1)
 				exported_lessons.push(f.replace('.html', ''))
 
 		let c = {
-			'course': lesson.course,
+			'course': _lesson.course,
 			'lessons': exported_lessons
 		}
 
 		compiled = pug.renderFile('views/export-index.pug', c)
-		fs.writeFile(target_directory+'index.html', compiled, (err) => {
+		fs.writeFile(_lesson.path.local+'/'+'index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
-			//then push it to github
-			pushToRemote(lesson)
+			pushToRemote(_lesson)
 		})
 	})
 }
 
-let switchBranch = (_lesson, _branch) => {
+let switchBranch = (_lesson, _branch, _callback) => {
 	console.log('[BASH] switching branch to', _branch);
-	let script = `cd ${_lesson.path.local} && git checkout ${_branch}`
 
-	exec(script, {shell: '/bin/bash'}, (err, stdout, stdeer) => {
+	let script
+	if(_branch == 'master')
+		script = `cd ${_lesson.path.local} && git checkout ${_branch} && git stash apply`
+	else
+		script = `cd ${_lesson.path.local} && git stash && git checkout ${_branch}`
+
+	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err);
 			return;
 		}
 		console.log(stdout);
 	})
+
+	if(_callback != undefined)
+		child.on('close', () => {
+			_callback(_lesson)
+		})
 }
 
 let pushToRemote = (_lesson) => {
-	let script = `cd ${_lesson.path.local} && git status && git add -A && git commit -m "exported ${_lesson.title}"`
+	let script = `cd ${_lesson.path.local} && git status && git add -A && git commit -m "exported ${_lesson.title}" && git push origin gh-pages`
 
-	exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
+	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err);
 			return;
 		}
 		console.log(stdout);
+	})
+
+	child.on('close', () => {
 		switchBranch(_lesson, 'master')
 	})
 }
