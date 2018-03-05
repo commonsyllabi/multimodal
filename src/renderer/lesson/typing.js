@@ -35,7 +35,7 @@ let handle = (e) => {
 
 	switch (e.keyCode) {
 	case SPC:
-		handleKey('\u00A0')
+		handleKey(' ')
 		break
 	case BCK:
 		eraseCharacter()
@@ -63,7 +63,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
-	cn.innerText = '_'
+	cn.innerText = '-'
 	document.getElementById('writing-board').append(cn)
 
 	setCurrentNote(cn)
@@ -76,24 +76,34 @@ let endNote = () => {
 		document.getElementById('container').removeChild(currentNote)
 
 	currentNote.removeAttribute('id')
-	currentNote.innerText = currentNote.innerText.slice(0, -1)
 	currentNote.onclick =(evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
-		evt.target.innerText += '_'
 		setCurrentNote(evt.target)
 	}
 	setCurrentNote(null)
 }
 
+//this flag is necessary to handle proper word wraps
+let flag_space = false
+
 let handleKey = (char) => {
 	if(char == 'Meta') return
-	currentNote.innerText = currentNote.innerText.slice(0, -1)
-	currentNote.innerText += char + '_'
+	
+	if(char == ' '){
+		flag_space = true
+	}else{
+		if(flag_space){
+			currentNote.innerText += ' '+char
+			flag_space = false
+		}else{
+			currentNote.innerText += char
+		}
+	}
 }
 
 let eraseCharacter = () => {
-	currentNote.innerText = currentNote.innerText.slice(0, -2) + '_'
+	currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
 
-export { handle, newNote }
+export { handle, newNote, endNote }
