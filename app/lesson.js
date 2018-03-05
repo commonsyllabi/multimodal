@@ -332,11 +332,13 @@ let init = () => {
 
 	window.ondblclick = () => {
 		if(__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["a" /* currentNote */] == null)
-			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["b" /* newNote */]()
+			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["c" /* newNote */]()
+		else
+			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* endNote */]()
 	}
 
 	window.addEventListener('keydown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* handle */](e)
+		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["b" /* handle */](e)
 	})
 
 	window.addEventListener('mousemove', (e) =>{
@@ -375,8 +377,9 @@ ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawi
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return newNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return newNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return endNote; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(4);
 
@@ -416,7 +419,7 @@ let handle = (e) => {
 
 	switch (e.keyCode) {
 	case SPC:
-		handleKey('\u00A0')
+		handleKey(' ')
 		break
 	case BCK:
 		eraseCharacter()
@@ -444,7 +447,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
-	cn.innerText = '_'
+	cn.innerText = '-'
 	document.getElementById('writing-board').append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
@@ -457,24 +460,34 @@ let endNote = () => {
 		document.getElementById('container').removeChild(currentNote)
 
 	currentNote.removeAttribute('id')
-	currentNote.innerText = currentNote.innerText.slice(0, -1)
 	currentNote.onclick =(evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
-		evt.target.innerText += '_'
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
 	}
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(null)
 }
 
+//this flag is necessary to handle proper word wraps
+let flag_space = false
+
 let handleKey = (char) => {
 	if(char == 'Meta') return
-	currentNote.innerText = currentNote.innerText.slice(0, -1)
-	currentNote.innerText += char + '_'
+	
+	if(char == ' '){
+		flag_space = true
+	}else{
+		if(flag_space){
+			currentNote.innerText += ' '+char
+			flag_space = false
+		}else{
+			currentNote.innerText += char
+		}
+	}
 }
 
 let eraseCharacter = () => {
-	currentNote.innerText = currentNote.innerText.slice(0, -2) + '_'
+	currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
 
 

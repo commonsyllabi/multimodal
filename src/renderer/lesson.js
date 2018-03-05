@@ -19,6 +19,8 @@ let init = () => {
 	window.ondblclick = () => {
 		if(globals.currentNote == null)
 			typing.newNote()
+		else
+			typing.endNote()
 	}
 
 	window.addEventListener('keydown', (e) => {
