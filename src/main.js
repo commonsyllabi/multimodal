@@ -76,7 +76,7 @@ ipc.on('save-lesson', (event, lesson) => {
 	let _path = __dirname+'/../lessons/'+lesson.course
 	let _file = lesson.title+'.json'
 
-	utils.touchDirectory(_path)
+//	utils.touchDirectory(_path)
 	utils.touchDirectory(_path+'/prep/')
 
 	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/prep/'+lesson.title+'.json', JSON.stringify(lesson), () => {
