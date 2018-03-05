@@ -3,6 +3,7 @@
 exports = module.exports = {}
 
 const fs = require('fs')
+const path = require('path')
 
 
 let date = () => {
@@ -38,11 +39,23 @@ module.exports.time = () => {
 }
 
 module.exports.touchDirectory = (_path) => {
-	try {
-		fs.mkdirSync(_path)
-		console.log('[SUCCESS] created path:',_path);
-	}catch(err) {
-		if(err.code != 'EEXIST')
-			console.log('[WARNING] creating path:',_path+'\n'+err)
-	}
+	let sep = path.sep
+	let initDir = path.isAbsolute(_path) ? sep : ''
+	let baseDir = '.'
+
+	_path.split(sep).reduce((parentDir, childDir) => {
+		let curDir = path.resolve(baseDir, parentDir, childDir)
+
+		try {
+			fs.mkdirSync(curDir)
+			console.log(`[SUCCESS] created path:${curDir}`);
+		}catch(err) {
+			if(err.code != 'EEXIST')
+				throw err
+
+			console.log(`[WARNING] path ${curDir} already exists`);
+		}
+
+		return curDir
+	}, initDir)
 }
