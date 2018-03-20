@@ -1,6 +1,6 @@
 'use strict'
 
-const {dialog, globalShortcut} = require('electron').remote
+const {dialog} = require('electron').remote
 const ipc = require('electron').ipcRenderer
 
 let lesson = {
@@ -185,13 +185,15 @@ let removeConcept = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
+//TODO delete later
+/*
 let createOption = (val) => {
 	let el = document.createElement('option')
 	el.innerText = '- '+val
 	el.value = val
 	return el
 }
-
+*/
 let parseLesson = () => {
 
 	lesson.concepts = []

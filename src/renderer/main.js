@@ -21,12 +21,12 @@ window.exportLesson = welcome.exportLesson
 window.saveLesson = create.saveLesson
 window.exitLesson = create.exitLesson
 
-ipc.on('menu-create', (event) => { welcome.createLesson()})
-ipc.on('menu-open', (event) => { welcome.openLesson()})
-ipc.on('menu-edit', (event) => { welcome.editLesson()})
-ipc.on('menu-export', (event) => { welcome.exportLesson()})
-ipc.on('menu-save', (event) => { create.saveLesson()})
-ipc.on('menu-exit', (event) => { create.exitLesson()})
+ipc.on('menu-create', () => { welcome.createLesson()})
+ipc.on('menu-open', () => { welcome.openLesson()})
+ipc.on('menu-edit', () => { welcome.editLesson()})
+ipc.on('menu-export', () => { welcome.exportLesson()})
+ipc.on('menu-save', () => { create.saveLesson()})
+ipc.on('menu-exit', () => { create.exitLesson()})
 
 window.selectCourse = create.selectCourse
 window.selectCoursePath = create.selectCoursePath

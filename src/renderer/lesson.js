@@ -57,7 +57,7 @@ window.switchConcept = globals.setCurrentConcept
 window.clearBoard = drawing.clearBoard
 window.toggleDraw = drawing.toggleDraw
 
-ipc.on('menu-save', (event) => {window.saveSession()})
-ipc.on('menu-exit', (event) => {window.exitLesson()})
-ipc.on('menu-toggle', (event) => {drawing.toggleDraw()})
-ipc.on('menu-clear-board', (event) => {drawing.clearBoard()})
+ipc.on('menu-save', () => {window.saveSession()})
+ipc.on('menu-exit', () => {window.exitLesson()})
+ipc.on('menu-toggle', () => {drawing.toggleDraw()})
+ipc.on('menu-clear-board', () => {drawing.clearBoard()})

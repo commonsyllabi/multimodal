@@ -4,10 +4,6 @@ import * as mouse from './mouse.js'
 import { getCurrentNote, setCurrentNote, setCurrrentPosition, getCurrentConcept, setCurrentConcept } from './globals.js'
 
 const ESC = 27
-const BCK = 8
-const SPC = 32
-const RET = 13
-const TAB = 9
 const UP = 38
 const DOWN = 40
 
@@ -16,31 +12,28 @@ let currentNote = null
 let handle = (e) => {
 	currentNote = getCurrentNote()
 
-	//if(currentNote == null && e.keyCode != SPC)
-	//	return
-	
 	let index
 	switch(e.keyCode){
-		case UP:
-			if(currentNote == null){
-				index = getCurrentConcept()
-				index = index - 1 >= 0 ? index - 1 : 0
-				setCurrentConcept(index)
-			}
-			break
-		case DOWN:
-			if(currentNote == null){
-				index = getCurrentConcept()
-				let len =  document.getElementsByClassName('concept').length-1
-				index = index + 1 < len ? index + 1 : len
-				setCurrentConcept(index)
-			}
-			break
-		case ESC:
-			endNote()
-			break
-		default:
-			break
+	case UP:
+		if(currentNote == null){
+			index = getCurrentConcept()
+			index = index - 1 >= 0 ? index - 1 : 0
+			setCurrentConcept(index)
+		}
+		break
+	case DOWN:
+		if(currentNote == null){
+			index = getCurrentConcept()
+			let len =  document.getElementsByClassName('concept').length-1
+			index = index + 1 < len ? index + 1 : len
+			setCurrentConcept(index)
+		}
+		break
+	case ESC:
+		endNote()
+		break
+	default:
+		break
 	}
 }
 
@@ -63,7 +56,8 @@ let endNote = () => {
 	if(currentNote != null && currentNote.value == '')
 		document.getElementById('writing-board').removeChild(currentNote)
 	else
-		currentNote.style.height = (current.scrollHeight)+'px'
+		currentNote.style.height = (currentNote.scrollHeight)+'px'
+
 	currentNote.blur()
 	currentNote.removeAttribute('id')
 	currentNote.onclick =(evt) => {

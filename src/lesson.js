@@ -89,7 +89,6 @@ module.exports.export = (_l) => {
 	let file_path = getNewest(_l)
 
 	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'/'+file_path))
-	let target_directory = lesson.path.local+'/'
 
 	switchBranch(lesson, 'gh-pages', render)
 }
@@ -99,7 +98,7 @@ let render = (_lesson) => {
 
 	fs.writeFile(_lesson.path.local+'/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
-			console.log('[EXPORTED]', _lesson.path.local+'/'+_lesson.title+'.html')
+		console.log('[EXPORTED]', _lesson.path.local+'/'+_lesson.title+'.html')
 
 		//rebuild the index
 		let exported_lessons = []
@@ -124,7 +123,7 @@ let render = (_lesson) => {
 }
 
 let switchBranch = (_lesson, _branch, _callback) => {
-	console.log('[BASH] switching branch to', _branch);
+	console.log('[BASH] switching branch to', _branch)
 
 	//the conditional below handles the possibility
 	//of uncommitted changes
@@ -136,10 +135,10 @@ let switchBranch = (_lesson, _branch, _callback) => {
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
-			console.error(err);
-			return;
+			console.error(err)
+			return
 		}
-		console.log(stdout);
+		console.log(stdout)
 	})
 
 	if(_callback != undefined)
@@ -153,10 +152,10 @@ let pushToRemote = (_lesson) => {
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
-			console.error(err);
-			return;
+			console.error(err)
+			return
 		}
-		console.log(stdout);
+		console.log(stdout)
 	})
 
 	child.on('close', () => {

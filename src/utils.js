@@ -48,7 +48,7 @@ module.exports.touchDirectory = (_path) => {
 
 		try {
 			fs.mkdirSync(curDir)
-			console.log(`[SUCCESS] created path:${curDir}`);
+			console.log(`[SUCCESS] created path:${curDir}`)
 		}catch(err) {
 			if(err.code != 'EEXIST')
 				throw err

@@ -15,7 +15,6 @@ let init = () => {
 	}
 
 	selectCanvas(0)
-
 }
 
 let setupCanvas = (i) => {
@@ -74,13 +73,11 @@ let clearBoard = () => {
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
-
 		cnv.setAttribute('class', 'drawing-board active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
-
 		cnv.setAttribute('class', 'drawing-board')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
