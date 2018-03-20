@@ -17,6 +17,11 @@ let init = () => {
 	drawing.init()
 
 	window.ondblclick = () => {
+
+		let els = document.getElementsByClassName('written')
+		for(let el of els)
+			el.removeAttribute('id')
+
 		if(globals.currentNote == null)
 			typing.newNote()
 		else

@@ -144,7 +144,7 @@ let getCurrentConcept = () => {
 }
 
 let setCurrrentPosition = (pos) => {
-	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px;'
+	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px; height:'+currentNote.style.height+'px;'
 }
 
 
@@ -331,6 +331,11 @@ let init = () => {
 	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
 
 	window.ondblclick = () => {
+
+		let els = document.getElementsByClassName('written')
+		for(let el of els)
+			el.removeAttribute('id')
+
 		if(__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["a" /* currentNote */] == null)
 			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["c" /* newNote */]()
 		else
@@ -400,65 +405,55 @@ let currentNote = null
 let handle = (e) => {
 	currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* getCurrentNote */])()
 
-	if(e.keyCode == UP){
-		let index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-		index = index - 1 >= 0 ? index - 1 : 0
-		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+	//if(currentNote == null && e.keyCode != SPC)
+	//	return
+	
+	let index
+	switch(e.keyCode){
+		case UP:
+			if(currentNote == null){
+				index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+				index = index - 1 >= 0 ? index - 1 : 0
+				Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+			}
+			break
+		case DOWN:
+			if(currentNote == null){
+				index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+				let len =  document.getElementsByClassName('concept').length-1
+				index = index + 1 < len ? index + 1 : len
+				Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+			}
+			break
+		case ESC:
+			endNote()
+			break
+		default:
+			break
 	}
-
-	if(e.keyCode == DOWN){
-		let index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-		let len =  document.getElementsByClassName('concept').length-1
-		index = index + 1 < len ? index + 1 : len
-		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
-	}
-
-	if(currentNote == null && e.keyCode != SPC)
-		return
-	//	console.log(e.keyCode)	
-
-	switch (e.keyCode) {
-	case SPC:
-		handleKey(' ')
-		break
-	case BCK:
-		eraseCharacter()
-		break
-	case ESC:
-		endNote()
-		break
-	case TAB:
-		handleKey('\u00A0\u00A0\u00A0\u00A0')
-		break
-	case RET:
-		handleKey('\n')
-		break
-	default:
-		if(e.keyCode > 47)
-			handleKey(e.key)
-		break
-	}
-
-
 }
 
 let newNote = () => {
-	let cn = document.createElement('div')
+	let cn = document.createElement('textarea')
+	cn.setAttribute('type', 'text')
 	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
-	cn.innerText = '-'
 	document.getElementById('writing-board').append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getGridPosition */]())
+
+	cn.focus()
 }
 
 let endNote = () => {
-	// if current note has no text
-	if(currentNote.innerText == '_')
-		document.getElementById('container').removeChild(currentNote)
-
+	//if note is blank
+	if(currentNote != null && currentNote.value == '')
+		document.getElementById('writing-board').removeChild(currentNote)
+	else
+		currentNote.style.height = (current.scrollHeight)+'px'
+	currentNote.blur()
 	currentNote.removeAttribute('id')
 	currentNote.onclick =(evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
@@ -466,28 +461,6 @@ let endNote = () => {
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
 	}
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(null)
-}
-
-//this flag is necessary to handle proper word wraps
-let flag_space = false
-
-let handleKey = (char) => {
-	if(char == 'Meta') return
-	
-	if(char == ' '){
-		flag_space = true
-	}else{
-		if(flag_space){
-			currentNote.innerText += ' '+char
-			flag_space = false
-		}else{
-			currentNote.innerText += char
-		}
-	}
-}
-
-let eraseCharacter = () => {
-	currentNote.innerText = currentNote.innerText.slice(0, -1)
 }
 
 
