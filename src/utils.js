@@ -52,8 +52,6 @@ module.exports.touchDirectory = (_path) => {
 		}catch(err) {
 			if(err.code != 'EEXIST')
 				throw err
-
-			console.log(`[WARNING] path ${curDir} already exists`);
 		}
 
 		return curDir
