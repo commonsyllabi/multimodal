@@ -126,6 +126,8 @@ let render = (_lesson) => {
 let switchBranch = (_lesson, _branch, _callback) => {
 	console.log('[BASH] switching branch to', _branch);
 
+	//the conditional below handles the possibility
+	//of uncommitted changes
 	let script
 	if(_branch == 'master')
 		script = `cd ${_lesson.path.local} && git checkout ${_branch} && git stash apply`
