@@ -124,12 +124,12 @@ window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* expo
 window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]
 
-ipc.on('menu-create', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
-ipc.on('menu-open', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
-ipc.on('menu-edit', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
-ipc.on('menu-export', (event) => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
-ipc.on('menu-save', (event) => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
-ipc.on('menu-exit', (event) => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
+ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
+ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
+ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
+ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
 
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
 window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* selectCoursePath */]
@@ -240,7 +240,7 @@ let setMessage = (_msg) => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exitLesson; });
 
 
-const {dialog, globalShortcut} = __webpack_require__(0).remote
+const {dialog} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
 
 let lesson = {
@@ -425,13 +425,15 @@ let removeConcept = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
+//TODO delete later
+/*
 let createOption = (val) => {
 	let el = document.createElement('option')
 	el.innerText = '- '+val
 	el.value = val
 	return el
 }
-
+*/
 let parseLesson = () => {
 
 	lesson.concepts = []

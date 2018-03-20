@@ -2,7 +2,6 @@ const electron = require('electron')
 const ipc = electron.ipcMain
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
-//const dialog = electron.dialog
 
 //const path = require('path')
 //const url = require('url')
@@ -74,7 +73,6 @@ ipc.on('export-lesson', (event, data) => {
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 	let _path = __dirname+'/../lessons/'+lesson.course
-	let _file = lesson.title+'.json'
 
 	utils.touchDirectory(_path+'/prep/')
 

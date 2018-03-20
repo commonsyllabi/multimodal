@@ -225,7 +225,6 @@ let init = () => {
 	}
 
 	selectCanvas(0)
-
 }
 
 let setupCanvas = (i) => {
@@ -284,13 +283,11 @@ let clearBoard = () => {
 let toggleDraw = () => {
 	isDrawMode = !isDrawMode
 	if(isDrawMode){
-
 		cnv.setAttribute('class', 'drawing-board active')
 		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
-
 		cnv.setAttribute('class', 'drawing-board')
 		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
@@ -371,10 +368,10 @@ window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* s
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
 window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]
 
-ipc.on('menu-save', (event) => {window.saveSession()})
-ipc.on('menu-exit', (event) => {window.exitLesson()})
-ipc.on('menu-toggle', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]()})
-ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()})
+ipc.on('menu-save', () => {window.saveSession()})
+ipc.on('menu-exit', () => {window.exitLesson()})
+ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]()})
+ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()})
 
 
 /***/ }),
@@ -393,10 +390,6 @@ ipc.on('menu-clear-board', (event) => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawi
 
 
 const ESC = 27
-const BCK = 8
-const SPC = 32
-const RET = 13
-const TAB = 9
 const UP = 38
 const DOWN = 40
 
@@ -456,7 +449,7 @@ let endNote = () => {
 	currentNote.blur()
 	currentNote.removeAttribute('id')
 	currentNote.onclick =(evt) => {
-		if(evt.target.getAttribute('id') == 'current') return
+		if(evt.target.getAttribute('id') === 'current') return
 		evt.target.setAttribute('id', 'current')
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
 	}

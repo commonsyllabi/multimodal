@@ -3,15 +3,9 @@
 exports = module.exports = {}
 
 const Menu = require('electron').Menu
-const ipc = require('electron').ipcMain
-const BrowserWindow = require('electron').BrowserWindow
 const app = require('electron').app
 
 let win
-
-let setWindow = (w) => {
-	win = w
-}
 
 const template = [
 	{
@@ -54,100 +48,100 @@ const template = [
 			}
 		]
 	},
-  {
-    label: 'Edit',
-    submenu: [
-      {role: 'undo'},
-      {role: 'redo'},
-      {type: 'separator'},
-      {role: 'cut'},
-      {role: 'copy'},
-      {role: 'paste'},
-      {role: 'pasteandmatchstyle'},
-      {role: 'delete'},
-      {role: 'selectall'}
-    ]
-  },
-  {
-    label: 'Lesson',
-    submenu: [
-      {label: 'Toggle whiteboard',
-			click() { win.webContents.send('menu-toggle') },
-			accelerator: 'CmdOrCtrl+D'},
-      {label: 'Clear whiteboard',
-			click() { win.webContents.send('menu-clear-board')},
-			accelerator: 'CmdOrCtrl+K'},
-      {label: 'Show markers'}
-    ]
-  },
 	{
-    label: 'View',
-    submenu: [
-      {role: 'reload'},
-      {role: 'forcereload'},
-      {role: 'toggledevtools'},
-      {type: 'separator'},
-      {role: 'resetzoom'},
-      {role: 'zoomin'},
-      {role: 'zoomout'},
-      {type: 'separator'},
-      {role: 'togglefullscreen'}
-    ]
-  },
-  {
-    role: 'window',
-    submenu: [
-      {role: 'minimize'},
-      {role: 'close'}
-    ]
-  },
-  {
-    role: 'help',
-    submenu: [
-      {
-        label: 'View Dev Website',
-        click () { require('electron').shell.openExternal('https://github.com/periode/multimodal') }
-      }
-    ]
-  }
+		label: 'Edit',
+		submenu: [
+			{role: 'undo'},
+			{role: 'redo'},
+			{type: 'separator'},
+			{role: 'cut'},
+			{role: 'copy'},
+			{role: 'paste'},
+			{role: 'pasteandmatchstyle'},
+			{role: 'delete'},
+			{role: 'selectall'}
+		]
+	},
+	{
+		label: 'Lesson',
+		submenu: [
+			{label: 'Toggle whiteboard',
+				click() { win.webContents.send('menu-toggle') },
+				accelerator: 'CmdOrCtrl+D'},
+			{label: 'Clear whiteboard',
+				click() { win.webContents.send('menu-clear-board')},
+				accelerator: 'CmdOrCtrl+K'},
+			{label: 'Show markers'}
+		]
+	},
+	{
+		label: 'View',
+		submenu: [
+			{role: 'reload'},
+			{role: 'forcereload'},
+			{role: 'toggledevtools'},
+			{type: 'separator'},
+			{role: 'resetzoom'},
+			{role: 'zoomin'},
+			{role: 'zoomout'},
+			{type: 'separator'},
+			{role: 'togglefullscreen'}
+		]
+	},
+	{
+		role: 'window',
+		submenu: [
+			{role: 'minimize'},
+			{role: 'close'}
+		]
+	},
+	{
+		role: 'help',
+		submenu: [
+			{
+				label: 'View Dev Website',
+				click () { require('electron').shell.openExternal('https://github.com/periode/multimodal') }
+			}
+		]
+	}
 ]
 
 if (process.platform === 'darwin') {
-  template.unshift({
-    label: app.getName(),
-    submenu: [
-      {role: 'about'},
-      {type: 'separator'},
-      {role: 'services', submenu: []},
-      {type: 'separator'},
-      {role: 'hide'},
-      {role: 'hideothers'},
-      {role: 'unhide'},
-      {type: 'separator'},
-      {role: 'quit'}
-    ]
-  })
+	template.unshift({
+		label: app.getName(),
+		submenu: [
+			{role: 'about'},
+			{type: 'separator'},
+			{role: 'services', submenu: []},
+			{type: 'separator'},
+			{role: 'hide'},
+			{role: 'hideothers'},
+			{role: 'unhide'},
+			{type: 'separator'},
+			{role: 'quit'}
+		]
+	})
 
-  // Edit menu
-  template[1].submenu.push(
-    {type: 'separator'},
-    {
-      label: 'Speech',
-      submenu: [
-        {role: 'startspeaking'},
-        {role: 'stopspeaking'}
-      ]
-    }
-  )
+	// Edit menu
+	template[1].submenu.push(
+		{type: 'separator'},
+		{
+			label: 'Speech',
+			submenu: [
+				{role: 'startspeaking'},
+				{role: 'stopspeaking'}
+			]
+		}
+	)
 
-  // Window menu
-  template[3].submenu = [
-    {role: 'close'},
-    {role: 'minimize'},
-    {role: 'zoom'},
-    {type: 'separator'},
-    {role: 'front'}
-  ]
+	// Window menu
+	template[3].submenu = [
+		{role: 'close'},
+		{role: 'minimize'},
+		{role: 'zoom'},
+		{type: 'separator'},
+		{role: 'front'}
+	]
 }
 
 module.exports.init = (w) => {
