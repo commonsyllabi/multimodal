@@ -73,7 +73,7 @@ let parseDocument = () => {
 		for(let k in _written){
 			if(k == 'length') break
 			if(_written[k].getAttribute('concept') == i)
-				content.notes.push(_written[k].innerText)
+				content.notes.push(_written[k].value)
 		}
 
 		lesson.contents.push(content)
