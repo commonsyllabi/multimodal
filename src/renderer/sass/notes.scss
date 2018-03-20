@@ -4,6 +4,7 @@ body{
   padding: 0px;
 
   font-family: 'Inter UI';
+  overflow: hidden;
 
   .note{
     position: absolute;
@@ -22,11 +23,23 @@ body{
     font-weight: bold;
   }
 
-  #current{
-    position: absolute;
-    text-decoration: underline;
+  textarea {
+	  font-family: 'Inter UI';
+	  background-color: rgba(0, 0, 0, 0);
+	  border: none;
+	  outline: none;
+  }
 
-    font-weight: bold;
+  .written {
+	width: 40%;
+  }
+
+  #current{
+	position: absolute;
+	font-weight: bold;
+
+    	overflow: visible;
+	min-height: 40%;
   }
 
   .prep-group{

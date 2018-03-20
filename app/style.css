@@ -20,7 +20,8 @@ div, img {
 body {
   margin: 0px;
   padding: 0px;
-  font-family: 'Inter UI'; }
+  font-family: 'Inter UI';
+  overflow: hidden; }
   body .note {
     position: absolute;
     z-index: 5;
@@ -31,10 +32,18 @@ body {
   body .title {
     font-size: 2.3em;
     font-weight: bold; }
+  body textarea {
+    font-family: 'Inter UI';
+    background-color: transparent;
+    border: none;
+    outline: none; }
+  body .written {
+    width: 40%; }
   body #current {
     position: absolute;
-    text-decoration: underline;
-    font-weight: bold; }
+    font-weight: bold;
+    overflow: visible;
+    min-height: 40%; }
   body .prep-group {
     position: absolute;
     top: 5%;
