@@ -24,6 +24,14 @@ body {
 	transition: opacity 0.5s ease-in-out;
 }
 
+.info {
+	background-color: darkseagreen;
+}
+
+.error {
+	background-color: crimson;
+}
+
 div, img {
 	-webkit-user-select: none;
 	-moz-user-select: none;

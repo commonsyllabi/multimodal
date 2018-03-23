@@ -11,6 +11,7 @@ require('./sass/interface.scss')
 
 import * as welcome from './main/welcome.js'
 import * as create from './main/create.js'
+import * as utils from './utils.js'
 
 window.setLesson = welcome.setLesson
 window.openLesson = welcome.openLesson
@@ -28,6 +29,8 @@ ipc.on('menu-edit', () => { welcome.editLesson()})
 ipc.on('menu-export', () => { welcome.exportLesson()})
 ipc.on('menu-save', () => { create.saveLesson()})
 ipc.on('menu-exit', () => { create.exitLesson()})
+
+ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})
 
 window.selectCourse = create.selectCourse
 window.selectCoursePath = create.selectCoursePath

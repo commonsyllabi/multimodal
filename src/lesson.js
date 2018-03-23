@@ -1,8 +1,11 @@
 'use strict'
 
+const app = require('electron').app
 const fs  = require('fs')
 const pug = require('pug')
 const { exec } = require('child_process')
+
+let win
 
 exports = module.exports = {}
 
@@ -86,9 +89,7 @@ module.exports.getNewest = (lesson) => {
 }
 
 module.exports.export = (_l) => {
-	let file_path = getNewest(_l)
-
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'/'+file_path))
+	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
 
 	switchBranch(lesson, 'gh-pages', render)
 }
@@ -125,8 +126,8 @@ let render = (_lesson) => {
 let switchBranch = (_lesson, _branch, _callback) => {
 	console.log('[BASH] switching branch to', _branch)
 
-	//the conditional below handles the possibility
-	//of uncommitted changes
+	//-- the conditional below handles the possibility
+	//-- of uncommitted changes
 	let script
 	if(_branch == 'master')
 		script = `cd ${_lesson.path.local} && git checkout ${_branch} && git stash apply`
@@ -136,6 +137,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
+			win.webContents.send('msg-log', {msg: `failed to find path for ${_lesson.title}`, type: 'error'})
 			return
 		}
 		console.log(stdout)
@@ -153,12 +155,21 @@ let pushToRemote = (_lesson) => {
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
+			console.log('error for sure')
+			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.title}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
 			return
+		}else{
+			win.webContents.send('msg-log', {msg: `exported ${_lesson.title}`, type: 'info'})
 		}
+
 		console.log(stdout)
 	})
 
 	child.on('close', () => {
 		switchBranch(_lesson, 'master')
 	})
+}
+
+module.exports.init = (w) => {
+	win = w
 }

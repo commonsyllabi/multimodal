@@ -101,6 +101,8 @@ module.exports = require("electron");
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
 
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -110,6 +112,7 @@ __webpack_require__(11)
 __webpack_require__(12)
 __webpack_require__(2)
 __webpack_require__(3)
+
 
 
 
@@ -131,6 +134,8 @@ ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
 ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
 ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
+
+ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
 window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
 window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* selectCoursePath */]
@@ -166,6 +171,7 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* remo
 
 
 const ipc = __webpack_require__(0).ipcRenderer
+const utils = __webpack_require__(16)
 
 let current = {
 	'course':'',
@@ -187,8 +193,6 @@ let setLesson = (_e, _c, _l) => {
 	let btns = document.getElementsByClassName('inter-btn-main')
 	for(let btn of btns)
 		btn.disabled = false
-
-	//TODO check if there is indeed a draft to be edited
 }
 
 let openLesson = (_c, _l) => {
@@ -203,7 +207,7 @@ let createLesson = () => {
 
 let editLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
@@ -211,7 +215,7 @@ let editLesson = () => {
 
 let editNotesLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
@@ -219,19 +223,22 @@ let editNotesLesson = () => {
 
 let exportLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
-	let msg = 'exported '+current.title
-	setMessage(msg)
 }
 
-let setMessage = (_msg) => {
+let setMessage = (_msg, _type) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_msg)
 	el.style.opacity = 1
-	setTimeout(() => { el.style.opacity = 0 }, 2000)
+
+	setTimeout(() => { 
+		el.style.opacity = 0 
+		el.setAttribute('class', 'msg-log')
+	}, 2000)
 }
 
 
@@ -525,6 +532,29 @@ let setMessage = (_msg) => {
 }
 
 
+
+
+/***/ }),
+/* 15 */,
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports = module.exports = {}
+
+module.exports.setMessage = (_msg, _type) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_type)
+	el.style.opacity = 1
+
+	setTimeout(() => {
+		el.style.opacity = 0
+		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
+	}, 2000)
+}
 
 
 /***/ })

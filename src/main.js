@@ -18,7 +18,7 @@ let generateHTML = (data, template) => {
 	if(template != 'edit-notes')
 		c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/prep/'+data.title+'.json'))
 	else
-		c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/in-class/'+data.title+'/'+lesson.getNewest(data)))
+		c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/in-class/'+data.title+'.json'))
 
 	let compiled = pug.renderFile('views/'+template+'.pug', c)
 
@@ -43,7 +43,10 @@ let createWindow = (current, _width, _height) => {
 	})
 
 	require('./menu.js').init(mainWindow)
+	require('./lesson.js').init(mainWindow)
 }
+
+module.exports.win = mainWindow
 
 let replaceWindow = (_target, _width, _height) => {
 	mainWindow.setSize(_width,_height)
@@ -67,8 +70,21 @@ ipc.on('edit-lesson', (event, data) => {
 })
 
 ipc.on('edit-notes-lesson', (event, data) => {
-	generateHTML(data, 'edit-notes')
-	replaceWindow('edit-notes', 1800, 1000)
+
+	let edited_lessons = fs.readdirSync(__dirname+'/../lessons/'+data.course+'/in-class')
+	let has_edit = false
+	for(let edited_lesson of edited_lessons)
+		if(edited_lesson.indexOf(data.title) > -1)
+			has_edit = true
+
+
+	if(has_edit){
+		generateHTML(data, 'edit-notes')
+		replaceWindow('edit-notes', 1800, 1000)
+	}else{
+		console.log('no found');
+		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
+	}
 })
 
 ipc.on('create-lesson', () => {
@@ -80,6 +96,7 @@ ipc.on('export-lesson', (event, data) => {
 	lesson.export(data)
 })
 
+//-- save lesson prep
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 	let _path = __dirname+'/../lessons/'+lesson.course
@@ -91,14 +108,14 @@ ipc.on('save-lesson', (event, lesson) => {
 	})
 })
 
+//-- save lesson in class
 ipc.on('save-session', (event, lesson) => {
 	lesson.date = utils.date()
 	let _path = __dirname+'/../lessons/'+lesson.course
-	let _file = utils.timestamp()+'.json'
 	
-	utils.touchDirectory(_path + '/in-class/' + lesson.title)
+	utils.touchDirectory(_path + '/in-class/')
 
-	fs.writeFile(_path+'/in-class/'+lesson.title +'/'+_file, JSON.stringify(lesson), () => {
+	fs.writeFile(_path+'/in-class/'+lesson.title+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE SESSION]',lesson.title,'to /'+_path,'at',utils.time())
 	})
 })

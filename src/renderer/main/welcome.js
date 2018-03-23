@@ -1,6 +1,7 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
+const utils = require('../utils.js')
 
 let current = {
 	'course':'',
@@ -22,8 +23,6 @@ let setLesson = (_e, _c, _l) => {
 	let btns = document.getElementsByClassName('inter-btn-main')
 	for(let btn of btns)
 		btn.disabled = false
-
-	//TODO check if there is indeed a draft to be edited
 }
 
 let openLesson = (_c, _l) => {
@@ -38,7 +37,7 @@ let createLesson = () => {
 
 let editLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
@@ -46,7 +45,7 @@ let editLesson = () => {
 
 let editNotesLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
@@ -54,19 +53,22 @@ let editNotesLesson = () => {
 
 let exportLesson = () => {
 	if(current.course == ''){
-		setMessage('no course selected!')
+		utils.setMessage('no course selected!', 'error')
 		return
 	}
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
-	let msg = 'exported '+current.title
-	setMessage(msg)
 }
 
-let setMessage = (_msg) => {
+let setMessage = (_msg, _type) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_msg)
 	el.style.opacity = 1
-	setTimeout(() => { el.style.opacity = 0 }, 2000)
+
+	setTimeout(() => { 
+		el.style.opacity = 0 
+		el.setAttribute('class', 'msg-log')
+	}, 2000)
 }
 
 export { openLesson, createLesson, editLesson, editNotesLesson, setLesson, exportLesson }
