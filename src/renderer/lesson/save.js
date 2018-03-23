@@ -28,7 +28,7 @@ let parseDocument = () => {
 	lesson.course = _title[0].trim()
 	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()
-	lesson.contents = []
+	lesson.concepts = []
 
 	let _concepts = document.getElementsByClassName('concept')
 	let _prep = document.getElementsByClassName('prep')
@@ -70,13 +70,15 @@ let parseDocument = () => {
 			}
 		}
 
+		content.prep.splice(0, 1) //this line removes the first element of the prep which is the title of the concept
+
 		for(let k in _written){
 			if(k == 'length') break
 			if(_written[k].getAttribute('concept') == i)
 				content.notes.push(_written[k].value)
 		}
 
-		lesson.contents.push(content)
+		lesson.concepts.push(content)
 	}
 
 	console.log('saving:',lesson)

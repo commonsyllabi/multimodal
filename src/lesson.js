@@ -45,10 +45,10 @@ module.exports.create = () => {
 	fs.writeFileSync(__dirname+'/../app/create.html', compiled)
 }
 
-let getNewest = (lesson) => {
+module.exports.getNewest = (lesson) => {
 	let saves = fs.readdirSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title)
 
-	if(saves.length == 1) return saves
+	if(saves.length == 1) return saves[0]
 
 	let latest = {'year':0,'month':0, 'day':0, 'hour':0, 'minutes':0, 'save':''}
 	for(let save of saves){

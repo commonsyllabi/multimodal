@@ -115,19 +115,20 @@ __webpack_require__(3)
 
 
 
-window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* setLesson */]
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]
 window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
+window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* editNotesLesson */]
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
-window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
+window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
 
 window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
-ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
+ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
-ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
+ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
 ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
 ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
 
@@ -156,11 +157,12 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* remo
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return openLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return openLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return editNotesLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exportLesson; });
 
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -185,6 +187,8 @@ let setLesson = (_e, _c, _l) => {
 	let btns = document.getElementsByClassName('inter-btn-main')
 	for(let btn of btns)
 		btn.disabled = false
+
+	//TODO check if there is indeed a draft to be edited
 }
 
 let openLesson = (_c, _l) => {
@@ -203,6 +207,14 @@ let editLesson = () => {
 		return
 	}
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
+}
+
+let editNotesLesson = () => {
+	if(current.course == ''){
+		setMessage('no course selected!')
+		return
+	}
+	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
 }
 
 let exportLesson = () => {

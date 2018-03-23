@@ -14,7 +14,12 @@ const lesson = require('./lesson.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/prep/'+data.title+'.json'))
+	let c
+	if(template != 'edit-notes')
+		c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/prep/'+data.title+'.json'))
+	else
+		c = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+data.course+'/in-class/'+data.title+'/'+lesson.getNewest(data)))
+
 	let compiled = pug.renderFile('views/'+template+'.pug', c)
 
 	fs.writeFileSync(__dirname+'/../app/'+template+'.html', compiled)
@@ -59,6 +64,11 @@ ipc.on('open-lesson', (event, data) => {
 ipc.on('edit-lesson', (event, data) => {
 	generateHTML(data, 'edit')
 	replaceWindow('edit', 1800, 1000)
+})
+
+ipc.on('edit-notes-lesson', (event, data) => {
+	generateHTML(data, 'edit-notes')
+	replaceWindow('edit-notes', 1800, 1000)
 })
 
 ipc.on('create-lesson', () => {
