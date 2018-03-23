@@ -1,30 +1,33 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
-
-let lesson = {
-	'course': '',
-	'path':{
-		'local':'',
-		'remote': ''
-	},
-	'title': '',
-	'contents':[]
-}
+const utils = require('../utils.js')
 
 let saveSession = () => {
-	let data = parseDocument()
+	let lesson = parseDocument()
+	lesson.prefix = 'in-class'
 	
-	if(data.length == 0){
+	if(lesson.length == 0){
 		console.log('nothing found on the document!')
 		return
 	}
 
-	ipc.send('save-session', data)
+	ipc.send('save-lesson', lesson)
 }
 
 let parseDocument = () => {
 	let _title = document.title.split('|')
+	
+	let lesson = {
+		'course': '',
+		'path':{
+			'local':'',
+			'remote': ''
+		},
+		'title': '',
+		'contents':[]
+	}
+
 	lesson.course = _title[0].trim()
 	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()

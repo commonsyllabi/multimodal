@@ -309,6 +309,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__utils_js__);
 'ust strict'
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -316,6 +318,7 @@ const ipc = __webpack_require__(0).ipcRenderer
 __webpack_require__(1)
 __webpack_require__(2)
 __webpack_require__(3)
+
 
 
 
@@ -372,6 +375,8 @@ ipc.on('menu-save', () => {window.saveSession()})
 ipc.on('menu-exit', () => {window.exitLesson()})
 ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]()})
 ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]()})
+
+ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_5__utils_js__["setMessage"](data.msg, data.type)})
 
 
 /***/ }),
@@ -467,30 +472,33 @@ let endNote = () => {
 
 
 const ipc = __webpack_require__(0).ipcRenderer
-
-let lesson = {
-	'course': '',
-	'path':{
-		'local':'',
-		'remote': ''
-	},
-	'title': '',
-	'contents':[]
-}
+const utils = __webpack_require__(16)
 
 let saveSession = () => {
-	let data = parseDocument()
+	let lesson = parseDocument()
+	lesson.prefix = 'in-class'
 	
-	if(data.length == 0){
+	if(lesson.length == 0){
 		console.log('nothing found on the document!')
 		return
 	}
 
-	ipc.send('save-session', data)
+	ipc.send('save-lesson', lesson)
 }
 
 let parseDocument = () => {
 	let _title = document.title.split('|')
+	
+	let lesson = {
+		'course': '',
+		'path':{
+			'local':'',
+			'remote': ''
+		},
+		'title': '',
+		'contents':[]
+	}
+
 	lesson.course = _title[0].trim()
 	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()
@@ -558,6 +566,34 @@ let exitLesson = () => {
 }
 
 
+
+
+/***/ }),
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports = module.exports = {}
+
+module.exports.setMessage = (_msg, _type) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_type)
+	el.style.opacity = 1
+
+	setTimeout(() => {
+		el.style.opacity = 0
+		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
+	}, 2000)
+}
 
 
 /***/ })

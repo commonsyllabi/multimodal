@@ -231,7 +231,7 @@ let parseLesson = () => {
 	console.log('parsed:',lesson)
 }
 
-let saveLesson = () => {
+let saveLesson = (_type) => {
 	parseLesson()
 
 	if(lesson.course == '' || lesson.title == ''){
@@ -241,7 +241,9 @@ let saveLesson = () => {
 
 		dialog.showErrorBox(_title, _error)
 	}else{
-		setMessage('saved!')
+		utils.setMessage('saved!', 'info')
+
+		lesson.prefix = _type //either prep or in-class
 		ipc.send('save-lesson', lesson)
 	}
 }
