@@ -108,22 +108,30 @@ let createNote = (kind) => {
 	return note
 }
 
-let addNote = (el) => {
+let addPrep = (el) => {
 
-	if(el.getAttribute('class') == 'create-add-note'){
+	if(el.getAttribute('class') == 'create-add-prep'){
 
-		let note = createNote(el.value)
+		let note = createPrep(el.value)
 		el.parentNode.insertAdjacentElement('afterend', note)
 
 	}else if(el.getAttribute('class') == 'create-add-concept'){
 
-		let note = createNote('text')
+		let note = createPrep('text')
 		return note
 
 	}
 }
 
+let addNote = (el) => {
+	//TODO
+}
+
 let removeNote = (el) => {
+	//TODO
+}
+
+let removePrep = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
@@ -195,7 +203,7 @@ let createOption = (val) => {
 }
 */
 let parseLesson = () => {
-
+	//TODO adapt parsing to new structure of edit-notes.pug (div.content-holder and div.prep-holder)
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
@@ -217,7 +225,7 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
 				if(_cn[0].getAttribute('kind') == 'text')
-					concept.push({'type':'text', 'text': _cn[0].value})
+					concept.push({'type':'txt', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')
@@ -274,4 +282,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 
-export { selectCourse, selectCoursePath, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
+export { selectCourse, selectCoursePath, addNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

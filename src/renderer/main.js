@@ -34,6 +34,8 @@ ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})
 
 window.selectCourse = create.selectCourse
 window.selectCoursePath = create.selectCoursePath
+window.addPrep = create.addPrep
+window.removePrep = create.removePrep
 window.addNote = create.addNote
 window.removeNote = create.removeNote
 window.addConcept = create.addConcept

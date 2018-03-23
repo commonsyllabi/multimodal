@@ -86,6 +86,26 @@
 	padding: 2px;
 }
 
+
+
+//-- concepts and notes
+
+//-- this holds both preps and notes
+.content-holder{
+	width: 100%;
+	height: auto;
+	overflow: auto;
+}
+
+.prep-holder {
+	width: 50%;
+	float: left;
+}
+
+.notes-holder{
+	width: 40%;
+	float: right;
+}
 input[type=text]{
 //	font-size: 20px;
 	border: none;
@@ -99,21 +119,27 @@ input[type=text]{
 	border: 2px solid $mid-grey;
 }
 
-.create-concept-note {
+.create-concept-prep {
 	font-size: 32px;
 	margin-right: 10px;
+}
+
+.create-concept-note {
+	font-size: 24px;
+	width: 100%;
 }
 
 .create-concept-name {
 	background-color: $light-grey;
 	color: $dark-grey;
 	border: none;
-	width: 50%;
+	width: 100%;
+	float: left;
 	font-size: 48px;
 	margin-bottom: 12px;
 }
 
-.create-note{
+.create-prep{
 	margin-bottom: 10px;
 	width: 80%;
 	margin-left: 20px;
@@ -123,7 +149,7 @@ input[type=text]{
 	font-style: italic;
 }
 
-.create-add-note, .create-remove-note {
+.create-add-prep, .create-remove-prep {
 	border: none;
 	margin: 5px;
 	font-size: 18px;
