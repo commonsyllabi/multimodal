@@ -20,8 +20,7 @@ div, img {
 body {
   margin: 0px;
   padding: 0px;
-  font-family: 'Inter UI';
-  overflow: hidden; }
+  font-family: 'Inter UI'; }
   body .note {
     position: absolute;
     z-index: 5;
@@ -85,7 +84,8 @@ div, img {
 .lessons-container, canvas {
   position: absolute;
   top: 0px;
-  left: 0px; }
+  left: 0px;
+  overflow: hidden; }
 
 canvas {
   z-index: 1; }

@@ -22,6 +22,8 @@ let setLesson = (_e, _c, _l) => {
 	let btns = document.getElementsByClassName('inter-btn-main')
 	for(let btn of btns)
 		btn.disabled = false
+
+	//TODO check if there is indeed a draft to be edited
 }
 
 let openLesson = (_c, _l) => {
@@ -42,6 +44,14 @@ let editLesson = () => {
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
 }
 
+let editNotesLesson = () => {
+	if(current.course == ''){
+		setMessage('no course selected!')
+		return
+	}
+	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
+}
+
 let exportLesson = () => {
 	if(current.course == ''){
 		setMessage('no course selected!')
@@ -59,4 +69,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => { el.style.opacity = 0 }, 2000)
 }
 
-export { openLesson, createLesson, editLesson, setLesson, exportLesson }
+export { openLesson, createLesson, editLesson, editNotesLesson, setLesson, exportLesson }

@@ -398,31 +398,28 @@ let currentNote = null
 let handle = (e) => {
 	currentNote = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["c" /* getCurrentNote */])()
 
-	//if(currentNote == null && e.keyCode != SPC)
-	//	return
-	
 	let index
 	switch(e.keyCode){
-		case UP:
-			if(currentNote == null){
-				index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-				index = index - 1 >= 0 ? index - 1 : 0
-				Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
-			}
-			break
-		case DOWN:
-			if(currentNote == null){
-				index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-				let len =  document.getElementsByClassName('concept').length-1
-				index = index + 1 < len ? index + 1 : len
-				Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
-			}
-			break
-		case ESC:
-			endNote()
-			break
-		default:
-			break
+	case UP:
+		if(currentNote == null){
+			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+			index = index - 1 >= 0 ? index - 1 : 0
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+		}
+		break
+	case DOWN:
+		if(currentNote == null){
+			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
+			let len =  document.getElementsByClassName('concept').length-1
+			index = index + 1 < len ? index + 1 : len
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+		}
+		break
+	case ESC:
+		endNote()
+		break
+	default:
+		break
 	}
 }
 
@@ -445,11 +442,12 @@ let endNote = () => {
 	if(currentNote != null && currentNote.value == '')
 		document.getElementById('writing-board').removeChild(currentNote)
 	else
-		currentNote.style.height = (current.scrollHeight)+'px'
+		currentNote.style.height = (currentNote.scrollHeight)+'px'
+
 	currentNote.blur()
 	currentNote.removeAttribute('id')
 	currentNote.onclick =(evt) => {
-		if(evt.target.getAttribute('id') === 'current') return
+		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
 	}
@@ -496,7 +494,7 @@ let parseDocument = () => {
 	lesson.course = _title[0].trim()
 	lesson.path.local = document.getElementById('local-path').innerHTML
 	lesson.title =  _title[1].trim()
-	lesson.contents = []
+	lesson.concepts = []
 
 	let _concepts = document.getElementsByClassName('concept')
 	let _prep = document.getElementsByClassName('prep')
@@ -538,13 +536,15 @@ let parseDocument = () => {
 			}
 		}
 
+		content.prep.splice(0, 1) //this line removes the first element of the prep which is the title of the concept
+
 		for(let k in _written){
 			if(k == 'length') break
 			if(_written[k].getAttribute('concept') == i)
 				content.notes.push(_written[k].value)
 		}
 
-		lesson.contents.push(content)
+		lesson.concepts.push(content)
 	}
 
 	console.log('saving:',lesson)

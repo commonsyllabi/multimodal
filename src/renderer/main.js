@@ -15,6 +15,7 @@ import * as create from './main/create.js'
 window.setLesson = welcome.setLesson
 window.openLesson = welcome.openLesson
 window.editLesson = welcome.editLesson
+window.editNotesLesson = welcome.editNotesLesson
 window.createLesson = welcome.createLesson
 window.exportLesson = welcome.exportLesson
 
