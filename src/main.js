@@ -98,25 +98,15 @@ ipc.on('export-lesson', (event, data) => {
 
 //-- save lesson prep
 ipc.on('save-lesson', (event, lesson) => {
+
 	lesson.date = utils.date()
-	let _path = __dirname+'/../lessons/'+lesson.course
+	let _path = __dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix
 
-	utils.touchDirectory(_path+'/prep/')
+	utils.touchDirectory(_path)
 
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/prep/'+lesson.title+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE LESSON]',lesson.title,'to /'+_path,'at',utils.time())
-	})
-})
-
-//-- save lesson in class
-ipc.on('save-session', (event, lesson) => {
-	lesson.date = utils.date()
-	let _path = __dirname+'/../lessons/'+lesson.course
-	
-	utils.touchDirectory(_path + '/in-class/')
-
-	fs.writeFile(_path+'/in-class/'+lesson.title+'.json', JSON.stringify(lesson), () => {
-		console.log('[SAVE SESSION]',lesson.title,'to /'+_path,'at',utils.time())
+		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	})
 })
 

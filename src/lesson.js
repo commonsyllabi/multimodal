@@ -155,7 +155,6 @@ let pushToRemote = (_lesson) => {
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
-			console.log('error for sure')
 			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.title}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
 			return
 		}else{

@@ -11,6 +11,7 @@ import * as typing from './lesson/typing.js'
 import * as save from './lesson/save.js'
 import * as globals from './lesson/globals.js'
 import * as drawing from './lesson/drawing.js'
+import * as utils from './utils.js'
 
 let init = () => {
 
@@ -61,3 +62,5 @@ ipc.on('menu-save', () => {window.saveSession()})
 ipc.on('menu-exit', () => {window.exitLesson()})
 ipc.on('menu-toggle', () => {drawing.toggleDraw()})
 ipc.on('menu-clear-board', () => {drawing.clearBoard()})
+
+ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})
