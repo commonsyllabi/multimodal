@@ -13,6 +13,12 @@ body {
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
 
+.info {
+  background-color: darkseagreen; }
+
+.error {
+  background-color: crimson; }
+
 div, img {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -75,6 +81,12 @@ body {
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
+
+.info {
+  background-color: darkseagreen; }
+
+.error {
+  background-color: crimson; }
 
 div, img {
   -webkit-user-select: none;
@@ -173,6 +185,12 @@ body {
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
 
+.info {
+  background-color: darkseagreen; }
+
+.error {
+  background-color: crimson; }
+
 div, img {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -247,6 +265,12 @@ body {
   background-color: #333333;
   color: #f0f0f0;
   transition: opacity 0.5s ease-in-out; }
+
+.info {
+  background-color: darkseagreen; }
+
+.error {
+  background-color: crimson; }
 
 div, img {
   -webkit-user-select: none;
