@@ -125,24 +125,26 @@ window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* e
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
 
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* exitLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* exitLesson */]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* selectCourse */]
-window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* selectCoursePath */]
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* selectCourse */]
+window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* selectCoursePath */]
+window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
+window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removePrep */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["removeNote"]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* removeConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeConcept */]
 
 
 /***/ }),
@@ -249,14 +251,15 @@ let setMessage = (_msg, _type) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return selectCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return selectCoursePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return selectCoursePath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removePrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return removeConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return saveLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exitLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return saveLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exitLesson; });
 
 
 const {dialog} = __webpack_require__(0).remote
@@ -367,22 +370,30 @@ let createNote = (kind) => {
 	return note
 }
 
-let addNote = (el) => {
+let addPrep = (el) => {
 
-	if(el.getAttribute('class') == 'create-add-note'){
+	if(el.getAttribute('class') == 'create-add-prep'){
 
-		let note = createNote(el.value)
+		let note = createPrep(el.value)
 		el.parentNode.insertAdjacentElement('afterend', note)
 
 	}else if(el.getAttribute('class') == 'create-add-concept'){
 
-		let note = createNote('text')
+		let note = createPrep('text')
 		return note
 
 	}
 }
 
+let addNote = (el) => {
+	//TODO
+}
+
 let removeNote = (el) => {
+	//TODO
+}
+
+let removePrep = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
@@ -454,7 +465,7 @@ let createOption = (val) => {
 }
 */
 let parseLesson = () => {
-
+	//TODO adapt parsing to new structure of edit-notes.pug (div.content-holder and div.prep-holder)
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
@@ -476,7 +487,7 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
 				if(_cn[0].getAttribute('kind') == 'text')
-					concept.push({'type':'text', 'text': _cn[0].value})
+					concept.push({'type':'txt', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')

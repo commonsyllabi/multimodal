@@ -20,23 +20,23 @@ html
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept[0])
-					each note in concept
-						div.create-note
-							if note.type == 'text'
-								input.create-concept-note(type='text', kind='text', value= note.text)
-								include includes/add-note.pug
-							else if note.type == 'url'
-								input.create-concept-note.url(type='text', kind='url', value= note.url)
-								input.create-concept-note(type='text', kind='url', value= note.text)
-								include includes/add-note.pug
-							else if note.type == 'img'
-								input.create-concept-note.url(type='text', kind='img', value= note.src)
-								include includes/add-note.pug
+					each prep in concept
+						div.create-prep
+							if prep.type == 'txt'
+								input.create-concept-prep(type='text', kind='text', value= prep.text)
+								include includes/add-prep.pug
+							else if prep.type == 'url'
+								input.create-concept-prep.url(type='text', kind='url', value= prep.url)
+								input.create-concept-prep(type='text', kind='url', value= prep.text)
+								include includes/add-prep.pug
+							else if prep.type == 'img'
+								input.create-concept-prep.url(type='text', kind='img', value= prep.src)
+								include includes/add-prep.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
 
 			div.interface-buttons
-				button.lesson-btn.create-lesson-save(onclick='saveLesson()') save
+				button.lesson-btn.create-lesson-save(onclick='saveLesson("prep")') save
 				button.lesson-btn.create-lesson-exit(onclick='exitLesson()') exit
 				div.msg-log#msg-log

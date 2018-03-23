@@ -349,6 +349,19 @@ div, img {
   border-bottom: 2px solid #333333;
   padding: 2px; }
 
+.content-holder {
+  width: 100%;
+  height: auto;
+  overflow: auto; }
+
+.prep-holder {
+  width: 50%;
+  float: left; }
+
+.notes-holder {
+  width: 40%;
+  float: right; }
+
 input[type=text] {
   border: none;
   border-bottom: 2px solid black;
@@ -359,19 +372,24 @@ input[type=text] {
   padding: 10px;
   border: 2px solid #999999; }
 
-.create-concept-note {
+.create-concept-prep {
   font-size: 32px;
   margin-right: 10px; }
+
+.create-concept-note {
+  font-size: 24px;
+  width: 100%; }
 
 .create-concept-name {
   background-color: #f0f0f0;
   color: #333333;
   border: none;
-  width: 50%;
+  width: 100%;
+  float: left;
   font-size: 48px;
   margin-bottom: 12px; }
 
-.create-note {
+.create-prep {
   margin-bottom: 10px;
   width: 80%;
   margin-left: 20px; }
@@ -379,7 +397,7 @@ input[type=text] {
 .url {
   font-style: italic; }
 
-.create-add-note, .create-remove-note {
+.create-add-prep, .create-remove-prep {
   border: none;
   margin: 5px;
   font-size: 18px;
