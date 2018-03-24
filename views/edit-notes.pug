@@ -14,11 +14,7 @@ html
 				input.show-local-path#local-path(type='text', placeholder='course folder', value= path.local)
 
 				button.create-local-path(onclick='selectCoursePath(this)') select
-				br
-				br
-				input.create-remote-path#remote-path(type='text', placeholder='repository url', value= path.remote)
 			each concept in concepts
-
 				div.create-concept
 					input.create-concept-name(type='text', value= concept.concept)
 					div.content-holder

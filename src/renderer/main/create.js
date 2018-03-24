@@ -193,15 +193,6 @@ let removeConcept = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
-//TODO delete later
-/*
-let createOption = (val) => {
-	let el = document.createElement('option')
-	el.innerText = '- '+val
-	el.value = val
-	return el
-}
-*/
 let parseLesson = () => {
 	//TODO adapt parsing to new structure of edit-notes.pug (div.content-holder and div.prep-holder)
 	lesson.concepts = []
@@ -211,6 +202,7 @@ let parseLesson = () => {
 	lesson.title = document.getElementById('title').value
 
 	lesson.path.local = document.getElementById('local-path').value
+	//TODO remove remote path
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
@@ -282,4 +274,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 
-export { selectCourse, selectCoursePath, addNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
+export { selectCourse, selectCoursePath, addNote, removeNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
