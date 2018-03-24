@@ -14,24 +14,23 @@ html
 				input.show-local-path#local-path(type='text', placeholder='course folder', value= path.local)
 
 				button.create-local-path(onclick='selectCoursePath(this)') select
-				br
-				br
-				input.create-remote-path#remote-path(type='text', placeholder='repository url', value= path.remote)
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept[0])
-					each prep in concept
-						div.create-prep
-							if prep.type == 'txt'
-								input.create-concept-prep(type='text', kind='text', value= prep.text)
-								include includes/add-prep.pug
-							else if prep.type == 'url'
-								input.create-concept-prep.url(type='text', kind='url', value= prep.url)
-								input.create-concept-prep(type='text', kind='url', value= prep.text)
-								include includes/add-prep.pug
-							else if prep.type == 'img'
-								input.create-concept-prep.url(type='text', kind='img', value= prep.src)
-								include includes/add-prep.pug
+					div.content-holder
+						div.prep-holder
+							each prep in concept
+								div.create-prep
+									if prep.type == 'txt'
+										input.create-concept-prep(type='text', kind='text', value= prep.text)
+										include includes/add-prep.pug
+									else if prep.type == 'url'
+										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
+										input.create-concept-prep(type='text', kind='url', value= prep.text)
+										include includes/add-prep.pug
+									else if prep.type == 'img'
+										input.create-concept-prep.url(type='text', kind='img', value= prep.src)
+										include includes/add-prep.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -

@@ -142,7 +142,7 @@ window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* s
 window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
 window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removePrep */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["removeNote"]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* removeNote */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
 window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeConcept */]
 
@@ -254,6 +254,7 @@ let setMessage = (_msg, _type) => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return selectCourse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return selectCoursePath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removePrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
@@ -455,15 +456,6 @@ let removeConcept = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
-//TODO delete later
-/*
-let createOption = (val) => {
-	let el = document.createElement('option')
-	el.innerText = '- '+val
-	el.value = val
-	return el
-}
-*/
 let parseLesson = () => {
 	//TODO adapt parsing to new structure of edit-notes.pug (div.content-holder and div.prep-holder)
 	lesson.concepts = []
@@ -473,6 +465,7 @@ let parseLesson = () => {
 	lesson.title = document.getElementById('title').value
 
 	lesson.path.local = document.getElementById('local-path').value
+	//TODO remove remote path
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
