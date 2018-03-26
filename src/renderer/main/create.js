@@ -119,8 +119,6 @@ let addPrep = (el) => {
 				if(_el.getAttribute('class') == 'content-holder')
 					_el.children[0].appendChild(prep) //and we append to its first child, the prep-holder
 			}
-			//prep_holder = el.parentNode.children[el.parentNode.children.length-1]
-		//	prep_holder.appendChild(prep)
 		}else if(el.parentNode.getAttribute('class') == 'create-prep'){
 			el.parentNode.insertAdjacentElement('afterend', prep)
 		}
@@ -150,7 +148,6 @@ let addConcept = (el) => {
 	let concept = document.createElement('div')
 	concept.setAttribute('class', 'create-concept')
 
-	//TODO add content-holder and prep-holder
 	let content_holder = document.createElement('div')
 	content_holder.setAttribute('class', 'content-holder')
 
@@ -214,7 +211,6 @@ let removeConcept = (el) => {
 }
 
 let parseLesson = () => {
-	//TODO adapt parsing to new structure of edit-notes.pug (div.content-holder and div.prep-holder)
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
@@ -265,7 +261,7 @@ let saveLesson = (_type) => {
 
 		lesson.prefix = _type //either prep or in-class
 		console.log(lesson);
-	//		ipc.send('save-lesson', lesson)
+		ipc.send('save-lesson', lesson)
 	}
 }
 
