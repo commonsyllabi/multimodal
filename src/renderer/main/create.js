@@ -2,6 +2,7 @@
 
 const {dialog} = require('electron').remote
 const ipc = require('electron').ipcRenderer
+const utils = require('../utils.js')
 
 let lesson = {
 	'course' : '',
@@ -16,13 +17,11 @@ let lesson = {
 let selectCourse = (name) => {
 	if(name.value == 'new course'){
 		document.getElementById('new-course').style.display = 'inline'
-		document.getElementById('set-new-course').style.display = 'inline'
 	}else if(name == 'custom'){
 		lesson.course = document.getElementById('new-course').value
 	}else{
 		lesson.course = name.value
 		document.getElementById('new-course').style.display = 'none'
-		document.getElementById('set-new-course').style.display = 'none'
 	}
 }
 
@@ -39,86 +38,97 @@ let selectCoursePath = () => {
 	})
 }
 
-let createNote = (kind) => {
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-note')
+let createPrep = (kind) => {
+	let prep = document.createElement('div')
+	prep.setAttribute('class', 'create-prep')
 
-	if(kind == 'text'){
+	if(kind == 'txt'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('placeholder', 'text')
-		text.setAttribute('kind', 'text')
-		text.setAttribute('class', 'create-concept-note')
-		note.appendChild(text)
+		text.setAttribute('kind', 'txt')
+		text.setAttribute('class', 'create-concept-prep')
+		prep.appendChild(text)
 	}else if(kind == 'url'){
 		let url = document.createElement('input')
 		url.setAttribute('type', 'text')
 		url.setAttribute('kind', 'url')
 		url.setAttribute('placeholder', 'url')
-		url.setAttribute('class', 'create-concept-note')
-		note.appendChild(url)
+		url.setAttribute('class', 'create-concept-prep')
+		prep.appendChild(url)
 
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
-		text.setAttribute('kind', 'text')
+		text.setAttribute('kind', 'txt')
 		text.setAttribute('placeholder', 'text')
-		text.setAttribute('class', 'create-concept-note url')
-		note.appendChild(text)
+		text.setAttribute('class', 'create-concept-prep url')
+		prep.appendChild(text)
 	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
-		src.setAttribute('class', 'create-concept-note url')
-		note.appendChild(src)
+		src.setAttribute('class', 'create-concept-prep url')
+		prep.appendChild(src)
 	}else{
-		console.log('unexpected type for new note')
+		console.log('unexpected type for new prep')
 	}
 
 	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-note')
-	b_txt.setAttribute('onclick', 'addNote(this)')
-	b_txt.setAttribute('value', 'text')
+	b_txt.setAttribute('class', 'create-add-prep')
+	b_txt.setAttribute('onclick', 'addPrep(this)')
+	b_txt.setAttribute('value', 'txt')
 	b_txt.innerText = 'txt'
 
-	note.appendChild(b_txt)
+	prep.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-note')
-	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('class', 'create-add-prep')
+	b_url.setAttribute('onclick', 'addPrep(this)')
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	note.appendChild(b_url)
+	prep.appendChild(b_url)
 
 	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-note')
-	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('class', 'create-add-prep')
+	b_img.setAttribute('onclick', 'addPrep(this)')
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	note.appendChild(b_img)
+	prep.appendChild(b_img)
 
 	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-note')
-	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.setAttribute('class', 'create-remove-prep')
+	rem.setAttribute('onclick', 'removePrep(this)')
 	rem.innerText = '-'
-	note.appendChild(rem)
+	prep.appendChild(rem)
 
-	return note
+	return prep
 }
 
 let addPrep = (el) => {
 
 	if(el.getAttribute('class') == 'create-add-prep'){
 
-		let note = createPrep(el.value)
-		el.parentNode.insertAdjacentElement('afterend', note)
+		let prep = createPrep(el.value)
+		let prep_holder
+		if(el.parentNode.getAttribute('class') == 'create-concept'){ //if we're creating the first prep
+
+			for(let _el of el.parentNode.children){ // we find the content-holder
+				if(_el.getAttribute('class') == 'content-holder')
+					_el.children[0].appendChild(prep) //and we append to its first child, the prep-holder
+			}
+			//prep_holder = el.parentNode.children[el.parentNode.children.length-1]
+		//	prep_holder.appendChild(prep)
+		}else if(el.parentNode.getAttribute('class') == 'create-prep'){
+			el.parentNode.insertAdjacentElement('afterend', prep)
+		}
 
 	}else if(el.getAttribute('class') == 'create-add-concept'){
 
-		let note = createPrep('text')
-		return note
+		let prep = createPrep('text')
+		return prep
 
 	}
 }
@@ -145,34 +155,34 @@ let addConcept = (el) => {
 	name.setAttribute('placeholder', 'concept name')
 	concept.appendChild(name)
 
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-note')
+	let prep = document.createElement('div')
+	prep.setAttribute('class', 'create-prep')
 
 	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-note')
+	b_txt.setAttribute('class', 'create-add-prep')
 	b_txt.setAttribute('onclick', 'addNote(this)')
 	b_txt.setAttribute('value', 'text')
 	b_txt.innerText = 'txt'
 
-	note.appendChild(b_txt)
+	prep.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-note')
+	b_url.setAttribute('class', 'create-add-prep')
 	b_url.setAttribute('onclick', 'addNote(this)')
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	note.appendChild(b_url)
+	prep.appendChild(b_url)
 
 	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-note')
+	b_img.setAttribute('class', 'create-add-prep')
 	b_img.setAttribute('onclick', 'addNote(this)')
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	note.appendChild(b_img)
+	prep.appendChild(b_img)
 
-	concept.append(note)
+	concept.append(prep)
 
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
@@ -210,13 +220,13 @@ let parseLesson = () => {
 		concept.push(_co.childNodes[0].value) //find its name
 
 		for(let note of _co.childNodes){ //go through all notes
-			if(note.hasChildNodes() && note.getAttribute('class') == 'create-note'){
+			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
 				let _cn = note.childNodes
 
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
-				if(_cn[0].getAttribute('kind') == 'text')
+				if(_cn[0].getAttribute('kind') == 'txt')
 					concept.push({'type':'txt', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
@@ -267,11 +277,12 @@ let exitLesson = () => {
 	}
 }
 
+/*
 let setMessage = (_msg) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
 	el.style.opacity = 1
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
-
+*/
 export { selectCourse, selectCoursePath, addNote, removeNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

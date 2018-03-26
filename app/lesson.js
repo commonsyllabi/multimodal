@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,25 @@ module.exports = require("electron");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+exports = module.exports = {}
+
+module.exports.setMessage = (_msg, _type) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_type)
+	el.style.opacity = 1
+
+	setTimeout(() => {
+		el.style.opacity = 0
+		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
+	}, 2000)
+}
+
 
 /***/ }),
 /* 2 */
@@ -89,6 +105,12 @@ module.exports = require("electron");
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,7 +120,7 @@ module.exports = require("electron");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(7);
 
 
 
@@ -151,13 +173,13 @@ let setCurrrentPosition = (pos) => {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getGridPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(5);
 
 
 
@@ -197,7 +219,7 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -299,25 +321,25 @@ let toggleDraw = () => {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__utils_js__);
 'ust strict'
 
 const ipc = __webpack_require__(0).ipcRenderer
 
-__webpack_require__(1)
 __webpack_require__(2)
 __webpack_require__(3)
+__webpack_require__(4)
 
 
 
@@ -380,15 +402,15 @@ ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_5__utils_js__["se
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return newNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return endNote; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(5);
 
 
 
@@ -463,7 +485,7 @@ let endNote = () => {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -472,7 +494,7 @@ let endNote = () => {
 
 
 const ipc = __webpack_require__(0).ipcRenderer
-const utils = __webpack_require__(16)
+const utils = __webpack_require__(1)
 
 let saveSession = () => {
 	let lesson = parseDocument()
@@ -566,34 +588,6 @@ let exitLesson = () => {
 }
 
 
-
-
-/***/ }),
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports = module.exports = {}
-
-module.exports.setMessage = (_msg, _type) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.setAttribute('class', 'msg-log '+_type)
-	el.style.opacity = 1
-
-	setTimeout(() => {
-		el.style.opacity = 0
-		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
-	}, 2000)
-}
 
 
 /***/ })

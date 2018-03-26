@@ -17,18 +17,21 @@ html
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept[0])
+					include includes/add-prep.pug
 					div.content-holder
 						div.prep-holder
 							each prep in concept
-								div.create-prep
-									if prep.type == 'txt'
-										input.create-concept-prep(type='text', kind='text', value= prep.text)
+								if prep.type == 'txt'
+									div.create-prep
+										input.create-concept-prep(type='text', kind='txt', value= prep.text)
 										include includes/add-prep.pug
-									else if prep.type == 'url'
+								else if prep.type == 'url'
+									div.create-prep
 										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
 										input.create-concept-prep(type='text', kind='url', value= prep.text)
 										include includes/add-prep.pug
-									else if prep.type == 'img'
+								else if prep.type == 'img'
+									div.create-prep
 										input.create-concept-prep.url(type='text', kind='img', value= prep.src)
 										include includes/add-prep.pug
 

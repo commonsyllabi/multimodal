@@ -358,6 +358,9 @@ div, img {
   width: 50%;
   float: left; }
 
+.prep-holder-create {
+  width: 100%; }
+
 .notes-holder {
   width: 40%;
   float: right; }

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,25 @@ module.exports = require("electron");
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+exports = module.exports = {}
+
+module.exports.setMessage = (_msg, _type) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_type)
+	el.style.opacity = 1
+
+	setTimeout(() => {
+		el.style.opacity = 0
+		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
+	}, 2000)
+}
+
 
 /***/ }),
 /* 2 */
@@ -88,30 +104,36 @@ module.exports = require("electron");
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 4 */,
+/* 4 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
 /* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */,
 /* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
 
 
 const ipc = __webpack_require__(0).ipcRenderer
 
-__webpack_require__(1)
-__webpack_require__(11)
-__webpack_require__(12)
 __webpack_require__(2)
+__webpack_require__(12)
+__webpack_require__(13)
 __webpack_require__(3)
+__webpack_require__(4)
 
 
 
@@ -148,12 +170,6 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* remo
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
@@ -161,6 +177,12 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* remo
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -173,7 +195,7 @@ window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* remo
 
 
 const ipc = __webpack_require__(0).ipcRenderer
-const utils = __webpack_require__(16)
+const utils = __webpack_require__(1)
 
 let current = {
 	'course':'',
@@ -247,7 +269,7 @@ let setMessage = (_msg, _type) => {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -265,6 +287,7 @@ let setMessage = (_msg, _type) => {
 
 const {dialog} = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
+const utils = __webpack_require__(1)
 
 let lesson = {
 	'course' : '',
@@ -279,13 +302,11 @@ let lesson = {
 let selectCourse = (name) => {
 	if(name.value == 'new course'){
 		document.getElementById('new-course').style.display = 'inline'
-		document.getElementById('set-new-course').style.display = 'inline'
 	}else if(name == 'custom'){
 		lesson.course = document.getElementById('new-course').value
 	}else{
 		lesson.course = name.value
 		document.getElementById('new-course').style.display = 'none'
-		document.getElementById('set-new-course').style.display = 'none'
 	}
 }
 
@@ -302,86 +323,97 @@ let selectCoursePath = () => {
 	})
 }
 
-let createNote = (kind) => {
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-note')
+let createPrep = (kind) => {
+	let prep = document.createElement('div')
+	prep.setAttribute('class', 'create-prep')
 
-	if(kind == 'text'){
+	if(kind == 'txt'){
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
 		text.setAttribute('placeholder', 'text')
-		text.setAttribute('kind', 'text')
-		text.setAttribute('class', 'create-concept-note')
-		note.appendChild(text)
+		text.setAttribute('kind', 'txt')
+		text.setAttribute('class', 'create-concept-prep')
+		prep.appendChild(text)
 	}else if(kind == 'url'){
 		let url = document.createElement('input')
 		url.setAttribute('type', 'text')
 		url.setAttribute('kind', 'url')
 		url.setAttribute('placeholder', 'url')
-		url.setAttribute('class', 'create-concept-note')
-		note.appendChild(url)
+		url.setAttribute('class', 'create-concept-prep')
+		prep.appendChild(url)
 
 		let text = document.createElement('input')
 		text.setAttribute('type', 'text')
-		text.setAttribute('kind', 'text')
+		text.setAttribute('kind', 'txt')
 		text.setAttribute('placeholder', 'text')
-		text.setAttribute('class', 'create-concept-note url')
-		note.appendChild(text)
+		text.setAttribute('class', 'create-concept-prep url')
+		prep.appendChild(text)
 	}else if(kind == 'img'){
 		let src = document.createElement('input')
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
-		src.setAttribute('class', 'create-concept-note url')
-		note.appendChild(src)
+		src.setAttribute('class', 'create-concept-prep url')
+		prep.appendChild(src)
 	}else{
-		console.log('unexpected type for new note')
+		console.log('unexpected type for new prep')
 	}
 
 	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-note')
-	b_txt.setAttribute('onclick', 'addNote(this)')
-	b_txt.setAttribute('value', 'text')
+	b_txt.setAttribute('class', 'create-add-prep')
+	b_txt.setAttribute('onclick', 'addPrep(this)')
+	b_txt.setAttribute('value', 'txt')
 	b_txt.innerText = 'txt'
 
-	note.appendChild(b_txt)
+	prep.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-note')
-	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('class', 'create-add-prep')
+	b_url.setAttribute('onclick', 'addPrep(this)')
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	note.appendChild(b_url)
+	prep.appendChild(b_url)
 
 	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-note')
-	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('class', 'create-add-prep')
+	b_img.setAttribute('onclick', 'addPrep(this)')
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	note.appendChild(b_img)
+	prep.appendChild(b_img)
 
 	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-note')
-	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.setAttribute('class', 'create-remove-prep')
+	rem.setAttribute('onclick', 'removePrep(this)')
 	rem.innerText = '-'
-	note.appendChild(rem)
+	prep.appendChild(rem)
 
-	return note
+	return prep
 }
 
 let addPrep = (el) => {
 
 	if(el.getAttribute('class') == 'create-add-prep'){
 
-		let note = createPrep(el.value)
-		el.parentNode.insertAdjacentElement('afterend', note)
+		let prep = createPrep(el.value)
+		let prep_holder
+		if(el.parentNode.getAttribute('class') == 'create-concept'){ //if we're creating the first prep
+
+			for(let _el of el.parentNode.children){ // we find the content-holder
+				if(_el.getAttribute('class') == 'content-holder')
+					_el.children[0].appendChild(prep) //and we append to its first child, the prep-holder
+			}
+			//prep_holder = el.parentNode.children[el.parentNode.children.length-1]
+		//	prep_holder.appendChild(prep)
+		}else if(el.parentNode.getAttribute('class') == 'create-prep'){
+			el.parentNode.insertAdjacentElement('afterend', prep)
+		}
 
 	}else if(el.getAttribute('class') == 'create-add-concept'){
 
-		let note = createPrep('text')
-		return note
+		let prep = createPrep('text')
+		return prep
 
 	}
 }
@@ -408,34 +440,34 @@ let addConcept = (el) => {
 	name.setAttribute('placeholder', 'concept name')
 	concept.appendChild(name)
 
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-note')
+	let prep = document.createElement('div')
+	prep.setAttribute('class', 'create-prep')
 
 	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-note')
+	b_txt.setAttribute('class', 'create-add-prep')
 	b_txt.setAttribute('onclick', 'addNote(this)')
 	b_txt.setAttribute('value', 'text')
 	b_txt.innerText = 'txt'
 
-	note.appendChild(b_txt)
+	prep.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-note')
+	b_url.setAttribute('class', 'create-add-prep')
 	b_url.setAttribute('onclick', 'addNote(this)')
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	note.appendChild(b_url)
+	prep.appendChild(b_url)
 
 	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-note')
+	b_img.setAttribute('class', 'create-add-prep')
 	b_img.setAttribute('onclick', 'addNote(this)')
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	note.appendChild(b_img)
+	prep.appendChild(b_img)
 
-	concept.append(note)
+	concept.append(prep)
 
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
@@ -473,13 +505,13 @@ let parseLesson = () => {
 		concept.push(_co.childNodes[0].value) //find its name
 
 		for(let note of _co.childNodes){ //go through all notes
-			if(note.hasChildNodes() && note.getAttribute('class') == 'create-note'){
+			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
 				let _cn = note.childNodes
 
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
-				if(_cn[0].getAttribute('kind') == 'text')
+				if(_cn[0].getAttribute('kind') == 'txt')
 					concept.push({'type':'txt', 'text': _cn[0].value})
 				else if(_cn[0].getAttribute('kind') == 'url')
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
@@ -530,37 +562,15 @@ let exitLesson = () => {
 	}
 }
 
+/*
 let setMessage = (_msg) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
 	el.style.opacity = 1
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
+*/
 
-
-
-
-/***/ }),
-/* 15 */,
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports = module.exports = {}
-
-module.exports.setMessage = (_msg, _type) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.setAttribute('class', 'msg-log '+_type)
-	el.style.opacity = 1
-
-	setTimeout(() => {
-		el.style.opacity = 0
-		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
-	}, 2000)
-}
 
 
 /***/ })
