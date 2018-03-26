@@ -78,12 +78,13 @@
 }
 
 .create-lesson-title{
-	font-size: 32px;
+	font-size: 64px;
 	background-color: $light-grey;
 	color: $dark-grey;
 	border: none;
 	border-bottom: 2px solid $dark-grey;
 	padding: 2px;
+	width: 70%;
 }
 
 
@@ -98,7 +99,7 @@
 }
 
 .prep-holder {
-	width: 50%;
+	width: 70%;
 	float: left;
 }
 
@@ -107,7 +108,7 @@
 }
 
 .notes-holder{
-	width: 40%;
+	width: 25%;
 	float: right;
 }
 input[type=text]{

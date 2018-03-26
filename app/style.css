@@ -342,12 +342,13 @@ div, img {
   font-size: 20px; }
 
 .create-lesson-title {
-  font-size: 32px;
+  font-size: 64px;
   background-color: #f0f0f0;
   color: #333333;
   border: none;
   border-bottom: 2px solid #333333;
-  padding: 2px; }
+  padding: 2px;
+  width: 70%; }
 
 .content-holder {
   width: 100%;
@@ -355,14 +356,14 @@ div, img {
   overflow: auto; }
 
 .prep-holder {
-  width: 50%;
+  width: 70%;
   float: left; }
 
 .prep-holder-create {
   width: 100%; }
 
 .notes-holder {
-  width: 40%;
+  width: 25%;
   float: right; }
 
 input[type=text] {
