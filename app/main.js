@@ -545,7 +545,6 @@ let saveLesson = (_type) => {
 		utils.setMessage('saved!', 'info')
 
 		lesson.prefix = _type //either prep or in-class
-		console.log(lesson);
 		ipc.send('save-lesson', lesson)
 	}
 }
