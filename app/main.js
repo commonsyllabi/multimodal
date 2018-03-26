@@ -435,6 +435,10 @@ let addConcept = (el) => {
 	let concept = document.createElement('div')
 	concept.setAttribute('class', 'create-concept')
 
+	//TODO add content-holder and prep-holder
+	let content_holder = document.createElement('div')
+	content_holder.setAttribute('class', 'content-holder')
+
 	let name = document.createElement('input')
 	name.setAttribute('class', 'create-concept-name')
 	name.setAttribute('placeholder', 'concept name')
@@ -445,29 +449,35 @@ let addConcept = (el) => {
 
 	let b_txt = document.createElement('button')
 	b_txt.setAttribute('class', 'create-add-prep')
-	b_txt.setAttribute('onclick', 'addNote(this)')
-	b_txt.setAttribute('value', 'text')
+	b_txt.setAttribute('onclick', 'addPrep(this)')
+	b_txt.setAttribute('value', 'txt')
 	b_txt.innerText = 'txt'
 
-	prep.appendChild(b_txt)
+	concept.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
 	b_url.setAttribute('class', 'create-add-prep')
-	b_url.setAttribute('onclick', 'addNote(this)')
+	b_url.setAttribute('onclick', 'addPrep(this)')
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	prep.appendChild(b_url)
+	concept.appendChild(b_url)
 
 	let b_img = document.createElement('button')
 	b_img.setAttribute('class', 'create-add-prep')
-	b_img.setAttribute('onclick', 'addNote(this)')
+	b_img.setAttribute('onclick', 'addPrep(this)')
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	prep.appendChild(b_img)
+	concept.appendChild(b_img)
 
-	concept.append(prep)
+	let dummy = document.createElement('div')
+	concept.append(dummy)
+
+
+	let prep_holder = document.createElement('div')
+	content_holder.appendChild(prep_holder)
+	concept.append(content_holder)
 
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
@@ -504,7 +514,7 @@ let parseLesson = () => {
 		let concept = []
 		concept.push(_co.childNodes[0].value) //find its name
 
-		for(let note of _co.childNodes){ //go through all notes
+		for(let note of _co.childNodes[5].childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
 				let _cn = note.childNodes
@@ -539,7 +549,8 @@ let saveLesson = (_type) => {
 		utils.setMessage('saved!', 'info')
 
 		lesson.prefix = _type //either prep or in-class
-		ipc.send('save-lesson', lesson)
+		console.log(lesson);
+	//		ipc.send('save-lesson', lesson)
 	}
 }
 
