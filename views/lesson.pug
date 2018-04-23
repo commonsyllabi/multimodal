@@ -17,7 +17,7 @@ html
 				div.prep-group
 					div.prep.note.title(concept= index)= notes[0]
 					each note  in notes
-						if note.type == "text"
+						if note.type == "txt"
 							div.prep.note(concept= index)= note.text
 						if note.type == "url"
 							div.prep.note(concept= index)

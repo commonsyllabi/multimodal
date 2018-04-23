@@ -1,0 +1,206 @@
+{
+  "concepts": [
+    {
+      "concept": "0. environments & stories",
+      "notes": [],
+      "prep": [
+        {
+          "text": "announcement: switching lectures",
+          "type": "txt"
+        },
+        {
+          "text": "homework",
+          "type": "txt"
+        },
+        {
+          "text": "invisible cities",
+          "type": "txt"
+        },
+        {
+          "text": "environments, stories and interaction",
+          "type": "txt"
+        },
+        {
+          "text": "documents",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "1. invisible cities",
+      "notes": [
+        "the same city can be very different based on perspective",
+        "cities are usually described by form\nbut they also rely on memories",
+        "the details of the cities: \"the astronomer's glass tower\"",
+        "city rebuilt from itself, re-using aspects of it, as a city defined  by people",
+        "the city which has strings between homes: representing ideas through form, and making the invisible visible\nruined version of the city",
+        "meta-narrative",
+        "the city is something that you long for, or that you go to",
+        "interpretation left to the reader, but also to the traveller",
+        "unexpected connections between items"
+      ],
+      "prep": [
+        {
+          "text": "what did you think of the relationships between cities and people?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "2. space and place",
+      "notes": [
+        "place is somewhere you get something out of (changes you)",
+        "giving a space a name makes it a place",
+        "sense of familiarity, identify something, if it makes sense to you",
+        "abstract / tangible == objective and subjective"
+      ],
+      "prep": [
+        {
+          "text": "how does a space become a place?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "3. different storytellings",
+      "notes": [
+        "do we need conflict?",
+        "1. set\n2. develop\n3. contrast\n4. negociation/resolution"
+      ],
+      "prep": [
+        {
+          "text": "west (hero's journey): sequence and conflict",
+          "type": "txt"
+        },
+        {
+          "text": "east (kishotenketsu): description and contrast",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "4. inserting stories",
+      "notes": [
+        "henry jenkins"
+      ],
+      "prep": [
+        {
+          "text": "1. evoking pre-existing narrative associations (Don Carson)",
+          "type": "txt"
+        },
+        {
+          "text": "2. enacting narrative events",
+          "type": "txt"
+        },
+        {
+          "text": "3. embedding narrative information",
+          "type": "txt"
+        },
+        {
+          "text": "4. provide resources for emergent narratives",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "5. evoking stories",
+      "notes": [],
+      "prep": [
+        {
+          "text": "\"If, for example, the attraction centers around pirates, every texture you use, every sound you play, every turn in the road should reinforce the concept of pirates\"",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "6. enacting stories",
+      "notes": [],
+      "prep": [
+        {
+          "text": "interaction is participation",
+          "type": "txt"
+        },
+        {
+          "text": "give a personality to the action/the object interacted with, and the user becomes an actor",
+          "type": "txt"
+        },
+        {
+          "text": "environmental presence",
+          "type": "txt"
+        },
+        {
+          "text": "“the extent to which the environment itself appears to know that you are there and to react to you”“the extent to which the environment itself appears to know that you are there and to react to you”",
+          "type": "txt"
+        },
+        {
+          "text": "give a responsibility to the user",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "7. embedding stories",
+      "notes": [
+        "how did we get here?",
+        "east meets west\nhigh line\npalm trees\nfalaj"
+      ],
+      "prep": [
+        {
+          "text": "a cosmogony",
+          "type": "txt"
+        },
+        {
+          "text": "\"drama lies between broad conflicts and localized incidents\"",
+          "type": "txt"
+        },
+        {
+          "text": "a space is a set of clues that the user has to piece together.",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "8. formal language",
+      "notes": [],
+      "prep": [
+        {
+          "text": "information is transcribed into visual cues...",
+          "type": "txt"
+        },
+        {
+          "text": "information is assembled into patterns...",
+          "type": "txt"
+        },
+        {
+          "text": "to form a cognitive map of both natural and man-made elements",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "9. summary",
+      "notes": [],
+      "prep": [
+        {
+          "text": "a space becomes a place when a story is told through it, hinting at the past and at the future, while the user enacts the present.",
+          "type": "txt"
+        }
+      ]
+    }
+  ],
+  "contents": [],
+  "course": "alternate-realities",
+  "path": {
+    "local": "/home/pierre/teaching/alternate-realities/repo",
+    "remote": ""
+  },
+  "prefix": "in-class",
+  "title": "environmental-storytelling",
+  "date": {
+    "year": 2018,
+    "month": "03",
+    "day": 27,
+    "hour": 17,
+    "minutes": 24
+  }
+}
