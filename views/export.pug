@@ -14,7 +14,7 @@ html
 				div.concept-buttons
 					each val, index in contents
 						//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
-				each content, index in contents
+				each content, index in concepts
 					div.concept-group
 						h3.concept-name= content.concept
 						div.prep-group

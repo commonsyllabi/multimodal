@@ -1,0 +1,127 @@
+{
+  "concepts": [
+    {
+      "concept": "0. vr as media",
+      "notes": [],
+      "prep": []
+    },
+    {
+      "concept": "1. project progress",
+      "notes": [
+        "escapelab:\n- 2 puzzles with Vive / 2 without the Vive\n- movement networking\n- no puzzle networking\n- fading out in light\n- collision between antidote and headprefab\n",
+        "hidenseek:\n- OST networked\n- SFX not working\n- beginning game\n- end game 100%\n- environment is fine",
+        "illuminated:\n- game logic is almost done\n- level design\n- vfx and haptic feedback\n- sound effects tbc",
+        "elemelons:\n- polished controls\n- game logic (UI)\n- attack / defense are in\n- circle - flamethrower"
+      ],
+      "prep": []
+    },
+    {
+      "concept": "2. vr questions?",
+      "notes": [
+        "\n> not a hardware problem\n> you cannot feel like you're moving\n> super personal\n",
+        "> what can/should VR do\n",
+        "VR can be about perception of other places\n\nmental vs. physical / informational vs. emotional"
+      ],
+      "prep": [
+        {
+          "text": "what makes VR different from other media?",
+          "type": "txt"
+        },
+        {
+          "text": "how is VR *more* interesting?",
+          "type": "txt"
+        },
+        {
+          "text": "how is VR *less* interesting?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "3. vr as media",
+      "notes": [
+        "the medium is the message",
+        "marshall mcluhan",
+        "the context of the medium implies different strands\nthematically",
+        "book > movie\ngive a concrete form vs. abstract / pacing / specific framing / adapting the vocabulary / dialogue / sound",
+        "book > VR\nswitch perspectives / personality\nhandful of scenes (spatial stories)\nprocedure\ninteraction - futile interactions / permanence",
+        "commercial challenges"
+      ],
+      "prep": [
+        {
+          "text": "neil postman",
+          "type": "txt"
+        },
+        {
+          "text": "the medium as metaphor",
+          "type": "txt"
+        },
+        {
+          "text": "tools for conversation",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "4. vr as empathy",
+      "notes": [],
+      "prep": [
+        {
+          "text": "voices of vr podcast?",
+          "type": "txt"
+        },
+        {
+          "text": "\"building mental models\"",
+          "type": "txt"
+        },
+        {
+          "text": "\"access to places we'd never have\"",
+          "type": "txt"
+        },
+        {
+          "text": "\"vr can understand how it is that we are affecting each other\"",
+          "type": "txt"
+        },
+        {
+          "text": "pro? against?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "5. techno-messianism",
+      "notes": [],
+      "prep": [
+        {
+          "text": "???",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "6. last weeks",
+      "notes": [],
+      "prep": [
+        {
+          "text": "documentation",
+          "type": "txt"
+        }
+      ]
+    }
+  ],
+  "contents": [],
+  "course": "alternate-realities",
+  "path": {
+    "local": "/home/pierre/teaching/alternate-realities/repo",
+    "remote": ""
+  },
+  "prefix": "in-class",
+  "title": "vr-media",
+  "date": {
+    "year": 2018,
+    "month": "04",
+    "day": 24,
+    "hour": 17,
+    "minutes": 29
+  }
+}
