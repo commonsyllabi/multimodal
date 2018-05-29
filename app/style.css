@@ -1,5 +1,5 @@
 body {
-  font-family: 'Inter UI'; }
+  font-family: 'Inter UI', 'Trebuchet MS'; }
 
 .msg-log {
   float: right;
@@ -34,6 +34,9 @@ body {
     color: black;
     font-size: 2.5em;
     transition: opacity 0.5s ease-in; }
+    @media (max-width: 1300px) {
+      body .note {
+        font-size: 2em; } }
   body .title {
     font-size: 2.3em;
     font-weight: bold; }
@@ -64,11 +67,14 @@ body {
     width: 100%;
     margin-top: 5%;
     text-align: left; }
+    @media (max-width: 1300px) {
+      body .prep {
+        font-size: 2.5em; } }
   body img {
     max-width: 800px;
     max-height: 600px; }
 body {
-  font-family: 'Inter UI'; }
+  font-family: 'Inter UI', 'Trebuchet MS'; }
 
 .msg-log {
   float: right;
@@ -120,11 +126,19 @@ canvas {
   color: #333333;
   background-color: #f0f0f0;
   font-family: 'Inter UI';
-  font-size: 2.2em;
   cursor: pointer; }
+
+.lesson-btn {
+  font-size: 2.2em; }
+  @media (max-width: 1300px) {
+    .lesson-btn {
+      font-size: 1.5em; } }
 
 .concept-btn {
   font-size: 1.3em; }
+  @media (max-width: 1300px) {
+    .concept-btn {
+      font-size: 1em; } }
 
 .lesson-btn:hover, .concept-btn:hover {
   background-color: #999999;
@@ -143,9 +157,11 @@ canvas {
   position: absolute;
   top: 0px;
   right: 0px;
-  width: 10%;
+  min-width: 10%;
+  max-width: 15%;
   height: 100%;
-  background-color: #f0f0f0; }
+  background-color: #f0f0f0;
+  overflow-y: scroll; }
 
 .concept {
   width: 100%;
@@ -171,7 +187,7 @@ canvas {
   .interface-buttons button {
     margin-right: 2%; }
 body {
-  font-family: 'Inter UI'; }
+  font-family: 'Inter UI', 'Trebuchet MS'; }
 
 .msg-log {
   float: right;
@@ -252,7 +268,7 @@ div, img {
   background-color: white;
   color: #f0f0f0; }
 body {
-  font-family: 'Inter UI'; }
+  font-family: 'Inter UI', 'Trebuchet MS'; }
 
 .msg-log {
   float: right;
