@@ -29,8 +29,12 @@ let generateHTML = (data, template) => {
 // ------------------------------ WINDOW MANAGEMENT
 // -----------------------------
 
-let createWindow = (current, _width, _height) => {
+let createWindow = (current) => {
 	mainWindow = null
+
+	let	_width = electron.screen.getPrimaryDisplay().workAreaSize.width*0.95
+	let	_height = electron.screen.getPrimaryDisplay().workAreaSize.height*0.95
+
 
 	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png', frame: true})
 
@@ -48,9 +52,7 @@ let createWindow = (current, _width, _height) => {
 
 module.exports.win = mainWindow
 
-let replaceWindow = (_target, _width, _height) => {
-	mainWindow.setSize(_width,_height)
-
+let replaceWindow = (_target) => {
 	mainWindow.loadURL('file:///'+__dirname+'/../app/'+_target+'.html')
 }
 
@@ -61,12 +63,12 @@ let replaceWindow = (_target, _width, _height) => {
 
 ipc.on('open-lesson', (event, data) => {
 	generateHTML(data, 'lesson')
-	replaceWindow('lesson', 1800, 1000)
+	replaceWindow('lesson')
 })
 
 ipc.on('edit-lesson', (event, data) => {
 	generateHTML(data, 'edit')
-	replaceWindow('edit', 1800, 1000)
+	replaceWindow('edit')
 })
 
 ipc.on('edit-notes-lesson', (event, data) => {
@@ -80,7 +82,7 @@ ipc.on('edit-notes-lesson', (event, data) => {
 
 	if(has_edit){
 		generateHTML(data, 'edit-notes')
-		replaceWindow('edit-notes', 1800, 1000)
+		replaceWindow('edit-notes')
 	}else{
 		console.log('no found');
 		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
@@ -89,7 +91,7 @@ ipc.on('edit-notes-lesson', (event, data) => {
 
 ipc.on('create-lesson', () => {
 	lesson.create()
-	replaceWindow('create', 1800, 1000)
+	replaceWindow('create')
 })
 
 ipc.on('export-lesson', (event, data) => {
@@ -112,12 +114,12 @@ ipc.on('save-lesson', (event, lesson) => {
 
 ipc.on('exit-home', () => {
 	lesson.list()
-	replaceWindow('welcome', 1800, 1000)
+	replaceWindow('welcome')
 })
 
 app.on('ready', () => {
 	lesson.list()
-	createWindow('welcome', 1800, 1000)
+	createWindow('welcome')
 })
 
 app.on('window-all-closed', () => { app.quit() })
