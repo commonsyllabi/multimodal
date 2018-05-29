@@ -21,11 +21,9 @@ html
 					div.prep-holder-create
 						div.create-concept
 							input.create-concept-name(placeholder='concept name')
-							div.create-prep
-								include includes/add-prep.pug
-							div.create-prep
-								input.create-concept-prep(type='text', kind='text', placeholder='text')
-								include includes/add-prep.pug
+							include includes/add-prep.pug
+							div.content-holder
+								div
 							button.create-add-concept(onclick='addConcept(this)') +
 							button.create-remove-concept(onclick='removeConcept(this)') -
 
