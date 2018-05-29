@@ -503,7 +503,6 @@ let parseLesson = () => {
 	lesson.title = document.getElementById('title').value
 
 	lesson.path.local = document.getElementById('local-path').value
-	//TODO remove remote path
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
