@@ -96,11 +96,25 @@ ipc.on('create-new-course', () => {
 })
 
 ipc.on('save-course', (event, data) => {
-	//this is where
-	//i check for the courses file
-	//and if there is no similar course
-	//i append
-	//then don't forget to send messages
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
+
+	for(let course of courses){
+		if(course.name == data.name && course.year == data.year && course.path == data.path){
+			console.log(`[COURSE] ${data.name} already exists`);
+			BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course already exists!', type: 'error'})
+			return
+		}
+	}
+
+	courses.push(data)
+	fs.writeFileSync(__dirname+'/../lessons/courses.json', JSON.stringify(courses))
+
+	//send a confirmation message
+	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
+	console.log(`[COURSE] saved ${data.name} successfully`);
+	BrowserWindow.getFocusedWindow().close()
+	mainWindow = BrowserWindow.getAllWindows()[0]
+	mainWindow.webContents.send('update-dropdown', {course: data.name})
 })
 
 ipc.on('create-lesson', () => {
@@ -114,10 +128,11 @@ ipc.on('export-lesson', (event, data) => {
 
 //-- save lesson prep
 ipc.on('save-lesson', (event, lesson) => {
-console.log('lesson prefix as received: '+lesson.prefix);
 	lesson.date = utils.date()
+
+	//TODO find the appropriate course first
+	
 	let _path = __dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix
-	console.log('lesson path: '+_path);
 
 	utils.touchDirectory(_path)
 

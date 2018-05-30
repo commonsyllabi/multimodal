@@ -1,6 +1,6 @@
 'use strict'
 
-const dialog = require('electron').remote
+const {dialog} = require('electron').remote
 const remote = require('electron').remote
 const ipc = require('electron').ipcRenderer
 const utils = require('../utils.js')
@@ -36,12 +36,17 @@ let createNewCourse = () => {
 	ipc.send('create-new-course')
 }
 
-let saveCourse = (_course) => {
-
+let saveCourse = () => {
+	let _course = {}
+		_course.name = document.getElementById('course-name').value
+		_course.year = document.getElementById('course-year').value
+		_course.path = document.getElementById('course-path').value
+	
+	ipc.send('save-course', _course)
 }
 
 let exitCourse = () => {
-	let w = dialog.getCurrentWindow()
+	let w = remote.getCurrentWindow()
 	w.close()
 }
 
@@ -151,14 +156,6 @@ let addPrep = (el) => {
 	}
 }
 
-let addNote = (el) => {
-	//TODO
-}
-
-let removeNote = (el) => {
-	//TODO
-}
-
 let removePrep = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
@@ -234,10 +231,11 @@ let parseLesson = () => {
 	lesson.concepts = []
 
 	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
-	lesson.course = dropdown != 'new course' ? dropdown : document.getElementById('new-course').value
+	
+	lesson.course = dropdown
+	//TODO on receiving the saveLesson, the main process will go through the existing courses and associate the data with it
+	
 	lesson.title = document.getElementById('title').value
-
-	lesson.path.local = document.getElementById('local-path').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts

@@ -10,6 +10,9 @@ let win
 exports = module.exports = {}
 
 module.exports.list = () => {
+
+	//TODO render the pug file with reading from courses.json
+	
 	let data = {
 		'courses':[]
 	}
@@ -17,20 +20,22 @@ module.exports.list = () => {
 	let courses = fs.readdirSync(__dirname+'/../lessons')
 
 	for(let co of courses){
+		if(co.indexOf('.') == -1){
 
-		let course = {
-			'title':co,
-			'lessons': []
+			let course = {
+				'title':co,
+				'lessons': []
+			}
+	
+			let lessons = fs.readdirSync(__dirname+'/../lessons/'+co+'/prep')
+	
+			for(let l of lessons){
+				let lesson_name = l.substring(0, l.indexOf('.'))
+				course.lessons.push(lesson_name)
+			}
+	
+			data.courses.push(course)
 		}
-
-		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co+'/prep')
-
-		for(let l of lessons){
-			let lesson_name = l.substring(0, l.indexOf('.'))
-			course.lessons.push(lesson_name)
-		}
-
-		data.courses.push(course)
 	}
 
 	let compiled = pug.renderFile('views/welcome.pug', data)
