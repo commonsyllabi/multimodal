@@ -17,9 +17,13 @@ window.setLesson = welcome.setLesson
 window.openLesson = welcome.openLesson
 window.editLesson = welcome.editLesson
 window.editNotesLesson = welcome.editNotesLesson
+
 window.createLesson = welcome.createLesson
 window.exportLesson = welcome.exportLesson
 
+window.createNewCourse = create.createNewCourse
+window.saveCourse = create.saveCourse
+window.exitCourse = create.exitCourse
 window.saveLesson = create.saveLesson
 window.exitLesson = create.exitLesson
 

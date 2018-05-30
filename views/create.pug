@@ -10,11 +10,7 @@ html
 				select.create-courses-list#course-list(onchange='selectCourse(this)')
 					each cl in courses
 						option(value= cl)= cl
-					option(value="new course", selected) new course
-				input.create-new-course#new-course(type='text')
-				div.create-path
-					input.show-local-path#local-path(type='text', placeholder='course folder path', value='')
-					button.create-local-path(onclick='selectCoursePath(this)') select
+				button.create-new-course#new-course(onclick='createNewCourse()') create new course
 			div.create-lesson
 				input.create-lesson-title#title(placeholder='lesson title')
 				div.content-holder
