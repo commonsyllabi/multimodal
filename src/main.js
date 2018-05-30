@@ -100,9 +100,10 @@ ipc.on('export-lesson', (event, data) => {
 
 //-- save lesson prep
 ipc.on('save-lesson', (event, lesson) => {
-
+console.log('lesson prefix as received: '+lesson.prefix);
 	lesson.date = utils.date()
 	let _path = __dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix
+	console.log('lesson path: '+_path);
 
 	utils.touchDirectory(_path)
 

@@ -7,9 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "watch": "webpack --config webpack.config.js --watch",
-    "pack": "webpack --config webpack.config.js",
+    "wrap": "webpack --config webpack.config.js",
     "lint": "eslint src app/js",
-    "lint:fix": "node_modules/.bin/eslint --fix src app/js"
+    "lint:fix": "node_modules/.bin/eslint --fix src app/js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.multimodal.app",
+    "productName": "multimodal",
+    "buildVersion": "0.1"
   },
   "repository": {
     "type": "git",
@@ -28,6 +35,7 @@
   "devDependencies": {
     "css-loader": "^0.28.8",
     "electron": "1.8.4",
+    "electron-builder": "^20.15.1",
     "electron-webpack-plugin": "^2.0.0",
     "eslint": "^4.15.0",
     "extract-text-webpack-plugin": "^3.0.2",
