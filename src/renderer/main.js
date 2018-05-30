@@ -36,11 +36,18 @@ ipc.on('menu-exit', () => { create.exitLesson()})
 
 ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})
 
+ipc.on('update-dropdown', (event, data) => {
+	console.log('got', data);
+	let new_course = document.createElement('option')
+	new_course.setAttribute('value', data.course)
+	new_course.innerText = data.course
+	new_course.setAttribute('selected', true)
+	document.getElementById('course-list').appendChild(new_course)
+})
+
 window.selectCourse = create.selectCourse
 window.selectCoursePath = create.selectCoursePath
 window.addPrep = create.addPrep
 window.removePrep = create.removePrep
-window.addNote = create.addNote
-window.removeNote = create.removeNote
 window.addConcept = create.addConcept
 window.removeConcept = create.removeConcept
