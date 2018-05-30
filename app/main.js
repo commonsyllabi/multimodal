@@ -144,29 +144,33 @@ window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLess
 window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]
 window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
 window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* editNotesLesson */]
+
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
 
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* exitLesson */]
+window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* createNewCourse */]
+window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* saveCourse */]
+window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* exitCourse */]
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* exitLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* selectCourse */]
-window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* selectCoursePath */]
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* selectCourse */]
+window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* selectCoursePath */]
 window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
-window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removePrep */]
+window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removePrep */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* removeNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeNote */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* removeConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removeConcept */]
 
 
 /***/ }),
@@ -273,30 +277,40 @@ let setMessage = (_msg, _type) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return selectCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return selectCoursePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return createNewCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return saveCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return exitCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return selectCoursePath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return removeNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removePrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removePrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return saveLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exitLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removeConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return saveLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return exitLesson; });
 
 
-const {dialog} = __webpack_require__(0).remote
+const dialog = __webpack_require__(0).remote
+const remote = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
 const utils = __webpack_require__(1)
 
 let lesson = {
-	'course' : '',
+	'course' : {},
 	'path': {
 		'local': '',
 		'remote':''
 	},
 	'title' : '',
 	'concepts': []
+}
+
+let course = {
+	'name': '',
+	'path': '',
+	'year':''
 }
 
 let selectCourse = (name) => {
@@ -310,6 +324,19 @@ let selectCourse = (name) => {
 	}
 }
 
+let createNewCourse = () => {
+	ipc.send('create-new-course')
+}
+
+let saveCourse = (_course) => {
+
+}
+
+let exitCourse = () => {
+	let w = dialog.getCurrentWindow()
+	w.close()
+}
+
 let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
@@ -318,8 +345,8 @@ let selectCoursePath = () => {
 	}
 
 	dialog.showOpenDialog(options, (path) => {
-		lesson.path.local = path
-		document.getElementById('local-path').value = path
+		course.path = path
+		document.getElementById('course-path').value = path
 	})
 }
 

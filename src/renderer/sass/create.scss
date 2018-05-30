@@ -9,6 +9,7 @@
 .create-course{
 	width: 100%;
 	height: auto;
+	overflow: auto;
 	padding: 30px;
 	text-align: left;
 	background-color: $mid-grey;
@@ -19,6 +20,40 @@
 	width: 50%;
 	margin-left: 5px;
 }
+
+/* COURSE WINDOW */
+.course-name, .course-year, .course-path {
+	width: 94%;
+	font-size: 24px;
+	height: 48px;
+	display: block;
+	float: left;
+
+	margin: 3%;
+	padding-left: 5px;
+}
+
+.course-path {
+	width: 70%;
+}
+
+.create-course-save{
+	float: left;
+	width: 100%;
+}
+
+.create-local-path {
+	display: inline;
+	border: none;
+	font-size: 24px;
+	height: 48px;
+	padding: 5px;
+	margin-left: 5px;
+	margin-top: 3%;
+	background-color: $light-grey;
+}
+
+/* ---------------------------- */
 
 .edit-existing-course{
 	width: 100%;
@@ -46,25 +81,6 @@
 	margin: 10px;
 	padding: 10px;
 	border: 2px solid $mid-grey;
-}
-
-.show-local-path, .create-remote-path {
-	font-size: 24px;
-	display: block;
-	float: left;
-	width: 50%;
-}
-
-.create-remote-path {
-	float: none;
-}
-
-.create-local-path {
-	display: inline;
-	border: none;
-	font-size: 24px;
-	margin-left: 5px;
-	background-color: $light-grey;
 }
 
 .create-local-path:hover {

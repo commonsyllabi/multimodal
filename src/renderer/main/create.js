@@ -1,17 +1,24 @@
 'use strict'
 
-const {dialog} = require('electron').remote
+const dialog = require('electron').remote
+const remote = require('electron').remote
 const ipc = require('electron').ipcRenderer
 const utils = require('../utils.js')
 
 let lesson = {
-	'course' : '',
+	'course' : {},
 	'path': {
 		'local': '',
 		'remote':''
 	},
 	'title' : '',
 	'concepts': []
+}
+
+let course = {
+	'name': '',
+	'path': '',
+	'year':''
 }
 
 let selectCourse = (name) => {
@@ -25,6 +32,19 @@ let selectCourse = (name) => {
 	}
 }
 
+let createNewCourse = () => {
+	ipc.send('create-new-course')
+}
+
+let saveCourse = (_course) => {
+
+}
+
+let exitCourse = () => {
+	let w = dialog.getCurrentWindow()
+	w.close()
+}
+
 let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
@@ -33,8 +53,8 @@ let selectCoursePath = () => {
 	}
 
 	dialog.showOpenDialog(options, (path) => {
-		lesson.path.local = path
-		document.getElementById('local-path').value = path
+		course.path = path
+		document.getElementById('course-path').value = path
 	})
 }
 
@@ -290,4 +310,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 */
-export { selectCourse, selectCoursePath, addNote, removeNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, addNote, removeNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

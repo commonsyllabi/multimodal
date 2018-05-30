@@ -29,11 +29,13 @@ let generateHTML = (data, template) => {
 // ------------------------------ WINDOW MANAGEMENT
 // -----------------------------
 
-let createWindow = (current) => {
+let createWindow = (current, _w_ratio, _h_ratio) => {
 	mainWindow = null
-
-	let	_width = electron.screen.getPrimaryDisplay().workAreaSize.width*0.95
-	let	_height = electron.screen.getPrimaryDisplay().workAreaSize.height*0.95
+	
+	_w_ratio != null ? _w_ratio : 0.95
+	_h_ratio != null ? _h_ratio : 0.95
+	let _width = electron.screen.getPrimaryDisplay().workAreaSize.width*_w_ratio
+	let _height = electron.screen.getPrimaryDisplay().workAreaSize.height*_h_ratio
 
 
 	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png', frame: true})
@@ -87,6 +89,18 @@ ipc.on('edit-notes-lesson', (event, data) => {
 		console.log('no found');
 		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
 	}
+})
+
+ipc.on('create-new-course', () => {
+	createWindow('course', 0.4, 0.4)
+})
+
+ipc.on('save-course', (event, data) => {
+	//this is where
+	//i check for the courses file
+	//and if there is no similar course
+	//i append
+	//then don't forget to send messages
 })
 
 ipc.on('create-lesson', () => {
