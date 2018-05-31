@@ -11,31 +11,29 @@ exports = module.exports = {}
 
 module.exports.list = () => {
 
-	//TODO render the pug file with reading from courses.json
+	//first we get all the courses
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
 	
 	let data = {
 		'courses':[]
 	}
 
-	let courses = fs.readdirSync(__dirname+'/../lessons')
-
+	//then for each course we look for all the related lessons
 	for(let co of courses){
-		if(co.indexOf('.') == -1){
-
-			let course = {
-				'title':co,
-				'lessons': []
-			}
-	
-			let lessons = fs.readdirSync(__dirname+'/../lessons/'+co+'/prep')
-	
-			for(let l of lessons){
-				let lesson_name = l.substring(0, l.indexOf('.'))
-				course.lessons.push(lesson_name)
-			}
-	
-			data.courses.push(course)
+		let course = {
+			'course':co,
+			'lessons': []
 		}
+	
+		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co.name+'/prep')
+
+		//then we get the name of all the associated lessons
+		for(let l of lessons){
+			let lesson_name = l.substring(0, l.indexOf('.'))
+			course.lessons.push(lesson_name)
+		}	
+
+		data.courses.push(course)
 	}
 
 	let compiled = pug.renderFile('views/welcome.pug', data)
@@ -43,11 +41,11 @@ module.exports.list = () => {
 }
 
 module.exports.create = () => {
-	let data = {
-		'courses':[]
-	}
 
-	data.courses = fs.readdirSync(__dirname+'/../lessons')
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
+	let data = {
+		'courses': courses
+	}
 
 	let compiled = pug.renderFile('views/create.pug', data)
 	fs.writeFileSync(__dirname+'/../app/create.html', compiled)

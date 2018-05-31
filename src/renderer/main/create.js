@@ -7,10 +7,6 @@ const utils = require('../utils.js')
 
 let lesson = {
 	'course' : {},
-	'path': {
-		'local': '',
-		'remote':''
-	},
 	'title' : '',
 	'concepts': []
 }
@@ -230,10 +226,13 @@ let removeConcept = (el) => {
 let parseLesson = () => {
 	lesson.concepts = []
 
-	let dropdown = document.getElementById('course-list') != null ? document.getElementById('course-list').value :  document.getElementById('existing-course').innerText
+	let dropdown = document.getElementById('course-list').selectedOptions[0]
 	
-	lesson.course = dropdown
-	//TODO on receiving the saveLesson, the main process will go through the existing courses and associate the data with it
+	lesson.course = {
+		"name": dropdown.value,
+		"year": dropdown.getAttribute('year'),
+		"path": dropdown.getAttribute('path')
+	}
 	
 	lesson.title = document.getElementById('title').value
 

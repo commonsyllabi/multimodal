@@ -11,10 +11,10 @@ html
 				div.lessons
 					each cl in courses
 						div.inter-class
-							div.inter-class-title= cl.title
+							div.inter-class-title= cl.course.name
 							ul
 								each lesson in cl.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+cl.title+'","'+lesson+'")', ondblclick='openLesson("'+cl.title+'", "'+lesson+'")')= lesson
+									li.welcome-lesson(onclick='setLesson(this, "'+cl.course.name+'","'+lesson+'")', ondblclick='openLesson("'+cl.course.name+'", "'+lesson+'")')= lesson
 
 			div.interface-buttons
 				button.inter-btn-main(onclick='createLesson()') create
