@@ -34,9 +34,9 @@ let createNewCourse = () => {
 
 let saveCourse = () => {
 	let _course = {}
-		_course.name = document.getElementById('course-name').value
-		_course.year = document.getElementById('course-year').value
-		_course.path = document.getElementById('course-path').value
+	_course.name = document.getElementById('course-name').value
+	_course.year = document.getElementById('course-year').value
+	_course.path = document.getElementById('course-path').value
 	
 	ipc.send('save-course', _course)
 }
@@ -133,7 +133,6 @@ let addPrep = (el) => {
 	if(el.getAttribute('class') == 'create-add-prep'){
 
 		let prep = createPrep(el.value)
-		let prep_holder
 		if(el.parentNode.getAttribute('class') == 'create-concept'){ //if we're creating the first prep
 
 			for(let _el of el.parentNode.children){ // we find the content-holder
@@ -225,13 +224,14 @@ let removeConcept = (el) => {
 
 let parseLesson = () => {
 	lesson.concepts = []
-
+	
+	//we need a ternary operator here to distinguish between create and edit
 	let dropdown = document.getElementById('course-list').selectedOptions[0]
 	
 	lesson.course = {
-		"name": dropdown.value,
-		"year": dropdown.getAttribute('year'),
-		"path": dropdown.getAttribute('path')
+		'name': dropdown.value,
+		'year': dropdown.getAttribute('year'),
+		'path': dropdown.getAttribute('path')
 	}
 	
 	lesson.title = document.getElementById('title').value
@@ -307,4 +307,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 */
-export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, addNote, removeNote, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

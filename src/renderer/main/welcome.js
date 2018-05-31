@@ -59,16 +59,4 @@ let exportLesson = () => {
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 }
 
-let setMessage = (_msg, _type) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.setAttribute('class', 'msg-log '+_msg)
-	el.style.opacity = 1
-
-	setTimeout(() => { 
-		el.style.opacity = 0 
-		el.setAttribute('class', 'msg-log')
-	}, 2000)
-}
-
 export { openLesson, createLesson, editLesson, editNotesLesson, setLesson, exportLesson }
