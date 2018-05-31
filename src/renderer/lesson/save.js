@@ -1,7 +1,6 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
-const utils = require('../utils.js')
 
 let saveSession = () => {
 	let lesson = parseDocument()

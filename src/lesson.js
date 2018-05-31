@@ -1,6 +1,5 @@
 'use strict'
 
-const app = require('electron').app
 const fs  = require('fs')
 const pug = require('pug')
 const { exec } = require('child_process')
@@ -140,6 +139,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
+			console.log('[STDERR]',stderr)
 			win.webContents.send('msg-log', {msg: `failed to find path for ${_lesson.title}`, type: 'error'})
 			return
 		}
@@ -158,6 +158,7 @@ let pushToRemote = (_lesson) => {
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
+			console.log('[STDERR]',stderr)
 			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.title}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
 			return
 		}else{

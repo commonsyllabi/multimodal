@@ -84,7 +84,7 @@ ipc.on('edit-notes-lesson', (event, data) => {
 		generateHTML(data, 'edit-notes')
 		replaceWindow('edit-notes')
 	}else{
-		console.log('no found');
+		console.log('no found')
 		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
 	}
 })
@@ -98,7 +98,7 @@ ipc.on('save-course', (event, data) => {
 
 	for(let course of courses){
 		if(course.name == data.name && course.year == data.year && course.path == data.path){
-			console.log(`[COURSE] ${data.name} already exists`);
+			console.log(`[COURSE] ${data.name} already exists`)
 			BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course already exists!', type: 'error'})
 			return
 		}
@@ -109,7 +109,7 @@ ipc.on('save-course', (event, data) => {
 
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
-	console.log(`[COURSE] saved ${data.name} successfully`);
+	console.log(`[COURSE] saved ${data.name} successfully`)
 	BrowserWindow.getFocusedWindow().close()
 	mainWindow = BrowserWindow.getAllWindows()[0]
 	mainWindow.webContents.send('update-dropdown', {course: data.name})

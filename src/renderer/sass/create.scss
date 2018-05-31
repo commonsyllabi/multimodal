@@ -12,7 +12,21 @@
 	overflow: auto;
 	padding: 30px;
 	text-align: left;
-	background-color: $mid-grey;
+	background-color: black;
+}
+
+.create-lesson {
+	margin: 10px;
+	font-size: 20px;
+}
+
+.create-lesson-title{
+	font-size: 64px;
+	color: $dark-grey;
+	border: none;
+	border-bottom: 2px solid $dark-grey;
+	padding: 2px;
+	width: 70%;
 }
 
 .create-new-course{
@@ -35,6 +49,8 @@
 
 .course-path {
 	width: 70%;
+	margin: 10px;
+	float: inherit;
 }
 
 .create-course-save{
@@ -60,7 +76,8 @@
 	text-align: right;
 	font-size: 48px;
 	font-weight: bold;
-	color: $light-grey;
+	background-color: white;
+	color: black;
 }
 
 .create-btn {
@@ -80,30 +97,7 @@
 .create-path {
 	margin: 10px;
 	padding: 10px;
-	border: 2px solid $mid-grey;
 }
-
-.create-local-path:hover {
-	background-color: $mid-grey;
-	cursor: pointer;
-}
-
-.create-lesson {
-	margin: 10px;
-	font-size: 20px;
-}
-
-.create-lesson-title{
-	font-size: 64px;
-	background-color: $light-grey;
-	color: $dark-grey;
-	border: none;
-	border-bottom: 2px solid $dark-grey;
-	padding: 2px;
-	width: 70%;
-}
-
-
 
 //-- concepts and notes
 
@@ -131,18 +125,20 @@ input[type=text]{
 //	font-size: 20px;
 	border: none;
 	border-bottom: 2px solid black;
-	background-color: $light-grey;
+	//background-color: $light-grey;
 }
 
 .create-concept {
-	margin: 20px;
+	margin: 20px 20px 30px 20px;
 	padding: 10px;
-	border: 2px solid $mid-grey;
+	padding-bottom: 5px;
+	border: 2px solid black;
 }
 
 .create-concept-prep {
 	font-size: 32px;
 	margin-right: 10px;
+	width: 80%;
 }
 
 .create-concept-note {
@@ -151,7 +147,6 @@ input[type=text]{
 }
 
 .create-concept-name {
-	background-color: $light-grey;
 	color: $dark-grey;
 	border: none;
 	width: 100%;
@@ -172,9 +167,14 @@ input[type=text]{
 
 .create-add-prep, .create-remove-prep {
 	border: none;
+	float: right;
 	margin: 5px;
 	font-size: 18px;
-	color: $dark-grey;
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+
+	cursor: pointer;
 }
 
 .create-concept-buttons {
@@ -188,11 +188,19 @@ input[type=text]{
 	width: 30px;
 	height: 30px;
 	font-size: 15px;
+	font-weight: bold;
 	text-align: center;
 	margin-bottom: 5px;
+	margin-right: 5px;
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+
+	cursor: pointer;
 }
 
-.create-add-concept:hover, .create-remove-concept:hover, .create-add-note:hover, .create-remove-note:hover{
-	background-color: $mid-grey;
+.create-add-concept:hover, .create-remove-concept:hover, .create-add-note:hover, .create-remove-note:hover, .create-add-prep:hover, .create-remove-prep:hover{
+	background-color: black;
+	color: white;
 	cursor: pointer;
 }

@@ -524,7 +524,8 @@ let removeConcept = (el) => {
 
 let parseLesson = () => {
 	lesson.concepts = []
-
+	
+	//we need a ternary operator here to distinguish between create and edit
 	let dropdown = document.getElementById('course-list').selectedOptions[0]
 	
 	lesson.course = {

@@ -2,7 +2,7 @@ doctype
 html
 	head
 		meta(charset="utf8")
-		title= course + ' | '+ title
+		title= course.name + ' | '+ title
 		script(src="./lesson.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
@@ -26,7 +26,7 @@ html
 							div.prep.note(concept= index)
 								img(src= note.src)
 		div.interface-buttons
-			button.lesson-btn.toggle-draw(onclick="toggleDraw()") draw
+			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
 			button.lesson-btn.clear-board(onclick="clearBoard()") clear
 			button.lesson-btn.exit-lesson(onclick="exitLesson()") exit
 			button.lesson-btn.save-session(onclick="saveSession()") save

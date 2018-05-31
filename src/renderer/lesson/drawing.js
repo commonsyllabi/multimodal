@@ -5,7 +5,6 @@ let isDrawMode = false
 
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
-	let cnv = canvases[0]
 	ctn = document.getElementsByClassName('lessons-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
 
