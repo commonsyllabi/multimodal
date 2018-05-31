@@ -42,8 +42,6 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
 
 	mainWindow.loadURL('file:///'+__dirname+'/../app/'+current+'.html')
 
-	//mainWindow.toggleDevTools()
-
 	mainWindow.on('closed', () => {
 		mainWindow = null
 	})
@@ -126,17 +124,15 @@ ipc.on('export-lesson', (event, data) => {
 	lesson.export(data)
 })
 
-//-- save lesson prep
+//-- save lesson (both prep and in-class, see lesson.prefix)
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 
-	//TODO find the appropriate course first
-	
-	let _path = __dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix
+	let _path = __dirname+'/../lessons/'+lesson.course.name+'/'+lesson.prefix
 
 	utils.touchDirectory(_path)
 
-	fs.writeFile(__dirname+'/../lessons/'+lesson.course+'/'+lesson.prefix+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/../lessons/'+lesson.course.name+'/'+lesson.prefix+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
 		console.log('[SAVE LESSON]',lesson.title,'to /'+_path,'at',utils.time())
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	})
