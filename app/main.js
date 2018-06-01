@@ -164,7 +164,7 @@ ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /*
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
 ipc.on('update-dropdown', (event, data) => {
-	console.log('got', data);
+	console.log('got', data)
 	let new_course = document.createElement('option')
 	new_course.setAttribute('value', data.course)
 	new_course.innerText = data.course
@@ -264,18 +264,6 @@ let exportLesson = () => {
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 }
 
-let setMessage = (_msg, _type) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.setAttribute('class', 'msg-log '+_msg)
-	el.style.opacity = 1
-
-	setTimeout(() => { 
-		el.style.opacity = 0 
-		el.setAttribute('class', 'msg-log')
-	}, 2000)
-}
-
 
 
 
@@ -289,8 +277,6 @@ let setMessage = (_msg, _type) => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exitCourse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return selectCourse; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return selectCoursePath; });
-/* unused harmony export addNote */
-/* unused harmony export removeNote */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addPrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removePrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
@@ -333,9 +319,9 @@ let createNewCourse = () => {
 
 let saveCourse = () => {
 	let _course = {}
-		_course.name = document.getElementById('course-name').value
-		_course.year = document.getElementById('course-year').value
-		_course.path = document.getElementById('course-path').value
+	_course.name = document.getElementById('course-name').value
+	_course.year = document.getElementById('course-year').value
+	_course.path = document.getElementById('course-path').value
 	
 	ipc.send('save-course', _course)
 }
@@ -432,7 +418,6 @@ let addPrep = (el) => {
 	if(el.getAttribute('class') == 'create-add-prep'){
 
 		let prep = createPrep(el.value)
-		let prep_holder
 		if(el.parentNode.getAttribute('class') == 'create-concept'){ //if we're creating the first prep
 
 			for(let _el of el.parentNode.children){ // we find the content-holder
@@ -529,9 +514,9 @@ let parseLesson = () => {
 	let dropdown = document.getElementById('course-list').selectedOptions[0]
 	
 	lesson.course = {
-		"name": dropdown.value,
-		"year": dropdown.getAttribute('year'),
-		"path": dropdown.getAttribute('path')
+		'name': dropdown.value,
+		'year': dropdown.getAttribute('year'),
+		'path': dropdown.getAttribute('path')
 	}
 	
 	lesson.title = document.getElementById('title').value

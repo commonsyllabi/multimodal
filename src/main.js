@@ -145,7 +145,7 @@ ipc.on('exit-home', () => {
 
 app.on('ready', () => {
 	lesson.list()
-	createWindow('welcome')
+	createWindow('welcome', 0.8, 0.8)
 })
 
 app.on('window-all-closed', () => { app.quit() })
