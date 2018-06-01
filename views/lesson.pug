@@ -21,7 +21,7 @@ html
 							div.prep.note(concept= index)= note.text
 						if note.type == "url"
 							div.prep.note(concept= index)
-								a(href= note.url)= note.text
+								a(href= note.url, target="_blank")= note.text
 						if note.type == "img"
 							div.prep.note(concept= index)
 								img(src= note.src)
