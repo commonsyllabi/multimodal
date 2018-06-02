@@ -132,13 +132,13 @@ ipc.on('save-lesson', (event, lesson) => {
 	for(let [i, c] of lesson.concepts.entries()){
 		for(let [j, prep] of c.entries()){
 			if(prep.type == 'img'){
-				console.log(`found image ${prep.path}`);
+				console.log(`found image ${prep.path}`)
 				let file_type = prep.path.substring(prep.path.indexOf('.'), prep.path.length)
 				let file_num = i+j
 				let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
 				prep.src = file_name
 				fs.createReadStream(prep.path).pipe(fs.createWriteStream(__dirname+'/../app/'+file_name))
-				console.log(`[MEDIA] copied ${prep.src} to app directory`);
+				console.log(`[MEDIA] copied ${prep.src} to app directory`)
 			}
 		}
 	}

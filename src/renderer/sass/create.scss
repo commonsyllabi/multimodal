@@ -29,6 +29,11 @@
 	width: 70%;
 }
 
+.create-lesson-save:hover, .create-lesson-exit:hover{
+	background-color: black;	
+	color: white;
+}
+
 .create-new-course{
 	font-size: 48px;
 	width: 50%;
@@ -149,15 +154,15 @@ input[type=text]{
 .create-concept-name {
 	color: $dark-grey;
 	border: none;
-	width: 100%;
+	width: 80%;
 	float: left;
 	font-size: 48px;
-	margin-bottom: 12px;
+	margin-bottom: 40px;
 }
 
 .create-prep{
 	margin-bottom: 10px;
-	width: 80%;
+	width: 100%;
 	margin-left: 20px;
 }
 
@@ -167,7 +172,6 @@ input[type=text]{
 
 .create-add-prep, .create-remove-prep {
 	border: none;
-	float: right;
 	margin: 5px;
 	font-size: 18px;
 	color: black;
