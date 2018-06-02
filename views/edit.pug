@@ -25,15 +25,18 @@ html
 									div.create-prep
 										input.create-concept-prep(type='text', kind='txt', value= prep.text)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 								else if prep.type == 'url'
 									div.create-prep
 										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
 										input.create-concept-prep(type='text', kind='url', value= prep.text)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 								else if prep.type == 'img'
 									div.create-prep
 										input.create-concept-prep.url(type='text', kind='img', value= prep.path)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
