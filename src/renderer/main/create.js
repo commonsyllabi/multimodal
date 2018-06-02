@@ -59,6 +59,18 @@ let selectCoursePath = () => {
 	})
 }
 
+let selectMediaPath = (_el) => {
+	let options = {
+		'title':'Select file',
+		'defaultPath': '~/',
+		'properties':['openFile']
+	}
+
+	dialog.showOpenDialog(options, (path) => {
+		_el.previousSibling.value = path
+	})
+}
+
 let createPrep = (kind) => {
 	let prep = document.createElement('div')
 	prep.setAttribute('class', 'create-prep')
@@ -89,8 +101,15 @@ let createPrep = (kind) => {
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
-		src.setAttribute('class', 'create-concept-prep url')
+		src.setAttribute('class', 'create-concept-prep img')
 		prep.appendChild(src)
+
+		let expl = document.createElement('button')
+		expl.innerText = 'select'
+		expl.setAttribute('onclick', 'selectMediaPath(this)')
+		expl.setAttribute('kind', 'path')
+		expl.setAttribute('class', 'create-add-prep')
+		prep.appendChild(expl)
 	}else{
 		console.log('unexpected type for new prep')
 	}
@@ -241,7 +260,12 @@ let parseLesson = () => {
 		let concept = []
 		concept.push(_co.childNodes[0].value) //find its name
 
-		for(let note of _co.childNodes[5].childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
+		let contentHolder
+		for(let child of _co.childNodes)
+			if(child.getAttribute('class') == 'content-holder')
+				contentHolder = child
+
+		for(let note of contentHolder.childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
 				let _cn = note.childNodes
@@ -253,7 +277,8 @@ let parseLesson = () => {
 				else if(_cn[0].getAttribute('kind') == 'url')
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')
-					concept.push({'type':'img', 'src': _cn[0].value})
+					concept.push({'type':'img', 'path': _cn[0].value})
+				
 			}
 		}
 
@@ -275,7 +300,7 @@ let saveLesson = (_type) => {
 	}else{
 		utils.setMessage('saved!', 'info')
 
-		lesson.prefix = _type //either prep or in-class
+		lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
 		ipc.send('save-lesson', lesson)
 	}
 }
@@ -307,4 +332,4 @@ let setMessage = (_msg) => {
 	setTimeout(() => {el.style.opacity = 0}, 2000)
 }
 */
-export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

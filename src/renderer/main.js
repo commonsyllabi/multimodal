@@ -47,6 +47,7 @@ ipc.on('update-dropdown', (event, data) => {
 
 window.selectCourse = create.selectCourse
 window.selectCoursePath = create.selectCoursePath
+window.selectMediaPath = create.selectMediaPath
 window.addPrep = create.addPrep
 window.removePrep = create.removePrep
 window.addConcept = create.addConcept
