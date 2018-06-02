@@ -32,7 +32,7 @@ html
 										include includes/add-prep.pug
 								else if prep.type == 'img'
 									div.create-prep
-										input.create-concept-prep.url(type='text', kind='img', value= prep.src)
+										input.create-concept-prep.url(type='text', kind='img', value= prep.path)
 										include includes/add-prep.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +

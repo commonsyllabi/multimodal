@@ -128,6 +128,21 @@ ipc.on('export-lesson', (event, data) => {
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 
+	//-- check for external media assets
+	for(let [i, c] of lesson.concepts.entries()){
+		for(let [j, prep] of c.entries()){
+			if(prep.type == 'img'){
+				console.log(`found image ${prep.path}`);
+				let file_type = prep.path.substring(prep.path.indexOf('.'), prep.path.length)
+				let file_num = i+j
+				let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
+				prep.src = file_name
+				fs.createReadStream(prep.path).pipe(fs.createWriteStream(__dirname+'/../app/'+file_name))
+				console.log(`[MEDIA] copied ${prep.src} to app directory`);
+			}
+		}
+	}
+
 	let _path = __dirname+'/../lessons/'+lesson.course.name+'/'+lesson.prefix
 
 	utils.touchDirectory(_path)
