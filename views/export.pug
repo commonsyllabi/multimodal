@@ -2,12 +2,12 @@ doctype
 html
 	head
 		meta(charset="utf8")
-		title= course + ' | '+ title
+		title= course.name + ' | '+ title
 		link(rel='stylesheet', href='lesson.css')
 	body
 		header
 			h2
-				a(href="index.html")= course
+				a(href="index.html")= course.name
 			h3= title
 		main
 			div.lessons-container#writing-board

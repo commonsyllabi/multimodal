@@ -99,24 +99,24 @@ module.exports.export = (_l) => {
 let render = (_lesson) => {
 	let compiled = pug.renderFile('views/export.pug', _lesson)
 
-	fs.writeFile(_lesson.path.local+'/'+_lesson.title+'.html', compiled, (err) => {
+	fs.writeFile(_lesson.course.path+'/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
-		console.log('[EXPORTED]', _lesson.path.local+'/'+_lesson.title+'.html')
+		console.log('[EXPORTED]', _lesson.course.path+'/'+_lesson.title+'.html')
 
 		//rebuild the index
 		let exported_lessons = []
-		let local_files = fs.readdirSync(_lesson.path.local+'/')
+		let local_files = fs.readdirSync(_lesson.course.path+'/')
 		for(let f of local_files)
 			if(f != 'index.html' && f.indexOf('.html') > -1)
 				exported_lessons.push(f.replace('.html', ''))
 
 		let c = {
-			'course': _lesson.course,
+			'course': _lesson.course.name,
 			'lessons': exported_lessons
 		}
 
 		compiled = pug.renderFile('views/export-index.pug', c)
-		fs.writeFile(_lesson.path.local+'/'+'index.html', compiled, (err) => {
+		fs.writeFile(_lesson.course.path+'/'+'index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
@@ -126,15 +126,15 @@ let render = (_lesson) => {
 }
 
 let switchBranch = (_lesson, _branch, _callback) => {
-	console.log('[BASH] switching branch to', _branch)
+	console.log(`[BASH] switching branch to ${_branch}, in repo ${_lesson.course.path}`)
 
 	//-- the conditional below handles the possibility
 	//-- of uncommitted changes
 	let script
 	if(_branch == 'master')
-		script = `cd ${_lesson.path.local} && git checkout ${_branch} && git stash apply`
+		script = `cd ${_lesson.course.path} && git checkout ${_branch} && git stash apply`
 	else
-		script = `cd ${_lesson.path.local} && git stash && git checkout ${_branch}`
+		script = `cd ${_lesson.course.path} && git stash && git checkout ${_branch}`
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
@@ -144,6 +144,18 @@ let switchBranch = (_lesson, _branch, _callback) => {
 			return
 		}
 		console.log(stdout)
+/*
+		if(_branch == 'gh-pages'){
+			console.log('about to copy shit');
+			for(let concept of _lesson.concepts){
+				if(concept.type == 'img'){
+					console.log('found some img');
+					let file_path = __dirname+'/../app/'+concept.src
+					fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+concept.src))
+				}
+			}
+		}
+		*/
 	})
 
 	if(_callback != undefined)
@@ -153,7 +165,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 }
 
 let pushToRemote = (_lesson) => {
-	let script = `cd ${_lesson.path.local} && git status && git add -A && git commit -m "exported ${_lesson.title}" && git push origin gh-pages`
+	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.title}" && git push origin gh-pages`
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
