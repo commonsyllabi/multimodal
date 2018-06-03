@@ -144,18 +144,18 @@ let switchBranch = (_lesson, _branch, _callback) => {
 			return
 		}
 		console.log(stdout)
-/*
+
 		if(_branch == 'gh-pages'){
-			console.log('about to copy shit');
 			for(let concept of _lesson.concepts){
-				if(concept.type == 'img'){
-					console.log('found some img');
-					let file_path = __dirname+'/../app/'+concept.src
-					fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+concept.src))
+				for(let prep of concept.prep){
+					if(prep.type == 'img'){
+						let file_path = __dirname+'/../app/'+prep.src
+						console.log(`[MEDIA] found img: ${file_path}`);
+						fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+prep.src))
+					}
 				}
 			}
 		}
-		*/
 	})
 
 	if(_callback != undefined)
@@ -165,7 +165,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 }
 
 let pushToRemote = (_lesson) => {
-	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.title}" && git push origin gh-pages`
+	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.title}"`// && git push origin gh-pages`
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
