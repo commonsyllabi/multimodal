@@ -19,6 +19,9 @@ body {
 .error {
   background-color: crimson; }
 
+.metadata {
+  visibility: hidden; }
+
 div, img {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -42,7 +45,7 @@ body {
     font-weight: bold; }
   body textarea {
     font-family: 'Inter UI';
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none; }
   body .written {
@@ -93,6 +96,9 @@ body {
 
 .error {
   background-color: crimson; }
+
+.metadata {
+  visibility: hidden; }
 
 div, img {
   -webkit-user-select: none;
@@ -212,6 +218,9 @@ body {
 .error {
   background-color: crimson; }
 
+.metadata {
+  visibility: hidden; }
+
 div, img {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -295,6 +304,9 @@ body {
 
 .error {
   background-color: crimson; }
+
+.metadata {
+  visibility: hidden; }
 
 div, img {
   -webkit-user-select: none;

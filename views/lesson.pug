@@ -6,7 +6,9 @@ html
 		script(src="./lesson.js")
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
-		div.lesson-path#local-path(style='visibility: hidden')= course.path
+		div.metadata#course-path= course.path
+		div.metadata#course-year= course.year
+		div.metadata#course-name= course.name
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each val, index in concepts

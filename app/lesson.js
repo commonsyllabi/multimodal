@@ -507,21 +507,20 @@ let saveSession = () => {
 }
 
 let parseDocument = () => {
-	let _title = document.title.split('|')
-	
 	let lesson = {
-		'course': '',
-		'path':{
-			'local':'',
-			'remote': ''
+		'course': {
+			'path':'',
+			'year':'',
+			'name':'',
 		},
 		'title': '',
 		'contents':[]
 	}
 
-	lesson.course = _title[0].trim()
-	lesson.path.local = document.getElementById('local-path').innerHTML
-	lesson.title =  _title[1].trim()
+	lesson.course.name = document.getElementById('course-name').innerHTML
+	lesson.course.year = document.getElementById('course-year').innerHTML
+	lesson.course.path = document.getElementById('course-path').innerHTML
+	lesson.title =  document.title.split('|')[1].trim()
 	lesson.concepts = []
 
 	let _concepts = document.getElementsByClassName('concept')
