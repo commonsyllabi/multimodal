@@ -66,7 +66,8 @@ let endDraw = () => {
 }
 
 let clearBoard = () => {
-	ctx.clearRect(0, 0, 1800, 1000)
+	ctx.beginPath()
+	ctx.clearRect(0, 0, cnv.width, cnv.height)
 }
 
 let toggleDraw = () => {
