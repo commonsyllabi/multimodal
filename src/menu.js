@@ -77,7 +77,8 @@ const template = [
 	{
 		label: 'View',
 		submenu: [
-			{role: 'reload'},
+			{role: 'reload',
+				accelerator: 'CmdOrCtrl+Shift+R'},
 			{role: 'forcereload'},
 			{role: 'toggledevtools'},
 			{type: 'separator'},
