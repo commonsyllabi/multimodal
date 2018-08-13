@@ -1,0 +1,35 @@
+doctype
+html
+	head
+		meta(charset="utf8")
+		title= course.name + ' | '+ title
+		script(src="./lesson.js")
+		link(rel='stylesheet', href='./style.css')
+	body(onload='init()')
+		div.metadata#course-path= course.path
+		div.metadata#course-year= course.year
+		div.metadata#course-name= course.name
+		div.lessons-container#writing-board
+			div.concept-buttons
+				each val, index in concepts
+					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
+			each notes, index in concepts
+				canvas.drawing-board(concept= index)
+				div.prep-group
+					div.prep.note.title(concept= index)= notes[0]
+					each note  in notes
+						if note.type == "txt"
+							div.prep.note(concept= index)= note.text
+						if note.type == "url"
+							div.prep.note(concept= index)
+								a(href= note.url, target="_blank")= note.text
+						if note.type == "img"
+							div.prep.note(concept= index)
+								img(src= note.src)
+		div.interface-buttons
+			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
+			button.lesson-btn.clear-board(onclick="clearBoard()") clear
+			button.lesson-btn.exit-lesson(onclick="exitLesson()") exit
+			button.lesson-btn.save-session(onclick="saveSession()") save
+
+			div.msg-log#msg-log

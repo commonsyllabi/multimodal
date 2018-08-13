@@ -1,0 +1,104 @@
+{
+  "concepts": [
+    [
+      "welcome",
+      {
+        "text": "digital interactivity",
+        "type": "text"
+      },
+      {
+        "text": "crit group!",
+        "type": "text"
+      },
+      {
+        "text": "vr studio!",
+        "type": "text"
+      },
+      {
+        "text": "24x",
+        "type": "url",
+        "url": "http://nyuad.im/24x"
+      }
+    ],
+    [
+      "review",
+      {
+        "text": "homework",
+        "type": "text"
+      }
+    ],
+    [
+      "interaction design",
+      {
+        "text": "\"a cultural approach to interaction design\"",
+        "type": "text"
+      },
+      {
+        "text": "\"designing the unfamiliar\"",
+        "type": "text"
+      }
+    ],
+    [
+      "janet murray",
+      {
+        "text": "affordances",
+        "type": "text"
+      },
+      {
+        "text": "\"intuitive\"",
+        "type": "text"
+      },
+      {
+        "text": "agency",
+        "type": "text"
+      },
+      {
+        "text": "remediation",
+        "type": "text"
+      }
+    ],
+    [
+      "the challenge",
+      {
+        "text": "\"the challenge for designers is how to make such an abundance of information coherent and how to coordinate such massive participation in interactive environments so that it best serves human needs\"",
+        "type": "text"
+      }
+    ],
+    [
+      "html/css",
+      {
+        "text": "<a>",
+        "type": "text"
+      },
+      {
+        "text": "@font-face",
+        "type": "text"
+      },
+      {
+        "text": "@media-query { }",
+        "type": "text"
+      }
+    ],
+    [
+      "javascript",
+      {
+        "text": "a 'real' programming language",
+        "type": "text"
+      },
+      {
+        "text": "variables",
+        "type": "text"
+      },
+      {
+        "text": "functions",
+        "type": "text"
+      }
+    ]
+  ],
+  "course": "commlab",
+  "path": {
+    "local": "",
+    "remote": ""
+  },
+  "title": "interactivity"
+}

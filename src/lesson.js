@@ -11,8 +11,8 @@ exports = module.exports = {}
 module.exports.list = () => {
 
 	//first we get all the courses
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
-	
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+
 	let data = {
 		'courses':[]
 	}
@@ -23,35 +23,35 @@ module.exports.list = () => {
 			'course':co,
 			'lessons': []
 		}
-	
-		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co.name+'/prep')
+
+		let lessons = fs.readdirSync(__dirname+'/lessons/'+co.name+'/prep')
 
 		//then we get the name of all the associated lessons
 		for(let l of lessons){
 			let lesson_name = l.substring(0, l.indexOf('.'))
 			course.lessons.push(lesson_name)
-		}	
+		}
 
 		data.courses.push(course)
 	}
 
-	let compiled = pug.renderFile('views/welcome.pug', data)
-	fs.writeFileSync(__dirname+'/../app/welcome.html', compiled)
+	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', data)
+	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
 }
 
 module.exports.create = () => {
 
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
 	let data = {
 		'courses': courses
 	}
 
 	let compiled = pug.renderFile('views/create.pug', data)
-	fs.writeFileSync(__dirname+'/../app/create.html', compiled)
+	fs.writeFileSync(__dirname+'/app/create.html', compiled)
 }
 
 module.exports.getNewest = (lesson) => {
-	let saves = fs.readdirSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title)
+	let saves = fs.readdirSync(__dirname+'/lessons/'+lesson.course+'/in-class/'+lesson.title)
 
 	if(saves.length == 1) return saves[0]
 
@@ -91,7 +91,7 @@ module.exports.getNewest = (lesson) => {
 }
 
 module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
+	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
 
 	switchBranch(lesson, 'gh-pages', render)
 }
@@ -149,7 +149,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 			for(let concept of _lesson.concepts){
 				for(let prep of concept.prep){
 					if(prep.type == 'img'){
-						let file_path = __dirname+'/../app/'+prep.src
+						let file_path = __dirname+'/app/'+prep.src
 						console.log(`[MEDIA] found img: ${file_path}`);
 						fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+prep.src))
 					}

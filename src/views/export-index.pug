@@ -1,0 +1,15 @@
+doctype
+html
+	head
+		meta(charset="utf8")
+		title= course + ' | notes'
+		link(rel='stylesheet', href='style.css')
+	body
+		header
+			h2= course
+		main
+			h1 course notes
+			ol
+				for lesson in lessons
+					li
+						a(href= lesson+'.html')= lesson

@@ -1,0 +1,47 @@
+doctype
+html
+	head
+		title Edit a lesson
+		link(rel="stylesheet", href="./style.css")
+		script(src="./main.js")
+	body
+		div.create-container
+			div.create-course
+				select.edit-existing-course#course-list
+					option(value= course.name, year= course.year, path= course.path)= course.name
+			div.create-lesson
+				input.create-lesson-title#title(type='text', value= title)
+			div.create-path
+				input.course-path#local-path(type='text', placeholder='course folder', value= course.path)
+
+			each concept in concepts
+				div.create-concept
+					input.create-concept-name(type='text', value= concept[0])
+					include includes/add-prep.pug
+					div.content-holder
+						div.prep-holder
+							each prep in concept
+								if prep.type == 'txt'
+									div.create-prep
+										input.create-concept-prep(type='text', kind='txt', value= prep.text)
+										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
+								else if prep.type == 'url'
+									div.create-prep
+										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
+										input.create-concept-prep(type='text', kind='url', value= prep.text)
+										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
+								else if prep.type == 'img'
+									div.create-prep
+										input.create-concept-prep.url(type='text', kind='img', value= prep.path)
+										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
+
+					button.create-add-concept(onclick='addConcept(this)') +
+					button.create-remove-concept(onclick='removeConcept(this)') -
+
+			div.interface-buttons
+				button.lesson-btn.create-lesson-save(onclick='saveLesson("prep")') save
+				button.lesson-btn.create-lesson-exit(onclick='exitLesson()') exit
+				div.msg-log#msg-log
