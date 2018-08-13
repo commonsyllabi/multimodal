@@ -1,0 +1,368 @@
+{
+  "concepts": [
+    [
+      "fundamentals of storytelling",
+      {
+        "text": "what is a good story?",
+        "type": "text"
+      }
+    ],
+    [
+      "def",
+      {
+        "text": "what is a story?",
+        "type": "text"
+      },
+      {
+        "text": "\"a whole is what has a beginning and middle and end\"",
+        "type": "text"
+      },
+      {
+        "text": "three act structure",
+        "type": "text"
+      }
+    ],
+    [
+      "three act",
+      {
+        "text": "act 1",
+        "type": "text"
+      },
+      {
+        "text": "act 2",
+        "type": "text"
+      },
+      {
+        "text": "act 3",
+        "type": "text"
+      }
+    ],
+    [
+      "dramatic arc",
+      {
+        "text": "setup - goal - struggle - commit",
+        "type": "text"
+      },
+      {
+        "text": "crisis - failed attempt - regroup - climax - resolution",
+        "type": "text"
+      }
+    ],
+    [
+      "what is a good story?",
+      {
+        "text": "ira glass - storytelling",
+        "type": "url",
+        "url": "https://www.youtube.com/watch?v=5pFI9UuC_fc"
+      }
+    ],
+    [
+      "gestalt",
+      {
+        "text": "that which is more than the sum of its parts",
+        "type": "text"
+      },
+      {
+        "text": "\"do not tell me that it's nighttime, show me the reflection of the moon in a pond\" - tolstoy",
+        "type": "text"
+      }
+    ],
+    [
+      "good storytelling is",
+      {
+        "text": "1.",
+        "type": "text"
+      },
+      {
+        "text": "2. ",
+        "type": "text"
+      },
+      {
+        "text": "3.",
+        "type": "text"
+      }
+    ],
+    [
+      "possibilities",
+      {
+        "text": "what is and what could be - nancy duarte",
+        "type": "text"
+      }
+    ],
+    [
+      "recap",
+      {
+        "text": "good stories have",
+        "type": "text"
+      },
+      {
+        "text": "- beginning / middle / end",
+        "type": "text"
+      },
+      {
+        "text": "- reality and possibility",
+        "type": "text"
+      },
+      {
+        "text": "- address a conflict",
+        "type": "text"
+      }
+    ],
+    [
+      "kishotenketsu",
+      {
+        "text": "plot without conflict",
+        "type": "text"
+      },
+      {
+        "src": "kishotenketsu.png",
+        "type": "img"
+      }
+    ],
+    [
+      "but",
+      {
+        "text": "\"A story should have a begnning a middle and an end, but not necessarily in that order\" - jean luc godard",
+        "type": "text"
+      },
+      {
+        "text": "knowing rules to break them",
+        "type": "text"
+      }
+    ],
+    [
+      "purpose",
+      {
+        "text": "why do will tell stories?",
+        "type": "text"
+      }
+    ],
+    [
+      "signal/noise",
+      {
+        "text": "communicating is first and foremost grabbing attention",
+        "type": "text"
+      },
+      {
+        "text": "engage",
+        "type": "text"
+      },
+      {
+        "text": "express",
+        "type": "text"
+      },
+      {
+        "text": "endear",
+        "type": "text"
+      }
+    ],
+    [
+      "practical terms",
+      {
+        "text": "in practice, stories are written three times",
+        "type": "text"
+      },
+      {
+        "text": "1. pre-production",
+        "type": "text"
+      },
+      {
+        "text": "2. production",
+        "type": "text"
+      },
+      {
+        "text": "3. post-production",
+        "type": "text"
+      }
+    ],
+    [
+      "before starting",
+      {
+        "text": "- what is your subject?",
+        "type": "text"
+      },
+      {
+        "text": "- who is your audience?",
+        "type": "text"
+      },
+      {
+        "text": "- what is your goal?",
+        "type": "text"
+      },
+      {
+        "text": "- what is your medium?",
+        "type": "text"
+      },
+      {
+        "text": "- what is the emotion that you intend to convey?",
+        "type": "text"
+      }
+    ],
+    [
+      "what is this about?",
+      {
+        "text": "- moment",
+        "type": "text"
+      },
+      {
+        "text": "- product",
+        "type": "text"
+      },
+      {
+        "text": "- person",
+        "type": "text"
+      },
+      {
+        "text": "- event",
+        "type": "text"
+      },
+      {
+        "text": "- place",
+        "type": "text"
+      },
+      {
+        "text": "- idea",
+        "type": "text"
+      }
+    ],
+    [
+      "who is this for?",
+      {
+        "text": "- international",
+        "type": "text"
+      },
+      {
+        "text": "- academic",
+        "type": "text"
+      },
+      {
+        "text": "- families",
+        "type": "text"
+      },
+      {
+        "text": "- friends",
+        "type": "text"
+      },
+      {
+        "text": "- young",
+        "type": "text"
+      },
+      {
+        "text": "- seniors",
+        "type": "text"
+      }
+    ],
+    [
+      "what is the goal?",
+      {
+        "text": "- introduce",
+        "type": "text"
+      },
+      {
+        "text": "- influence",
+        "type": "text"
+      },
+      {
+        "text": "- entertain",
+        "type": "text"
+      },
+      {
+        "text": "- inspire",
+        "type": "text"
+      },
+      {
+        "text": "- teach",
+        "type": "text"
+      }
+    ],
+    [
+      "how is it expressed?",
+      {
+        "text": "- presentation",
+        "type": "text"
+      },
+      {
+        "text": "- website",
+        "type": "text"
+      },
+      {
+        "text": "- cinema",
+        "type": "text"
+      },
+      {
+        "text": "- mobile phone",
+        "type": "text"
+      }
+    ],
+    [
+      "how should it feel?",
+      {
+        "text": "- empowering",
+        "type": "text"
+      },
+      {
+        "text": "- thoughtful",
+        "type": "text"
+      },
+      {
+        "text": "- refreshing",
+        "type": "text"
+      },
+      {
+        "text": "- exciting",
+        "type": "text"
+      },
+      {
+        "text": "- refreshing",
+        "type": "text"
+      },
+      {
+        "text": "- inspiring",
+        "type": "text"
+      },
+      {
+        "text": "- calming",
+        "type": "text"
+      }
+    ],
+    [
+      "how to ideate",
+      {
+        "text": "1. write down everything",
+        "type": "text"
+      },
+      {
+        "text": "2. organize spatially",
+        "type": "text"
+      },
+      {
+        "text": "3. make unexpected connections",
+        "type": "text"
+      },
+      {
+        "text": "4. filter down",
+        "type": "text"
+      }
+    ],
+    [
+      "what you should end up with",
+      {
+        "text": "something that invites people to ask human-centered questions",
+        "type": "text"
+      }
+    ]
+  ],
+  "course": "commlab",
+  "path": {
+    "local": "/home/pierre/teaching/commlab",
+    "remote": ""
+  },
+  "title": "storytelling",
+  "date": {
+    "year": 2018,
+    "month": "02",
+    "day": 20,
+    "hour": 11,
+    "minutes": 38
+  }
+}

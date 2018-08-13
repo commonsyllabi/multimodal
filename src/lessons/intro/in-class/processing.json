@@ -1,0 +1,218 @@
+{
+  "concepts": [
+    {
+      "concept": "0. software for artists",
+      "notes": [
+        "interactive media is the discipline of using computers (from laptops to microcontrollers) to express oneself artistically"
+      ],
+      "prep": []
+    },
+    {
+      "concept": "1. visual art with computers",
+      "notes": [
+        "work by casey reas",
+        "computers are good for working with:\n- randomness\n- repetition\n- interaction\n- translation (e.g. data visualization)"
+      ],
+      "prep": [
+        {
+          "src": "img-intro-processing-2.jpg",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "2. interaction with computers",
+      "notes": [
+        "there is a balance to be found between \"passive\"/classical art and \"active\"/digital art",
+        "finding THE meaning in a piece of art, from the audience's perspective, assumes that the artists knows exactly what she is doing. the introduction of the computer removes this exactness of knowledge -the computer becomes a partner",
+        "harold cohen worked on AARON, an artificial intelligence which paints on its own, but only according to what instructions cohen gave -in the end, cohen is still in charge",
+        "interactive art removes this hierarchy between artists/curator/audience member, and allows anyone to have their own, valid interpretation",
+        "\"make art safer\""
+      ],
+      "prep": [
+        {
+          "text": "thoughts about \"making interactive art\"?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "3. processing",
+      "notes": [],
+      "prep": [
+        {
+          "text": "an easy way to draw on the screen",
+          "type": "txt"
+        },
+        {
+          "text": "similar in ethos to arduino",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "4. review",
+      "notes": [
+        "setup() runs once, draw() runs every frame",
+        "you need to have a background() so that the frame is redrawn in its entierity every time, and so you don't see past drawings",
+        "fill() / stroke()",
+        "vectors can hold both directions and positions\nPVector myPosition = new PVector(100, 200); ",
+        "if(mousePressed(){\n}\nor\nvoid mousePressed(){\n\n}"
+      ],
+      "prep": [
+        {
+          "text": "setup() vs. draw()",
+          "type": "txt"
+        },
+        {
+          "text": "what do you need to give the illusion of animation?",
+          "type": "txt"
+        },
+        {
+          "text": "how do you draw a circle?",
+          "type": "txt"
+        },
+        {
+          "text": "how do you color a circle?",
+          "type": "txt"
+        },
+        {
+          "text": "how do you deal with positions and directions?",
+          "type": "txt"
+        },
+        {
+          "text": "how do you know your user has clicked?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "5. today",
+      "notes": [],
+      "prep": [
+        {
+          "text": "drawing with the mouse",
+          "type": "txt"
+        },
+        {
+          "text": "writing functions",
+          "type": "txt"
+        },
+        {
+          "text": "arrays and for loops",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "6. drawing with the mouse",
+      "notes": [],
+      "prep": [
+        {
+          "text": "mouseX, mouseY are variables given to us, representing the mouse position",
+          "type": "txt"
+        },
+        {
+          "text": "pmouseX, pmouseY represent the previous mouse position",
+          "type": "txt"
+        },
+        {
+          "text": "the difference between past and present is movement",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "7. functions",
+      "notes": [
+        "calling a function means writing its name somewhere in draw()",
+        "arguments are like the ingredients that you need for a recipe. a function can't work without them."
+      ],
+      "prep": [
+        {
+          "text": "functions do things",
+          "type": "txt"
+        },
+        {
+          "text": "they need to be called",
+          "type": "txt"
+        },
+        {
+          "text": "sometimes they need things to function (arguments)",
+          "type": "txt"
+        },
+        {
+          "text": "they can return other things as a result",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "8. arrays",
+      "notes": [],
+      "prep": [
+        {
+          "text": "arrays are rows of data, aligned one next to the other",
+          "type": "txt"
+        },
+        {
+          "text": "we need to give the type of data it will hold",
+          "type": "txt"
+        },
+        {
+          "text": "and the size of it!",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "9. for loops",
+      "notes": [
+        "for(int i = 0; i < 10; i++){\n//this will count from 0 to 9 in just one frame\n}"
+      ],
+      "prep": [
+        {
+          "text": "for loops allow us to go through arrays very quickly",
+          "type": "txt"
+        },
+        {
+          "text": "more generally, they allow us to do things repeatedly very quickly",
+          "type": "txt"
+        },
+        {
+          "text": "an array needs a starting number, a condition to continue, and a way to increment",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "10. homework",
+      "notes": [],
+      "prep": [
+        {
+          "text": "make a generative paintbrush!",
+          "type": "txt"
+        },
+        {
+          "text": "read lev manovich / watch casey reas",
+          "type": "txt"
+        }
+      ]
+    }
+  ],
+  "contents": [],
+  "course": {
+    "name": "intro",
+    "path": "/home/pierre/teaching/intro",
+    "year": "2018"
+  },
+  "prefix": "in-class",
+  "title": "processing",
+  "date": {
+    "year": 2018,
+    "month": "06",
+    "day": "03",
+    "hour": 13,
+    "minutes": "02"
+  }
+}

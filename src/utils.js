@@ -1,4 +1,4 @@
-'use strist'
+'use strict'
 
 exports = module.exports = {}
 
