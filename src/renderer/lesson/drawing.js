@@ -52,7 +52,6 @@ let beginDraw = (e) => {
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
 	prevx = e.pageX - cnv.offsetLeft
 	prevy = e.pageY - cnv.offsetTop
-	//ctx.beginPath()
 }
 
 let draw = (e) => {
@@ -62,7 +61,7 @@ let draw = (e) => {
 	let y = (prevy + e.pageY-cnv.offsetTop)/2
 
 	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
-	
+
 	prevx = e.pageX - cnv.offsetLeft
 	prevy = e.pageY - cnv.offsetTop
 	ctx.stroke()

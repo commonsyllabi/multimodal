@@ -137,7 +137,7 @@ let getCurrentNote = () => {
 }
 
 let setCurrentConcept = (index) => {
-	
+
 	currentConcept = index ? index : 0
 
 	let cs = document.getElementsByClassName('concept')
@@ -166,7 +166,8 @@ let getCurrentConcept = () => {
 }
 
 let setCurrrentPosition = (pos) => {
-	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px; height:'+currentNote.style.height+'px;'
+	currentNote.style.top = pos.y+'px'
+	currentNote.style.left = pos.x+'px'
 }
 
 
@@ -284,7 +285,6 @@ let beginDraw = (e) => {
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
 	prevx = e.pageX - cnv.offsetLeft
 	prevy = e.pageY - cnv.offsetTop
-	//ctx.beginPath()
 }
 
 let draw = (e) => {
@@ -294,7 +294,7 @@ let draw = (e) => {
 	let y = (prevy + e.pageY-cnv.offsetTop)/2
 
 	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
-	
+
 	prevx = e.pageX - cnv.offsetLeft
 	prevy = e.pageY - cnv.offsetTop
 	ctx.stroke()
@@ -445,7 +445,7 @@ let handle = (e) => {
 	case DOWN:
 		if(currentNote == null){
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-			let len =  document.getElementsByClassName('concept').length-1
+			let len = document.getElementsByClassName('concept').length-1
 			index = index + 1 < len ? index + 1 : len
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
 		}
@@ -464,6 +464,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
+	cn.addEventListener("input", () => { OnInput(cn)}, false)
 	document.getElementById('writing-board').append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
@@ -472,12 +473,19 @@ let newNote = () => {
 	cn.focus()
 }
 
+let OnInput = (el) => {
+	el.style.height = 'auto';
+  el.style.height = (el.scrollHeight) + 'px';
+}
+
 let endNote = () => {
 	//if note is blank
-	if(currentNote != null && currentNote.value == '')
+	if(currentNote != null && currentNote.value == ''){
 		document.getElementById('writing-board').removeChild(currentNote)
-	else
+	}else{
 		currentNote.style.height = (currentNote.scrollHeight)+'px'
+		// currentNote.style.overflowY = 'hidden'
+	}
 
 	currentNote.blur()
 	currentNote.removeAttribute('id')
