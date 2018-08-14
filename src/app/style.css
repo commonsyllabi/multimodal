@@ -45,16 +45,16 @@ body {
     font-weight: bold; }
   body textarea {
     font-family: 'Inter UI';
-    background-color: transparent;
-    border: none;
-    outline: none; }
+    background-color: rgba(1, 0, 0, 0);
+    border: 2px solid black;
+    outline: none;
+    height: auto; }
   body .written {
-    width: 40%; }
+    width: 30%; }
   body #current {
     position: absolute;
     font-weight: bold;
-    overflow: visible;
-    min-height: 40%; }
+    overflow-y: visible; }
   body .prep-group {
     position: absolute;
     top: 5%;

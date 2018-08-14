@@ -14,7 +14,7 @@ let getCurrentNote = () => {
 }
 
 let setCurrentConcept = (index) => {
-	
+
 	currentConcept = index ? index : 0
 
 	let cs = document.getElementsByClassName('concept')
@@ -43,7 +43,8 @@ let getCurrentConcept = () => {
 }
 
 let setCurrrentPosition = (pos) => {
-	currentNote.style.cssText = 'top: '+pos.y+'px; left: '+pos.x+'px; height:'+currentNote.style.height+'px;'
+	currentNote.style.top = pos.y+'px'
+	currentNote.style.left = pos.x+'px'
 }
 
 export { currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept}
