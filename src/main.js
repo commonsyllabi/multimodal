@@ -38,7 +38,7 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
 	let _height = electron.screen.getPrimaryDisplay().workAreaSize.height*_h_ratio
 
 
-	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon-tmp.png', frame: true})
+	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/icon.png', frame: true})
 
 	mainWindow.loadURL('file:///'+__dirname+'/app/'+current+'.html')
 
