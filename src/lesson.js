@@ -3,6 +3,7 @@
 const fs  = require('fs')
 const pug = require('pug')
 const { exec } = require('child_process')
+const PUSH_TO_GITHUB = false
 
 let win
 
@@ -93,7 +94,10 @@ module.exports.getNewest = (lesson) => {
 module.exports.export = (_l) => {
 	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
 
-	switchBranch(lesson, 'gh-pages', render)
+	if(PUSH_TO_GITHUB)
+		switchBranch(lesson, 'gh-pages', render)
+	else
+		render(lesson)
 }
 
 let render = (_lesson) => {
@@ -120,8 +124,10 @@ let render = (_lesson) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
-			// this is to export to github
-			// pushToRemote(_lesson)
+			if(PUSH_TO_GITHUB)
+				pushToRemote(_lesson)
+
+			//TODO OPEN FILE
 		})
 	})
 }
