@@ -46,7 +46,7 @@ body {
   body textarea {
     font-family: 'Inter UI';
     background-color: rgba(1, 0, 0, 0);
-    border: 2px solid black;
+    border: none;
     outline: none;
     height: auto; }
   body .written {
@@ -65,7 +65,7 @@ body {
     opacity: 0;
     font-family: 'Inter UI';
     font-style: italic;
-    font-size: 3em;
+    font-size: 2em;
     color: black;
     width: 100%;
     margin-top: 5%;
@@ -320,10 +320,10 @@ div, img {
   margin-bottom: 150px; }
 
 .create-course {
-  width: 100%;
+  width: 96%;
   height: auto;
   overflow: auto;
-  padding: 30px;
+  padding: 2%;
   text-align: left;
   background-color: black; }
 
@@ -338,6 +338,9 @@ div, img {
   border-bottom: 2px solid #333333;
   padding: 2px;
   width: 70%; }
+  @media (max-width: 1300px) {
+    .create-lesson-title {
+      font-size: 48px; } }
 
 .create-lesson-save:hover, .create-lesson-exit:hover {
   background-color: black;
@@ -366,6 +369,10 @@ div, img {
 .create-course-save {
   float: left;
   width: 100%; }
+
+.show-local-path {
+  width: 85%;
+  font-size: 36px; }
 
 .create-local-path {
   display: inline;
@@ -398,7 +405,6 @@ div, img {
   border: none; }
 
 .create-path {
-  margin: 10px;
   padding: 10px; }
 
 .content-holder {
@@ -417,7 +423,7 @@ div, img {
   width: 25%;
   float: right; }
 
-input[type=text] {
+input[type=text], textarea {
   border: none;
   border-bottom: 2px solid black; }
 
@@ -428,7 +434,7 @@ input[type=text] {
   border: 2px solid black; }
 
 .create-concept-prep {
-  font-size: 32px;
+  font-size: 24px;
   margin-right: 10px;
   width: 80%; }
 
@@ -452,7 +458,7 @@ input[type=text] {
 .url {
   font-style: italic; }
 
-.create-add-prep, .create-remove-prep {
+.create-add-prep, .create-remove-prep, .create-add-note, .create-remove-note {
   border: none;
   margin: 5px;
   font-size: 18px;
