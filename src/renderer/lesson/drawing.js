@@ -2,6 +2,7 @@ let canvases, cnv, ctx, ctn, toggle_btn
 let contexts = []
 let isDrawing = false
 let isDrawMode = false
+let prevx, prevy
 
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
@@ -24,7 +25,7 @@ let setupCanvas = (i) => {
 	contexts[i].lineWidth = 5
 	contexts[i].lineJoin = 'round'
 	contexts[i].lineCap = 'round'
-	contexts[i].strokeStyle = 'red'
+	contexts[i].strokeStyle = '#ff9933'
 
 
 	contexts[i].beginPath()
@@ -49,14 +50,21 @@ let beginDraw = (e) => {
 
 	isDrawing = true
 	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
-	
+	prevx = e.pageX - cnv.offsetLeft
+	prevy = e.pageY - cnv.offsetTop
 	//ctx.beginPath()
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
 
-	ctx.lineTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop)
+	let x = (prevx + e.pageX-cnv.offsetLeft)/2
+	let y = (prevy + e.pageY-cnv.offsetTop)/2
+
+	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
+	
+	prevx = e.pageX - cnv.offsetLeft
+	prevy = e.pageY - cnv.offsetTop
 	ctx.stroke()
 }
 
