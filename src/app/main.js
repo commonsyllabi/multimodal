@@ -164,10 +164,12 @@ ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /*
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
 ipc.on('update-dropdown', (event, data) => {
-	console.log('got', data)
+	console.log('got updated dropdown course', data)
 	let new_course = document.createElement('option')
-	new_course.setAttribute('value', data.course)
-	new_course.innerText = data.course
+	new_course.setAttribute('value', data.name)
+	new_course.setAttribute('year', data.year)
+	new_course.setAttribute('path', data.path)
+	new_course.innerText = data.name
 	new_course.setAttribute('selected', true)
 	document.getElementById('course-list').appendChild(new_course)
 })
@@ -325,7 +327,12 @@ let saveCourse = () => {
 	_course.year = document.getElementById('course-year').value
 	_course.path = document.getElementById('course-path').value
 
-	ipc.send('save-course', _course)
+	if(_course.name == null || _course.year == null || _course.path == null){
+		alert('Some fields are missing!')
+		console.log(_course);
+	}else{
+		ipc.send('save-course', _course)
+	}
 }
 
 let exitCourse = () => {
@@ -337,7 +344,7 @@ let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
 		'defaultPath':'~/',
-		'properties':['openDirectory']
+		'properties':['openDirectory', 'createDirectory']
 	}
 
 	dialog.showOpenDialog(options, (path) => {
@@ -620,14 +627,6 @@ let exitLesson = () => {
 	}
 }
 
-/*
-let setMessage = (_msg) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.style.opacity = 1
-	setTimeout(() => {el.style.opacity = 0}, 2000)
-}
-*/
 
 
 

@@ -38,7 +38,12 @@ let saveCourse = () => {
 	_course.year = document.getElementById('course-year').value
 	_course.path = document.getElementById('course-path').value
 
-	ipc.send('save-course', _course)
+	if(_course.name == null || _course.year == null || _course.path == null){
+		alert('Some fields are missing!')
+		console.log(_course);
+	}else{
+		ipc.send('save-course', _course)
+	}
 }
 
 let exitCourse = () => {
@@ -50,7 +55,7 @@ let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
 		'defaultPath':'~/',
-		'properties':['openDirectory']
+		'properties':['openDirectory', 'createDirectory']
 	}
 
 	dialog.showOpenDialog(options, (path) => {
@@ -333,12 +338,4 @@ let exitLesson = () => {
 	}
 }
 
-/*
-let setMessage = (_msg) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.style.opacity = 1
-	setTimeout(() => {el.style.opacity = 0}, 2000)
-}
-*/
 export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

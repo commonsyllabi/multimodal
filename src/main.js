@@ -95,7 +95,6 @@ ipc.on('create-new-course', () => {
 
 ipc.on('save-course', (event, data) => {
 	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
-
 	for(let course of courses){
 		if(course.name == data.name && course.year == data.year && course.path == data.path){
 			console.log(`[COURSE] ${data.name} already exists`)
@@ -112,7 +111,7 @@ ipc.on('save-course', (event, data) => {
 	console.log(`[COURSE] saved ${data.name} successfully`)
 	BrowserWindow.getFocusedWindow().close()
 	mainWindow = BrowserWindow.getAllWindows()[0]
-	mainWindow.webContents.send('update-dropdown', {course: data.name})
+	mainWindow.webContents.send('update-dropdown', data)
 })
 
 ipc.on('create-lesson', () => {
