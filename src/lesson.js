@@ -46,7 +46,7 @@ module.exports.create = () => {
 		'courses': courses
 	}
 
-	let compiled = pug.renderFile('views/create.pug', data)
+	let compiled = pug.renderFile(__dirname+'/views/create.pug', data)
 	fs.writeFileSync(__dirname+'/app/create.html', compiled)
 }
 
@@ -97,7 +97,7 @@ module.exports.export = (_l) => {
 }
 
 let render = (_lesson) => {
-	let compiled = pug.renderFile('views/export.pug', _lesson)
+	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 
 	fs.writeFile(_lesson.course.path+'/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
@@ -115,12 +115,13 @@ let render = (_lesson) => {
 			'lessons': exported_lessons
 		}
 
-		compiled = pug.renderFile('views/export-index.pug', c)
+		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
 		fs.writeFile(_lesson.course.path+'/'+'index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
-			pushToRemote(_lesson)
+			// this is to export to github
+			// pushToRemote(_lesson)
 		})
 	})
 }
@@ -145,12 +146,13 @@ let switchBranch = (_lesson, _branch, _callback) => {
 		}
 		console.log(stdout)
 
+		// copy media files
 		if(_branch == 'gh-pages'){
 			for(let concept of _lesson.concepts){
 				for(let prep of concept.prep){
 					if(prep.type == 'img'){
 						let file_path = __dirname+'/app/'+prep.src
-						console.log(`[MEDIA] found img: ${file_path}`);
+
 						fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+prep.src))
 					}
 				}
