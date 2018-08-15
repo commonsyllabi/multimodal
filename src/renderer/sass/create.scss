@@ -126,7 +126,7 @@
 
 //-- this holds both preps and notes
 .content-holder{
-	width: 100%;
+	width: 90%;
 	height: auto;
 	overflow: auto;
 }
@@ -161,7 +161,11 @@ input[type=text], textarea{
 .create-concept-prep {
 	font-size: 24px;
 	margin-right: 10px;
-	width: 80%;
+	width: 70%;
+}
+
+.create-concept-tag {
+	width: 40%;
 }
 
 .create-concept-note {
@@ -172,10 +176,21 @@ input[type=text], textarea{
 .create-concept-name {
 	color: $dark-grey;
 	border: none;
-	width: 80%;
+	border-bottom: 2px solid black;
+	width: 60%;
 	float: left;
 	font-size: 48px;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
+}
+
+.create-concept-tag {
+	color: $dark-grey;
+	border: none;
+	border-bottom: 1px solid black;
+	width: 50%;
+	float: left;
+	font-size: 24px;
+	margin-bottom: 20px;
 }
 
 .create-prep{
