@@ -1,6 +1,6 @@
 {
   "name": "multimodal",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "a tool for teaching",
   "main": "src/main.js",
   "scripts": {
@@ -10,15 +10,27 @@
     "pack": "webpack --config webpack.config.js",
     "lint": "eslint src app/js",
     "lint:fix": "node_modules/.bin/eslint --fix src app/js",
+    "postinstall":"install-app-deps",
     "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/icon.png --prune=true --out=build"
   },
   "build": {
     "appId": "com.multimodal.app",
     "productName": "multimodal",
+    "mac":{
+      "category": "com.education.multimodal"
+    },
+    "linux":{
+      "packageCategory":"Education",
+      "description": "Desktop App for Teaching",
+      "target":[
+        "deb",
+        "zip",
+        "AppImage"
+      ],
+      "maintainer":"Pierre Depaz <pierre.depaz@gmail.com>"
+    },
     "buildVersion": "0.1",
     "nodeGypRebuild": true,
-    "postinstall":"install-app-deps",
-    "category": "public.app.education",
     "dmg": {
       "contents": [
         {
