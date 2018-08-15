@@ -12,7 +12,7 @@ html
 				input.course-year#course-year(type='text', placeholder='course year', value='')
 				input.course-path#course-path(type='text', placeholder='course folder path', value='')
 				button.create-local-path(onclick='selectCoursePath(this)') select
-				button.lesson-btn.create-course-save(onclick='saveCourse()') save
 			div.interface-buttons
 				button.lesson-btn.create-course-exit(onclick='exitCourse()') exit
-				div.msg-log#msg-log 
+				button.lesson-btn.create-course-save(onclick='saveCourse()') save
+				div.msg-log#msg-log

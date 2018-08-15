@@ -17,15 +17,11 @@ let course = {
 	'year':''
 }
 
-let selectCourse = (name) => {
-	if(name.value == 'new course'){
-		document.getElementById('new-course').style.display = 'inline'
-	}else if(name == 'custom'){
-		lesson.course = document.getElementById('new-course').value
-	}else{
-		lesson.course = name.value
-		document.getElementById('new-course').style.display = 'none'
-	}
+let selectCourse = (_el) => {
+	let name = _el.options[_el.selectedIndex].value
+	console.log(_el.options[_el.selectedIndex].value);
+	if(name == 'create-course')
+		createNewCourse()
 }
 
 let createNewCourse = () => {

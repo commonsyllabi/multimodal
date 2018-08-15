@@ -10,9 +10,14 @@
 	width: 96%;
 	height: auto;
 	overflow: auto;
+	margin-top: 2%;
 	padding: 2%;
 	text-align: left;
-	background-color: black;
+	border: 3px solid black;
+}
+
+.create-course h1{
+	margin-left: 3%;
 }
 
 .create-lesson {
@@ -39,9 +44,14 @@
 }
 
 .create-new-course{
-	font-size: 48px;
-	width: 50%;
+	font-size: 36px;
+	padding: 0px 15px 5px 15px;
+	float: right;
 	margin-left: 5px;
+	background-color: black;
+	color: white;
+	border: none;
+	cursor: pointer;
 }
 
 /* COURSE WINDOW */
@@ -53,18 +63,16 @@
 	float: left;
 
 	margin: 3%;
-	padding-left: 5px;
 }
 
 .course-path {
 	width: 70%;
 	margin: 10px;
-	float: inherit;
+	float: left;
 }
 
 .create-course-save{
 	float: left;
-	width: 100%;
 }
 
  .show-local-path {
@@ -80,7 +88,8 @@
 	padding: 5px;
 	margin-left: 5px;
 	margin-top: 3%;
-	background-color: $light-grey;
+	background-color: black;
+	color: white;
 }
 
 /* ---------------------------- */
@@ -101,11 +110,12 @@
 }
 
 .create-courses-list {
-	font-size: 48px;
-	background-color: $light-grey;
-	color: $dark-grey;
-	border: none;
-
+	font-size: 36px;
+	background-color: white;
+	color: black;
+	border: 2px solid black;
+	width: 50%;
+	cursor: pointer;
 }
 
 .create-path {
