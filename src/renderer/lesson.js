@@ -49,12 +49,14 @@ let init = () => {
 	})
 
 	globals.setCurrentConcept()
+	globals.initTags();
 }
 
 window.init = init
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept
+window.jumpToTag = globals.jumpToTag
 window.clearBoard = drawing.clearBoard
 window.toggleDraw = drawing.toggleDraw
 

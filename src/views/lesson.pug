@@ -12,14 +12,14 @@ html
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each val, index in concepts
-					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
+					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= val[0].tag)= index + '. '+ val[0].name
 			each notes, index in concepts
 				canvas.drawing-board(concept= index)
 				div.prep-group
-					div.prep.note.title(concept= index)= notes[0]
+					div.prep.note.title(concept= index)= notes[0].name
 					each note  in notes
 						if note.type == "txt"
-							div.prep.note(concept= index)= note.text
+							div.prep.note(concept= index, tag= note.tag)= note.text
 						if note.type == "url"
 							div.prep.note(concept= index)
 								a(href= note.url, target="_blank")= note.text

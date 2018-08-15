@@ -83,6 +83,13 @@ let createPrep = (kind) => {
 		text.setAttribute('kind', 'txt')
 		text.setAttribute('class', 'create-concept-prep')
 		prep.appendChild(text)
+
+		let tag = document.createElement('input')
+		tag.setAttribute('type', 'text')
+		tag.setAttribute('placeholder', 'tag')
+		tag.setAttribute('kind', 'tag')
+		tag.setAttribute('class', 'create-concept-prep create-concept-tag')
+		prep.appendChild(tag)
 	}else if(kind == 'url'){
 		let url = document.createElement('input')
 		url.setAttribute('type', 'text')
@@ -188,6 +195,11 @@ let addConcept = (el) => {
 	name.setAttribute('placeholder', 'concept name')
 	concept.appendChild(name)
 
+	let tag = document.createElement('input')
+	tag.setAttribute('class', 'create-concept-tag')
+	tag.setAttribute('placeholder', 'concept tag')
+	concept.appendChild(tag)
+
 	let prep = document.createElement('div')
 	prep.setAttribute('class', 'create-prep')
 
@@ -245,14 +257,15 @@ let removeConcept = (el) => {
 let parseLesson = () => {
 	lesson.concepts = []
 
-	//we need a ternary operator here to distinguish between create and edit
+	// -- GET COURSE INFORMATION
+	// here we check first if we are editing the lesson
 	if(document.getElementById('course-list') == null){
 		lesson.course = {
 			'name': document.getElementById('existing-course'),
 			'year': 2018, //TODO fix
 			'path': document.getElementById('local-path').value
 		}
-	}else{
+	}else{ // or creating the new one
 		let dropdown = document.getElementById('course-list').selectedOptions[0]
 
 		lesson.course = {
@@ -262,13 +275,16 @@ let parseLesson = () => {
 		}
 	}
 
-
+	// --  GET LESSON INFORMATION
 	lesson.title = document.getElementById('title').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
 		let concept = []
-		concept.push(_co.childNodes[0].value) //find its name
+		// concept.push(_co.childNodes[0].value) //find its name
+		//TODO we need to add the associated tag
+		console.log('saving concept',_co.childNodes[0].value,'and tag',_co.childNodes[1].value)
+		concept.push({'concept':_co.childNodes[0].value, 'tag':_co.childNodes[1].value})
 
 		let contentHolder
 		for(let child of _co.childNodes)
@@ -282,12 +298,15 @@ let parseLesson = () => {
 
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
-				if(_cn[0].getAttribute('kind') == 'txt')
-					concept.push({'type':'txt', 'text': _cn[0].value})
-				else if(_cn[0].getAttribute('kind') == 'url')
+				if(_cn[0].getAttribute('kind') == 'txt'){
+					concept.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value})
+				}else if(_cn[0].getAttribute('kind') == 'url'){
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
-				else if(_cn[0].getAttribute('kind') == 'img')
+				}else if(_cn[0].getAttribute('kind') == 'img'){
 					concept.push({'type':'img', 'path': _cn[0].value})
+				}else if(_cn[0].getAttribute('kind') == 'tag'){
+					concept.push({'type':'tag', 'tag':_cn[0].value})
+				}
 
 			}
 		}

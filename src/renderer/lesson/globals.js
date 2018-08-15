@@ -5,6 +5,25 @@ import * as drawing from './drawing.js'
 let currentNote = null
 let currentConcept = 0
 
+let initTags = () => {
+	let els = document.getElementsByClassName('prep')
+	for(let e of els){
+		let t = e.getAttribute('tag')
+		if(t != null)
+			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
+	}
+
+}
+
+let jumpToTag = (_tag) => {
+	let concepts = document.getElementsByClassName('concept')
+
+	for(let co of concepts)
+		if(co.getAttribute('tag') == _tag)
+			setCurrentConcept(co.getAttribute('concept'))
+
+}
+
 let setCurrentNote = (el) => {
 	currentNote = el
 }
@@ -47,4 +66,4 @@ let setCurrrentPosition = (pos) => {
 	currentNote.style.left = pos.x+'px'
 }
 
-export { currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept}
+export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept}

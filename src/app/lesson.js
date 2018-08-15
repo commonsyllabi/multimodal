@@ -114,11 +114,13 @@ module.exports.setMessage = (_msg, _type) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return initTags; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return jumpToTag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return currentNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrrentPosition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return setCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getCurrentConcept; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(7);
 
@@ -127,6 +129,25 @@ module.exports.setMessage = (_msg, _type) => {
 
 let currentNote = null
 let currentConcept = 0
+
+let initTags = () => {
+	let els = document.getElementsByClassName('prep')
+	for(let e of els){
+		let t = e.getAttribute('tag')
+		if(t != null)
+			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
+	}
+
+}
+
+let jumpToTag = (_tag) => {
+	let concepts = document.getElementsByClassName('concept')
+
+	for(let co of concepts)
+		if(co.getAttribute('tag') == _tag)
+			setCurrentConcept(co.getAttribute('concept'))
+
+}
 
 let setCurrentNote = (el) => {
 	currentNote = el
@@ -207,7 +228,7 @@ let handle = (event) => {
 	position.y = event.pageY
 
 	if(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* currentNote */] != null){
-		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["f" /* setCurrrentPosition */])(getGridPosition())
+		Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["h" /* setCurrrentPosition */])(getGridPosition())
 	}
 
 }
@@ -391,13 +412,15 @@ let init = () => {
 		__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["d" /* endDraw */]()
 	})
 
-	__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]()
+	__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["f" /* setCurrentConcept */]()
+	__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* initTags */]();
 }
 
 window.init = init
 window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]
-window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["d" /* setCurrentConcept */]
+window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["f" /* setCurrentConcept */]
+window.jumpToTag = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["e" /* jumpToTag */]
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["b" /* clearBoard */]
 window.toggleDraw = __WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["g" /* toggleDraw */]
 
@@ -439,7 +462,7 @@ let handle = (e) => {
 		if(currentNote == null){
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
 			index = index - 1 >= 0 ? index - 1 : 0
-			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrentConcept */])(index)
 		}
 		break
 	case DOWN:
@@ -447,7 +470,7 @@ let handle = (e) => {
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
 			let len = document.getElementsByClassName('concept').length-1
 			index = index + 1 < len ? index + 1 : len
-			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* setCurrentConcept */])(index)
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrentConcept */])(index)
 		}
 		break
 	case ESC:
@@ -467,8 +490,8 @@ let newNote = () => {
 	cn.addEventListener("input", () => { OnInput(cn)}, false)
 	document.getElementById('writing-board').append(cn)
 
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(cn)
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["f" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getGridPosition */]())
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentNote */])(cn)
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["h" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getGridPosition */]())
 
 	cn.focus()
 }
@@ -492,9 +515,9 @@ let endNote = () => {
 	currentNote.onclick =(evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
-		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(evt.target)
+		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentNote */])(evt.target)
 	}
-	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["e" /* setCurrentNote */])(null)
+	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentNote */])(null)
 }
 
 
