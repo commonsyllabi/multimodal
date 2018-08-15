@@ -2,4 +2,8 @@
 node_modules/
 assets/
 dist/
+
+# builds
+build/
+*.app
 [Mm]ultimodal-darwin-x64/

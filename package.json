@@ -7,11 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "watch": "webpack --config webpack.config.js --watch",
-    "wrap": "webpack --config webpack.config.js",
+    "pack": "webpack --config webpack.config.js",
     "lint": "eslint src app/js",
     "lint:fix": "node_modules/.bin/eslint --fix src app/js",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/icon.png --prune=true --out=build"
   },
   "build": {
     "appId": "com.multimodal.app",
