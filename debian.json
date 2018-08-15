@@ -1,0 +1,10 @@
+{
+  "dest": "build/",
+  "icon": "src/icon.png",
+  "categories": [
+    "Education"
+  ],
+  "lintianOverrides": [
+    "changelog-file-missing-in-native-package"
+  ]
+}
