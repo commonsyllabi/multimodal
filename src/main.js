@@ -95,6 +95,8 @@ ipc.on('create-new-course', () => {
 
 ipc.on('save-course', (event, data) => {
 	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+
+	// check for existing courses
 	for(let course of courses){
 		if(course.name == data.name && course.year == data.year && course.path == data.path){
 			console.log(`[COURSE] ${data.name} already exists`)
@@ -103,8 +105,13 @@ ipc.on('save-course', (event, data) => {
 		}
 	}
 
+	// update courses data
 	courses.push(data)
 	fs.writeFileSync(__dirname+'/lessons/courses.json', JSON.stringify(courses))
+
+	//create empty folders
+	utils.touchDirectory(data.path+'/html-exports')
+	fs.createReadStream(__dirname+'/lessons/style.css').pipe(fs.createWriteStream(data.path+'/html-exports/style.css'))
 
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})

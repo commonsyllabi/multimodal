@@ -15,7 +15,7 @@ canvas {
 .active{
 	visibility: visible;
 	pointer-events: auto;
-	cursor: crosshait;
+	cursor: crosshair;
 }
 
 .inactive {
@@ -110,8 +110,8 @@ canvas {
 	z-index: 3;
 	bottom: 0px;
 	left: 0px;
-	padding-bottom: 10px;
 	padding-left: 10px;
+	// height: 50px;
 	width: 100%;
 
 	background-color: white;

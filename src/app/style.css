@@ -3,6 +3,7 @@ body {
 
 .msg-log {
   float: right;
+  height: 100%;
   margin-right: 3%;
   padding-right: 5px;
   padding-left: 5px;
@@ -81,6 +82,7 @@ body {
 
 .msg-log {
   float: right;
+  height: 100%;
   margin-right: 3%;
   padding-right: 5px;
   padding-left: 5px;
@@ -117,7 +119,7 @@ canvas {
 .active {
   visibility: visible;
   pointer-events: auto;
-  cursor: crosshait; }
+  cursor: crosshair; }
 
 .inactive {
   visibility: hidden;
@@ -191,7 +193,6 @@ canvas {
   z-index: 3;
   bottom: 0px;
   left: 0px;
-  padding-bottom: 10px;
   padding-left: 10px;
   width: 100%;
   background-color: white;
@@ -203,6 +204,7 @@ body {
 
 .msg-log {
   float: right;
+  height: 100%;
   margin-right: 3%;
   padding-right: 5px;
   padding-left: 5px;
@@ -240,7 +242,8 @@ div, img {
   right: 0px; }
 
 .lessons {
-  padding: 5%; }
+  padding: 5%;
+  margin-bottom: 5%; }
 
 .inter-class-title {
   width: 100%;
@@ -277,7 +280,6 @@ div, img {
 .inter-btn-main {
   position: relative;
   display: inline;
-  top: 30%;
   width: auto;
   font-size: 2.2em; }
 
@@ -290,6 +292,7 @@ body {
 
 .msg-log {
   float: right;
+  height: 100%;
   margin-right: 3%;
   padding-right: 5px;
   padding-left: 5px;
@@ -323,9 +326,13 @@ div, img {
   width: 96%;
   height: auto;
   overflow: auto;
+  margin-top: 2%;
   padding: 2%;
   text-align: left;
-  background-color: black; }
+  border: 3px solid black; }
+
+.create-course h1 {
+  margin-left: 3%; }
 
 .create-lesson {
   margin: 10px;
@@ -347,9 +354,14 @@ div, img {
   color: white; }
 
 .create-new-course {
-  font-size: 48px;
-  width: 50%;
-  margin-left: 5px; }
+  font-size: 36px;
+  padding: 0px 15px 5px 15px;
+  float: right;
+  margin-left: 5px;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer; }
 
 /* COURSE WINDOW */
 .course-name, .course-year, .course-path {
@@ -358,17 +370,15 @@ div, img {
   height: 48px;
   display: block;
   float: left;
-  margin: 3%;
-  padding-left: 5px; }
+  margin: 3%; }
 
 .course-path {
   width: 70%;
   margin: 10px;
-  float: inherit; }
+  float: left; }
 
 .create-course-save {
-  float: left;
-  width: 100%; }
+  float: left; }
 
 .show-local-path {
   width: 85%;
@@ -382,7 +392,8 @@ div, img {
   padding: 5px;
   margin-left: 5px;
   margin-top: 3%;
-  background-color: #f0f0f0; }
+  background-color: black;
+  color: white; }
 
 /* ---------------------------- */
 .edit-existing-course {
@@ -399,10 +410,12 @@ div, img {
   cursor: pointer; }
 
 .create-courses-list {
-  font-size: 48px;
-  background-color: #f0f0f0;
-  color: #333333;
-  border: none; }
+  font-size: 36px;
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  width: 50%;
+  cursor: pointer; }
 
 .create-path {
   padding: 10px; }

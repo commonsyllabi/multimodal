@@ -3,6 +3,7 @@
 const fs  = require('fs')
 const pug = require('pug')
 const { exec } = require('child_process')
+const BrowserWindow = require('electron').BrowserWindow
 const PUSH_TO_GITHUB = false
 
 let win
@@ -25,15 +26,20 @@ module.exports.list = () => {
 			'lessons': []
 		}
 
-		let lessons = fs.readdirSync(__dirname+'/lessons/'+co.name+'/prep')
+		let lessons
+		try {
+			lessons = fs.readdirSync(__dirname+'/lessons/'+co.name+'/prep')
 
-		//then we get the name of all the associated lessons
-		for(let l of lessons){
-			let lesson_name = l.substring(0, l.indexOf('.'))
-			course.lessons.push(lesson_name)
+			//then we get the name of all the associated lessons
+			for(let l of lessons){
+				let lesson_name = l.substring(0, l.indexOf('.'))
+				course.lessons.push(lesson_name)
+			}
+
+			data.courses.push(course)
+		} catch (e) {
+			//No lessons yet for the current course
 		}
-
-		data.courses.push(course)
 	}
 
 	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', data)
@@ -128,6 +134,9 @@ let render = (_lesson) => {
 				pushToRemote(_lesson)
 
 			//TODO OPEN FILE
+			let w = new BrowserWindow({width: 600, height: 400, icon: __dirname + '/icon.png', frame: true})
+			let u = _lesson.course.path+'/'+'index.html'
+			w.loadURL('file://'+u)
 		})
 	})
 }
