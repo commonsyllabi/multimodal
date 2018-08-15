@@ -16,7 +16,24 @@
   "build": {
     "appId": "com.multimodal.app",
     "productName": "multimodal",
-    "buildVersion": "0.1"
+    "buildVersion": "0.1",
+    "nodeGypRebuild": true,
+    "postinstall":"install-app-deps",
+    "category": "public.app.education",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
   },
   "repository": {
     "type": "git",
@@ -47,6 +64,6 @@
     "webpack-cli": "^2.1.4"
   },
   "dependencies": {
-    "hoek": "^5.0.3"
+    "pug": "^2.0.0"
   }
 }

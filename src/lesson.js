@@ -3,6 +3,8 @@
 const fs  = require('fs')
 const pug = require('pug')
 const { exec } = require('child_process')
+const BrowserWindow = require('electron').BrowserWindow
+const PUSH_TO_GITHUB = false
 
 let win
 
@@ -11,8 +13,8 @@ exports = module.exports = {}
 module.exports.list = () => {
 
 	//first we get all the courses
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
-	
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+
 	let data = {
 		'courses':[]
 	}
@@ -23,35 +25,40 @@ module.exports.list = () => {
 			'course':co,
 			'lessons': []
 		}
-	
-		let lessons = fs.readdirSync(__dirname+'/../lessons/'+co.name+'/prep')
 
-		//then we get the name of all the associated lessons
-		for(let l of lessons){
-			let lesson_name = l.substring(0, l.indexOf('.'))
-			course.lessons.push(lesson_name)
-		}	
+		let lessons
+		try {
+			lessons = fs.readdirSync(__dirname+'/lessons/'+co.name+'/prep')
 
-		data.courses.push(course)
+			//then we get the name of all the associated lessons
+			for(let l of lessons){
+				let lesson_name = l.substring(0, l.indexOf('.'))
+				course.lessons.push(lesson_name)
+			}
+
+			data.courses.push(course)
+		} catch (e) {
+			//No lessons yet for the current course
+		}
 	}
 
-	let compiled = pug.renderFile('views/welcome.pug', data)
-	fs.writeFileSync(__dirname+'/../app/welcome.html', compiled)
+	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', data)
+	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
 }
 
 module.exports.create = () => {
 
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/../lessons/courses.json'))
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
 	let data = {
 		'courses': courses
 	}
 
-	let compiled = pug.renderFile('views/create.pug', data)
-	fs.writeFileSync(__dirname+'/../app/create.html', compiled)
+	let compiled = pug.renderFile(__dirname+'/views/create.pug', data)
+	fs.writeFileSync(__dirname+'/app/create.html', compiled)
 }
 
 module.exports.getNewest = (lesson) => {
-	let saves = fs.readdirSync(__dirname+'/../lessons/'+lesson.course+'/in-class/'+lesson.title)
+	let saves = fs.readdirSync(__dirname+'/lessons/'+lesson.course+'/in-class/'+lesson.title)
 
 	if(saves.length == 1) return saves[0]
 
@@ -91,13 +98,16 @@ module.exports.getNewest = (lesson) => {
 }
 
 module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/../lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
+	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
 
-	switchBranch(lesson, 'gh-pages', render)
+	if(PUSH_TO_GITHUB)
+		switchBranch(lesson, 'gh-pages', render)
+	else
+		render(lesson)
 }
 
 let render = (_lesson) => {
-	let compiled = pug.renderFile('views/export.pug', _lesson)
+	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 
 	fs.writeFile(_lesson.course.path+'/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
@@ -115,12 +125,18 @@ let render = (_lesson) => {
 			'lessons': exported_lessons
 		}
 
-		compiled = pug.renderFile('views/export-index.pug', c)
+		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
 		fs.writeFile(_lesson.course.path+'/'+'index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
-			pushToRemote(_lesson)
+			if(PUSH_TO_GITHUB)
+				pushToRemote(_lesson)
+
+			//TODO OPEN FILE
+			let w = new BrowserWindow({width: 600, height: 400, icon: __dirname + '/icon.png', frame: true})
+			let u = _lesson.course.path+'/'+'index.html'
+			w.loadURL('file://'+u)
 		})
 	})
 }
@@ -145,12 +161,13 @@ let switchBranch = (_lesson, _branch, _callback) => {
 		}
 		console.log(stdout)
 
+		// copy media files
 		if(_branch == 'gh-pages'){
 			for(let concept of _lesson.concepts){
 				for(let prep of concept.prep){
 					if(prep.type == 'img'){
-						let file_path = __dirname+'/../app/'+prep.src
-						console.log(`[MEDIA] found img: ${file_path}`);
+						let file_path = __dirname+'/app/'+prep.src
+
 						fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+prep.src))
 					}
 				}

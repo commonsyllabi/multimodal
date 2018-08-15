@@ -15,7 +15,7 @@ canvas {
 .active{
 	visibility: visible;
 	pointer-events: auto;
-	cursor: crosshait;
+	cursor: crosshair;
 }
 
 .inactive {
@@ -26,6 +26,7 @@ canvas {
 .lessons-container {
 	width: 100%;
 	height: 100%;
+	z-index: 0;
 }
 
 .lesson-btn, .concept-btn {
@@ -103,13 +104,14 @@ canvas {
 	color: black;
 	font-weight: bold;
 }
+
 .interface-buttons {
 	position: fixed;
 	z-index: 3;
 	bottom: 0px;
 	left: 0px;
-	padding-bottom: 10px;
 	padding-left: 10px;
+	// height: 50px;
 	width: 100%;
 
 	background-color: white;
