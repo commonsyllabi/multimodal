@@ -28,21 +28,20 @@ body{
 
   textarea {
 	  font-family: 'Inter UI';
-	  background-color: rgba(0, 0, 0, 0);
+	  background-color: rgba(1, 0, 0, 0);
 	  border: none;
 	  outline: none;
+    height: auto;
   }
 
   .written {
-	width: 40%;
+	   width: 30%;
   }
 
   #current{
-	position: absolute;
-	font-weight: bold;
-
-    	overflow: visible;
-	min-height: 40%;
+	   position: absolute;
+     font-weight: bold;
+     overflow-y: visible;
   }
 
   .prep-group{
@@ -58,7 +57,7 @@ body{
 
 	  font-family: 'Inter UI';
 	  font-style: italic;
-	  font-size: 3em;
+	  font-size: 2em;
 
     @media (max-width: 1300px){
       font-size: 2.5em;

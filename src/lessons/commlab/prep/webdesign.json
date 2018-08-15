@@ -1,0 +1,469 @@
+{
+  "concepts": [
+    [
+      "title",
+      {
+        "text": "Web Design",
+        "type": "text"
+      },
+      {
+        "text": "Commlab - Spring 18",
+        "type": "text"
+      },
+      {
+        "text": "Pierre Depaz",
+        "type": "text"
+      }
+    ],
+    [
+      "planes",
+      {
+        "text": "paperplanes.world",
+        "type": "text"
+      }
+    ],
+    [
+      "what design",
+      {
+        "text": "What is design?",
+        "type": "text"
+      }
+    ],
+    [
+      "is",
+      {
+        "text": "design addresses problems",
+        "type": "text"
+      },
+      {
+        "text": "design solves issues",
+        "type": "text"
+      },
+      {
+        "text": "design is a plan",
+        "type": "text"
+      }
+    ],
+    [
+      "frank",
+      {
+        "text": "'all design seems to have three common traits: there is a __message__ to the work, the __tone__ of that message, and the __format__ that this message takes. Successful design has all three elements working on co-dependence to achieve a whole greater than the sum of its individual parts.'",
+        "type": "text"
+      },
+      {
+        "text": "Frank Chimero",
+        "type": "text"
+      }
+    ],
+    [
+      "intent",
+      {
+        "text": "Design organizes meaningless raw material, whether physical or digital, and turns that raw material into something that makes sense to the user.",
+        "type": "text"
+      },
+      {
+        "text": "Design insufflates intent.",
+        "type": "text"
+      },
+      {
+        "text": "Design shapes identities, and creates moments, experiences that combine emotion with logic.",
+        "type": "text"
+      }
+    ],
+    [
+      "all",
+      {
+        "text": "all design should be user-centered design",
+        "type": "text"
+      }
+    ],
+    [
+      "suri",
+      {
+        "src": "design-suri.jpg",
+        "type": "img"
+      }
+    ],
+    [
+      "elements",
+      {
+        "text": "some design elements",
+        "type": "text"
+      },
+      {
+        "text": "COLOR",
+        "type": "text"
+      },
+      {
+        "text": "SHAPE",
+        "type": "text"
+      },
+      {
+        "text": "TEXTURE",
+        "type": "text"
+      },
+      {
+        "text": "SPACE",
+        "type": "text"
+      }
+    ],
+    [
+      "principles",
+      {
+        "text": "some design principles",
+        "type": "text"
+      },
+      {
+        "text": "BALANCE",
+        "type": "text"
+      },
+      {
+        "text": "CONTRAST",
+        "type": "text"
+      },
+      {
+        "text": "EMPHASIS",
+        "type": "text"
+      },
+      {
+        "text": "RHYTHM",
+        "type": "text"
+      },
+      {
+        "text": "UNITY",
+        "type": "text"
+      }
+    ],
+    [
+      "what web",
+      {
+        "text": "what is web design?",
+        "type": "text"
+      }
+    ],
+    [
+      "what goal",
+      {
+        "text": "what is the goal of a website?",
+        "type": "text"
+      }
+    ],
+    [
+      "deliver",
+      {
+        "text": "deliver and format information from far away.",
+        "type": "text"
+      }
+    ],
+    [
+      "tree",
+      {
+        "text": "information architecture",
+        "type": "text"
+      },
+      {
+        "text": "site infrastructure",
+        "type": "text"
+      },
+      {
+        "text": "---",
+        "type": "text"
+      },
+      {
+        "text": "user interface",
+        "type": "text"
+      },
+      {
+        "text": "navigation",
+        "type": "text"
+      },
+      {
+        "text": "layout",
+        "type": "text"
+      },
+      {
+        "text": "colors / fonts / images",
+        "type": "text"
+      }
+    ],
+    [
+      "needs",
+      {
+        "text": "what do you need to design a good website?",
+        "type": "text"
+      }
+    ],
+    [
+      "needs",
+      {
+        "text": "notepad",
+        "type": "text"
+      },
+      {
+        "text": "software",
+        "type": "text"
+      },
+      {
+        "text": "web platforms",
+        "type": "text"
+      }
+    ],
+    [
+      "mf",
+      {
+        "text": "motherfuckingwebsite.com",
+        "type": "text"
+      }
+    ],
+    [
+      "web dev",
+      {
+        "text": "code",
+        "type": "text"
+      },
+      {
+        "text": "assets",
+        "type": "text"
+      },
+      {
+        "text": "concept",
+        "type": "text"
+      }
+    ],
+    [
+      "web design",
+      {
+        "text": "concept",
+        "type": "text"
+      },
+      {
+        "text": "assets",
+        "type": "text"
+      },
+      {
+        "text": "code",
+        "type": "text"
+      }
+    ],
+    [
+      "good",
+      {
+        "text": "who do you need to have a good website?",
+        "type": "text"
+      }
+    ],
+    [
+      "needs",
+      {
+        "text": "ux designer",
+        "type": "text"
+      },
+      {
+        "text": "graphic/ui designer",
+        "type": "text"
+      },
+      {
+        "text": "developer",
+        "type": "text"
+      }
+    ],
+    [
+      "hardware",
+      {
+        "text": "multiple platforms",
+        "type": "text"
+      },
+      {
+        "text": "multiple screens",
+        "type": "text"
+      },
+      {
+        "text": "multiple broadband",
+        "type": "text"
+      }
+    ],
+    [
+      "sum",
+      {
+        "text": "RECAP",
+        "type": "text"
+      },
+      {
+        "text": "information/function <> emotion/form",
+        "type": "text"
+      }
+    ],
+    [
+      "pomme",
+      {
+        "text": "IDENTITY (branding)",
+        "type": "text"
+      },
+      {
+        "text": "aka giving personality",
+        "type": "text"
+      }
+    ],
+    [
+      "sum",
+      {
+        "text": "branding = designing + storytelling",
+        "type": "text"
+      },
+      {
+        "text": "nyt/cl/taobao",
+        "type": "text"
+      }
+    ],
+    [
+      "start",
+      {
+        "text": "where to start web designing?",
+        "type": "text"
+      }
+    ],
+    [
+      "q?",
+      {
+        "text": "goal?",
+        "type": "text"
+      },
+      {
+        "text": "user?",
+        "type": "text"
+      },
+      {
+        "text": "identity?",
+        "type": "text"
+      },
+      {
+        "text": "content?",
+        "type": "text"
+      }
+    ],
+    [
+      "arch",
+      {
+        "text": "websites evolve",
+        "type": "text"
+      },
+      {
+        "text": "internet archive",
+        "type": "text"
+      }
+    ],
+    [
+      "wire",
+      {
+        "text": "wireframing",
+        "type": "text"
+      }
+    ],
+    [
+      "abstract",
+      {
+        "text": "a bunch of boxes",
+        "type": "text"
+      },
+      {
+        "text": "abstract boxes",
+        "type": "text"
+      }
+    ],
+    [
+      "q?",
+      {
+        "text": "how to do a wireframe?",
+        "type": "text"
+      }
+    ],
+    [
+      "layout",
+      {
+        "text": "LAYOUT",
+        "type": "text"
+      },
+      {
+        "text": "pages? navigation?",
+        "type": "text"
+      },
+      {
+        "text": "primary/secondary/tertiary elements?",
+        "type": "text"
+      },
+      {
+        "text": "header/footer?",
+        "type": "text"
+      }
+    ],
+    [
+      "text",
+      {
+        "text": "CONTENT",
+        "type": "text"
+      },
+      {
+        "text": "consistent placeholder",
+        "type": "text"
+      },
+      {
+        "text": "similar shapes for similar interactions",
+        "type": "text"
+      }
+    ],
+    [
+      "annotations",
+      {
+        "text": "ANNOTATIONS",
+        "type": "text"
+      },
+      {
+        "text": "describe:",
+        "type": "text"
+      },
+      {
+        "text": "content / interactions / behaviours",
+        "type": "text"
+      }
+    ],
+    [
+      "evaluate",
+      {
+        "text": "how to evaluate a wireframe?",
+        "type": "text"
+      },
+      {
+        "text": "call to action",
+        "type": "text"
+      },
+      {
+        "text": "navigation",
+        "type": "text"
+      },
+      {
+        "text": "simplicity",
+        "type": "text"
+      },
+      {
+        "text": "spacing",
+        "type": "text"
+      }
+    ],
+    [
+      "ex"
+    ],
+    [
+      "hw",
+      {
+        "text": "homework",
+        "type": "text"
+      }
+    ]
+  ],
+  "course": "commlab",
+  "path":{
+    "local":"",
+    "remote":""
+  },
+  "title": "webdesign"
+}

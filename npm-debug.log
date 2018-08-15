@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/Pierre/.nvm/versions/node/v6.11.0/bin/node',
+1 verbose cli   '/Users/Pierre/.nvm/versions/node/v6.11.0/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'dist' ]
+2 info using npm@3.10.10
+3 info using node@v6.11.0
+4 verbose run-script [ 'predist', 'dist', 'postdist' ]
+5 info lifecycle multimodal@1.0.0~predist: multimodal@1.0.0
+6 silly lifecycle multimodal@1.0.0~predist: no script for predist, continuing
+7 info lifecycle multimodal@1.0.0~dist: multimodal@1.0.0
+8 verbose lifecycle multimodal@1.0.0~dist: unsafe-perm in lifecycle true
+9 verbose lifecycle multimodal@1.0.0~dist: PATH: /Users/Pierre/.nvm/versions/node/v6.11.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/Pierre/Code/multimodal/node_modules/.bin:/Users/Pierre/.rvm/gems/ruby-2.4-head/bin:/Users/Pierre/.rvm/gems/ruby-2.4-head@global/bin:/Users/Pierre/.rvm/rubies/ruby-2.4-head/bin:/usr/local/opt/openssl/bin:/Users/Pierre/.nvm/versions/node/v6.11.0/bin:/opt/local/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:jhbuild= ~/.local/bin:/opt/X11/bin:/usr/local/MacGPG2/bin:/Library/TeX/texbin:/Users/Pierre/bin:/usr/local/bin:/Users/Pierre/Code/android-sdk/tools:/Users/Pierre/Code/android-sdk/platform-tools:/Users/Pierre/Code/android-sdk//tools:/Users/Pierre/Code/android-sdk//platform-tools:/Users/Pierre/.rvm/bin
+10 verbose lifecycle multimodal@1.0.0~dist: CWD: /Users/Pierre/Code/multimodal
+11 silly lifecycle multimodal@1.0.0~dist: Args: [ '-c', 'electron-builder' ]
+12 silly lifecycle multimodal@1.0.0~dist: Returned: code: 1  signal: null
+13 info lifecycle multimodal@1.0.0~dist: Failed to exec dist script
+14 verbose stack Error: multimodal@1.0.0 dist: `electron-builder`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/Users/Pierre/.nvm/versions/node/v6.11.0/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/Users/Pierre/.nvm/versions/node/v6.11.0/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:891:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid multimodal@1.0.0
+16 verbose cwd /Users/Pierre/Code/multimodal
+17 error Darwin 15.6.0
+18 error argv "/Users/Pierre/.nvm/versions/node/v6.11.0/bin/node" "/Users/Pierre/.nvm/versions/node/v6.11.0/bin/npm" "run" "dist"
+19 error node v6.11.0
+20 error npm  v3.10.10
+21 error code ELIFECYCLE
+22 error multimodal@1.0.0 dist: `electron-builder`
+22 error Exit status 1
+23 error Failed at the multimodal@1.0.0 dist script 'electron-builder'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the multimodal package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     electron-builder
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs multimodal
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls multimodal
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

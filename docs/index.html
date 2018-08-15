@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Multimodal | Desktop App For Teaching</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon"
+      type="image/png"
+      href="multimodal_favicon.png">
+  </head>
+  <body>
+<header>
+  <h1>Multimodal</h1>
+  <img src="multimodal_icon.png" />
+</header>
+<main>
+<h2>Multimodal is a desktop app for teaching</h2>
+<p>
+  Multimodal is a desktop application for teachers and students alike, harnessing the capabilities of the web browser to go beyond a simple slide-to-slide-to-slide delivery.
+  <div class="links">
+    <span>
+      <a href="#about">About</a>
+    </span>
+    <span>
+      <a href="#features">Features</a>
+    </span>
+    <span>
+      <a href="#getting-started">Getting Started</a>
+    </span>
+    <span>
+      <a href="#contact">Contact</a>
+    </span>
+  </div>
+</p>
+<hr />
+<h3 id="about">About</h3>
+<p>
+  Knowledge delivery in the classroom includes more and more multimedia content and less and less linear description of a particular topic to a passive audience. Multimodal came from the frusration of the staticness of every slideshow solution offered -once you write it, you're not meant to change it on the fly, and you're supposed to follow a pre-defined order.<br />
+  <br />
+  Because the tools we use have an impact on how we think, Multimodal offers the possibility of being as flexible as possible while providing a holistic and self-contained experience, so that you don't have to switch between a browser, a code editor, a slide show presenter and a text editor in order to provide the people in the room with a learning experience appropriate for all types of learners, and not just those that are good that reading sequantial chunks of text.<br />
+  <br />
+  On a more theoretical level, Multimodal was inspired by the thoughts of:
+  <ul>
+    <li>
+      <a href="http://computationalculture.net/one-damn-slide-after-another-powerpoint-at-every-occasion-for-speech/">"One Damn Slide After Another": PowerPoint At Every Occasion For Speech</a>, Erica Robles-Anderson and Patrik Svensson.
+    </li>
+    <li>
+      <a href="https://benjamins.com/catalog/jlp.15.3.02kva">Software As Ideology: A Multimodal Critical Discourse Analysis of Microsoft Word and SmartArt</a>, Gunhild Kvåle.
+    </li>
+    <li>
+      <a href="https://vimeo.com/115154289">The Humane Representation Of Thought</a>, Brett Victor.
+    </li>
+    <li>
+      <a href="https://www.amazon.com/dp/0226190390">The Educated Mind: How Cognitive Tools Shape Our Understanding</a>, Kieran Egan.
+    </li>
+  </ul>
+</p>
+<hr />
+<h3 id="features">Features</h3>
+<p>
+  The point of Multimodal is to take advantadge of the possibilities brought by <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5">HTML5</a>, while at the same time living in the offline environment, and therefore offering and more focused and reliable experience than a simple web app. This is why Multimodal is first and foremost built on <a href="https://electronjs.org/">Electron</a>. Multimodal includes:
+  <ul class="features-list">
+    <li>
+      In-app <b>preparing and displaying</b> of lesson notes, including images, videos and websites.
+    </li>
+    <li>
+      <b>Tagging system</b> to move from concept to concept in a non-linear fashion. #bringbackthedreamofhypertext
+    </li>
+    <li>
+      <b>Live editing</b> of any textual content at any point: add, move and delete notes as you would on any whiteboard.
+    </li>
+    <li>
+      <b>Live drawing</b> using HTML Canvas: draw on top of your lesson's text and images to make your points more visual.
+    </li>
+    <li>
+    <b>Exporting class notes</b> as an HTML file at the end of the class, including the notes took after to student input and class discussion.
+    </li>
+    <li>
+      <b>Uploading course notes</b> to your website, to the Multimodal website, or link it to a GitHub repository to publish them as a gh-pages website.
+    </li>
+    <li>
+      <b>Free and open-source</b>. Customize Multimodal to suit your needs, and those of your students, best.
+    </li>
+  </ul>
+</p>
+<hr />
+<h3 id="getting-started">Getting Started</h3>
+<p>
+  Multimodal defines a certain vocabulary. At the core is a <b>lesson</b>, which is what can be displayed and manipulated during the teaching time. Lessons are composed of <b>concepts</b>, which basically represent a page of each lesson. Each lesson starts with <b>prep-notes</b> (e.g. text, images, videos, websites), written down beforehand by the teacher, and gets <b>in-class notes</b> added during the teaching. Lessons are contained into <b>courses</b>, which then get exported as HTML files (think of your course as a whole website with a separate page for each lesson).
+  <ul>
+  <li>
+    <b>Downlading Multimodal</b> (currently supported are OSX and Linux) here and installing it.
+  </li>
+  </ul>
+  <h3>Before a lesson</h3>
+  <ul>
+    <li>
+      <b>Create a new lesson</b> by clicking the <b>Create</b> button.
+    </li>
+  <li>
+    <b>Create a new course</b> by clicking the <b>New Course</b> button at the top of the preparation window and choose the folder where you want your lessons to be saved.
+  </li>
+  <li>
+    <b>Create a new concept</b>, by clicking on the <b>+</b>, and choose if they are associated with a particular tag (each concept can only have unique tags!). You can also remove a concept by clicking <b>-</b>.
+  </li>
+  <li>
+    <b>Add your course notes</b>, by choosing between text (txt), images (img) or websites (url). Each of these notes can be associated with a tag, that will redirect to the relevant concept.
+  </li>
+  <li>
+    <b>Save your lesson prep</b> by clicking <b>Save</b> and exit to the home screen!
+  </li>
+  </ul>
+  <h3>During a lesson</h3>
+  <ul>
+  <li>
+    <b>Switch between concepts</b> by using the up and down arrow keys.
+  </li>
+  <li>
+    <b>Add a new note</b> by double-clicking on the board, and start typing!
+  </li>
+  <li>
+    <b>Edit a note</b> by clicking on it: change text, or move it around. Press ESC to let go of the note.
+  </li>
+  <li>
+    <b>Switch between writing and drawing</b> by clicking <b>Write</b> at the bottom.
+  </li>
+  <li>
+    <b>Draw on the screen</b> by holding the mouse down.
+  </li>
+  <li>
+    <b>Erase the board</b> by clicking <b>Clear</b>.
+  </li>
+  <li>
+    <b>Save the current lesson</b> by clicking <b>Save</b>. You will be able to edit it and export it later.
+  </li>
+  </ul>
+  <h3>After a lesson</h3>
+  <ul>
+    <li>
+      Select a lesson by clicking once, and click the <b>Edit with notes</b> button to edit it.
+    </li>
+    <li>
+      <b>Export a lesson</b> by clicking <b>Export</b> button. This will export the HTML files for your whole course in the folder you specified before.
+    </li>
+  </ul>
+
+
+</p>
+<hr />
+<h3 id="contact">Contact</h3>
+<p>
+  Please get in touch at <a href="mailto:pierre.depaz@gmail.com">pierre [dot] depaz [at] gmail</a> for any questions, comments, suggestions!<br />
+  <br />
+  If any of those are more technical, please open an issue on the GitHub <a href="https://github.com/periode/multimodal">repository</a>.
+</p>
+</main>
+
+  </body>
+</html>

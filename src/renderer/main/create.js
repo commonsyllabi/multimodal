@@ -17,15 +17,11 @@ let course = {
 	'year':''
 }
 
-let selectCourse = (name) => {
-	if(name.value == 'new course'){
-		document.getElementById('new-course').style.display = 'inline'
-	}else if(name == 'custom'){
-		lesson.course = document.getElementById('new-course').value
-	}else{
-		lesson.course = name.value
-		document.getElementById('new-course').style.display = 'none'
-	}
+let selectCourse = (_el) => {
+	let name = _el.options[_el.selectedIndex].value
+	console.log(_el.options[_el.selectedIndex].value);
+	if(name == 'create-course')
+		createNewCourse()
 }
 
 let createNewCourse = () => {
@@ -37,8 +33,13 @@ let saveCourse = () => {
 	_course.name = document.getElementById('course-name').value
 	_course.year = document.getElementById('course-year').value
 	_course.path = document.getElementById('course-path').value
-	
-	ipc.send('save-course', _course)
+
+	if(_course.name == null || _course.year == null || _course.path == null){
+		alert('Some fields are missing!')
+		console.log(_course);
+	}else{
+		ipc.send('save-course', _course)
+	}
 }
 
 let exitCourse = () => {
@@ -50,7 +51,7 @@ let selectCoursePath = () => {
 	let options = {
 		'title':'Select course folder',
 		'defaultPath':'~/',
-		'properties':['openDirectory']
+		'properties':['openDirectory', 'createDirectory']
 	}
 
 	dialog.showOpenDialog(options, (path) => {
@@ -243,16 +244,25 @@ let removeConcept = (el) => {
 
 let parseLesson = () => {
 	lesson.concepts = []
-	
+
 	//we need a ternary operator here to distinguish between create and edit
-	let dropdown = document.getElementById('course-list').selectedOptions[0]
-	
-	lesson.course = {
-		'name': dropdown.value,
-		'year': dropdown.getAttribute('year'),
-		'path': dropdown.getAttribute('path')
+	if(document.getElementById('course-list') == null){
+		lesson.course = {
+			'name': document.getElementById('existing-course'),
+			'year': 2018, //TODO fix
+			'path': document.getElementById('local-path').value
+		}
+	}else{
+		let dropdown = document.getElementById('course-list').selectedOptions[0]
+
+		lesson.course = {
+			'name': dropdown.value,
+			'year': dropdown.getAttribute('year'),
+			'path': dropdown.getAttribute('path')
+		}
 	}
-	
+
+
 	lesson.title = document.getElementById('title').value
 
 	let concepts = document.getElementsByClassName('create-concept')
@@ -278,7 +288,7 @@ let parseLesson = () => {
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				else if(_cn[0].getAttribute('kind') == 'img')
 					concept.push({'type':'img', 'path': _cn[0].value})
-				
+
 			}
 		}
 
@@ -324,12 +334,4 @@ let exitLesson = () => {
 	}
 }
 
-/*
-let setMessage = (_msg) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.style.opacity = 1
-	setTimeout(() => {el.style.opacity = 0}, 2000)
-}
-*/
 export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}

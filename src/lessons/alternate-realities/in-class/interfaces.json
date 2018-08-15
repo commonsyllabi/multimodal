@@ -1,0 +1,729 @@
+{
+  "contents": [
+    {
+      "concept": "0. interfaces",
+      "notes": [
+        "an interface is an entry point"
+      ],
+      "prep": [
+        {
+          "text": "interfaces",
+          "type": "txt"
+        },
+        {
+          "text": "the humane conception of human though",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "1. what?",
+      "notes": [
+        "an interface is a boundary",
+        "an interface is a point of interaction",
+        "an interface opens up possibilities about something that is, at first, not seen"
+      ],
+      "prep": [
+        {
+          "text": "what?",
+          "type": "txt"
+        },
+        {
+          "text": "what is an interface?",
+          "type": "txt"
+        },
+        {
+          "text": "what are some examples of interfaces?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "2. the point",
+      "notes": [
+        "but this point doesn't have to be visual, it can be physical, aural,\nor even psychological, in the case of dreams"
+      ],
+      "prep": [
+        {
+          "text": "the point",
+          "type": "txt"
+        },
+        {
+          "text": "the exact point of where you interact",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "3. nature",
+      "notes": [
+        "a cave is an interface to the underground.\na river bank is an interface to marine life (and vice versa)\nthe tip of a fruit is an interface which breaks the tree into fruit and branch"
+      ],
+      "prep": [
+        {
+          "text": "nature",
+          "type": "txt"
+        },
+        {
+          "text": "what are some examples of natural interfaces?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "4. affordances",
+      "notes": [
+        "an affordance is a physical specificity\nwhich encourages the use of a particular object/place\n(theorized by James Gibson, in his book The Ecological Approach to Visual Perception)",
+        "a false affordance is something that looks like it might do something, but doesn't\n(i.e. a switch that doesn't turn on a light)",
+        "a hidden affordance is a possibility that is not manifested, not shown.\n(e.g. using a book as a doorstop). hidden affordances imply discovery and a feeling of creativity in the user",
+        "a perceptible affordance is one that is quickly understandable, but not always\n(a usb port on a computer can be plugged in, but it's not obvious which side is up)",
+        "an obvious affordance is the ideal one. we don't even think about it\n(e.g. the handle on a coffee cup, or the cutting edge of a knife)"
+      ],
+      "prep": [
+        {
+          "text": "affordances",
+          "type": "txt"
+        },
+        {
+          "text": "false",
+          "type": "txt"
+        },
+        {
+          "text": "hidden",
+          "type": "txt"
+        },
+        {
+          "text": "perceptible",
+          "type": "txt"
+        },
+        {
+          "text": "obvious",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "5. external",
+      "notes": [
+        "not only does it give us a way to interact with something,\nbut it also strongly encourages us to use it this way\n(when you have a hammer, everything looks like a nail)"
+      ],
+      "prep": [
+        {
+          "text": "external",
+          "type": "txt"
+        },
+        {
+          "text": "physical interfaces give us a point of access to an external object",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "6. non-physical",
+      "notes": [
+        "there are symbols",
+        "and there are faces",
+        "our faces provide us with a path of action in regards to someone else\n(e.g. do we continue the conversation, or do we run away?)\nbased on how one looks and what one says, you will be able to act accordingly"
+      ],
+      "prep": [
+        {
+          "text": "non-physical",
+          "type": "txt"
+        },
+        {
+          "text": "are there interfaces for the non-physical?",
+          "type": "txt"
+        },
+        {
+          "text": "1.",
+          "type": "txt"
+        },
+        {
+          "text": "2.",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "7. symbols",
+      "notes": [],
+      "prep": [
+        {
+          "text": "symbols",
+          "type": "txt"
+        },
+        {
+          "text": "symbols such as",
+          "type": "txt"
+        },
+        {
+          "text": "- letters",
+          "type": "txt"
+        },
+        {
+          "text": "- numbers",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "8. data visualization",
+      "notes": [
+        "this is the first artificial way for us to represent the abstract\n",
+        "interfaces are no longer physical, but also semantic",
+        "data visualization made us realize that different representations made us grasp the world in different ways"
+      ],
+      "prep": [
+        {
+          "text": "data visualization",
+          "type": "txt"
+        },
+        {
+          "src": "tufte.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "9. multi-modality",
+      "notes": [
+        "equivalence: present the same information in multiple ways",
+        "specialization: when the same kind of information is processed the same way\n(e.g. error messages in red, warnings in yellow)",
+        "redundancy: also presenting the same information in multiple ways\nbut the fact that it is indeed the same information is not obvious, \ntherefore leading to useless cognitive load",
+        "complimentarity: multiple modes (visual, aural, written) take separate information\nand create a new information (gestalt)",
+        "transfer: a modality (say, a color) produces information (error) that another\nmodality (spatial layout, with an alert box) consumes to reinforce the message",
+        "concurrency: taking separate information that is not merged,\ncould potentially lead to cognitive load"
+      ],
+      "prep": [
+        {
+          "text": "multi-modality",
+          "type": "txt"
+        },
+        {
+          "text": "vilem flusser's line vs. plane",
+          "type": "txt"
+        },
+        {
+          "text": "using multiple modes in communicating information back to the user",
+          "type": "txt"
+        },
+        {
+          "text": "equivalence",
+          "type": "txt"
+        },
+        {
+          "text": "specialization",
+          "type": "txt"
+        },
+        {
+          "text": "redundancy",
+          "type": "txt"
+        },
+        {
+          "text": "complimentarity",
+          "type": "txt"
+        },
+        {
+          "text": "transfer",
+          "type": "txt"
+        },
+        {
+          "text": "concurrency",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "10. reinforcing effect",
+      "notes": [
+        "because the user gets the sense that \"all information is presented equal\" while, for meaningful action,\nthe user needs to know what is important at a given point of the state of the system"
+      ],
+      "prep": [
+        {
+          "text": "reinforcing effect",
+          "type": "txt"
+        },
+        {
+          "text": "the more modalities in the interface",
+          "type": "txt"
+        },
+        {
+          "text": "the more effective the message",
+          "type": "txt"
+        },
+        {
+          "text": "(but too much of unimodality can have a detrimental effect)",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "11. rationality vs. emotionality",
+      "notes": [
+        "you can use these multimodalities to reinforce a sense of truth\nand because we tend to forget that they are artificial"
+      ],
+      "prep": [
+        {
+          "text": "rationality vs. emotionality",
+          "type": "txt"
+        },
+        {
+          "src": "florida.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "12. faking things",
+      "notes": [
+        " "
+      ],
+      "prep": [
+        {
+          "text": "faking things",
+          "type": "txt"
+        },
+        {
+          "src": "immigration.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "13. definition",
+      "notes": [
+        "and this is even truer in the digital world..."
+      ],
+      "prep": [
+        {
+          "text": "definition",
+          "type": "txt"
+        },
+        {
+          "text": "interfaces are designed affordances with a purpose to act and know about something else",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "14. digital",
+      "notes": [
+        "it is entirely artificial, so you, as the designer, have full power over what is displayed\nand what isn't.\nyou're creating a language (a set of affordances) that your user needs to learn,\nif you don't use the pre-established conventions of the field."
+      ],
+      "prep": [
+        {
+          "text": "digital",
+          "type": "txt"
+        },
+        {
+          "text": "the digital",
+          "type": "txt"
+        },
+        {
+          "text": "- a black box exclusively made up by people",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "15. digital 2",
+      "notes": [
+        "they link to a continuous stream of 0 and 1.\nover the time, we got better and better at creating interfaces for what these 0s and 1s mean."
+      ],
+      "prep": [
+        {
+          "text": "digital 2",
+          "type": "txt"
+        },
+        {
+          "text": "so what do digital interfaces link to?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "16. computer interfaces",
+      "notes": [
+        "started with actual, real threads."
+      ],
+      "prep": [
+        {
+          "text": "computer interfaces",
+          "type": "txt"
+        },
+        {
+          "text": "computer interfaces",
+          "type": "txt"
+        },
+        {
+          "src": "babbage.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "17. computer interfaces 2",
+      "notes": [
+        "then interfaces evolved in order to show the elusiveness of those 0s and 1s\nthey can now appear on and disappear from the screen,\nbetter representing the concept of Turing's machine."
+      ],
+      "prep": [
+        {
+          "text": "computer interfaces 2",
+          "type": "txt"
+        },
+        {
+          "src": "univac.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "18. computer interfaces 3",
+      "notes": [
+        "as users became less and less familiar into what a computer is, it became more of a black box\nand we had to find metaphors that were __perceptible affordances__ for everybody\ne.g. a trashcan, a pen, a bomb."
+      ],
+      "prep": [
+        {
+          "text": "computer interfaces 3",
+          "type": "txt"
+        },
+        {
+          "src": "kare.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "19. computer interfaces 4",
+      "notes": [
+        "and finally, we get to a beautiful, serene garden of emotional (i.e. visual) representations."
+      ],
+      "prep": [
+        {
+          "text": "computer interfaces 4",
+          "type": "txt"
+        },
+        {
+          "src": "ipad.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "20. abstraction",
+      "notes": [
+        "this idea of abstraction thus means that we're taking the __essence__ of something\nand that we're choosing to represent it as something else, oftentimes easire to understand",
+        "abstraction both gives and takes away control.\nby limiting the amount of input, the user can focus on the task at hand.\nhowever, when you abstract too much, you also restrict too much."
+      ],
+      "prep": [
+        {
+          "text": "abstraction",
+          "type": "txt"
+        },
+        {
+          "text": "abstracting",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "21. digital world is still real",
+      "notes": [],
+      "prep": [
+        {
+          "text": "digital world is still real",
+          "type": "txt"
+        },
+        {
+          "text": "everywhere, interfaces inform the action",
+          "type": "txt"
+        },
+        {
+          "text": "darkpatterns.org",
+          "type": "url",
+          "url": "http://darkpatterns.org"
+        }
+      ]
+    },
+    {
+      "concept": "22. parts of interfaces",
+      "notes": [
+        "input/output is the look, the initial approach, the first impression,\nbut also the result, the sensory consequence (colors/shape/movement)",
+        "the dialogue is the responsiveness of the interface -the evolution of the input and output over time.",
+        "the function is the access to tools, the possibility to do something effectively (actually do it) and efficiently (do it well)",
+        "the organization, is how each interface works with each other towards a greater common, a greater effect",
+        "interfaces should __provide an invitation__ and __react immediately_"
+      ],
+      "prep": [
+        {
+          "text": "parts of interfaces",
+          "type": "txt"
+        },
+        {
+          "text": "things are required to make them usable",
+          "type": "txt"
+        },
+        {
+          "text": "- input/output",
+          "type": "txt"
+        },
+        {
+          "text": "- dialogue",
+          "type": "txt"
+        },
+        {
+          "text": "- a function",
+          "type": "txt"
+        },
+        {
+          "text": "- an organization",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "23. questions of interfaces",
+      "notes": [],
+      "prep": [
+        {
+          "text": "questions of interfaces",
+          "type": "txt"
+        },
+        {
+          "text": "is it useful?",
+          "type": "txt"
+        },
+        {
+          "text": "is it obvious?",
+          "type": "txt"
+        },
+        {
+          "text": "is it cooperative?",
+          "type": "txt"
+        },
+        {
+          "text": "is it consistent?",
+          "type": "txt"
+        },
+        {
+          "text": "does it allow for mistakes?",
+          "type": "txt"
+        },
+        {
+          "text": "is it modular?",
+          "type": "txt"
+        },
+        {
+          "text": "is it informative?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "24. types of interfaces",
+      "notes": [
+        " ",
+        "interfaces in 3D digital environments can be represented as a matrix of:\nwhether the interface makes sense in the world (physically)\nwhether the interface makes sense in the fiction (conceptually)"
+      ],
+      "prep": [
+        {
+          "text": "types of interfaces",
+          "type": "txt"
+        },
+        {
+          "text": "four broad types of digital interfaces",
+          "type": "txt"
+        },
+        {
+          "src": "interfaces.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "25. non-diegetic",
+      "notes": [
+        "does not make sense physically\ndoes not make sense conceptually"
+      ],
+      "prep": [
+        {
+          "text": "non-diegetic",
+          "type": "txt"
+        },
+        {
+          "text": "non-diegetic",
+          "type": "txt"
+        },
+        {
+          "src": "invaders.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "26. diegetic",
+      "notes": [
+        "makes sense physically\nmakes sense conceptually"
+      ],
+      "prep": [
+        {
+          "text": "diegetic",
+          "type": "txt"
+        },
+        {
+          "src": "farcry.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "27. meta",
+      "notes": [
+        "does not make sense physically (words floating in space)\nmakes sense conceptually (the character is aware it is looking at a search menu)"
+      ],
+      "prep": [
+        {
+          "text": "meta",
+          "type": "txt"
+        },
+        {
+          "src": "meta.jpg",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "28. spatial",
+      "notes": [
+        "does not make sense conceptually (buttons and save modes)\nmakes sense physically (is anchored into space)"
+      ],
+      "prep": [
+        {
+          "text": "spatial",
+          "type": "txt"
+        },
+        {
+          "src": "tiltbrush.png",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "29. the interface of your interface",
+      "notes": [
+        "you should always take into account the hardware you're using\nhow many ways to interact with the world?\ntapping, pressing, holding, waving, sliding, expanding, shaking, etc."
+      ],
+      "prep": [
+        {
+          "text": "the interface of your interface",
+          "type": "txt"
+        },
+        {
+          "text": "digital interfaces rely on physical interfaces",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "30. vr interface",
+      "notes": [
+        "the controller, with touchpads, buttons\nthe headset, with head movement\nthe rest of the body, as well as __the relative position of the headset and the controller__"
+      ],
+      "prep": [
+        {
+          "text": "vr interface",
+          "type": "txt"
+        },
+        {
+          "text": "what are physical interfaces for vr?",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "31. vr is space",
+      "notes": [
+        "we've figured out how to use touchpads and buttons",
+        "we're still trying to come up with a language for physical interaction",
+        "how do our movements allow us to interface with abstract concepts?"
+      ],
+      "prep": [
+        {
+          "text": "vr is space",
+          "type": "txt"
+        },
+        {
+          "text": "spatiality",
+          "type": "txt"
+        },
+        {
+          "text": "in movement",
+          "type": "txt"
+        },
+        {
+          "text": "in layout",
+          "type": "txt"
+        }
+      ]
+    },
+    {
+      "concept": "32. vr layouts",
+      "notes": [
+        "1. tag-along: the interface is anchored with the user",
+        "2. world-locked: the interface is anchored in the world",
+        "3. diegetic: the interface is anchored both in the world and in the story"
+      ],
+      "prep": [
+        {
+          "text": "vr layouts",
+          "type": "txt"
+        },
+        {
+          "src": "tagalong.gif",
+          "type": "img"
+        },
+        {
+          "src": "worldlocked.gif",
+          "type": "img"
+        },
+        {
+          "src": "diegetic.gif",
+          "type": "img"
+        }
+      ]
+    },
+    {
+      "concept": "33. conclusion",
+      "notes": [
+        "by designing an interface, you guide and constrain the decisions and actions of the person visiting your world."
+      ],
+      "prep": [
+        {
+          "text": "conclusion",
+          "type": "txt"
+        },
+        {
+          "text": "- the interface represents your world.",
+          "type": "txt"
+        },
+        {
+          "text": "- the interface is a dialogue between the internal thoughts of the user and the external states of the object, and every dialog can be both rational and emotional.",
+          "type": "txt"
+        }
+      ]
+    }
+  ],
+  "course": "alternate-realities",
+  "path": {
+    "local": "/home/pierre/teaching/alternate-realities/repo",
+    "remote": ""
+  },
+  "title": "interfaces",
+  "date": {
+    "year": 2018,
+    "month": "02",
+    "day": 26,
+    "hour": 23,
+    "minutes": 25
+  }
+}
