@@ -7,22 +7,24 @@ html
 	body
 		div.create-container
 			div.create-course
-				div.edit-existing-course#existing-course= course
+				div.edit-existing-course#existing-course= course.name
 			div.create-lesson
 				input.create-lesson-title#title(type='text', value= title)
 			div.create-path
-				input.show-local-path#local-path(type='text', placeholder='course folder', value= path.local)
+				input.show-local-path#local-path(type='text', placeholder='course folder', value= course.path)
 
 				button.create-local-path(onclick='selectCoursePath(this)') select
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept.concept)
+					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag")
 					div.content-holder
 						div.prep-holder
 							each prep in concept.prep
 								div.create-prep
 									if prep.type == 'txt'
-										input.create-concept-prep(type='text', kind='text', value= prep.text)
+										input.create-concept-prep(type='text', kind='txt', value= prep.text)
+										input.create-concept-prep(type='text', kind='tag', value= prep.tag, placeholder="tag")
 										include includes/add-prep.pug
 									else if prep.type == 'url'
 										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
@@ -30,6 +32,9 @@ html
 										include includes/add-prep.pug
 									else if prep.type == 'img'
 										input.create-concept-prep.url(type='text', kind='img', value= prep.src)
+										include includes/add-prep.pug
+									else if prep.type == 'vid'
+										input.create-concept-prep.url(type='text', kind='vid', value= prep.src)
 										include includes/add-prep.pug
 
 						div.notes-holder

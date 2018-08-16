@@ -134,7 +134,9 @@ let initTags = () => {
 	let els = document.getElementsByClassName('prep')
 	for(let e of els){
 		let t = e.getAttribute('tag')
-		if(t != null)
+		if(t != '' || t != null)
+			break
+		else
 			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
 	}
 
@@ -537,7 +539,7 @@ const ipc = __webpack_require__(0).ipcRenderer
 let saveSession = () => {
 	let lesson = parseDocument()
 	lesson.prefix = 'in-class'
-	
+
 	if(lesson.length == 0){
 		console.log('nothing found on the document!')
 		return
@@ -594,6 +596,11 @@ let parseDocument = () => {
 						'type':'img',
 						'src':_prep[j].childNodes[0].getAttribute('src')
 					})
+				}else if(_prep[j].childNodes[0].tagName == 'VIDEO'){
+					content.prep.push({
+						'type':'vid',
+						'src':_prep[j].childNodes[0].childNodes[0].getAttribute('src')
+					})
 				} else{
 					content.prep.push({
 						'type':'txt',
@@ -621,7 +628,7 @@ let parseDocument = () => {
 
 let exitLesson = () => {
 	console.log('leaving lesson')
-	ipc.send('exit-home', {'coming':'back'})	
+	ipc.send('exit-home', {'coming':'back'})
 }
 
 

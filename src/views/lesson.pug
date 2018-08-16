@@ -12,11 +12,11 @@ html
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each val, index in concepts
-					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= val[0].tag)= index + '. '+ val[0].name
+					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= val[0].tag)= index + '. '+ val[0].concept
 			each notes, index in concepts
 				canvas.drawing-board(concept= index)
 				div.prep-group
-					div.prep.note.title(concept= index)= notes[0].name
+					div.prep.note.title(concept= index)= notes[0].concept
 					each note  in notes
 						if note.type == "txt"
 							div.prep.note(concept= index, tag= note.tag)= note.text
@@ -26,6 +26,10 @@ html
 						if note.type == "img"
 							div.prep.note(concept= index)
 								img(src= note.src)
+						if note.type == "vid"
+							div.prep.note(concept= index)
+								video(width="320px", height="240px" controls)
+									source(src= note.src)
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
 			button.lesson-btn.clear-board(onclick="clearBoard()") clear

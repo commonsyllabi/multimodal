@@ -9,7 +9,9 @@ let initTags = () => {
 	let els = document.getElementsByClassName('prep')
 	for(let e of els){
 		let t = e.getAttribute('tag')
-		if(t != null)
+		if(t != '' || t != null)
+			break
+		else
 			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
 	}
 
