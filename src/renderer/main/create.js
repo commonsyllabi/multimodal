@@ -5,6 +5,7 @@ const remote = require('electron').remote
 const ipc = require('electron').ipcRenderer
 const utils = require('../utils.js')
 
+let lessonSaved = false
 let lesson = {
 	'course' : {},
 	'title' : '',
@@ -281,9 +282,7 @@ let parseLesson = () => {
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
 		let concept = []
-		// concept.push(_co.childNodes[0].value) //find its name
-		//TODO we need to add the associated tag
-		console.log('saving concept',_co.childNodes[0].value,'and tag',_co.childNodes[1].value)
+
 		concept.push({'concept':_co.childNodes[0].value, 'tag':_co.childNodes[1].value})
 
 		let contentHolder
@@ -299,11 +298,21 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
 				if(_cn[0].getAttribute('kind') == 'txt'){
-					concept.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value})
+					concept.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value ? _cn[1].value : ''})
 				}else if(_cn[0].getAttribute('kind') == 'url'){
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				}else if(_cn[0].getAttribute('kind') == 'img'){
-					concept.push({'type':'img', 'path': _cn[0].value})
+					//CHECK IF IT IS AN IMAGE
+					let p = _cn[0].value
+					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){
+						concept.push({'type':'img', 'src': _cn[0].value})
+					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){
+						concept.push({'type':'vid', 'src': _cn[0].value})
+					}else{
+						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
+						return false
+					}
+
 				}else if(_cn[0].getAttribute('kind') == 'tag'){
 					concept.push({'type':'tag', 'tag':_cn[0].value})
 				}
@@ -315,36 +324,37 @@ let parseLesson = () => {
 	}
 
 	console.log('parsed:',lesson)
+	return true
 }
 
 let saveLesson = (_type) => {
-	parseLesson()
 
-	if(lesson.course == '' || lesson.title == ''){
+	if(parseLesson()){
+		if(lesson.course == '' || lesson.title == ''){
 
-		let _title = 'something is missing'
-		let _error = 'it seems you haven\'t specified a course or a lesson title.'
+			let _title = 'something is missing'
+			let _error = 'it seems you haven\'t specified a course or a lesson title.'
 
-		dialog.showErrorBox(_title, _error)
-	}else{
-		utils.setMessage('saved!', 'info')
+			dialog.showErrorBox(_title, _error)
+		}else{
 
-		lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
-		ipc.send('save-lesson', lesson)
+				lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
+				utils.setMessage('saved!', 'info')
+				lessonSaved = true
+				ipc.send('save-lesson', lesson)
+		}
 	}
 }
 
 let exitLesson = () => {
 
-	parseLesson()
-
 	let options = {	'type':'info',
 		'buttons':['cancel', 'Quit anyways'],
 		'title':'are you sure?',
-		'message':'it seems you haven\'t specified a course or a lesson title. do you want to quit anyways?'
+		'message':'the current lesson hasn\'t been saved. do you want to quit anyways?'
 	}
 
-	if(lesson.course == '' || lesson.title == ''){
+	if(lesson.course == '' || lesson.title == '' || !lessonSaved){
 		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 
