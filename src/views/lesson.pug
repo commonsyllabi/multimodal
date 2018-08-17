@@ -25,11 +25,11 @@ html
 								a(href= note.url, target="_blank")= note.text
 						if note.type == "img"
 							div.prep.note(concept= index)
-								img(src= note.src)
+								img(src= 'assets/'+course.name+'/'+note.type+'/'+note.name)
 						if note.type == "vid"
 							div.prep.note(concept= index)
 								video(width="320px", height="240px" controls)
-									source(src= note.src)
+									source(src= 'assets/'+course.name+'/'+note.type+'/'+note.name)
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
 			button.lesson-btn.clear-board(onclick="clearBoard()") clear
