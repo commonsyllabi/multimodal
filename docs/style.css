@@ -3,6 +3,7 @@ body {
 	padding: 0;
 	font-family: 'Inter UI', Trebuchet MS;
 	font-size: 1.2em;
+	line-height: 1.6em;
 }
 
 header{
@@ -14,8 +15,11 @@ header{
 }
 
 header img{
-	height: 100%;
-	float: right;
+	position: fixed;
+	height: 10%;
+	right: 2%;
+	top: 10%;
+
 }
 
 header h1{
@@ -39,6 +43,7 @@ hr {
 a {
 	text-decoration: none;
 	color: #e77607;
+	font-weight: bold;
 }
 
 a:hover {
@@ -47,6 +52,10 @@ a:hover {
 
 a:visited{
 	color: #b25900;
+}
+
+p {
+	text-align: justify;
 }
 
 .links {
