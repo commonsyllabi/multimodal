@@ -35,9 +35,11 @@
 <hr />
 <h3 id="about">About</h3>
 <p>
-  Knowledge delivery in the classroom includes more and more multimedia content and less and less linear description of a particular topic to a passive audience. Multimodal came from the frusration of the staticness of every slideshow solution offered -once you write it, you're not meant to change it on the fly, and you're supposed to follow a pre-defined order.<br />
+  Knowledge delivery in the classroom includes more and more multimedia content and less and less linear description of a particular topic to a passive audience. <b>Multimodal came from the frustration with the staticness of every slideshow solution offered</b> -once you've written it, you have to follow the linear order-, and with the need to jump between multiple different windows and applications during lectures.<br />
   <br />
-  Because the tools we use have an impact on how we think, Multimodal offers the possibility of being as flexible as possible while providing a holistic and self-contained experience, so that you don't have to switch between a browser, a code editor, a slide show presenter and a text editor in order to provide the people in the room with a learning experience appropriate for all types of learners, and not just those that are good that reading sequantial chunks of text.<br />
+<b>Multimodal strives to be as flexible as possible, while still remaining a holistic and self-contained experience</b>, so that you don't have to switch between a browser, a code editor, a slide show presenter and a text editor in order to provide the people in the room with a learning experience. Furthermore, by mixing in writing, drawing and web-browsing materials, it strives at being appropriate for all types of learners, and not just those that are good at reading sequential chunks of text.<br />
+  <br />
+  The result is <b>a hybrid between PowerPoint, a whiteboard and a web browser</b>, with the ability to change any aspect of the lecture on the fly and to export your lesson to any format that you'd like.<br />
   <br />
   On a more theoretical level, Multimodal was inspired by the thoughts of:
   <ul>
@@ -58,10 +60,11 @@
 <hr />
 <h3 id="features">Features</h3>
 <p>
-  The point of Multimodal is to take advantadge of the possibilities brought by <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5">HTML5</a>, while at the same time living in the offline environment, and therefore offering and more focused and reliable experience than a simple web app. This is why Multimodal is first and foremost built on <a href="https://electronjs.org/">Electron</a>. Multimodal includes:
+  The point of Multimodal is to take advantage of the possibilities brought by <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5">HTML5</a>, while at the same time living in the offline environment, and therefore offering a more focused and reliable experience than a simple web app. This is why Multimodal is first and foremost built on <a href="https://electronjs.org/">Electron</a>. Multimodal includes:
+  <h4>Current features</h4>
   <ul class="features-list">
     <li>
-      In-app <b>preparing and displaying</b> of lesson notes, including images, videos and websites.
+     <b>Preparation and presentation</b> of lesson notes, including images, videos and websites.
     </li>
     <li>
       <b>Tagging system</b> to move from concept to concept in a non-linear fashion. #bringbackthedreamofhypertext
@@ -73,20 +76,44 @@
       <b>Live drawing</b> using HTML Canvas: draw on top of your lesson's text and images to make your points more visual.
     </li>
     <li>
-    <b>Exporting class notes</b> as an HTML file at the end of the class, including the notes took after to student input and class discussion.
+    <b>Exporting class notes</b> as an HTML file at the end of the class, including the notes documenting student input.
     </li>
     <li>
       <b>Uploading course notes</b> to your website, to the Multimodal website, or link it to a GitHub repository to publish them as a gh-pages website.
     </li>
     <li>
-      <b>Free and open-source</b>. Customize Multimodal to suit your needs, and those of your students, best.
+      <b>Free and open-source</b>. Customize Multimodal to suit your needs, and those of your students.
+    </li>
+  </ul>
+  <h4>Upcoming features</h4>
+  <ul class="features-list">
+    <li>
+      <b>Tagging system</b> works between lessons, and not just within one lesson.
+    </li>
+    <li>
+      <b>A whiteboard</b> always added by default.
+    </li>
+    <li>
+      <b>Exporting the drawings</b> with the HTML file, and exporting as a PDF.
+    </li>
+    <li>
+      <b>Course preview</b> on the main screen: see each course at a glance, and metadata about each lesson.
+    </li>
+    <li>
+    <b>Advanced drawing</b> with different colors, an eraser tool and simple primitives (squares, circles, arrows).
+    </li>
+    <li>
+      <b>Uploading course notes</b> to the Multimodal website with a unique link.
+    </li>
+    <li>
+      And anything else you can think of!
     </li>
   </ul>
 </p>
 <hr />
 <h3 id="getting-started">Getting Started</h3>
 <p>
-  Multimodal defines a certain vocabulary. At the core is a <b>lesson</b>, which is what can be displayed and manipulated during the teaching time. Lessons are composed of <b>concepts</b>, which basically represent a page of each lesson. Each lesson starts with <b>prep-notes</b> (e.g. text, images, videos, websites), written down beforehand by the teacher, and gets <b>in-class notes</b> added during the teaching. Lessons are contained into <b>courses</b>, which then get exported as HTML files (think of your course as a whole website with a separate page for each lesson).
+  Multimodal defines a certain vocabulary. At the core is a <b>lesson</b>, which is what can be displayed and manipulated during the teaching time. Lessons are composed of <b>concepts</b>, which represent a page of each lesson. Each lesson starts with <b>prep-notes</b> (e.g. text, images, videos, websites), written down beforehand by the teacher, and <b>in-class notes</b> added during the teaching. Lessons are contained in <b>courses</b>, which then get exported as HTML files (think of your course as a whole website with a separate page for each lesson).
   <ul>
   <li>
     <b>Downlading Multimodal</b> (currently supported are OSX and Linux) here and installing it.
@@ -101,7 +128,7 @@
     <b>Create a new course</b> by clicking the <b>New Course</b> button at the top of the preparation window and choose the folder where you want your lessons to be saved.
   </li>
   <li>
-    <b>Create a new concept</b>, by clicking on the <b>+</b>, and choose if they are associated with a particular tag (each concept can only have unique tags!). You can also remove a concept by clicking <b>-</b>.
+    <b>Create a new concept</b>, by clicking on the <b>+</b>, and choose if it is associated with a particular tag (each concept can only have unique tags!). You can also remove a concept by clicking <b>-</b>.
   </li>
   <li>
     <b>Add your course notes</b>, by choosing between text (txt), images (img) or websites (url). Each of these notes can be associated with a tag, that will redirect to the relevant concept.
