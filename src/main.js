@@ -84,7 +84,7 @@ ipc.on('edit-notes-lesson', (event, data) => {
 		generateHTML(data, 'edit-notes')
 		replaceWindow('edit-notes')
 	}else{
-		console.log('no found')
+		console.log('no file found for editing with notes')
 		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
 	}
 })
@@ -134,18 +134,23 @@ ipc.on('export-lesson', (event, data) => {
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 
+	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/img`)
+	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/vid`)
+
 	//-- check for external media assets
 	if(lesson.prefix == 'prep'){
 		for(let [i, c] of lesson.concepts.entries()){
 			for(let [j, prep] of c.entries()){
-				if(prep.type == 'img'){
-					console.log(`found image ${prep.path}`)
-					let file_type = prep.path.substring(prep.path.indexOf('.'), prep.path.length)
+				if(prep.type == 'img' || prep.type == 'vid'){
+					console.log(`[MEDIA] found image ${prep.src}`)
+					let file_type = prep.src.substring(prep.src.indexOf('.'), prep.src.length)
 					let file_num = i+j
 					let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
-					prep.src = file_name
-					fs.createReadStream(prep.path).pipe(fs.createWriteStream(__dirname+'/app/'+file_name))
-					console.log(`[MEDIA] copied ${prep.src} to app directory`)
+					//TODO only extract the file name
+					prep.name = i+j+'_'+(/[^/]*$/gi).exec(prep.src)
+					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${prep.type}/${prep.name}`))
+					prep.src = `${__dirname}/app/assets/${lesson.course.name}/${prep.type}/${prep.name}`
+					console.log(`[MEDIA] copied ${prep.name} to ${prep.src}`)
 				}
 			}
 		}

@@ -39,6 +39,7 @@ module.exports.list = () => {
 			data.courses.push(course)
 		} catch (e) {
 			//No lessons yet for the current course
+			//So don't display at all
 		}
 	}
 
