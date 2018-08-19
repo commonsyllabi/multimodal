@@ -1,10 +1,11 @@
 'use strict'
 
 import * as mouse from './mouse.js'
-import { getCurrentNote, setCurrentNote, setCurrrentPosition, getCurrentConcept, setCurrentConcept } from './globals.js'
+import { getCurrentNote, setCurrentNote, setCurrrentPosition, getPreviousConcept, getCurrentConcept, setCurrentConcept } from './globals.js'
 
 const ESC = 27
 const UP = 38
+const LEFT = 37
 const DOWN = 40
 
 let currentNote = null
@@ -26,6 +27,12 @@ let handle = (e) => {
 			index = getCurrentConcept()
 			let len = document.getElementsByClassName('concept').length-1
 			index = index + 1 < len ? index + 1 : len
+			setCurrentConcept(index)
+		}
+		break
+	case LEFT:
+		if(currentNote == null){
+			index = getPreviousConcept()
 			setCurrentConcept(index)
 		}
 		break

@@ -4,6 +4,7 @@ import * as drawing from './drawing.js'
 
 let currentNote = null
 let currentConcept = 0
+let previousConcept = 0
 
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
@@ -36,6 +37,7 @@ let getCurrentNote = () => {
 
 let setCurrentConcept = (index) => {
 
+	previousConcept = currentConcept
 	currentConcept = index ? index : 0
 
 	let cs = document.getElementsByClassName('concept')
@@ -63,9 +65,13 @@ let getCurrentConcept = () => {
 	return currentConcept
 }
 
+let getPreviousConcept = () => {
+	return previousConcept
+}
+
 let setCurrrentPosition = (pos) => {
 	currentNote.style.top = pos.y+'px'
 	currentNote.style.left = pos.x+'px'
 }
 
-export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept}
+export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept, getPreviousConcept}
