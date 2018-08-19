@@ -144,12 +144,12 @@ ipc.on('save-lesson', (event, lesson) => {
 
 	//-- check for external media assets
 	if(lesson.prefix == 'prep'){
-		for(let [i, c] of lesson.concepts.entries()){
-			for(let [j, prep] of c.entries()){
+		for(let c of lesson.concepts){
+			for(let prep of c){
 				if(prep.type == 'img' || prep.type == 'vid'){
 					console.log(`[MEDIA] found image ${prep.src}`)
 					let file_type = prep.src.substring(prep.src.indexOf('.'), prep.src.length)
-					let file_num = i+j
+					let file_num = Math.floor(Math.random()*10000) 
 					let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
 					prep.name = file_num+'_'+(/[^/]*$/gi).exec(prep.src)
 					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`))

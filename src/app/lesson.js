@@ -457,6 +457,7 @@ ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_5__utils_js__["se
 const ESC = 27
 const UP = 38
 const LEFT = 37
+const RIGHT = 39
 const DOWN = 40
 
 let currentNote = null
@@ -466,14 +467,14 @@ let handle = (e) => {
 
 	let index
 	switch(e.keyCode){
-	case UP:
+	case UP: //concept right before
 		if(currentNote == null){
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
 			index = index - 1 >= 0 ? index - 1 : 0
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
 		}
 		break
-	case DOWN:
+	case DOWN: //concept right after
 		if(currentNote == null){
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
 			let len = document.getElementsByClassName('concept').length-1
@@ -481,12 +482,17 @@ let handle = (e) => {
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
 		}
 		break
-	case LEFT:
+	case LEFT: // previous concept
 		if(currentNote == null){
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["d" /* getPreviousConcept */])()
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
 		}
 		break
+	case RIGHT: // jump to the whiteboard
+		if(currentNote == null){
+			let index = document.getElementsByClassName('concept').length-1
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
+		}
 	case ESC:
 		endNote()
 		break

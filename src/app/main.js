@@ -544,6 +544,7 @@ let removeConcept = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
+// goes through all the information on the input fields and saves them as JSON
 let parseLesson = () => {
 	lesson.concepts = []
 
@@ -572,13 +573,16 @@ let parseLesson = () => {
 	for(let _co of concepts){ // for each concepts
 		let concept = []
 
+		// first get the main title of the concept
 		concept.push({'concept':_co.childNodes[0].value, 'tag':_co.childNodes[1].value})
 
+		// get the correct prep-notes container
 		let contentHolder
 		for(let child of _co.childNodes)
 			if(child.getAttribute('class') == 'content-holder')
 				contentHolder = child
 
+		// then start going through the prep notes
 		for(let note of contentHolder.childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
@@ -591,13 +595,13 @@ let parseLesson = () => {
 				}else if(_cn[0].getAttribute('kind') == 'url'){
 					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				}else if(_cn[0].getAttribute('kind') == 'img'){
-					//CHECK IF IT IS AN IMAGE
+
 					let p = _cn[0].value
-					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){
+					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
 						concept.push({'type':'img', 'src': _cn[0].value})
-					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){
+					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
 						concept.push({'type':'vid', 'src': _cn[0].value})
-					}else{
+					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
 					}
@@ -608,11 +612,20 @@ let parseLesson = () => {
 
 			}
 		}
-
 		lesson.concepts.push(concept)
 	}
 
-	console.log('parsed:',lesson)
+	// if we're creating a lesson for the first time, we add a whiteboard
+	// because, if we're editing the lesson, we don't want to keep adding
+	if(document.getElementById('course-list') == null){
+		let whiteboard = [
+			{'concept':'whiteboard', 'tag':'whiteboard'},
+			{'type': 'wbd', 'text':'', 'tag':''}
+		]
+		lesson.concepts.push(whiteboard)
+	}
+
+	console.log('successfully parsed:',lesson)
 	return true
 }
 
