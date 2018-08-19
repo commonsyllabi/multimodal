@@ -71,6 +71,7 @@ ipc.on('edit-lesson', (event, data) => {
 	replaceWindow('edit')
 })
 
+// creates a window with the ability to edit notes
 ipc.on('edit-notes-lesson', (event, data) => {
 
 	let edited_lessons = fs.readdirSync(__dirname+'/lessons/'+data.course+'/in-class')
@@ -93,6 +94,7 @@ ipc.on('create-new-course', () => {
 	createWindow('course', 0.4, 0.4)
 })
 
+// adds a new course by appending to the courses list, and creating the directory structure
 ipc.on('save-course', (event, data) => {
 	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
 
@@ -122,11 +124,13 @@ ipc.on('save-course', (event, data) => {
 	mainWindow.webContents.send('update-dropdown', data)
 })
 
+// creates the 'new lesson' window
 ipc.on('create-lesson', () => {
 	lesson.create()
 	replaceWindow('create')
 })
 
+// exports a lesson
 ipc.on('export-lesson', (event, data) => {
 	lesson.export(data)
 })
@@ -147,10 +151,9 @@ ipc.on('save-lesson', (event, lesson) => {
 					let file_type = prep.src.substring(prep.src.indexOf('.'), prep.src.length)
 					let file_num = i+j
 					let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
-					//TODO only extract the file name
-					prep.name = i+j+'_'+(/[^/]*$/gi).exec(prep.src)
-					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${prep.type}/${prep.name}`))
-					prep.src = `${__dirname}/app/assets/${lesson.course.name}/${prep.type}/${prep.name}`
+					prep.name = file_num+'_'+(/[^/]*$/gi).exec(prep.src)
+					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`))
+					prep.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`
 					console.log(`[MEDIA] copied ${prep.name} to ${prep.src}`)
 				}
 			}

@@ -28,7 +28,7 @@ html
 								img(name= note.name, src= 'assets/'+course.name+'/'+title+'/'+note.type+'/'+note.name)
 						if note.type == "vid"
 							div.prep.note(concept= index)
-								video(width="320px", height="240px" controls)
+								video(max-width="800px", max-height="600px" controls)
 									source(name= note.name, src= 'assets/'+course.name+'/'+title+'/'+note.type+'/'+note.name)
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
