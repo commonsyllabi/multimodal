@@ -7,12 +7,11 @@ html
 	body
 		div.create-container
 			div.create-course
-				select.edit-existing-course#course-list
-					option(value= course.name, year= course.year, path= course.path)= course.name
+				div.edit-existing-course#existing-course= course.name
 			div.create-lesson
 				input.create-lesson-title#title(type='text', value= title)
 			div.create-path
-				input.course-path#local-path(type='text', placeholder='course folder', value= course.path)
+				input.course-path#local-path(type='text', placeholder='course folder', value= course.path, disabled)
 
 			each concept in concepts
 				div.create-concept
@@ -44,7 +43,7 @@ html
 										input.create-concept-prep.url(type='text', kind='vid', value= prep.src)
 										include includes/add-prep.pug
 										button.create-remove-prep(onclick='removePrep(this)') -
-
+							
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
 

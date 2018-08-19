@@ -148,18 +148,18 @@ window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* e
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
 
-window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* createNewCourse */]
-window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* saveCourse */]
-window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* exitCourse */]
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* exitLesson */]
+window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* createNewCourse */]
+window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* saveCourse */]
+window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* exitCourse */]
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* exitLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
@@ -174,13 +174,15 @@ ipc.on('update-dropdown', (event, data) => {
 	document.getElementById('course-list').appendChild(new_course)
 })
 
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* selectCourse */]
-window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* selectCoursePath */]
-window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* selectMediaPath */]
-window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addPrep */]
-window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removePrep */]
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* selectCourse */]
+window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* selectCoursePath */]
+window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["n" /* selectMediaPath */]
+window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
+window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removePrep */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* removeConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removeConcept */]
+window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeNote */]
 
 
 /***/ }),
@@ -275,18 +277,20 @@ let exportLesson = () => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return createNewCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return saveCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exitCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return selectCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return selectCoursePath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return selectMediaPath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addPrep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removePrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return createNewCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return saveCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return exitCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return selectCoursePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return selectMediaPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removePrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return removeNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return saveLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return exitLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removeConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return saveLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return exitLesson; });
 
 
 const {dialog} = __webpack_require__(0).remote
@@ -472,6 +476,35 @@ let removePrep = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
+
+let addNote = (el) => {
+	let note = document.createElement('div')
+	note.setAttribute('class', 'create-concept-note')
+	note.setAttribute('type', 'text')
+
+	let content = document.createElement('textarea')
+	content.setAttribute('placeholder', 'empty note')
+	note.appendChild(content)
+
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-note')
+	add.setAttribute('onclick', 'addNote(this)')
+	add.innerText = '+'
+	note.appendChild(add)
+
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-note')
+	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.innerText = '-'
+	note.appendChild(rem)
+
+	el.parentNode.insertAdjacentElement('afterend', note)
+}
+
+let removeNote = (el) => {
+	el.parentNode.parentNode.removeChild(el.parentNode)
+}
+
 let addConcept = (el) => {
 
 	let concept = document.createElement('div')
@@ -612,6 +645,20 @@ let parseLesson = () => {
 
 			}
 		}
+
+		// then go through the in-class notes
+		// if we are creating a new lesson, just add an empty array
+		if(document.getElementById('course-list') != null){
+			concept.push({"notes":[]})
+		}else{
+			let notes = []
+			for(let note of contentHolder.childNodes[1].childNodes){
+				notes.push(note.childNodes[0].value)
+			}
+			concept.push({"notes":notes})
+		}
+
+
 		lesson.concepts.push(concept)
 	}
 
