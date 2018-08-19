@@ -54,3 +54,5 @@ window.addPrep = create.addPrep
 window.removePrep = create.removePrep
 window.addConcept = create.addConcept
 window.removeConcept = create.removeConcept
+window.addNote = create.addNote
+window.removeNote = create.removeNote

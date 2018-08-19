@@ -11,13 +11,13 @@ html
 			div.create-lesson
 				input.create-lesson-title#title(type='text', value= title)
 			div.create-path
-				input.show-local-path#local-path(type='text', placeholder='course folder', value= course.path)
+				input.course-path#local-path(type='text', placeholder='course folder', value= course.path, disabled)
 
-				button.create-local-path(onclick='selectCoursePath(this)') select
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept.concept)
-					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag")
+					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag", width="100%")
+					include includes/add-prep.pug
 					div.content-holder
 						div.prep-holder
 							each prep in concept.prep
@@ -26,21 +26,26 @@ html
 										input.create-concept-prep(type='text', kind='txt', value= prep.text)
 										input.create-concept-prep(type='text', kind='tag', value= prep.tag, placeholder="tag")
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 									else if prep.type == 'url'
 										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
 										input.create-concept-prep(type='text', kind='url', value= prep.text)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 									else if prep.type == 'img'
 										input.create-concept-prep.url(type='text', kind='img', value= prep.src)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 									else if prep.type == 'vid'
 										input.create-concept-prep.url(type='text', kind='vid', value= prep.src)
 										include includes/add-prep.pug
+										button.create-remove-prep(onclick='removePrep(this)') -
 
 						div.notes-holder
 							each note in concept.notes
-								textarea.create-concept-note(type='text')= note
-								include includes/add-note.pug
+								div.create-concept-note(type='text')
+									textarea= note
+									include includes/add-note.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -

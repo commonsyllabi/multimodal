@@ -324,10 +324,11 @@ div, img {
 .create-container {
   width: 80%;
   margin-left: 10%;
-  margin-bottom: 150px; }
+  margin-bottom: 100px;
+  overflow: auto; }
 
 .create-course {
-  width: 96%;
+  width: 95%;
   height: auto;
   overflow: auto;
   margin-top: 2%;
@@ -430,7 +431,7 @@ div, img {
   overflow: auto; }
 
 .prep-holder {
-  width: 70%;
+  width: 65%;
   float: left; }
 
 .prep-holder-create {
@@ -438,14 +439,21 @@ div, img {
 
 .notes-holder {
   width: 25%;
-  float: right; }
+  float: right;
+  border-left: 1px solid black; }
 
 input[type=text], textarea {
   border: none;
   border-bottom: 2px solid black; }
 
+input:disabled {
+  float: left;
+  background-color: white; }
+
 .create-concept {
-  margin: 20px 20px 30px 20px;
+  float: left;
+  width: 98%;
+  margin: 1% 0 1% 0;
   padding: 10px;
   padding-bottom: 5px;
   border: 2px solid black; }

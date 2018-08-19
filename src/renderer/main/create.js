@@ -183,6 +183,35 @@ let removePrep = (el) => {
 	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
+
+let addNote = (el) => {
+	let note = document.createElement('div')
+	note.setAttribute('class', 'create-concept-note')
+	note.setAttribute('type', 'text')
+
+	let content = document.createElement('textarea')
+	content.setAttribute('placeholder', 'empty note')
+	note.appendChild(content)
+
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-note')
+	add.setAttribute('onclick', 'addNote(this)')
+	add.innerText = '+'
+	note.appendChild(add)
+
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-note')
+	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.innerText = '-'
+	note.appendChild(rem)
+
+	el.parentNode.insertAdjacentElement('afterend', note)
+}
+
+let removeNote = (el) => {
+	el.parentNode.parentNode.removeChild(el.parentNode)
+}
+
 let addConcept = (el) => {
 
 	let concept = document.createElement('div')
@@ -323,6 +352,20 @@ let parseLesson = () => {
 
 			}
 		}
+
+		// then go through the in-class notes
+		// if we are creating a new lesson, just add an empty array
+		if(document.getElementById('course-list') != null){
+			concept.push({"notes":[]})
+		}else{
+			let notes = []
+			for(let note of contentHolder.childNodes[1].childNodes){
+				notes.push(note.childNodes[0].value)
+			}
+			concept.push({"notes":notes})
+		}
+
+
 		lesson.concepts.push(concept)
 	}
 
@@ -376,4 +419,4 @@ let exitLesson = () => {
 	}
 }
 
-export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
