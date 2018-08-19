@@ -26,7 +26,11 @@ html
 										a(href= prep.url)= prep.text
 								if prep.type == "img"
 									div.prep.note(concept= index)
-										img(src= 'assets/img/'+prep.src)
+										img(src= 'assets/'+prep.name)
+								if prep.type = "vid"
+									div.prep.note(concept= index)
+										video
+											source(src= 'assets/'+prep.src)
 						div.note-group
 							each note in content.notes
 								div.prep.note(concept= index)= note

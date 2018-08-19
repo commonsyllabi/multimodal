@@ -109,8 +109,9 @@ ipc.on('save-course', (event, data) => {
 	courses.push(data)
 	fs.writeFileSync(__dirname+'/lessons/courses.json', JSON.stringify(courses))
 
-	//create empty folders
+	//create empty folders for HTML exports
 	utils.touchDirectory(data.path+'/html-exports')
+	utils.touchDirectory(data.path+'/html-exports/assets')
 	fs.createReadStream(__dirname+'/lessons/style.css').pipe(fs.createWriteStream(data.path+'/html-exports/style.css'))
 
 	//send a confirmation message
@@ -134,8 +135,8 @@ ipc.on('export-lesson', (event, data) => {
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 
-	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/img`)
-	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/vid`)
+	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/img`)
+	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/vid`)
 
 	//-- check for external media assets
 	if(lesson.prefix == 'prep'){
