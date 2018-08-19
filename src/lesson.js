@@ -11,6 +11,7 @@ let win
 
 exports = module.exports = {}
 
+// lists all the lessons from courses.json and displays them on the welcome screen
 module.exports.list = () => {
 
 	//first we get all the courses
@@ -48,6 +49,7 @@ module.exports.list = () => {
 	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
 }
 
+// creates a `new lesson` screen with a list of existing courses
 module.exports.create = () => {
 
 	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
@@ -99,6 +101,7 @@ module.exports.getNewest = (lesson) => {
 	return latest.save
 }
 
+// exports the lesson based on settings (HTML, PDF, GITHUB)
 module.exports.export = (_l) => {
 	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
 
@@ -108,18 +111,20 @@ module.exports.export = (_l) => {
 		render(lesson)
 }
 
+// copies all the necessary assets, renders the lesson HTML and re-builds the course index
 let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 	
 	// we copy all the existing assets from the multimodal to the html exports
 	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img`
 	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid`
+
 	fs.readdirSync(imgp).forEach((file) => {
 		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))	
 	})
 
 	fs.readdirSync(vidp).forEach((file) => {
-		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
+		fs.createReadStream(path.join(vidp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
 	})
 
 	// generating the HTML
@@ -148,7 +153,7 @@ let render = (_lesson) => {
 				pushToRemote(_lesson)
 
 			//TODO OPEN FILE
-			let w = new BrowserWindow({width: 600, height: 400, icon: __dirname + '/icon.png', frame: true})
+			let w = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
 			let u = _lesson.course.path+'/html-exports/index.html'
 			w.loadURL('file://'+u)
 		})

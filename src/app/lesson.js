@@ -601,7 +601,7 @@ let parseDocument = () => {
 					content.prep.push({
 						'type':'vid',
 						'src':_prep[j].childNodes[0].childNodes[0].getAttribute('src'),
-						'name':_prep[j].childNodes[0].getAttribute('name')
+						'name':_prep[j].childNodes[0].childNodes[0].getAttribute('name')
 					})
 				} else{
 					content.prep.push({
