@@ -60,12 +60,14 @@ let parseDocument = () => {
 				}else if(_prep[j].childNodes[0].tagName == 'IMG'){
 					content.prep.push({
 						'type':'img',
-						'src':_prep[j].childNodes[0].getAttribute('src')
+						'src':_prep[j].childNodes[0].getAttribute('src'),
+						'name':_prep[j].childNodes[0].getAttribute('name')
 					})
 				}else if(_prep[j].childNodes[0].tagName == 'VIDEO'){
 					content.prep.push({
 						'type':'vid',
-						'src':_prep[j].childNodes[0].childNodes[0].getAttribute('src')
+						'src':_prep[j].childNodes[0].childNodes[0].getAttribute('src'),
+						'name':_prep[j].childNodes[0].getAttribute('name')
 					})
 				} else{
 					content.prep.push({

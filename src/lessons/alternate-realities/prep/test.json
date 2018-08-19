@@ -1,1 +1,29 @@
-{"concepts":[[{"concept":"test1","tag":""},{"src":"/home/pierre/code/electron/multimodal/src/app/assets/alternate-realities/img/1_abstract.png","type":"img","name":"1_abstract.png"}]],"course":{"name":"alternate-realities","path":"/home/pierre/teaching/alternate-realities/repo","year":"2018"},"prefix":"prep","title":"test","date":{"year":2018,"month":"08","day":17,"hour":13,"minutes":57}}
+{
+  "concepts": [
+    [
+      {
+        "concept": "test1",
+        "tag": ""
+      },
+      {
+        "src": "/home/pierre/code/electron/multimodal/src/app/assets/alternate-realities/img/1_abstract.png",
+        "type": "img",
+        "name": "1_abstract.png"
+      }
+    ]
+  ],
+  "course": {
+    "name": "alternate-realities",
+    "path": "/home/pierre/teaching/alternate-realities/repo",
+    "year": "2018"
+  },
+  "prefix": "prep",
+  "title": "test",
+  "date": {
+    "year": 2018,
+    "month": "08",
+    "day": 17,
+    "hour": 13,
+    "minutes": 57
+  }
+}

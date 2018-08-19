@@ -1,6 +1,7 @@
 'use strict'
 
 const fs  = require('fs')
+const path = require('path')
 const pug = require('pug')
 const { exec } = require('child_process')
 const BrowserWindow = require('electron').BrowserWindow
@@ -109,14 +110,26 @@ module.exports.export = (_l) => {
 
 let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
+	
+	// we copy all the existing assets from the multimodal to the html exports
+	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img`
+	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid`
+	fs.readdirSync(imgp).forEach((file) => {
+		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))	
+	})
 
-	fs.writeFile(_lesson.course.path+'/'+_lesson.title+'.html', compiled, (err) => {
+	fs.readdirSync(vidp).forEach((file) => {
+		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
+	})
+
+	// generating the HTML
+	fs.writeFile(_lesson.course.path+'/html-exports/'+_lesson.title+'.html', compiled, (err) => {
 		if(err) throw err
-		console.log('[EXPORTED]', _lesson.course.path+'/'+_lesson.title+'.html')
+		console.log('[EXPORTED]', _lesson.course.path+'/html-exports/'+_lesson.title+'.html')
 
 		//rebuild the index
 		let exported_lessons = []
-		let local_files = fs.readdirSync(_lesson.course.path+'/')
+		let local_files = fs.readdirSync(_lesson.course.path+'/html-exports/')
 		for(let f of local_files)
 			if(f != 'index.html' && f.indexOf('.html') > -1)
 				exported_lessons.push(f.replace('.html', ''))
@@ -127,7 +140,7 @@ let render = (_lesson) => {
 		}
 
 		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
-		fs.writeFile(_lesson.course.path+'/'+'index.html', compiled, (err) => {
+		fs.writeFile(_lesson.course.path+'/html-exports/index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
@@ -136,7 +149,7 @@ let render = (_lesson) => {
 
 			//TODO OPEN FILE
 			let w = new BrowserWindow({width: 600, height: 400, icon: __dirname + '/icon.png', frame: true})
-			let u = _lesson.course.path+'/'+'index.html'
+			let u = _lesson.course.path+'/html-exports/index.html'
 			w.loadURL('file://'+u)
 		})
 	})
