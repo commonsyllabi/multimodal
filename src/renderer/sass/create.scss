@@ -127,7 +127,7 @@
 
 //-- this holds both preps and notes
 .content-holder{
-	width: 90%;
+	width: 100%;
 	height: auto;
 	overflow: auto;
 }
@@ -141,16 +141,26 @@
 	width: 100%;
 }
 
-.notes-holder{
-	width: 25%;
-	float: right;
-	border-left: 1px solid black;
+.create-add-note-holder{
+	margin-left: 5%;
 }
+
+.notes-holder{
+	width: 30%;
+	float: right;
+	border-left: 2px solid black;
+}
+
+.notes-holder textarea {
+	width: 90%;
+	margin-left: 5%;
+	background-color: #eeeeee;
+}
+
 input[type=text], textarea{
 //	font-size: 20px;
 	border: none;
-	border-bottom: 2px solid black;
-	//background-color: $light-grey;
+	border-bottom: 1px solid black;
 }
 
 input:disabled{
@@ -171,7 +181,7 @@ input:disabled{
 .create-concept-prep {
 	font-size: 24px;
 	margin-right: 10px;
-	width: 70%;
+	width: 100%;
 }
 
 .create-concept-tag {
@@ -181,6 +191,10 @@ input:disabled{
 .create-concept-note {
 	font-size: 24px;
 	width: 100%;
+}
+
+.create-concept-note textarea {
+	font-size: 24px;
 }
 
 .create-concept-name {
@@ -205,12 +219,22 @@ input:disabled{
 
 .create-prep{
 	margin-bottom: 10px;
-	width: 100%;
+	width: 95%;
 	margin-left: 20px;
 }
 
 .url {
 	font-style: italic;
+}
+
+.create-add-holder{
+	float: left;
+	margin-bottom: 2%;
+	width: 100%;
+}
+
+.create-add-remove-holder{
+	float: right;
 }
 
 .create-add-prep, .create-remove-prep, .create-add-note, .create-remove-note {

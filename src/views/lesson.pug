@@ -30,6 +30,7 @@ html
 							div.prep.note(concept= index)
 								video(max-width="800px", max-height="600px" controls)
 									source(name= note.name, src= 'assets/'+course.name+'/'+title+'/'+note.type+'/'+note.name)
+										
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
 			button.lesson-btn.clear-board(onclick="clearBoard()") clear
