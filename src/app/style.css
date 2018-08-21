@@ -1,6 +1,12 @@
 body {
   font-family: 'Inter UI', 'Trebuchet MS'; }
 
+a {
+  color: #e77607; }
+
+a:hover {
+  color: #b25900; }
+
 .msg-log {
   float: right;
   height: 100%;
@@ -83,6 +89,12 @@ body {
     max-height: 600px; }
 body {
   font-family: 'Inter UI', 'Trebuchet MS'; }
+
+a {
+  color: #e77607; }
+
+a:hover {
+  color: #b25900; }
 
 .msg-log {
   float: right;
@@ -206,6 +218,12 @@ canvas {
 body {
   font-family: 'Inter UI', 'Trebuchet MS'; }
 
+a {
+  color: #e77607; }
+
+a:hover {
+  color: #b25900; }
+
 .msg-log {
   float: right;
   height: 100%;
@@ -293,6 +311,12 @@ div, img {
   color: white; }
 body {
   font-family: 'Inter UI', 'Trebuchet MS'; }
+
+a {
+  color: #e77607; }
+
+a:hover {
+  color: #b25900; }
 
 .msg-log {
   float: right;

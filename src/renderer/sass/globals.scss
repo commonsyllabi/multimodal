@@ -15,6 +15,14 @@ body {
 	font-family: 'Inter UI', 'Trebuchet MS'
 }
 
+a {
+	color: $mid-orange;
+}
+
+a:hover{
+	color: $dark-orange;
+}
+
 .msg-log {
 	float: right;
 	height:100%;
