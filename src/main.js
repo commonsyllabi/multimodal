@@ -91,6 +91,8 @@ ipc.on('edit-notes-lesson', (event, data) => {
 })
 
 ipc.on('create-new-course', () => {
+	if(!fs.existsSync(`${__dirname}/app/course.html`))
+		fs.writeFileSync(`${__dirname}/app/course.html`, pug.renderFile(`${__dirname}/views/course.pug`))
 	createWindow('course', 0.4, 0.4)
 })
 
@@ -142,29 +144,29 @@ ipc.on('save-lesson', (event, lesson) => {
 	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/img`)
 	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/vid`)
 
-	//-- check for external media assets
+	//-- check for external media assets and copy them in the local folder
 	if(lesson.prefix == 'prep'){
-		for(let c of lesson.concepts){
-			for(let prep of c){
-				if(prep.type == 'img' || prep.type == 'vid'){
-					console.log(`[MEDIA] found image ${prep.src}`)
-					let file_type = prep.src.substring(prep.src.indexOf('.'), prep.src.length)
-					let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
-					prep.name = (/[^/]*$/gi).exec(prep.src)
-					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`))
-					prep.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`
-					console.log(`[MEDIA] copied ${prep.name} to ${prep.src}`)
+		for(let concept of lesson.concepts){
+			for(let p of concept.prep){
+				if(p.type == 'img' || p.type == 'vid'){
+					console.log(`[MEDIA] found image ${p.src}`)
+					let file_type = p.src.substring(p.src.indexOf('.'), p.src.length)
+					let file_name = p.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
+					p.name = (/[^/]*$/gi).exec(p.src)
+					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
+					// now we redirect the source to the local folder
+					p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
+					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
 				}
 			}
 		}
 	}
 
 	let _path = __dirname+'/lessons/'+lesson.course.name+'/'+lesson.prefix
-
 	utils.touchDirectory(_path)
 
 	fs.writeFile(__dirname+'/lessons/'+lesson.course.name+'/'+lesson.prefix+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
-		console.log('[SAVE LESSON]',lesson.title,'to /'+_path,'at',utils.time())
+		console.log(`[SAVE LESSON] ${lesson.title} to ${_path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	})
 })

@@ -11,25 +11,25 @@ html
 		div.metadata#course-name= course.name
 		div.lessons-container#writing-board
 			div.concept-buttons
-				each val, index in concepts
-					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= val[0].tag)= index + '. '+ val[0].concept
-			each notes, index in concepts
+				each concept, index in concepts
+					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= concept.tag)= index + '. '+ concept.concept
+			each concept, index in concepts
 				canvas.drawing-board(concept= index)
 				div.prep-group
-					div.prep.note.title(concept= index)= notes[0].concept
-					each note  in notes
-						if note.type == "txt"
-							div.prep.note(concept= index, tag= note.tag)= note.text
-						if note.type == "url"
+					div.prep.note.title(concept= index)= concept.concept
+					each prep in concept.prep
+						if prep.type == "txt"
+							div.prep.note(concept= index, tag= prep.tag)= prep.text
+						if prep.type == "url"
 							div.prep.note(concept= index)
-								a(href= note.url, target="_blank")= note.text
-						if note.type == "img"
+								a(href= prep.url, target="_blank")= prep.text
+						if prep.type == "img"
 							div.prep.note(concept= index)
-								img(name= note.name, src= 'assets/'+course.name+'/'+title+'/'+note.type+'/'+note.name)
-						if note.type == "vid"
+								img(name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
+						if prep.type == "vid"
 							div.prep.note(concept= index)
 								video(max-width="800px", max-height="600px" controls)
-									source(name= note.name, src= 'assets/'+course.name+'/'+title+'/'+note.type+'/'+note.name)
+									source(name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
 										
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
