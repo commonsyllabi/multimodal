@@ -40,9 +40,10 @@ let parseDocument = () => {
 
 		let ct = _concepts[i].innerText
 		let tc = ct.substring(ct.indexOf('.')+2, ct.length) //trim the concept title
-		
+
 		let content =  {
 			'concept': tc,
+			'tag': _concepts[i].getAttribute('tag'),
 			'prep':[],
 			'notes':[]
 		}
@@ -75,7 +76,8 @@ let parseDocument = () => {
 				} else{
 					content.prep.push({
 						'type':'txt',
-						'text':_prep[j].innerText
+						'text':_prep[j].innerText,
+						'tag': _prep[j].getAttribute('tag')
 					})
 				}
 			}

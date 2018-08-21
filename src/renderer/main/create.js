@@ -19,9 +19,9 @@ let course = {
 }
 
 let selectCourse = (_el) => {
-	let name = _el.options[_el.selectedIndex].value
+	let val = _el.options[_el.selectedIndex].value
 	console.log(_el.options[_el.selectedIndex].value);
-	if(name == 'create-course')
+	if(val == 'create-course')
 		createNewCourse()
 }
 
@@ -201,19 +201,23 @@ let addNote = (el) => {
 	content.setAttribute('placeholder', 'empty note')
 	note.appendChild(content)
 
+	let b_holder = document.createElement('div')
+	b_holder.setAttribute('class', 'create-add-note-holder')
+
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-note')
 	add.setAttribute('onclick', 'addNote(this)')
 	add.innerText = '+'
-	note.appendChild(add)
+	b_holder.appendChild(add)
 
 	let rem = document.createElement('button')
 	rem.setAttribute('class', 'create-remove-note')
 	rem.setAttribute('onclick', 'removeNote(this)')
 	rem.innerText = '-'
-	note.appendChild(rem)
+	b_holder.appendChild(rem)
 
-	el.parentNode.insertAdjacentElement('afterend', note)
+	note.appendChild(b_holder)
+	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
 }
 
 let removeNote = (el) => {
@@ -326,10 +330,12 @@ let parseLesson = () => {
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
-		let concept = []
-
-		// first get the main title of the concept
-		concept.push({'concept':_co.childNodes[0].value, 'tag':_co.childNodes[1].value})
+		let concept = {
+			'concept': _co.childNodes[0].value,
+			'tag':_co.childNodes[1].value,
+			'prep': [],
+			'notes': []
+		}
 
 		// get the correct prep-notes container
 		let contentHolder
@@ -346,38 +352,36 @@ let parseLesson = () => {
 				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
 				if(_cn[0].getAttribute('kind') == 'txt'){
-					concept.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value ? _cn[1].value : ''})
+					concept.prep.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value ? _cn[1].value : ''})
 				}else if(_cn[0].getAttribute('kind') == 'url'){
-					concept.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
+					concept.prep.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
 				}else if(_cn[0].getAttribute('kind') == 'img'){
 
 					let p = _cn[0].value
 					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
-						concept.push({'type':'img', 'src': _cn[0].getAttribute('src')})
+						concept.prep.push({'type':'img', 'src': _cn[0].getAttribute('src')})
 					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
-						concept.push({'type':'vid', 'src': _cn[0].getAttribute('src')})
+						concept.prep.push({'type':'vid', 'src': _cn[0].getAttribute('src')})
 					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
 					}
 
-				}else if(_cn[0].getAttribute('kind') == 'tag'){
-					concept.push({'type':'tag', 'tag':_cn[0].value})
+				}else if(_cn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
+					console.log('got tag:'+_cn[0]);
+					concept.prep.push({'type':'tag', 'tag':_cn[0].value})
 				}
 
 			}
 		}
 
 		// then go through the in-class notes
-		// if we are creating a new lesson, just add an empty array
-		if(document.getElementById('existing-course') != null){
-			concept.push({"notes":[]})
-		}else{
+		// if we are creating a new lesson, we don't need to look for notes
+		if(document.getElementsByClassName('notes-holder').length != 0){
 			let notes = []
-			for(let note of contentHolder.childNodes[1].childNodes){
-				notes.push(note.childNodes[0].value)
-			}
-			concept.push({"notes":notes})
+			for(let note of contentHolder.childNodes[1].childNodes)
+				concept.notes.push(note.childNodes[0].value)
+
 		}
 
 
@@ -387,20 +391,22 @@ let parseLesson = () => {
 	// if we're creating a lesson for the first time, we add a whiteboard
 	// because, if we're editing the lesson, we don't want to keep adding
 	if(document.getElementById('existing-course') == null){
-		let whiteboard = [
-			{'concept':'whiteboard', 'tag':'whiteboard'},
-			{'type': 'wbd', 'text':'', 'tag':''}
-		]
+		let whiteboard = {
+			'concept':'whiteboard',
+			'tag':'whiteboard',
+			'prep':[{'type': 'wbd', 'text':'', 'tag':''}],
+			'notes':[]
+		}
 		lesson.concepts.push(whiteboard)
 	}
 
-	console.log('successfully parsed:',lesson)
+	console.log('[SAVE] successfully parsed:',lesson)
 	return true
 }
 
 let saveLesson = (_type) => {
 
-	if(parseLesson()){
+	if(parseLesson()){ //if we're creating a lesson
 		if(lesson.course == '' || lesson.title == ''){
 
 			let _title = 'something is missing'

@@ -136,10 +136,9 @@ let initTags = () => {
 	let els = document.getElementsByClassName('prep')
 	for(let e of els){
 		let t = e.getAttribute('tag')
-		if(t != '' || t != null)
-			break
-		else
+		if(t != '' && t != null)
 			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
+		
 	}
 
 }
@@ -592,9 +591,10 @@ let parseDocument = () => {
 
 		let ct = _concepts[i].innerText
 		let tc = ct.substring(ct.indexOf('.')+2, ct.length) //trim the concept title
-		
+
 		let content =  {
 			'concept': tc,
+			'tag': _concepts[i].getAttribute('tag'),
 			'prep':[],
 			'notes':[]
 		}
@@ -627,7 +627,8 @@ let parseDocument = () => {
 				} else{
 					content.prep.push({
 						'type':'txt',
-						'text':_prep[j].innerText
+						'text':_prep[j].innerText,
+						'tag': _prep[j].getAttribute('tag')
 					})
 				}
 			}
