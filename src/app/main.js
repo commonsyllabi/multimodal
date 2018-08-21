@@ -416,13 +416,18 @@ let createPrep = (kind) => {
 		console.log('unexpected type for new prep')
 	}
 
+
+	// create interface
+	let b_holder = document.createElement('div')
+	b_holder.setAttribute('class', 'create-add-remove-holder')
+
 	let b_txt = document.createElement('button')
 	b_txt.setAttribute('class', 'create-add-prep')
 	b_txt.setAttribute('onclick', 'addPrep(this)')
 	b_txt.setAttribute('value', 'txt')
 	b_txt.innerText = 'txt'
 
-	prep.appendChild(b_txt)
+	b_holder.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
 	b_url.setAttribute('class', 'create-add-prep')
@@ -430,7 +435,7 @@ let createPrep = (kind) => {
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	prep.appendChild(b_url)
+	b_holder.appendChild(b_url)
 
 	let b_img = document.createElement('button')
 	b_img.setAttribute('class', 'create-add-prep')
@@ -438,13 +443,15 @@ let createPrep = (kind) => {
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	prep.appendChild(b_img)
+	b_holder.appendChild(b_img)
 
 	let rem = document.createElement('button')
 	rem.setAttribute('class', 'create-remove-prep')
 	rem.setAttribute('onclick', 'removePrep(this)')
 	rem.innerText = '-'
-	prep.appendChild(rem)
+	b_holder.appendChild(rem)
+
+	prep.appendChild(b_holder)
 
 	return prep
 }
@@ -454,14 +461,15 @@ let addPrep = (el) => {
 	if(el.getAttribute('class') == 'create-add-prep'){
 
 		let prep = createPrep(el.value)
-		if(el.parentNode.getAttribute('class') == 'create-concept'){ //if we're creating the first prep
+		if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
 
-			for(let _el of el.parentNode.children){ // we find the content-holder
+			for(let _el of el.parentNode.parentNode.children) // we find the content-holder
 				if(_el.getAttribute('class') == 'content-holder')
-					_el.children[0].appendChild(prep) //and we append to its first child, the prep-holder
-			}
-		}else if(el.parentNode.getAttribute('class') == 'create-prep'){
-			el.parentNode.insertAdjacentElement('afterend', prep)
+					_el.children[0].appendChild(prep) //and we append to its first child, the content-holder
+
+
+		}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){
+			el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
 		}
 
 	}else if(el.getAttribute('class') == 'create-add-concept'){
@@ -473,7 +481,7 @@ let addPrep = (el) => {
 }
 
 let removePrep = (el) => {
-	el.parentNode.parentNode.removeChild(el.parentNode)
+	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
 }
 
 
@@ -526,13 +534,16 @@ let addConcept = (el) => {
 	let prep = document.createElement('div')
 	prep.setAttribute('class', 'create-prep')
 
+	let b_holder = document.createElement('div')
+	b_holder.setAttribute('class', 'create-add-holder')
+
 	let b_txt = document.createElement('button')
 	b_txt.setAttribute('class', 'create-add-prep')
 	b_txt.setAttribute('onclick', 'addPrep(this)')
 	b_txt.setAttribute('value', 'txt')
 	b_txt.innerText = 'txt'
 
-	concept.appendChild(b_txt)
+	b_holder.appendChild(b_txt)
 
 	let b_url = document.createElement('button')
 	b_url.setAttribute('class', 'create-add-prep')
@@ -540,7 +551,7 @@ let addConcept = (el) => {
 	b_url.setAttribute('value', 'url')
 	b_url.innerText = 'url'
 
-	concept.appendChild(b_url)
+	b_holder.appendChild(b_url)
 
 	let b_img = document.createElement('button')
 	b_img.setAttribute('class', 'create-add-prep')
@@ -548,15 +559,19 @@ let addConcept = (el) => {
 	b_img.setAttribute('value', 'img')
 	b_img.innerText = 'img'
 
-	concept.appendChild(b_img)
+	b_holder.appendChild(b_img)
+
+	concept.appendChild(b_holder)
 
 	let dummy = document.createElement('div')
 	concept.append(dummy)
 
-
 	let prep_holder = document.createElement('div')
+	prep_holder.setAttribute('class', 'prep-holder')
 	content_holder.appendChild(prep_holder)
 	concept.append(content_holder)
+
+	// add the two buttons at the bottom
 
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
@@ -583,10 +598,10 @@ let parseLesson = () => {
 
 	// -- GET COURSE INFORMATION
 	// here we check first if we are editing the lesson
-	if(document.getElementById('course-list') == null){
+	if(document.getElementById('existing-course') != null){
 		lesson.course = {
-			'name': document.getElementById('existing-course'),
-			'year': 2018, //TODO fix
+			'name': document.getElementById('existing-course').innerText,
+			'year': document.getElementById('existing-course').getAttribute('year'),
 			'path': document.getElementById('local-path').value
 		}
 	}else{ // or creating the new one
@@ -631,9 +646,9 @@ let parseLesson = () => {
 
 					let p = _cn[0].value
 					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
-						concept.push({'type':'img', 'src': _cn[0].value})
+						concept.push({'type':'img', 'src': _cn[0].getAttribute('src')})
 					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
-						concept.push({'type':'vid', 'src': _cn[0].value})
+						concept.push({'type':'vid', 'src': _cn[0].getAttribute('src')})
 					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
@@ -648,7 +663,7 @@ let parseLesson = () => {
 
 		// then go through the in-class notes
 		// if we are creating a new lesson, just add an empty array
-		if(document.getElementById('course-list') != null){
+		if(document.getElementById('existing-course') != null){
 			concept.push({"notes":[]})
 		}else{
 			let notes = []
@@ -664,7 +679,7 @@ let parseLesson = () => {
 
 	// if we're creating a lesson for the first time, we add a whiteboard
 	// because, if we're editing the lesson, we don't want to keep adding
-	if(document.getElementById('course-list') == null){
+	if(document.getElementById('existing-course') == null){
 		let whiteboard = [
 			{'concept':'whiteboard', 'tag':'whiteboard'},
 			{'type': 'wbd', 'text':'', 'tag':''}

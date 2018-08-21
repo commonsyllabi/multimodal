@@ -149,9 +149,8 @@ ipc.on('save-lesson', (event, lesson) => {
 				if(prep.type == 'img' || prep.type == 'vid'){
 					console.log(`[MEDIA] found image ${prep.src}`)
 					let file_type = prep.src.substring(prep.src.indexOf('.'), prep.src.length)
-					let file_num = Math.floor(Math.random()*10000) 
 					let file_name = prep.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
-					prep.name = file_num+'_'+(/[^/]*$/gi).exec(prep.src)
+					prep.name = (/[^/]*$/gi).exec(prep.src)
 					fs.createReadStream(prep.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`))
 					prep.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${prep.type}/${prep.name}`
 					console.log(`[MEDIA] copied ${prep.name} to ${prep.src}`)

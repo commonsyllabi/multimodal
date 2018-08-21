@@ -590,8 +590,11 @@ let parseDocument = () => {
 	for(let i in _concepts){
 		if(i == 'length') break
 
+		let ct = _concepts[i].innerText
+		let tc = ct.substring(ct.indexOf('.')+2, ct.length) //trim the concept title
+		
 		let content =  {
-			'concept':_concepts[i].innerText,
+			'concept': tc,
 			'prep':[],
 			'notes':[]
 		}
@@ -630,7 +633,8 @@ let parseDocument = () => {
 			}
 		}
 
-		content.prep.splice(0, 1) //this line removes the first element of the prep which is the title of the concept
+		//this line removes the first element of the prep which is the title of the concept
+		content.prep.splice(0, 1)
 
 		for(let k in _written){
 			if(k == 'length') break
