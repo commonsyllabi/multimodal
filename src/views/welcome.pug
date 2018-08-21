@@ -15,6 +15,13 @@ html
 							ul
 								each lesson in cl.lessons
 									li.welcome-lesson(onclick='setLesson(this, "'+cl.course.name+'","'+lesson+'")', ondblclick='openLesson("'+cl.course.name+'", "'+lesson+'")')= lesson
+					else
+						div.welcome-message 
+							h2 Welcome to Multimodal!
+							div It seems you haven't added any courses! 
+								ul
+									li Click 'Create' to get started...
+									li Or peruse <a href="https://periode.github.io/multimodal/" target="_blank">the homepage</a> to learn more.
 
 			div.interface-buttons
 				button.inter-btn-main(onclick='createLesson()') create
