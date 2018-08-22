@@ -1,6 +1,7 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
+const {dialog} = require('electron').remote
 const utils = require('../utils.js')
 
 let current = {
@@ -38,7 +39,15 @@ let createLesson = () => {
 let removeLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
 	let title = _l ? _l : current.title
-	ipc.send('remove-lesson', {'course': course, 'title': title})
+
+	let options = {	'type':'info',
+		'buttons':['Yes!', 'Nope.'],
+		'title':'Are you sure?',
+		'message':'You\'re about to delete this lesson, and all data associated with it. Are you certain?'
+	}
+
+	if(dialog.showMessageBox(options) == 0)
+		ipc.send('remove-lesson', {'course': course, 'title': title})
 }
 
 let editLesson = () => {
