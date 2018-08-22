@@ -35,6 +35,12 @@ let createLesson = () => {
 	ipc.send('create-lesson')
 }
 
+let removeLesson = (_c, _l) => {
+	let course = _c ? _c : current.course
+	let title = _l ? _l : current.title
+	ipc.send('remove-lesson', {'course': course, 'title': title})
+}
+
 let editLesson = () => {
 	if(current.course == ''){
 		utils.setMessage('no course selected!', 'error')
@@ -59,4 +65,4 @@ let exportLesson = () => {
 	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
 }
 
-export { openLesson, createLesson, editLesson, editNotesLesson, setLesson, exportLesson }
+export { openLesson, createLesson, removeLesson, editLesson, editNotesLesson, setLesson, exportLesson }

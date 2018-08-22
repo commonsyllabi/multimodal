@@ -140,12 +140,13 @@ __webpack_require__(4)
 
 
 
-window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLesson */]
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["g" /* setLesson */]
 window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]
 window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
 window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* editNotesLesson */]
 
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
+window.removeLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* removeLesson */]
 window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
 
 window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* createNewCourse */]
@@ -157,6 +158,7 @@ window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLes
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
+ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* removeLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
 ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
 ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
@@ -204,9 +206,10 @@ window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeN
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return openLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return editNotesLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return setLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exportLesson; });
 
 
@@ -243,6 +246,12 @@ let openLesson = (_c, _l) => {
 
 let createLesson = () => {
 	ipc.send('create-lesson')
+}
+
+let removeLesson = (_c, _l) => {
+	let course = _c ? _c : current.course
+	let title = _l ? _l : current.title
+	ipc.send('remove-lesson', {'course': course, 'title': title})
 }
 
 let editLesson = () => {
