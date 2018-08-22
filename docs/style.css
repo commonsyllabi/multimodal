@@ -58,6 +58,16 @@ p {
 	text-align: justify;
 }
 
+.video-holder{
+	width: 100%;
+	margin: 5%;
+}
+
+iframe{
+	width: 90%;
+	margin: 0 auto;
+}
+
 .links {
 	width: 100%;
 }
