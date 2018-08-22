@@ -70,6 +70,7 @@ let selectMediaPath = (_el) => {
 
 	dialog.showOpenDialog(options, (path) => {
 		_el.previousSibling.value = path
+		_el.previousSibling.setAttribute('src', path)
 	})
 }
 

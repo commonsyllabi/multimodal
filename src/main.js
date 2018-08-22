@@ -157,9 +157,9 @@ ipc.on('save-lesson', (event, lesson) => {
 			for(let p of concept.prep){
 				if(p.type == 'img' || p.type == 'vid'){
 					console.log(`[MEDIA] found image ${p.src}`)
-					let file_type = p.src.substring(p.src.indexOf('.'), p.src.length)
-					let file_name = p.type+'-'+lesson.course.name+'-'+lesson.title+'-'+file_num+file_type
-					p.name = (/[^/]*$/gi).exec(p.src)
+					let re = (/[^/]*$/gi).exec(p.src)
+					console.log(re[0]);
+					p.name = re[0]
 					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
 					// now we redirect the source to the local folder
 					p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
