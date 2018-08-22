@@ -15,8 +15,8 @@ html
 
 			each concept in concepts
 				div.create-concept
-					input.create-concept-name(type='text', value= concept[0].concept)
-					input.create-concept-tag(type='text', value= concept[0].tag, placeholder="concept tag")
+					input.create-concept-name(type='text', value= concept.concept)
+					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag")
 					include includes/add-prep.pug
 					div.content-holder
 						div.prep-holder
