@@ -1,6 +1,6 @@
 **/*.swp
 node_modules/
-assets/
+app/assets/
 dist/
 
 # builds
