@@ -20,7 +20,7 @@ html
 					include includes/add-prep.pug
 					div.content-holder
 						div.prep-holder
-							each prep in concept
+							each prep in concept.prep
 								if prep.type == 'txt'
 									div.create-prep
 										input.create-concept-prep(type='text', kind='txt', value= prep.text)
