@@ -304,6 +304,9 @@ div, img {
   display: inline;
   width: auto;
   font-size: 2.2em; }
+  @media (max-width: 1300px) {
+    .inter-btn-main {
+      font-size: 1.5em; } }
 
 .inter-btn-main:disabled {
   cursor: default;
