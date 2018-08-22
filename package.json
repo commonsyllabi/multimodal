@@ -11,8 +11,8 @@
     "lint": "eslint src app/js",
     "lint:fix": "node_modules/.bin/eslint --fix src app/js",
     "postinstall":"install-app-deps",
-    "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/icon.png --prune=true --out=build",
-    "package-osx": "electron-packager . Multimodal --overwrite --platform=darwin --arch=x64 --icon=src/icon.icns --prune=true --out=build"
+    "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/assets/icon.png --prune=true --out=build",
+    "package-osx": "electron-packager . Multimodal --overwrite --platform=darwin --arch=x64 --icon=src/assets/icon.icns --prune=true --out=build"
   },
   "build": {
     "appId": "com.multimodal.app",
