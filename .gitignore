@@ -1,6 +1,6 @@
 **/*.swp
 node_modules/
-app/assets/
+src/app/*.html
 dist/
 
 # builds

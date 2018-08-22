@@ -74,14 +74,7 @@ ipc.on('edit-lesson', (event, data) => {
 // creates a window with the ability to edit notes
 ipc.on('edit-notes-lesson', (event, data) => {
 
-	let edited_lessons = fs.readdirSync(__dirname+'/lessons/'+data.course+'/in-class')
-	let has_edit = false
-	for(let edited_lesson of edited_lessons)
-		if(edited_lesson.indexOf(data.title) > -1)
-			has_edit = true
-
-
-	if(has_edit){
+	if(fs.existsSync(`${__dirname}/lessons/${data.course}/in-class/${data.title}`)){
 		generateHTML(data, 'edit-notes')
 		replaceWindow('edit-notes')
 	}else{
