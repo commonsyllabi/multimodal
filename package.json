@@ -10,25 +10,25 @@
     "pack": "webpack --config webpack.config.js",
     "lint": "eslint src app/js",
     "lint:fix": "node_modules/.bin/eslint --fix src app/js",
-    "postinstall":"install-app-deps",
+    "postinstall": "install-app-deps",
     "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/assets/icon.png --prune=true --out=build",
     "package-osx": "electron-packager . Multimodal --overwrite --platform=darwin --arch=x64 --icon=src/assets/icon.icns --prune=true --out=build"
   },
   "build": {
     "appId": "com.multimodal.app",
     "productName": "multimodal",
-    "mac":{
+    "mac": {
       "category": "com.education.multimodal"
     },
-    "linux":{
-      "packageCategory":"Education",
+    "linux": {
+      "packageCategory": "Education",
       "description": "Desktop App for Teaching",
-      "target":[
+      "target": [
         "deb",
         "zip",
         "AppImage"
       ],
-      "maintainer":"Pierre Depaz <pierre.depaz@gmail.com>"
+      "maintainer": "Pierre Depaz <pierre.depaz@gmail.com>"
     },
     "buildVersion": "0.1",
     "nodeGypRebuild": true,
@@ -68,8 +68,10 @@
     "electron-webpack-plugin": "^2.0.0",
     "eslint": "^4.15.0",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^2.0.0",
     "node-sass": "^4.7.2",
     "pug": "^2.0.0-rc.4",
+    "resolve-url-loader": "^2.3.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0",

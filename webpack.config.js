@@ -3,10 +3,6 @@ const webpack = require('webpack')
 const electron = require('electron')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const PATHS = {
-  build: path.join(__dirname, './src/app')
-}
-
 module.exports = {
   entry: {
 	  lesson:'./src/renderer/lesson.js',
@@ -14,19 +10,25 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'src/app'),
-    publicPath: PATHS.build
+    path: path.resolve(__dirname, 'src/app')
   },
   module: {
       loaders: [
           {
               test: /\.scss$/,
-              loader: ExtractTextPlugin.extract('css-loader!sass-loader')
+              use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: ['css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
+              })
           },
           {
-              test: /\.(eot|svg|ttf|woff|woff2)$/,
-              loader: 'file-loader?name=fonts/[name].[ext]'
+          test: /\.(woff2?|ttf|otf|eot|svg)$/,
+          exclude: /node_modules/,
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]'
           }
+        }
       ]
   },
   plugins: [
