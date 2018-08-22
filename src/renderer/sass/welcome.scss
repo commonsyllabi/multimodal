@@ -64,6 +64,10 @@
 	display: inline;
 	width: auto;
 	font-size: $btn-size;
+
+	@media (max-width: $break-medium){
+		font-size: 1.5em;
+	}
 }
 
 .inter-btn-main:disabled {
