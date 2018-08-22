@@ -426,9 +426,9 @@ let saveLesson = (_type) => {
 let exitLesson = () => {
 
 	let options = {	'type':'info',
-		'buttons':['cancel', 'Quit anyways'],
-		'title':'are you sure?',
-		'message':'the current lesson hasn\'t been saved. do you want to quit anyways?'
+		'buttons':['Cancel', 'Quit anyways'],
+		'title':'Are you sure?',
+		'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
 	}
 
 	if(lesson.course == '' || lesson.title == '' || !lessonSaved){

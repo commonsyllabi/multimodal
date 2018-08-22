@@ -214,6 +214,7 @@ window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeN
 
 
 const ipc = __webpack_require__(0).ipcRenderer
+const {dialog} = __webpack_require__(0).remote
 const utils = __webpack_require__(1)
 
 let current = {
@@ -251,7 +252,15 @@ let createLesson = () => {
 let removeLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
 	let title = _l ? _l : current.title
-	ipc.send('remove-lesson', {'course': course, 'title': title})
+
+	let options = {	'type':'info',
+		'buttons':['Yes!', 'Nope.'],
+		'title':'Are you sure?',
+		'message':'You\'re about to delete this lesson, and all data associated with it. Are you certain?'
+	}
+
+	if(dialog.showMessageBox(options) == 0)
+		ipc.send('remove-lesson', {'course': course, 'title': title})
 }
 
 let editLesson = () => {
@@ -728,9 +737,9 @@ let saveLesson = (_type) => {
 let exitLesson = () => {
 
 	let options = {	'type':'info',
-		'buttons':['cancel', 'Quit anyways'],
-		'title':'are you sure?',
-		'message':'the current lesson hasn\'t been saved. do you want to quit anyways?'
+		'buttons':['Cancel', 'Quit anyways'],
+		'title':'Are you sure?',
+		'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
 	}
 
 	if(lesson.course == '' || lesson.title == '' || !lessonSaved){
