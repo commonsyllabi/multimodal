@@ -9,16 +9,16 @@ html
 		div.container
 			div.courses-container
 				div.lessons
-					each cl in courses
+					each co in courses
 						div.inter-class
-							div.inter-class-title= cl.course.name
+							div.inter-class-title= co.course.name
 							ul
-								each lesson in cl.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+cl.course.name+'","'+lesson+'")', ondblclick='openLesson("'+cl.course.name+'", "'+lesson+'")')= lesson
+								each lesson in co.lessons
+									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson+'")')= lesson
 					else
-						div.welcome-message 
+						div.welcome-message
 							h2 Welcome to Multimodal!
-							div It seems you haven't added any courses! 
+							div It seems you haven't added any courses!
 								ul
 									li Click 'Create' to get started...
 									li Or peruse <a href="https://periode.github.io/multimodal/" target="_blank">the homepage</a> to learn more.
@@ -29,4 +29,5 @@ html
 				button.inter-btn-main(onclick='editNotesLesson()', disabled) edit with notes
 				button.inter-btn-main(onclick='openLesson()', disabled) open
 				button.inter-btn-main(onclick='exportLesson()', disabled) export
-				div.msg-log#msg-log 
+				button.inter-btn-main(onclick='removeLesson()', disabled) remove
+				div.msg-log#msg-log

@@ -61,8 +61,20 @@ module.exports.create = () => {
 	fs.writeFileSync(__dirname+'/app/create.html', compiled)
 }
 
-module.exports.getNewest = (lesson) => {
-	let saves = fs.readdirSync(__dirname+'/lessons/'+lesson.course+'/in-class/'+lesson.title)
+module.exports.remove = (_l) => {
+
+	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/prep/${_l.title}.json`)){
+		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/prep/${_l.title}.json`)
+		console.log(`[DELETED] ${_l.title}`)
+		return true
+	}else{
+		return false
+	}
+	
+}
+
+module.exports.getNewest = (_l) => {
+	let saves = fs.readdirSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title)
 
 	if(saves.length == 1) return saves[0]
 
@@ -114,13 +126,13 @@ module.exports.export = (_l) => {
 // copies all the necessary assets, renders the lesson HTML and re-builds the course index
 let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
-	
+
 	// we copy all the existing assets from the multimodal to the html exports
 	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img`
 	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid`
 
 	fs.readdirSync(imgp).forEach((file) => {
-		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))	
+		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
 	})
 
 	fs.readdirSync(vidp).forEach((file) => {

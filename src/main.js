@@ -132,6 +132,20 @@ ipc.on('create-lesson', () => {
 	replaceWindow('create')
 })
 
+ipc.on('remove-lesson', (event, data) => {
+	if(lesson.remove(data)){
+		mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
+
+		setTimeout(() => {
+			lesson.list()
+			replaceWindow('welcome')
+		}, 1000)
+
+	}else{
+		mainWindow.webContents.send('msg-log', {msg: 'error deleting course!', type: 'error'})
+	}
+})
+
 // exports a lesson
 ipc.on('export-lesson', (event, data) => {
 	lesson.export(data)

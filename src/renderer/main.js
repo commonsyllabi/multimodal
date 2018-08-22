@@ -19,6 +19,7 @@ window.editLesson = welcome.editLesson
 window.editNotesLesson = welcome.editNotesLesson
 
 window.createLesson = welcome.createLesson
+window.removeLesson = welcome.removeLesson
 window.exportLesson = welcome.exportLesson
 
 window.createNewCourse = create.createNewCourse
@@ -30,6 +31,7 @@ window.exitLesson = create.exitLesson
 ipc.on('menu-create', () => { welcome.createLesson()})
 ipc.on('menu-open', () => { welcome.openLesson()})
 ipc.on('menu-edit', () => { welcome.editLesson()})
+ipc.on('menu-remove', () => { welcome.removeLesson()})
 ipc.on('menu-export', () => { welcome.exportLesson()})
 ipc.on('menu-save', () => { create.saveLesson()})
 ipc.on('menu-exit', () => { create.exitLesson()})
