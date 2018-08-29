@@ -42,6 +42,7 @@ let handle = (e) => {
 			let index = document.getElementsByClassName('concept').length-1
 			setCurrentConcept(index)
 		}
+		break
 	case ESC:
 		endNote()
 		break

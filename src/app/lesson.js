@@ -492,6 +492,7 @@ let handle = (e) => {
 			let index = document.getElementsByClassName('concept').length-1
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
 		}
+		break
 	case ESC:
 		endNote()
 		break
