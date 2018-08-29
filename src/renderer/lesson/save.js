@@ -1,7 +1,10 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
+let lessonSaved = false
 
+// function called from the window. parses the document,
+// appends the "in-class" prefix and send the IPC message to the main process
 let saveSession = () => {
 	let lesson = parseDocument()
 	lesson.prefix = 'in-class'
@@ -12,8 +15,11 @@ let saveSession = () => {
 	}
 
 	ipc.send('save-lesson', lesson)
+
+	lessonSaved = true
 }
 
+// parses the document for all information
 let parseDocument = () => {
 	let lesson = {
 		'course': {
@@ -101,8 +107,19 @@ let parseDocument = () => {
 }
 
 let exitLesson = () => {
-	console.log('leaving lesson')
-	ipc.send('exit-home', {'coming':'back'})
+	if(!lessonSaved){
+		let options = {	'type':'info',
+			'buttons':['Cancel', 'Quit anyways'],
+			'title':'Are you sure?',
+			'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
+		}
+
+			if(dialog.showMessageBox(options) == 1)
+				ipc.send('exit-home', {'coming':'back'})
+
+		}else {
+			ipc.send('exit-home', {'coming':'back'})
+		}
 }
 
 export { saveSession, exitLesson }

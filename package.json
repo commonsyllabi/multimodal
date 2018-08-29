@@ -8,8 +8,8 @@
     "start": "electron .",
     "watch": "webpack --config webpack.config.js --watch",
     "pack": "webpack --config webpack.config.js",
-    "lint": "eslint src app/js",
-    "lint:fix": "node_modules/.bin/eslint --fix src app/js",
+    "lint": "eslint src/main.js src/lesson.js src/utils.js src/renderer",
+    "lint:fix": "node_modules/.bin/eslint --fix src/main.js src/lesson.js src/utils.js src/renderer",
     "postinstall": "install-app-deps",
     "package-linux": "electron-packager . Multimodal --overwrite --asar=true --platform=linux --arch=x64 --icon=src/assets/icon.png --prune=true --out=build",
     "package-osx": "electron-packager . Multimodal --overwrite --platform=darwin --arch=x64 --icon=src/assets/icon.icns --prune=true --out=build"

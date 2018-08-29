@@ -47,7 +47,7 @@ let init = () => {
 	})
 
 	globals.setCurrentConcept()
-	globals.initTags();
+	globals.initTags()
 }
 
 window.init = init

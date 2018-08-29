@@ -57,7 +57,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note written')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
-	cn.addEventListener("input", () => { OnInput(cn)}, false)
+	cn.addEventListener('input', () => { OnInput(cn)}, false)
 	document.getElementById('writing-board').append(cn)
 
 	setCurrentNote(cn)
@@ -67,8 +67,8 @@ let newNote = () => {
 }
 
 let OnInput = (el) => {
-	el.style.height = 'auto';
-  el.style.height = (el.scrollHeight) + 'px';
+	el.style.height = 'auto'
+	el.style.height = (el.scrollHeight) + 'px'
 }
 
 let endNote = () => {

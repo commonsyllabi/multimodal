@@ -20,7 +20,7 @@ let course = {
 
 let selectCourse = (_el) => {
 	let val = _el.options[_el.selectedIndex].value
-	console.log(_el.options[_el.selectedIndex].value);
+	console.log(_el.options[_el.selectedIndex].value)
 	if(val == 'create-course')
 		createNewCourse()
 }
@@ -37,7 +37,7 @@ let saveCourse = () => {
 
 	if(_course.name == null || _course.year == null || _course.path == null){
 		alert('Some fields are missing!')
-		console.log(_course);
+		console.log(_course)
 	}else{
 		ipc.send('save-course', _course)
 	}
@@ -165,26 +165,16 @@ let createPrep = (kind) => {
 }
 
 let addPrep = (el) => {
+	let prep = createPrep(el.value) //either txt, or url, or img
 
-	if(el.getAttribute('class') == 'create-add-prep'){
+	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
 
-		let prep = createPrep(el.value)
-		if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
+		for(let _el of el.parentNode.parentNode.children) // we find the content-holder
+			if(_el.getAttribute('class') == 'content-holder')
+				_el.children[0].appendChild(prep) //and we append to its first child, the content-holder
 
-			for(let _el of el.parentNode.parentNode.children) // we find the content-holder
-				if(_el.getAttribute('class') == 'content-holder')
-					_el.children[0].appendChild(prep) //and we append to its first child, the content-holder
-
-
-		}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){
-			el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
-		}
-
-	}else if(el.getAttribute('class') == 'create-add-concept'){
-
-		let prep = createPrep('text')
-		return prep
-
+	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
+		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
 	}
 }
 
@@ -369,7 +359,7 @@ let parseLesson = () => {
 					}
 
 				}else if(_cn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
-					console.log('got tag:'+_cn[0]);
+					console.log('got tag:'+_cn[0])
 					concept.prep.push({'type':'tag', 'tag':_cn[0].value})
 				}
 
@@ -379,12 +369,9 @@ let parseLesson = () => {
 		// then go through the in-class notes
 		// if we are creating a new lesson, we don't need to look for notes
 		if(document.getElementsByClassName('notes-holder').length != 0){
-			let notes = []
 			for(let note of contentHolder.childNodes[1].childNodes)
 				concept.notes.push(note.childNodes[0].value)
-
 		}
-
 
 		lesson.concepts.push(concept)
 	}
@@ -416,10 +403,10 @@ let saveLesson = (_type) => {
 			dialog.showErrorBox(_title, _error)
 		}else{
 
-				lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
-				utils.setMessage('saved!', 'info')
-				lessonSaved = true
-				ipc.send('save-lesson', lesson)
+			lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
+			utils.setMessage('saved!', 'info')
+			lessonSaved = true
+			ipc.send('save-lesson', lesson)
 		}
 	}
 }
