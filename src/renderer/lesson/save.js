@@ -1,6 +1,7 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer
+const {dialog} = require('electron').remote
 let lessonSaved = false
 
 // function called from the window. parses the document,
