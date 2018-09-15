@@ -74,11 +74,10 @@ ipc.on('edit-lesson', (event, data) => {
 // creates a window with the ability to edit notes
 ipc.on('edit-notes-lesson', (event, data) => {
 
-	if(fs.existsSync(`${__dirname}/lessons/${data.course}/in-class/${data.title}`)){
+	if(fs.existsSync(`${__dirname}/lessons/${data.course}/in-class/${data.title}.json`)){
 		generateHTML(data, 'edit-notes')
 		replaceWindow('edit-notes')
 	}else{
-		console.log('no file found for editing with notes')
 		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
 	}
 })

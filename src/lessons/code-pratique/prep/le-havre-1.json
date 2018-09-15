@@ -1,1 +1,663 @@
-{"concepts":[{"concept":"practical code 2018","notes":[],"prep":[{"tag":"","text":"welcome!","type":"txt"}],"tag":""},{"concept":"presentations","notes":[],"prep":[{"text":"pierre depaz","type":"url","url":"mailto:pierre.depaz@sciencespo.fr"},{"tag":"","text":"you","type":"txt"}],"tag":""},{"concept":"goals of the workshop","notes":[],"prep":[{"tag":"","text":"getting started with programming","type":"txt"},{"tag":"","text":"historical overview of digital art","type":"txt"},{"tag":"","text":"different types of digital art","type":"txt"},{"tag":"","text":"concepts and ideas of digital art","type":"txt"}],"tag":"learning-objectives"},{"concept":"plan - morning","notes":[],"prep":[{"tag":"","text":"1. intro to processing","type":"txt"},{"tag":"","text":"2. digital art through history","type":"txt"},{"tag":"","text":"-- break","type":"txt"},{"tag":"","text":"3. fundamentals of digital art","type":"txt"},{"tag":"","text":"4. repetition and variance in programming","type":"txt"}],"tag":""},{"concept":"plan - afternoon","notes":[],"prep":[{"tag":"","text":"5. practice","type":"txt"},{"tag":"","text":"6. importing assets / using libraries","type":"txt"},{"tag":"","text":" -- break","type":"txt"},{"tag":"","text":"7. interaction - examples","type":"txt"},{"tag":"","text":"8. interaction - practice","type":"txt"}],"tag":""},{"concept":"our tool","notes":[],"prep":[{"text":"Processing","type":"url","url":"https://processing.org"},{"text":"projet from the MIT Media Lab","type":"url","url":"http://acg.media.mit.edu/"}],"tag":""},{"concept":"other tools","notes":[],"prep":[{"text":"p5js","type":"url","url":"https://p5js.org/"},{"text":"openFrameworks","type":"url","url":"https://openframeworks.cc/"},{"text":"cinder","type":"url","url":"https://www.libcinder.org/"},{"text":"threeJS","type":"url","url":"https://threejs.org/"}],"tag":""},{"concept":"example","notes":[],"prep":[{"tag":"","text":"what can we do with Processing?","type":"txt"},{"tag":"","text":"float a =0 ;  void setup() {   size(600, 600, P3D); } void draw() {    translate(300, 300);   strokeWeight(3);   rotateY(cos(a));   stroke(229, 0, 54, 20);   rotateZ(sin(a));   fill(1, 150);   box(200-a*10);   a+=0.005;   if (a>20) {     a=20;   } }","type":"txt"},{"text":"https://github.com/periode/practical-code-2018","type":"url","url":"https://github.com/periode/practical-code-2018"}],"tag":""},{"concept":"basics of programming","notes":[],"prep":[{"tag":"","text":"a variable stores data of a certain type","type":"txt"},{"tag":"","text":"a function executes a series of precise actions","type":"txt"},{"tag":"","text":"a program is run in a linear fashion","type":"txt"},{"tag":"","text":"// a double slash indicates a comment","type":"txt"},{"text":"the answer is online","type":"url","url":"https://processing.org/reference/"}],"tag":""},{"concept":"basics of digital drawing","notes":[],"prep":[{"tag":"","text":"setup() and draw() // essential functions of processing","type":"txt"},{"tag":"","text":"rect(x, y, w, h) / ellipse() / line() // shape functions","type":"txt"},{"tag":"","text":"fill() and stroke() // color functions","type":"txt"},{"tag":"","text":"size() and background() // application functions","type":"txt"}],"tag":"base-dessin"},{"concept":"break!","notes":[],"prep":[],"tag":""},{"concept":"question","notes":[],"prep":[{"tag":"","text":"what is digital art?","type":"txt"}],"tag":""},{"concept":"definition","notes":[],"prep":[{"tag":"","text":"an art based on  \"the technique of providing a dynamic background to control the automatic evolution of meaning\"","type":"txt"},{"tag":"","text":" -- von neumann","type":"txt"}],"tag":""},{"concept":"examples - I","notes":[],"prep":[{"text":"sol lewitt","type":"url","url":"https://nyoobserver.files.wordpress.com/2012/10/lewitt.jpg?quality=80"},{"text":"john cage - music of changes","type":"url","url":"https://www.youtube.com/watch?v=B_8-B2rNw7s"},{"text":"tristan tzara - poeme dada","type":"url","url":"http://www.writing.upenn.edu/~afilreis/88v/tzara.html"},{"text":"nam june paik - tv buddha","type":"url","url":"http://newbuddhist.com/uploads/FileUpload/8/1228.jpg"}],"tag":""},{"concept":"examples - II","notes":[],"prep":[{"text":"christopher stratchey","type":"url","url":"https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine"},{"tag":"","text":"USA - Bell Labs","type":"txt"},{"text":"ken knowlton","type":"url","url":"https://reprage.com/images/2017-05-02-knowlton-studies-in-perception.jpg"},{"text":"lillian schwartz","type":"url","url":"https://www.youtube.com/watch?v=aOeUd2-IHCA"},{"tag":"","text":"Europe - Stuttgart / Paris","type":"txt"},{"tag":"","text":"max bense - information aesthetics","type":"txt"},{"text":"georg nees","type":"url","url":"https://2.bp.blogspot.com/-PXfApx7MksY/UGR5r-38foI/AAAAAAAAAG8/u_Wa5Ta8JGI/s1600/weiss-fig3.jpg"},{"text":"vera molnar","type":"url","url":"http://www.galerie-oniris.fr/wp-content/gallery/molnar_art/molnar-4quarts-rd-1.jpg"}],"tag":""},{"concept":"examples - III","notes":[],"prep":[{"text":"casey reas","type":"url","url":"http://reas.com"},{"text":"joana moll","type":"url","url":"http://www.ifapa.me/SOCIAL_INNOVATION"},{"text":"chris sugrue","type":"url","url":"http://csugrue.com/delicateboundaries/"}],"tag":""},{"concept":"fundamentals of digital art","notes":[],"prep":[{"tag":"","text":"- procedure","type":"txt"},{"tag":"","text":"- repetition","type":"txt"},{"tag":"","text":"- chance / emergence","type":"txt"},{"tag":"","text":"- translation","type":"txt"}],"tag":""},{"concept":"basics of programming - 2","notes":[],"prep":[{"tag":"","text":"if / else - building blocks of \"control flow architecture\"","type":"txt"},{"tag":"","text":"for loop - essential for repeting a certain task over and over","type":"txt"},{"tag":"","text":"random() / noise() -  generate chance","type":"txt"},{"tag":"","text":"sin() - translation of mathematical concepts","type":"txt"}],"tag":"base-computation"},{"concept":"lunch","notes":[],"prep":[],"tag":""},{"concept":"practice - computation","notes":[],"prep":[{"tag":"","text":"you have half an hour to draw something using all the concepts we've shown so far","type":"txt"},{"tag":"base-dessin","text":"basics of drawing","type":"txt"},{"tag":"base-computation","text":"basics of computation","type":"txt"}],"tag":""},{"concept":"external assets","notes":[],"prep":[{"tag":"","text":"loading an image with PImage","type":"txt"},{"tag":"","text":"loading a sound with the Minim library","type":"txt"}],"tag":""},{"concept":"libraries","notes":[],"prep":[{"tag":"","text":"a library is a bundle of code that was written by someone else in order to help you do something","type":"txt"},{"tag":"","text":"processing has built-in libraries (PDF, Sound, Video)","type":"txt"},{"tag":"","text":"and contributed libraries (e.g. Minim)","type":"txt"}],"tag":""},{"concept":"interacting","notes":[],"prep":[{"tag":"","text":"mouseX / mouseY / pmouseX / pmouseY","type":"txt"},{"tag":"","text":"mousePressed()","type":"txt"},{"tag":"","text":"keyPressed()","type":"txt"},{"tag":"","text":"mic input","type":"txt"}],"tag":""},{"concept":"interactive art","notes":[],"prep":[{"tag":"","text":"based on the idea of cybernetics, it's an art that exists in the gesture, in the relationship","type":"txt"},{"text":"marina abramovic - the other: rest energy","type":"url","url":"https://www.youtube.com/watch?v=QcaaVZrUC44"},{"tag":"","text":"3 actors: the artist, the public and the system","type":"txt"},{"text":"rafael lozano-hemmer - surface tension","type":"url","url":"https://www.youtube.com/watch?v=JXLoLPkzdto"},{"text":"pierre depaz - skype heartbreak show","type":"url","url":"https://vimeo.com/135095816"},{"text":"papers, please","type":"url","url":"http://papersplease.com"}],"tag":""},{"concept":"practice - interaction","notes":[],"prep":[{"tag":"","text":"choose an emotion (anger, boredom, tenderness, joy) and translate it into interactive visuals","type":"txt"}],"tag":""},{"concept":"further possibilities","notes":[],"prep":[{"text":"glitch art","type":"url","url":"https://rosa-menkman.blogspot.com/2009/07/from-enchanting-to-default-cultivation.html"},{"text":"net art I  (glaciers)","type":"url","url":"http://stfj.net/index2.php?project=art/2015/Glaciers%20(tease)"},{"text":"net art II (jodi.org)","type":"url","url":"http://asdfg.jodi.org/-------------------------------/-------------------------------/-------------------------------/-----------------------332xc675/rttyinxxxx.html"},{"text":"net art III (skinonskinonskin)","type":"url","url":"http://archive.rhizome.org/anthology/skinonskinonskin.html"},{"text":"exploit art (autonomous trap)","type":"url","url":"http://www.jamesbridle.com/works/autonomous-trap-001"},{"text":"exploit art II (newstweek)","type":"url","url":"http://newstweek.com/"}],"tag":""},{"concept":"recap","notes":[],"prep":[{"tag":"","text":"what is digital art?","type":"txt"}],"tag":""},{"concept":"tomorrow","notes":[],"prep":[{"tag":"","text":"data visualization","type":"txt"},{"tag":"","text":"doing all of this on the web!","type":"txt"}],"tag":""},{"concept":"whiteboard","notes":[],"prep":[],"tag":"whiteboard"}],"course":{"name":"code-pratique","path":"/home/pierre/teaching/scpo/practical-code-2018/docs","year":"2018"},"prefix":"prep","title":"le-havre-1","date":{"year":2018,"month":"09","day":13,"hour":22,"minutes":48}}
+{
+  "concepts": [
+    {
+      "concept": "practical code 2018",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "welcome!",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "presentations",
+      "notes": [],
+      "prep": [
+        {
+          "text": "pierre depaz",
+          "type": "url",
+          "url": "mailto:pierre.depaz@sciencespo.fr"
+        },
+        {
+          "tag": "",
+          "text": "you",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "goals of the workshop",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "getting started with programming",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "historical overview of digital art",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "different types of digital art",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "concepts and ideas of digital art",
+          "type": "txt"
+        }
+      ],
+      "tag": "learning-objectives"
+    },
+    {
+      "concept": "plan - morning",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "1. intro to processing",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "2. digital art through history",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "-- break",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "3. fundamentals of digital art",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "4. repetition and variance in programming",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "plan - afternoon",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "5. practice",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "6. importing assets / using libraries",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": " -- break",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "7. interaction - examples",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "8. interaction - practice",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "our tool",
+      "notes": [],
+      "prep": [
+        {
+          "text": "Processing",
+          "type": "url",
+          "url": "https://processing.org"
+        },
+        {
+          "text": "projet from the MIT Media Lab",
+          "type": "url",
+          "url": "http://acg.media.mit.edu/"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "other tools",
+      "notes": [],
+      "prep": [
+        {
+          "text": "p5js",
+          "type": "url",
+          "url": "https://p5js.org/"
+        },
+        {
+          "text": "openFrameworks",
+          "type": "url",
+          "url": "https://openframeworks.cc/"
+        },
+        {
+          "text": "cinder",
+          "type": "url",
+          "url": "https://www.libcinder.org/"
+        },
+        {
+          "text": "threeJS",
+          "type": "url",
+          "url": "https://threejs.org/"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "example",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what can we do with Processing?",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "float a =0 ;  void setup() {   size(600, 600, P3D); } void draw() {    translate(300, 300);   strokeWeight(3);   rotateY(cos(a));   stroke(229, 0, 54, 20);   rotateZ(sin(a));   fill(1, 150);   box(200-a*10);   a+=0.005;   if (a>20) {     a=20;   } }",
+          "type": "txt"
+        },
+        {
+          "text": "https://github.com/periode/practical-code-2018",
+          "type": "url",
+          "url": "https://github.com/periode/practical-code-2018"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "basics of programming",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "a variable stores data of a certain type",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "a function executes a series of precise actions",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "a program is run in a linear fashion",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "// a double slash indicates a comment",
+          "type": "txt"
+        },
+        {
+          "text": "the answer is online",
+          "type": "url",
+          "url": "https://processing.org/reference/"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "basics of digital drawing",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "setup() and draw() // essential functions of processing",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "rect(x, y, w, h) / ellipse() / line() // shape functions",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "fill() and stroke() // color functions",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "size() and background() // application functions",
+          "type": "txt"
+        }
+      ],
+      "tag": "base-dessin"
+    },
+    {
+      "concept": "break!",
+      "notes": [],
+      "prep": [],
+      "tag": ""
+    },
+    {
+      "concept": "question",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what is digital art?",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "definition",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "an art based on  \"the technique of providing a dynamic background to control the automatic evolution of meaning\"",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": " -- von neumann",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "examples - I",
+      "notes": [],
+      "prep": [
+        {
+          "text": "sol lewitt",
+          "type": "url",
+          "url": "https://nyoobserver.files.wordpress.com/2012/10/lewitt.jpg?quality=80"
+        },
+        {
+          "text": "john cage - music of changes",
+          "type": "url",
+          "url": "https://www.youtube.com/watch?v=B_8-B2rNw7s"
+        },
+        {
+          "text": "tristan tzara - poeme dada",
+          "type": "url",
+          "url": "http://www.writing.upenn.edu/~afilreis/88v/tzara.html"
+        },
+        {
+          "text": "nam june paik - tv buddha",
+          "type": "url",
+          "url": "http://newbuddhist.com/uploads/FileUpload/8/1228.jpg"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "examples - II",
+      "notes": [],
+      "prep": [
+        {
+          "text": "christopher stratchey",
+          "type": "url",
+          "url": "https://www.newyorker.com/tech/elements/christopher-stracheys-nineteen-fifties-love-machine"
+        },
+        {
+          "tag": "",
+          "text": "USA - Bell Labs",
+          "type": "txt"
+        },
+        {
+          "text": "ken knowlton",
+          "type": "url",
+          "url": "https://reprage.com/images/2017-05-02-knowlton-studies-in-perception.jpg"
+        },
+        {
+          "text": "lillian schwartz",
+          "type": "url",
+          "url": "https://www.youtube.com/watch?v=aOeUd2-IHCA"
+        },
+        {
+          "tag": "",
+          "text": "Europe - Stuttgart / Paris",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "max bense - information aesthetics",
+          "type": "txt"
+        },
+        {
+          "text": "georg nees",
+          "type": "url",
+          "url": "https://2.bp.blogspot.com/-PXfApx7MksY/UGR5r-38foI/AAAAAAAAAG8/u_Wa5Ta8JGI/s1600/weiss-fig3.jpg"
+        },
+        {
+          "text": "vera molnar",
+          "type": "url",
+          "url": "http://www.galerie-oniris.fr/wp-content/gallery/molnar_art/molnar-4quarts-rd-1.jpg"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "examples - III",
+      "notes": [],
+      "prep": [
+        {
+          "text": "casey reas",
+          "type": "url",
+          "url": "http://reas.com"
+        },
+        {
+          "text": "joana moll",
+          "type": "url",
+          "url": "http://www.ifapa.me/SOCIAL_INNOVATION"
+        },
+        {
+          "text": "chris sugrue",
+          "type": "url",
+          "url": "http://csugrue.com/delicateboundaries/"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "fundamentals of digital art",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "- procedure",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- repetition",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- chance / emergence",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- translation",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "basics of programming - 2",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "if / else - building blocks of \"control flow architecture\"",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "for loop - essential for repeting a certain task over and over",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "random() / noise() -  generate chance",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "sin() - translation of mathematical concepts",
+          "type": "txt"
+        }
+      ],
+      "tag": "base-computation"
+    },
+    {
+      "concept": "lunch",
+      "notes": [],
+      "prep": [],
+      "tag": ""
+    },
+    {
+      "concept": "practice - computation",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "you have half an hour to draw something using all the concepts we've shown so far",
+          "type": "txt"
+        },
+        {
+          "tag": "base-dessin",
+          "text": "basics of drawing",
+          "type": "txt"
+        },
+        {
+          "tag": "base-computation",
+          "text": "basics of computation",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "external assets",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "loading an image with PImage",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "loading a sound with the Minim library",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "libraries",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "a library is a bundle of code that was written by someone else in order to help you do something",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "processing has built-in libraries (PDF, Sound, Video)",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "and contributed libraries (e.g. Minim)",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "interacting",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "mouseX / mouseY / pmouseX / pmouseY",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "mousePressed()",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "keyPressed()",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "mic input",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "interactive art",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "based on the idea of cybernetics, it's an art that exists in the gesture, in the relationship",
+          "type": "txt"
+        },
+        {
+          "text": "marina abramovic - the other: rest energy",
+          "type": "url",
+          "url": "https://www.youtube.com/watch?v=QcaaVZrUC44"
+        },
+        {
+          "tag": "",
+          "text": "3 actors: the artist, the public and the system",
+          "type": "txt"
+        },
+        {
+          "text": "rafael lozano-hemmer - surface tension",
+          "type": "url",
+          "url": "https://www.youtube.com/watch?v=JXLoLPkzdto"
+        },
+        {
+          "text": "pierre depaz - skype heartbreak show",
+          "type": "url",
+          "url": "https://vimeo.com/135095816"
+        },
+        {
+          "text": "papers, please",
+          "type": "url",
+          "url": "http://papersplease.com"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "practice - interaction",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "choose an emotion (anger, boredom, tenderness, joy) and translate it into interactive visuals",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "further possibilities",
+      "notes": [],
+      "prep": [
+        {
+          "text": "glitch art",
+          "type": "url",
+          "url": "https://rosa-menkman.blogspot.com/2009/07/from-enchanting-to-default-cultivation.html"
+        },
+        {
+          "text": "net art I  (glaciers)",
+          "type": "url",
+          "url": "http://stfj.net/index2.php?project=art/2015/Glaciers%20(tease)"
+        },
+        {
+          "text": "net art II (jodi.org)",
+          "type": "url",
+          "url": "http://asdfg.jodi.org/-------------------------------/-------------------------------/-------------------------------/-----------------------332xc675/rttyinxxxx.html"
+        },
+        {
+          "text": "net art III (skinonskinonskin)",
+          "type": "url",
+          "url": "http://archive.rhizome.org/anthology/skinonskinonskin.html"
+        },
+        {
+          "text": "exploit art (autonomous trap)",
+          "type": "url",
+          "url": "http://www.jamesbridle.com/works/autonomous-trap-001"
+        },
+        {
+          "text": "exploit art II (newstweek)",
+          "type": "url",
+          "url": "http://newstweek.com/"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "recap",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what is digital art?",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "tomorrow",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "data visualization",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "doing all of this on the web!",
+          "type": "txt"
+        }
+      ],
+      "tag": ""
+    },
+    {
+      "concept": "whiteboard",
+      "notes": [],
+      "prep": [],
+      "tag": "whiteboard"
+    }
+  ],
+  "course": {
+    "name": "code-pratique",
+    "path": "/home/pierre/teaching/scpo/practical-code-2018/docs",
+    "year": "2018"
+  },
+  "prefix": "prep",
+  "title": "le-havre-1",
+  "date": {
+    "year": 2018,
+    "month": "09",
+    "day": 13,
+    "hour": 22,
+    "minutes": 48
+  }
+}
