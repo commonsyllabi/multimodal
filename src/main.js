@@ -106,9 +106,9 @@ ipc.on('save-course', (event, data) => {
 	fs.writeFileSync(__dirname+'/lessons/courses.json', JSON.stringify(courses))
 
 	//create empty folders for HTML exports
-	utils.touchDirectory(data.path+'/html-exports')
-	utils.touchDirectory(data.path+'/html-exports/assets')
-	fs.createReadStream(__dirname+'/lessons/style.css').pipe(fs.createWriteStream(data.path+'/html-exports/style.css'))
+	utils.touchDirectory(data.path+'/')
+	utils.touchDirectory(data.path+'/assets')
+	fs.createReadStream(__dirname+'/lessons/style.css').pipe(fs.createWriteStream(data.path+'/style.css'))
 
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
@@ -155,14 +155,22 @@ ipc.on('save-lesson', (event, lesson) => {
 		for(let concept of lesson.concepts){
 			for(let p of concept.prep){
 				if(p.type == 'img' || p.type == 'vid'){
-					console.log(`[MEDIA] found image ${p.src}`)
 					let re = (/[^/]*$/gi).exec(p.src)
-					console.log(re[0])
 					p.name = re[0]
-					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
-					// now we redirect the source to the local folder
-					p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
-					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
+
+					//-- check for existing assets
+					let existing = fs.readdirSync(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}`)
+					let isReplacing = false
+					for(let e of existing)
+						if(e == p.name)
+							isReplacing = true
+
+					if(!isReplacing){
+						fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
+						// now we redirect the source to the local folder
+						p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
+						console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
+					}
 				}
 			}
 		}
