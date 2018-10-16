@@ -1,1 +1,12 @@
-[{"name":"code-pratique","path":"/home/pierre/teaching/scpo/practical-code-2018/docs","year":"2018"}]
+[
+  {
+    "name": "code-pratique",
+    "path": "/home/pierre/teaching/scpo/practical-code-2018/docs",
+    "year": "2018"
+  },
+  {
+    "name": "technology introductions",
+    "path": "/Users/Pierre/Documents/Teaching/CTech/TI/classes",
+    "year": "2018"
+  }
+]

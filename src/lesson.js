@@ -70,7 +70,7 @@ module.exports.remove = (_l) => {
 	}else{
 		return false
 	}
-	
+
 }
 
 module.exports.getNewest = (_l) => {
@@ -132,21 +132,21 @@ let render = (_lesson) => {
 	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid`
 
 	fs.readdirSync(imgp).forEach((file) => {
-		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
+		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
 	})
 
 	fs.readdirSync(vidp).forEach((file) => {
-		fs.createReadStream(path.join(vidp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/html-exports/assets', file)))
+		fs.createReadStream(path.join(vidp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
 	})
 
 	// generating the HTML
-	fs.writeFile(_lesson.course.path+'/html-exports/'+_lesson.title+'.html', compiled, (err) => {
+	fs.writeFile(`${_lesson.course.path}/${_lesson.title}.html`, compiled, (err) => {
 		if(err) throw err
-		console.log('[EXPORTED]', _lesson.course.path+'/html-exports/'+_lesson.title+'.html')
+		console.log(`[EXPORTED] ${_lesson.course.path}/${_lesson.title}.html`)
 
 		//rebuild the index
 		let exported_lessons = []
-		let local_files = fs.readdirSync(_lesson.course.path+'/html-exports/')
+		let local_files = fs.readdirSync(_lesson.course.path+'/')
 		for(let f of local_files)
 			if(f != 'index.html' && f.indexOf('.html') > -1)
 				exported_lessons.push(f.replace('.html', ''))
@@ -157,7 +157,7 @@ let render = (_lesson) => {
 		}
 
 		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
-		fs.writeFile(_lesson.course.path+'/html-exports/index.html', compiled, (err) => {
+		fs.writeFile(_lesson.course.path+'/index.html', compiled, (err) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
@@ -166,7 +166,7 @@ let render = (_lesson) => {
 
 			//TODO OPEN FILE
 			let w = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-			let u = _lesson.course.path+'/html-exports/index.html'
+			let u = _lesson.course.path+'/index.html'
 			w.loadURL('file://'+u)
 		})
 	})
