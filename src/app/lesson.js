@@ -344,13 +344,13 @@ let toggleDraw = () => {
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
 		toggle_btn.innerText = 'draw'
-		cnv.style.zIndex = 1
-		ctn.style.zIndex = 0
+		// cnv.style.zIndex = 1
+		// ctn.style.zIndex = -1
 	}else{
 		cnv.setAttribute('class', 'drawing-board')
 		toggle_btn.innerText = 'write'
-		cnv.style.zIndex = 0
-		ctn.style.zIndex = 1
+		// cnv.style.zIndex = -1
+		// ctn.style.zIndex = 1
 	}
 }
 
