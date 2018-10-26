@@ -765,6 +765,11 @@ input:disabled {
   font-style: italic;
 }
 
+.img-preview {
+  max-width: 200px;
+  max-height: 200px;
+}
+
 .create-add-holder {
   float: left;
   margin-bottom: 2%;

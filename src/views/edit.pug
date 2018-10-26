@@ -27,24 +27,24 @@ html
 										input.create-concept-prep(type='text', kind='txt', value= prep.text)
 										input.create-concept-tag(type='text', kind='tag', value= prep.tag, placeholder="tag")
 										include includes/add-remove-prep.pug
-										
+
 								else if prep.type == 'url'
 									div.create-prep
 										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
 										input.create-concept-prep(type='text', kind='url', value= prep.text)
 										include includes/add-remove-prep.pug
-										
+
 								else if prep.type == 'img'
 									div.create-prep
-										input.create-concept-prep.url(type='text', kind='img', value= prep.name, src= prep.src)
+										img.img-preview(src= prep.src, kind='img', value= prep.name)
 										button.create-add-prep(kind="path", onclick="selectMediaPath(this)") select
 										include includes/add-remove-prep.pug
-										
+
 								else if prep.type == 'vid'
 									div.create-prep
 										input.create-concept-prep.url(type='text', kind='vid', value= prep.name, src= prep.src)
 										include includes/add-remove-prep.pug
-							
+
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
 
