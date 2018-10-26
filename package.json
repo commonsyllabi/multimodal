@@ -76,5 +76,7 @@
     "webpack": "^3.10.0",
     "webpack-cli": "^2.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pug": "^2.0.3"
+  }
 }
