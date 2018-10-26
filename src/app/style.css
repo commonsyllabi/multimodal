@@ -759,6 +759,7 @@ input:disabled {
   margin-bottom: 10px;
   width: 95%;
   margin-left: 20px;
+  overflow: auto;
 }
 
 .url {
@@ -768,6 +769,7 @@ input:disabled {
 .img-preview {
   max-width: 200px;
   max-height: 200px;
+  float: left;
 }
 
 .create-add-holder {
@@ -778,14 +780,17 @@ input:disabled {
 
 .create-add-remove-holder {
   float: right;
+  width: 100%;
+  padding-top: 10px;
 }
 
 .create-add-prep,
 .create-remove-prep,
 .create-add-note,
 .create-remove-note {
+  float: left;
   border: none;
-  margin: 5px;
+  margin-right: 5px;
   font-size: 18px;
   color: black;
   background-color: white;
