@@ -111,6 +111,7 @@ body .prep-group {
   top: 5%;
   left: 10%;
   width: 60%;
+  z-index: 0;
 }
 
 body .prep {
