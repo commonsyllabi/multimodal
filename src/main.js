@@ -161,9 +161,10 @@ ipc.on('save-lesson', (event, lesson) => {
 					//-- check for existing assets
 					let existing = fs.readdirSync(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}`)
 					let isReplacing = false
-					for(let e of existing)
-						if(e == p.name)
-							isReplacing = true
+					// TODO this is when i have a settings menu
+					// for(let e of existing)
+					// 	if(e == p.name)
+					// 		isReplacing = true
 
 					if(!isReplacing){
 						fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))

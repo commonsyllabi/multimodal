@@ -37,6 +37,7 @@ html
 								else if prep.type == 'img'
 									div.create-prep
 										input.create-concept-prep.url(type='text', kind='img', value= prep.name, src= prep.src)
+										button.create-add-prep(kind="path", onclick="selectMediaPath(this)") select
 										include includes/add-remove-prep.pug
 										
 								else if prep.type == 'vid'
