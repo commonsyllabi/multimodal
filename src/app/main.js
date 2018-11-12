@@ -95,19 +95,19 @@ module.exports.setMessage = (_msg, _type) => {
 /* 2 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open '/Users/Pierre/Code/multimodal/node_modules/css-loader/lib/css-base.js'\n    at runLoaders (/Users/Pierre/Code/multimodal/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:200:19\n    at /Users/Pierre/Code/multimodal/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:70:14\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open '/Users/Pierre/Code/multimodal/node_modules/css-loader/lib/css-base.js'\n    at runLoaders (/Users/Pierre/Code/multimodal/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:200:19\n    at /Users/Pierre/Code/multimodal/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:70:14\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open '/Users/Pierre/Code/multimodal/node_modules/css-loader/lib/css-base.js'\n    at runLoaders (/Users/Pierre/Code/multimodal/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:200:19\n    at /Users/Pierre/Code/multimodal/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:70:14\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 5 */,
@@ -191,13 +191,13 @@ window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeN
 /* 12 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open '/Users/Pierre/Code/multimodal/node_modules/css-loader/lib/css-base.js'\n    at runLoaders (/Users/Pierre/Code/multimodal/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:200:19\n    at /Users/Pierre/Code/multimodal/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:70:14\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: ENOENT: no such file or directory, open '/Users/Pierre/Code/multimodal/node_modules/css-loader/lib/css-base.js'\n    at runLoaders (/Users/Pierre/Code/multimodal/node_modules/webpack/lib/NormalModule.js:195:19)\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Pierre/Code/multimodal/node_modules/loader-runner/lib/LoaderRunner.js:200:19\n    at /Users/Pierre/Code/multimodal/node_modules/enhanced-resolve/lib/CachedInputFileSystem.js:70:14\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 14 */
