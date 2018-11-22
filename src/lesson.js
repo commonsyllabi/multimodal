@@ -128,10 +128,11 @@ let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 
 	// we copy all the existing assets from the multimodal to the html exports
-	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img`
-	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid`
+	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img/`
+	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid/`
 
 	fs.readdirSync(imgp).forEach((file) => {
+		console.log(file);
 		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
 	})
 
@@ -164,7 +165,6 @@ let render = (_lesson) => {
 			if(PUSH_TO_GITHUB)
 				pushToRemote(_lesson)
 
-			//TODO OPEN FILE
 			let w = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
 			let u = _lesson.course.path+'/index.html'
 			w.loadURL('file://'+u)
