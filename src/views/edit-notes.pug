@@ -34,11 +34,11 @@ html
 										include includes/add-remove-prep.pug
 										
 									else if prep.type == 'img'
-										input.create-concept-prep.url(type='text', kind='img', value= prep.name, src= prep.src)
+										input.create-concept-prep.url(type='text', kind='img', filename= prep.name, value= prep.name, src= prep.src)
 										include includes/add-remove-prep.pug
 										
 									else if prep.type == 'vid'
-										input.create-concept-prep.url(type='text', kind='vid', value= prep.name, src= prep.src)
+										input.create-concept-prep.url(type='text', kind='vid', filename= prep.name, value= prep.name, src= prep.src)
 										include includes/add-remove-prep.pug
 										
 

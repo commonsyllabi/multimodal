@@ -111,6 +111,7 @@ let createPrep = (kind) => {
 		src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
 		src.setAttribute('placeholder', 'src')
+		src.setAttribute('filename', '')
 		src.setAttribute('class', 'create-concept-prep img')
 		prep.appendChild(src)
 
@@ -350,9 +351,9 @@ let parseLesson = () => {
 
 					let p = _cn[0].value
 					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
-						concept.prep.push({'type':'img', 'src': _cn[0].getAttribute('src')})
+						concept.prep.push({'type':'img', 'src': _cn[0].getAttribute('src'), 'name': _cn[0].getAttribute('filename')})
 					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
-						concept.prep.push({'type':'vid', 'src': _cn[0].getAttribute('src')})
+						concept.prep.push({'type':'vid', 'src': _cn[0].getAttribute('src'), 'name': _cn[0].getAttribute('filename')})
 					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
