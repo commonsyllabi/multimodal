@@ -77,6 +77,8 @@
     "webpack-cli": "^2.1.4"
   },
   "dependencies": {
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "vue-electron": "^1.0.6",
+    "vue-loader": "^15.4.2"
   }
 }
