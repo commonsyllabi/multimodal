@@ -1,12 +1,12 @@
 [
   {
-    "name": "code-pratique",
-    "path": "/home/pierre/teaching/scpo/practical-code-2018/docs",
-    "year": "2018"
-  },
-  {
     "name": "technology introductions",
     "path": "/Users/Pierre/Documents/Teaching/CTech/TI/classes/docs",
     "year": "2018"
+  },
+  {
+    "name": "computational representations",
+    "path": "/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs",
+    "year": "2019"
   }
 ]
