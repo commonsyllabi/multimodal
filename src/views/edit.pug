@@ -43,11 +43,20 @@ html
 										
 
 						div.notes-holder
-							include includes/add-note.pug
+							div
+								include includes/add-note.pug
 							each note in concept.notes
-								div.create-concept-note(type='text')
+								div.create-concept-note
 									textarea= note
 									include includes/add-note.pug
+									
+						div.writeups-holder
+							div
+								include includes/add-writeup.pug
+							each writeup in concept.writeups
+								div.create-concept-writeup
+									textarea= writeup
+									include includes/add-writeup.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -

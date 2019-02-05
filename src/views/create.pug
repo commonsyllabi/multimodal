@@ -24,6 +24,9 @@ html
 								div
 							button.create-add-concept(onclick='addConcept(this)') +
 							button.create-remove-concept(onclick='removeConcept(this)') -
+					div.writeups-holder-create
+						div.create-concept-writeup
+							include includes/add-writeup.pug
 
 			div.interface-buttons
 				button.lesson-btn.create-lesson-save(onclick='saveLesson("prep")') save

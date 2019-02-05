@@ -1,20 +1,20 @@
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
@@ -147,21 +147,21 @@ body img {
   max-height: 600px;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
@@ -334,21 +334,21 @@ canvas {
   margin-right: 2%;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
@@ -478,21 +478,21 @@ img {
   color: white;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
@@ -543,8 +543,8 @@ img {
 }
 
 .create-container {
-  width: 80%;
-  margin-left: 10%;
+  width: 90%;
+  margin-left: 5%;
   margin-bottom: 100px;
   overflow: auto;
 }
@@ -677,7 +677,7 @@ img {
 }
 
 .prep-holder {
-  width: 65%;
+  width: 50%;
   float: left;
 }
 
@@ -689,13 +689,15 @@ img {
   margin-left: 5%;
 }
 
-.notes-holder {
-  width: 30%;
-  float: right;
+.notes-holder,
+.writeups-holder {
+  width: 20%;
+  float: left;
   border-left: 2px solid black;
 }
 
-.notes-holder textarea {
+.notes-holder textarea,
+.writeups-holder textarea {
   width: 90%;
   margin-left: 5%;
   background-color: #eeeeee;
@@ -730,11 +732,13 @@ input:disabled {
   width: 40%;
 }
 
-.create-concept-note {
+.create-concept-note,
+.create-concept-writeup {
   font-size: 24px;
   width: 100%;
 }
 
+.create-concept-note textarea,
 .create-concept-note textarea {
   font-size: 24px;
 }
@@ -782,7 +786,9 @@ input:disabled {
 .create-add-prep,
 .create-remove-prep,
 .create-add-note,
-.create-remove-note {
+.create-remove-note,
+.create-add-writeup,
+.create-remove-writeup {
   border: none;
   margin: 5px;
   font-size: 18px;

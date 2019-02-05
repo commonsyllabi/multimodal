@@ -57,3 +57,5 @@ window.addConcept = create.addConcept
 window.removeConcept = create.removeConcept
 window.addNote = create.addNote
 window.removeNote = create.removeNote
+window.addWriteup = create.addWriteup
+window.removeWriteup = create.removeWriteup
