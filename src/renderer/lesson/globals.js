@@ -12,7 +12,7 @@ let initTags = () => {
 		let t = e.getAttribute('tag')
 		if(t != '' && t != null)
 			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
-		
+
 	}
 
 }

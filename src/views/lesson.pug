@@ -15,12 +15,12 @@ html
 					button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= concept.tag)= index + '. '+ concept.concept
 			each concept, index in concepts
 				canvas.drawing-board(concept= index)
-				div.prep-group
+				div.prep-group(id= index)
 					div.prep.note.title(concept= index)= concept.concept
 					
 					//-- EACH NOTES
 					each note in concept.notes
-						textarea.note.written(type="text", concept= index)= note
+						textarea.note.written.saved(type="text", concept= index)= note
 						
 					//-- EACH PREP
 					each prep in concept.prep

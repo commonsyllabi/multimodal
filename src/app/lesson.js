@@ -138,7 +138,7 @@ let initTags = () => {
 		let t = e.getAttribute('tag')
 		if(t != '' && t != null)
 			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
-		
+
 	}
 
 }
@@ -395,9 +395,13 @@ let init = () => {
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
+			evt.target.setAttribute('class', 'note written')
 			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["h" /* setCurrentNote */](evt.target)
+			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["i" /* setCurrrentPosition */](__WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__["a" /* getGridPosition */]())
 		}
 	}
+
+	//basically these notes need to be given an initial position
 
 	window.ondblclick = () => {
 
@@ -518,7 +522,7 @@ let newNote = () => {
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { OnInput(cn)}, false)
-	document.getElementById('writing-board').append(cn)
+	document.getElementById(Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()).append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["h" /* setCurrentNote */])(cn)
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["i" /* setCurrrentPosition */])(__WEBPACK_IMPORTED_MODULE_0__mouse_js__["a" /* getGridPosition */]())

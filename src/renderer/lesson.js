@@ -23,9 +23,13 @@ let init = () => {
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
+			evt.target.setAttribute('class', 'note written')
 			globals.setCurrentNote(evt.target)
+			globals.setCurrrentPosition(mouse.getGridPosition())
 		}
 	}
+
+	//basically these notes need to be given an initial position
 
 	window.ondblclick = () => {
 

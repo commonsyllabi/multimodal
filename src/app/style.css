@@ -83,6 +83,11 @@ body .note {
   }
 }
 
+body .saved {
+  position: relative;
+  float: right;
+}
+
 body .title {
   font-size: 2.3em;
   font-weight: bold;
@@ -108,8 +113,8 @@ body #current {
 
 body .prep-group {
   position: absolute;
-  top: 5%;
-  left: 10%;
+  padding-top: 5%;
+  padding-left: 10%;
   width: 60%;
 }
 
