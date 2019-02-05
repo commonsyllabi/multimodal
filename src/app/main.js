@@ -140,14 +140,13 @@ __webpack_require__(4)
 
 
 
-window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["g" /* setLesson */]
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]
 window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
-window.editNotesLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* editNotesLesson */]
 
 window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
-window.removeLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* removeLesson */]
-window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]
+window.removeLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]
+window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
 
 window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* createNewCourse */]
 window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* saveCourse */]
@@ -156,10 +155,10 @@ window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLes
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
-ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* openLesson */]()})
+ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
-ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* removeLesson */]()})
-ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* exportLesson */]()})
+ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
+ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
 ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
 ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
 
@@ -204,13 +203,13 @@ window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeN
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return openLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return openLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return removeLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeLesson; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return editNotesLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return setLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return exportLesson; });
+/* unused harmony export editNotesLesson */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return setLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -269,14 +268,6 @@ let editLesson = () => {
 		return
 	}
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
-}
-
-let editNotesLesson = () => {
-	if(current.course == ''){
-		utils.setMessage('no course selected!', 'error')
-		return
-	}
-	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
 }
 
 let exportLesson = () => {
@@ -714,8 +705,6 @@ let saveLesson = (_type) => {
 
 			dialog.showErrorBox(_title, _error)
 		}else{
-
-			lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
 			utils.setMessage('saved!', 'info')
 			lessonSaved = true
 			ipc.send('save-lesson', lesson)
