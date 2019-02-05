@@ -183,6 +183,38 @@ let removePrep = (el) => {
 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
 }
 
+let addWriteup = (el) => {
+	let writeup = document.createElement('div')
+	writeup.setAttribute('class', 'create-concept-writeup')
+	writeup.setAttribute('type', 'text')
+
+	let content = document.createElement('textarea')
+	content.setAttribute('placeholder', 'empty writeup')
+	writeup.appendChild(content)
+
+	let b_holder = document.createElement('div')
+	b_holder.setAttribute('class', 'create-add-writeup-holder')
+
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-writeup')
+	rem.setAttribute('onclick', 'removeWriteup(this)')
+	rem.innerText = '-'
+	b_holder.appendChild(rem)
+
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-writeup')
+	add.setAttribute('onclick', 'addWriteup(this)')
+	add.innerText = '+'
+	b_holder.appendChild(add)
+
+	writeup.appendChild(b_holder)
+	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
+}
+
+let removeWriteup = (el) => {
+	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+}
+
 
 let addNote = (el) => {
 	let note = document.createElement('div')
@@ -196,20 +228,20 @@ let addNote = (el) => {
 	let b_holder = document.createElement('div')
 	b_holder.setAttribute('class', 'create-add-note-holder')
 
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-note')
-	add.setAttribute('onclick', 'addNote(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
 	let rem = document.createElement('button')
 	rem.setAttribute('class', 'create-remove-note')
 	rem.setAttribute('onclick', 'removeNote(this)')
 	rem.innerText = '-'
 	b_holder.appendChild(rem)
 
+	let add = document.createElement('button')
+	add.setAttribute('class', 'create-add-note')
+	add.setAttribute('onclick', 'addNote(this)')
+	add.innerText = '+'
+	b_holder.appendChild(add)
+
 	note.appendChild(b_holder)
-	el.parentNode.insertAdjacentElement('afterend', note)
+	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
 }
 
 let removeNote = (el) => {
@@ -326,7 +358,8 @@ let parseLesson = () => {
 			'concept': _co.childNodes[0].value,
 			'tag':_co.childNodes[1].value,
 			'prep': [],
-			'notes': []
+			'notes': [],
+			'writeups':[]
 		}
 
 		// get the correct prep-notes container
@@ -363,17 +396,16 @@ let parseLesson = () => {
 					console.log('got tag:'+_cn[0])
 					concept.prep.push({'type':'tag', 'tag':_cn[0].value})
 				}
-
 			}
 		}
 
-		// then go through the in-class notes
-		// if we are creating a new lesson, we don't need to look for notes
-		if(document.getElementsByClassName('notes-holder').length != 0){
-			for(let note of contentHolder.childNodes[1].childNodes)
-				if(note.childNodes[0].value != '')
-					concept.notes.push(note.childNodes[0].value)
-		}
+		for(let note of contentHolder.childNodes[1].childNodes)
+			if(note.getAttribute('class') == 'create-concept-note' && note.childNodes[0].value != '')
+				concept.notes.push(note.childNodes[0].value)
+
+		for(let writeup of contentHolder.childNodes[2].childNodes)
+			if(writeup.getAttribute('class') == 'create-concept-writeup' && writeup.childNodes[0].value != '')
+				concept.writeups.push(writeup.childNodes[0].value)
 
 		lesson.concepts.push(concept)
 	}
@@ -428,4 +460,4 @@ let exitLesson = () => {
 	}
 }
 
-export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addNote, removeNote, addWriteup, removeWriteup, addConcept, removeConcept, saveLesson, exitLesson}
