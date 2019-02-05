@@ -14,11 +14,7 @@ const lesson = require('./lesson.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c
-	if(template != 'edit-notes')
-		c = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+data.course+'/prep/'+data.title+'.json'))
-	else
-		c = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+data.course+'/in-class/'+data.title+'.json'))
+	let c = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+data.course+'/'+data.title+'.json'))
 
 	let compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', c)
 
@@ -31,14 +27,13 @@ let generateHTML = (data, template) => {
 
 let createWindow = (current, _w_ratio, _h_ratio) => {
 	mainWindow = null
-
 	_w_ratio != null ? _w_ratio : 0.95
 	_h_ratio != null ? _h_ratio : 0.95
 	let _width = electron.screen.getPrimaryDisplay().workAreaSize.width*_w_ratio
 	let _height = electron.screen.getPrimaryDisplay().workAreaSize.height*_h_ratio
 
 
-	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/assets/icon.png', frame: true})
+	mainWindow = new BrowserWindow({width: _width, height: _height, icon: __dirname + '/assets/icon.icns', frame: true})
 
 	mainWindow.loadURL('file:///'+__dirname+'/app/'+current+'.html')
 
@@ -66,20 +61,10 @@ ipc.on('open-lesson', (event, data) => {
 	replaceWindow('lesson')
 })
 
-ipc.on('edit-lesson', (event, data) => {
-	generateHTML(data, 'edit')
-	replaceWindow('edit')
-})
-
 // creates a window with the ability to edit notes
-ipc.on('edit-notes-lesson', (event, data) => {
-
-	if(fs.existsSync(`${__dirname}/lessons/${data.course}/in-class/${data.title}.json`)){
-		generateHTML(data, 'edit-notes')
-		replaceWindow('edit-notes')
-	}else{
-		mainWindow.webContents.send('msg-log', {msg: 'no file found!', type: 'error'})
-	}
+ipc.on('edit-lesson', (event, data) => {
+		generateHTML(data, 'edit')
+		replaceWindow('edit')
 })
 
 ipc.on('create-new-course', () => {
@@ -143,7 +128,7 @@ ipc.on('export-lesson', (event, data) => {
 	lesson.export(data)
 })
 
-//-- save lesson (both prep and in-class, see lesson.prefix)
+//-- save lesson
 ipc.on('save-lesson', (event, lesson) => {
 	lesson.date = utils.date()
 
@@ -151,35 +136,35 @@ ipc.on('save-lesson', (event, lesson) => {
 	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/vid`)
 
 	//-- check for external media assets and copy them in the local folder
-	if(lesson.prefix == 'prep'){
-		for(let concept of lesson.concepts){
-			for(let p of concept.prep){
-				if(p.type == 'img' || p.type == 'vid'){
-					let re = (/[^/]*$/gi).exec(p.src)
-					p.name = re[0]
 
-					//-- check for existing assets
-					let existing = fs.readdirSync(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}`)
-					let isReplacing = false
-					for(let e of existing)
-						if(e == p.name)
-							isReplacing = true
+	for(let concept of lesson.concepts){
+		for(let p of concept.prep){
+			if(p.type == 'img' || p.type == 'vid'){
+				let re = (/[^/]*$/gi).exec(p.src)
+				p.name = re[0]
 
-					if(!isReplacing){
-						fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
-						// now we redirect the source to the local folder
-						p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
-						console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-					}
+				//-- check for existing assets
+				let existing = fs.readdirSync(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}`)
+				let isReplacing = false
+				for(let e of existing)
+					if(e == p.name)
+						isReplacing = true
+
+				if(!isReplacing){
+					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
+					// now we redirect the source to the local folder
+					p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
+					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
 				}
 			}
 		}
 	}
 
-	let _path = __dirname+'/lessons/'+lesson.course.name+'/'+lesson.prefix
+
+	let _path = __dirname+'/lessons/'+lesson.course.name
 	utils.touchDirectory(_path)
 
-	fs.writeFile(__dirname+'/lessons/'+lesson.course.name+'/'+lesson.prefix+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
+	fs.writeFile(__dirname+'/lessons/'+lesson.course.name+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
 		console.log(`[SAVE LESSON] ${lesson.title} to ${_path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	})

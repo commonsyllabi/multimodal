@@ -17,6 +17,10 @@ html
 				canvas.drawing-board(concept= index)
 				div.prep-group
 					div.prep.note.title(concept= index)= concept.concept
+					
+					//-- EACH NOTES
+						
+					//-- EACH PREP
 					each prep in concept.prep
 						if prep.type == "txt"
 							div.prep.note(concept= index, tag= prep.tag)= prep.text

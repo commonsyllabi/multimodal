@@ -30,7 +30,7 @@ module.exports.list = () => {
 
 		let lessons
 		try {
-			lessons = fs.readdirSync(__dirname+'/lessons/'+co.name+'/prep')
+			lessons = fs.readdirSync(__dirname+'/lessons/'+co.name)
 
 			//then we get the name of all the associated lessons
 			for(let l of lessons){
@@ -63,8 +63,8 @@ module.exports.create = () => {
 
 module.exports.remove = (_l) => {
 
-	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/prep/${_l.title}.json`)){
-		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/prep/${_l.title}.json`)
+	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)){
+		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)
 		console.log(`[DELETED] ${_l.title}`)
 		return true
 	}else{
@@ -74,7 +74,7 @@ module.exports.remove = (_l) => {
 }
 
 module.exports.getNewest = (_l) => {
-	let saves = fs.readdirSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title)
+	let saves = fs.readdirSync(__dirname+'/lessons/'+_l.course+'/'+_l.title)
 
 	if(saves.length == 1) return saves[0]
 
@@ -115,7 +115,7 @@ module.exports.getNewest = (_l) => {
 
 // exports the lesson based on settings (HTML, PDF, GITHUB)
 module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/in-class/'+_l.title+'.json'))
+	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/'+_l.title+'.json'))
 
 	if(PUSH_TO_GITHUB)
 		switchBranch(lesson, 'gh-pages', render)

@@ -403,8 +403,6 @@ let saveLesson = (_type) => {
 
 			dialog.showErrorBox(_title, _error)
 		}else{
-
-			lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
 			utils.setMessage('saved!', 'info')
 			lessonSaved = true
 			ipc.send('save-lesson', lesson)

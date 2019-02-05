@@ -58,14 +58,6 @@ let editLesson = () => {
 	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
 }
 
-let editNotesLesson = () => {
-	if(current.course == ''){
-		utils.setMessage('no course selected!', 'error')
-		return
-	}
-	ipc.send('edit-notes-lesson', {'course': current.course, 'title': current.title})
-}
-
 let exportLesson = () => {
 	if(current.course == ''){
 		utils.setMessage('no course selected!', 'error')
