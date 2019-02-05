@@ -82,7 +82,7 @@ let endNote = () => {
 
 	currentNote.blur()
 	currentNote.removeAttribute('id')
-	currentNote.onclick =(evt) => {
+	currentNote.onclick = (evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
 		setCurrentNote(evt.target)

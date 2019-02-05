@@ -209,11 +209,11 @@ let addNote = (el) => {
 	b_holder.appendChild(rem)
 
 	note.appendChild(b_holder)
-	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
+	el.parentNode.insertAdjacentElement('afterend', note)
 }
 
 let removeNote = (el) => {
-	el.parentNode.parentNode.removeChild(el.parentNode)
+	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
 }
 
 let addConcept = (el) => {
@@ -371,7 +371,8 @@ let parseLesson = () => {
 		// if we are creating a new lesson, we don't need to look for notes
 		if(document.getElementsByClassName('notes-holder').length != 0){
 			for(let note of contentHolder.childNodes[1].childNodes)
-				concept.notes.push(note.childNodes[0].value)
+				if(note.childNodes[0].value != '')
+					concept.notes.push(note.childNodes[0].value)
 		}
 
 		lesson.concepts.push(concept)

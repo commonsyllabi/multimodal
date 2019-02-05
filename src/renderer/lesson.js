@@ -17,6 +17,16 @@ let init = () => {
 
 	drawing.init()
 
+	let notes = document.getElementsByClassName('written')
+
+	for(let n of notes){
+		n.onclick = (evt) => {
+			if(evt.target.getAttribute('id') == 'current') return
+			evt.target.setAttribute('id', 'current')
+			globals.setCurrentNote(evt.target)
+		}
+	}
+
 	window.ondblclick = () => {
 
 		let els = document.getElementsByClassName('written')

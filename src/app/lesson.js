@@ -389,6 +389,16 @@ let init = () => {
 
 	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
 
+	let notes = document.getElementsByClassName('written')
+
+	for(let n of notes){
+		n.onclick = (evt) => {
+			if(evt.target.getAttribute('id') == 'current') return
+			evt.target.setAttribute('id', 'current')
+			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["h" /* setCurrentNote */](evt.target)
+		}
+	}
+
 	window.ondblclick = () => {
 
 		let els = document.getElementsByClassName('written')
@@ -532,7 +542,7 @@ let endNote = () => {
 
 	currentNote.blur()
 	currentNote.removeAttribute('id')
-	currentNote.onclick =(evt) => {
+	currentNote.onclick = (evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
 		Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["h" /* setCurrentNote */])(evt.target)
