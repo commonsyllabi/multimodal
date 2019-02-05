@@ -19,6 +19,8 @@ html
 					div.prep.note.title(concept= index)= concept.concept
 					
 					//-- EACH NOTES
+					each note in concept.notes
+						textarea.note.written(type="text", concept= index)= note
 						
 					//-- EACH PREP
 					each prep in concept.prep

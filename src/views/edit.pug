@@ -43,6 +43,7 @@ html
 										
 
 						div.notes-holder
+							include includes/add-note.pug
 							each note in concept.notes
 								div.create-concept-note(type='text')
 									textarea= note
