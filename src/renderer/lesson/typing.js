@@ -58,7 +58,7 @@ let newNote = () => {
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { OnInput(cn)}, false)
-	document.getElementById('writing-board').append(cn)
+	document.getElementById(getCurrentConcept()).append(cn)
 
 	setCurrentNote(cn)
 	setCurrrentPosition(mouse.getGridPosition())
