@@ -490,6 +490,11 @@ let removePrep = (el) => {
 }
 
 let addWriteup = (el) => {
+	let writeup = createWriteup()
+	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
+}
+
+let createWriteup = () => {
 	let writeup = document.createElement('div')
 	writeup.setAttribute('class', 'create-concept-writeup')
 	writeup.setAttribute('type', 'text')
@@ -514,7 +519,8 @@ let addWriteup = (el) => {
 	b_holder.appendChild(add)
 
 	writeup.appendChild(b_holder)
-	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
+
+	return writeup
 }
 
 let removeWriteup = (el) => {
@@ -523,6 +529,11 @@ let removeWriteup = (el) => {
 
 
 let addNote = (el) => {
+	let note = createNote()
+	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
+}
+
+let createNote = () => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-concept-note')
 	note.setAttribute('type', 'text')
@@ -547,7 +558,8 @@ let addNote = (el) => {
 	b_holder.appendChild(add)
 
 	note.appendChild(b_holder)
-	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
+
+	return note
 }
 
 let removeNote = (el) => {
@@ -612,8 +624,25 @@ let addConcept = (el) => {
 	content_holder.appendChild(prep_holder)
 	concept.append(content_holder)
 
-	// add the two buttons at the bottom
+	//-- add one note
+	let notes_holder = document.createElement('div')
+	notes_holder.setAttribute('class', 'notes-holder')
+	dummy = document.createElement('div')
+	let note = createNote()
+	dummy.append(note)
+	notes_holder.append(dummy)
+	content_holder.append(notes_holder)
 
+	//-- add one writeup
+	let writeups_holder = document.createElement('div')
+	writeups_holder.setAttribute('class', 'writeups-holder')
+	dummy = document.createElement('div')
+	let writeup = createWriteup()
+	dummy.append(writeup)
+	writeups_holder.append(dummy)
+	content_holder.append(writeups_holder)
+
+	// add the two buttons at the bottom
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
 	add.setAttribute('onclick', 'addConcept(this)')

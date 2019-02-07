@@ -720,6 +720,7 @@ input:disabled {
   padding: 10px;
   padding-bottom: 5px;
   border: 2px solid black;
+  width: 90%;
 }
 
 .create-concept-prep {
