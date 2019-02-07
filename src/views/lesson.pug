@@ -20,7 +20,7 @@ html
 					
 					//- EACH WRITEUP
 					each writeup in concept.writeups
-						div.writeup(concept= index, hidden)= writeup
+						textarea.writeup(concept= index, hidden)= writeup
 					//-- EACH NOTES
 					each note in concept.notes
 						textarea.note.written.saved(type="text", concept= index)= note

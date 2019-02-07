@@ -41,6 +41,7 @@ let parseDocument = () => {
 	let _concepts = document.getElementsByClassName('concept')
 	let _prep = document.getElementsByClassName('prep')
 	let _written = document.getElementsByClassName('written')
+	let _writeup = document.getElementsByClassName('writeup')
 
 	for(let i in _concepts){
 		if(i == 'length') break
@@ -52,7 +53,8 @@ let parseDocument = () => {
 			'concept': tc,
 			'tag': _concepts[i].getAttribute('tag'),
 			'prep':[],
-			'notes':[]
+			'notes':[],
+			'writeups': []
 		}
 
 		//going through all the prep notes
@@ -97,6 +99,12 @@ let parseDocument = () => {
 			if(k == 'length') break
 			if(_written[k].getAttribute('concept') == i)
 				content.notes.push(_written[k].value)
+		}
+
+		for(let k in _writeup){
+			if(k == 'length') break
+			if(_writeup[k].getAttribute('concept') == i)
+				content.writeups.push(_writeup[k].value)
 		}
 
 		lesson.concepts.push(content)
