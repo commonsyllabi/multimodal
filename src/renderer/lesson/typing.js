@@ -54,7 +54,7 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('textarea')
 	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note written')
+	cn.setAttribute('class', 'note moveable')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { OnInput(cn)}, false)
@@ -74,7 +74,7 @@ let OnInput = (el) => {
 let endNote = () => {
 	//if note is blank
 	if(currentNote != null && currentNote.value == ''){
-		document.getElementById('writing-board').removeChild(currentNote)
+		currentNote.parentNode.removeChild(currentNote)
 	}else{
 		currentNote.style.height = (currentNote.scrollHeight)+'px'
 		// currentNote.style.overflowY = 'hidden'

@@ -19,14 +19,17 @@ html
 						div.create-concept
 							input.create-concept-name(placeholder='concept name')
 							input.create-concept-tag(placeholder='concept tag')
-							include includes/add-prep.pug
-							div.content-holder
-								div
+							
+							div.prep-holder
+								include includes/add-prep.pug
 							button.create-add-concept(onclick='addConcept(this)') +
 							button.create-remove-concept(onclick='removeConcept(this)') -
-					div.writeups-holder-create
-						div.create-concept-writeup
-							include includes/add-writeup.pug
+							div.notes-holder
+								div.create-concept-note
+									include includes/add-note.pug
+							div.writeups-holder
+								div.create-concept-writeup
+									include includes/add-writeup.pug
 
 			div.interface-buttons
 				button.lesson-btn.create-lesson-save(onclick='saveLesson("prep")') save

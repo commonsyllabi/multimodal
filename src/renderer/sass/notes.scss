@@ -40,7 +40,13 @@ body{
   }
 
   .written {
-	   width: 30%;
+	   width: 100%;
+  }
+
+  .moveable{
+    position: absolute;
+    z-index: 4;
+    width: initial;
   }
 
   #current{
@@ -70,9 +76,9 @@ body{
 
 	  color: black;
 
-	  width: 100%;
 	  margin-top: 5%;
 	  text-align: left;
+
   }
 
   .prep-tag-anchor {
@@ -82,7 +88,7 @@ body{
   }
 
   img{
-	  max-width: 800px;
+	  max-width: 800px !important;
 	  max-height: 600px;
   }
 }

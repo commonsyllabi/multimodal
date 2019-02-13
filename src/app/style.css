@@ -102,7 +102,13 @@ body textarea {
 }
 
 body .written {
-  width: 30%;
+  width: 100%;
+}
+
+body .moveable {
+  position: absolute;
+  z-index: 4;
+  width: initial;
 }
 
 body #current {
@@ -125,7 +131,6 @@ body .prep {
   font-style: italic;
   font-size: 2em;
   color: black;
-  width: 100%;
   margin-top: 5%;
   text-align: left;
 }
@@ -143,7 +148,7 @@ body .prep-tag-anchor {
 }
 
 body img {
-  max-width: 800px;
+  max-width: 800px !important;
   max-height: 600px;
 }@font-face {
   font-family: 'Inter UI';

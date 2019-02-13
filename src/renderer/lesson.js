@@ -17,13 +17,13 @@ let init = () => {
 
 	drawing.init()
 
-	let notes = document.getElementsByClassName('written')
+	let notes = document.getElementsByClassName('moveable')
 
 	for(let n of notes){
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note written')
+			evt.target.setAttribute('class', 'note moveable')
 			globals.setCurrentNote(evt.target)
 			globals.setCurrrentPosition(mouse.getGridPosition())
 		}
