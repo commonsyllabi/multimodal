@@ -389,13 +389,13 @@ let init = () => {
 
 	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
 
-	let notes = document.getElementsByClassName('written')
+	let notes = document.getElementsByClassName('moveable')
 
 	for(let n of notes){
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note written')
+			evt.target.setAttribute('class', 'note moveable')
 			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["h" /* setCurrentNote */](evt.target)
 			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["i" /* setCurrrentPosition */](__WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__["a" /* getGridPosition */]())
 		}
@@ -518,7 +518,7 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('textarea')
 	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note written')
+	cn.setAttribute('class', 'note moveable')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { OnInput(cn)}, false)
@@ -538,7 +538,7 @@ let OnInput = (el) => {
 let endNote = () => {
 	//if note is blank
 	if(currentNote != null && currentNote.value == ''){
-		document.getElementById('writing-board').removeChild(currentNote)
+		currentNote.parentNode.removeChild(currentNote)
 	}else{
 		currentNote.style.height = (currentNote.scrollHeight)+'px'
 		// currentNote.style.overflowY = 'hidden'

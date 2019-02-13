@@ -170,9 +170,9 @@ let addPrep = (el) => {
 
 	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
 
-		for(let _el of el.parentNode.parentNode.children) // we find the content-holder
-			if(_el.getAttribute('class') == 'content-holder')
-				_el.children[0].appendChild(prep) //and we append to its first child, the content-holder
+		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
+		// 	if(_el.getAttribute('class') == 'content-holder')
+				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
 
 	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
 		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
@@ -265,8 +265,8 @@ let addConcept = (el) => {
 	let concept = document.createElement('div')
 	concept.setAttribute('class', 'create-concept')
 
-	let content_holder = document.createElement('div')
-	content_holder.setAttribute('class', 'content-holder')
+	let prep_holder = document.createElement('div')
+	prep_holder.setAttribute('class', 'prep-holder')
 
 	let name = document.createElement('input')
 	name.setAttribute('class', 'create-concept-name')
@@ -308,24 +308,18 @@ let addConcept = (el) => {
 
 	b_holder.appendChild(b_img)
 
-	concept.appendChild(b_holder)
+	prep_holder.appendChild(b_holder)
 
-	let dummy = document.createElement('div')
-	concept.append(dummy)
-
-	let prep_holder = document.createElement('div')
-	prep_holder.setAttribute('class', 'prep-holder')
-	content_holder.appendChild(prep_holder)
-	concept.append(content_holder)
+	concept.append(prep_holder)
 
 	//-- add one note
 	let notes_holder = document.createElement('div')
 	notes_holder.setAttribute('class', 'notes-holder')
-	dummy = document.createElement('div')
+	let dummy = document.createElement('div')
 	let note = createNote()
 	dummy.append(note)
 	notes_holder.append(dummy)
-	content_holder.append(notes_holder)
+	concept.append(notes_holder)
 
 	//-- add one writeup
 	let writeups_holder = document.createElement('div')
@@ -334,7 +328,7 @@ let addConcept = (el) => {
 	let writeup = createWriteup()
 	dummy.append(writeup)
 	writeups_holder.append(dummy)
-	content_holder.append(writeups_holder)
+	concept.append(writeups_holder)
 
 	// add the two buttons at the bottom
 	let add = document.createElement('button')
@@ -392,13 +386,13 @@ let parseLesson = () => {
 		}
 
 		// get the correct prep-notes container
-		let contentHolder
+		let prepHolder
 		for(let child of _co.childNodes)
-			if(child.getAttribute('class') == 'content-holder')
-				contentHolder = child
+			if(child.getAttribute('class') == 'prep-holder')
+				prepHolder = child
 
 		// then start going through the prep notes
-		for(let note of contentHolder.childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
+		for(let note of prepHolder.childNodes){
 			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
 				let _cn = note.childNodes
@@ -428,12 +422,23 @@ let parseLesson = () => {
 			}
 		}
 
-		for(let note of contentHolder.childNodes[1].childNodes)
+		// --- FIND NOTES
+		let notesHolder
+		for(let child of _co.childNodes)
+			if(child.getAttribute('class') == 'notes-holder')
+				notesHolder = child
+		for(let note of notesHolder.childNodes)
 			if(note.getAttribute('class') == 'create-concept-note' && note.childNodes[0].value != '')
 				concept.notes.push(note.childNodes[0].value)
 
-		for(let writeup of contentHolder.childNodes[2].childNodes)
-			if(writeup.getAttribute('class') == 'create-concept-writeup' && writeup.childNodes[0].value != '')
+		// --- FIND WRITEUPS
+		let writeupsHolder
+		for(let child of _co.childNodes)
+			if(child.getAttribute('class') == 'writeups-holder')
+				writeupsHolder = child
+
+		for(let writeup of writeupsHolder.childNodes)
+			if(writeup.getAttribute('class') == 'create-concept-writeup' && writeup.childNodes[0].value != '' && writeup.childNodes[0].value != null)
 				concept.writeups.push(writeup.childNodes[0].value)
 
 		lesson.concepts.push(concept)
@@ -446,7 +451,8 @@ let parseLesson = () => {
 			'concept':'whiteboard',
 			'tag':'whiteboard',
 			'prep':[{'type': 'wbd', 'text':'', 'tag':''}],
-			'notes':[]
+			'notes':[],
+			'writeups': []
 		}
 		lesson.concepts.push(whiteboard)
 	}
