@@ -106,13 +106,13 @@ body .written {
 }
 
 body .moveable {
-  position: absolute;
+  position: fixed;
   z-index: 4;
   width: initial;
 }
 
 body #current {
-  position: absolute;
+  position: fixed;
   font-weight: bold;
   overflow-y: visible;
 }

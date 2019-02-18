@@ -33,8 +33,8 @@ html
 							div.prep.note.written(concept= index)
 								a(href= prep.url, target="_blank")= prep.text
 						if prep.type == "img"
-							//- div.prep.note.written(concept= index)
-							img.prep.note.moveable(concept= index, name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
+							div.prep.note.moveable(concept= index)
+								img(name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
 						if prep.type == "vid"
 							div.prep.note.written(concept= index)
 								video(max-width="800px", max-height="600px" controls)
