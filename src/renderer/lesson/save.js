@@ -40,7 +40,7 @@ let parseDocument = () => {
 
 	let _concepts = document.getElementsByClassName('concept')
 	let _prep = document.getElementsByClassName('prep')
-	let _written = document.getElementsByClassName('written')
+	let _notes = document.getElementsByClassName('note')
 	let _writeup = document.getElementsByClassName('writeup')
 
 	for(let i in _concepts){
@@ -95,17 +95,15 @@ let parseDocument = () => {
 		//this line removes the first element of the prep which is the title of the concept
 		content.prep.splice(0, 1)
 
-		for(let k in _written){
-			if(k == 'length') break
-			if(_written[k].getAttribute('concept') == i)
-				content.notes.push(_written[k].value)
-		}
+		for(let _n of _notes)
+			if(_n.getAttribute('concept') == i && _n.value != null && _n.value != undefined)
+				content.notes.push(_n.value)
 
-		for(let k in _writeup){
-			if(k == 'length') break
-			if(_writeup[k].getAttribute('concept') == i)
-				content.writeups.push(_writeup[k].value)
-		}
+
+		for(let _w of _writeup)
+			if(_w.getAttribute('concept') == i)
+				content.writeups.push(_w.value)
+
 
 		lesson.concepts.push(content)
 	}
