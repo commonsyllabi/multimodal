@@ -172,7 +172,7 @@ let setCurrentConcept = (index) => {
 			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
-	let ns = document.getElementsByClassName('note')
+	let ns = document.getElementsByClassName('prep')
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
 			n.style.opacity = 1
@@ -521,7 +521,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note moveable')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
-	cn.addEventListener('input', () => { OnInput(cn)}, false)
+	cn.addEventListener('input', () => { onInput(cn)}, false)
 	document.getElementById(Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()).append(cn)
 
 	Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["h" /* setCurrentNote */])(cn)
@@ -530,7 +530,7 @@ let newNote = () => {
 	cn.focus()
 }
 
-let OnInput = (el) => {
+let onInput = (el) => {
 	el.style.height = 'auto'
 	el.style.height = (el.scrollHeight) + 'px'
 }

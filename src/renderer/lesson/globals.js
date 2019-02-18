@@ -46,7 +46,7 @@ let setCurrentConcept = (index) => {
 			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
-	let ns = document.getElementsByClassName('note')
+	let ns = document.getElementsByClassName('prep')
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
 			n.style.opacity = 1

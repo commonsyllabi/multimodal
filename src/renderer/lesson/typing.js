@@ -57,7 +57,7 @@ let newNote = () => {
 	cn.setAttribute('class', 'note moveable')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
-	cn.addEventListener('input', () => { OnInput(cn)}, false)
+	cn.addEventListener('input', () => { onInput(cn)}, false)
 	document.getElementById(getCurrentConcept()).append(cn)
 
 	setCurrentNote(cn)
@@ -66,7 +66,7 @@ let newNote = () => {
 	cn.focus()
 }
 
-let OnInput = (el) => {
+let onInput = (el) => {
 	el.style.height = 'auto'
 	el.style.height = (el.scrollHeight) + 'px'
 }
