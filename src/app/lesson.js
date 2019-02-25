@@ -172,7 +172,7 @@ let setCurrentConcept = (index) => {
 			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
-	let ns = document.getElementsByClassName('prep')
+	let ns = document.getElementsByClassName('concept-bound')
 	for(let n of ns){
 		if(n.getAttribute('concept') == currentConcept){
 			n.style.opacity = 1
@@ -518,7 +518,7 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('textarea')
 	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note moveable')
+	cn.setAttribute('class', 'note moveable concept-bound')
 	cn.setAttribute('concept', Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { onInput(cn)}, false)

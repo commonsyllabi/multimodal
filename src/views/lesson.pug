@@ -16,27 +16,27 @@ html
 			each concept, index in concepts
 				canvas.drawing-board(concept= index)
 				div.prep-group(id= index)
-					div.prep.note.title(concept= index)= concept.concept
+					div.prep.note.title.concept-bound(concept= index)= concept.concept
 					
 					//- EACH WRITEUP
 					each writeup in concept.writeups
-						textarea.writeup(concept= index, hidden)= writeup
+						textarea.writeup.concept-bound(concept= index, hidden)= writeup
 					//-- EACH NOTES
 					each note in concept.notes
-						textarea.note.moveable.saved(type="text", concept= index)= note
+						textarea.note.moveable.saved.concept-bound(concept= index, type="text")= note
 						
 					//-- EACH PREP
 					each prep in concept.prep
 						if prep.type == "txt"
-							div.prep.note.written(concept= index, tag= prep.tag)= prep.text
+							div.prep.note.written.concept-bound(concept= index, tag= prep.tag)= prep.text
 						if prep.type == "url"
-							div.prep.note.written(concept= index)
+							div.prep.note.written.concept-bound(concept= index)
 								a(href= prep.url, target="_blank")= prep.text
 						if prep.type == "img"
-							div.prep.note.moveable(concept= index)
+							div.prep.note.moveable.concept-bound(concept= index)
 								img(name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
 						if prep.type == "vid"
-							div.prep.note.written(concept= index)
+							div.prep.note.written.concept-bound(concept= index)
 								video(max-width="800px", max-height="600px" controls)
 									source(name= prep.name, src= 'assets/'+course.name+'/'+title+'/'+prep.type+'/'+prep.name)
 										

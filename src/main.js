@@ -48,7 +48,10 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
 module.exports.win = mainWindow
 
 let replaceWindow = (_target) => {
-	mainWindow.loadURL('file:///'+__dirname+'/app/'+_target+'.html')
+	if(mainWindow == null)
+		createWindow(_target)
+	else
+		mainWindow.loadURL('file:///'+__dirname+'/app/'+_target+'.html')
 }
 
 
