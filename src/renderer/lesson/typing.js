@@ -54,7 +54,7 @@ let handle = (e) => {
 let newNote = () => {
 	let cn = document.createElement('textarea')
 	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note moveable')
+	cn.setAttribute('class', 'note moveable concept-bound')
 	cn.setAttribute('concept', getCurrentConcept())
 	cn.setAttribute('id', 'current')
 	cn.addEventListener('input', () => { onInput(cn)}, false)
