@@ -427,9 +427,15 @@ let parseLesson = () => {
 		for(let child of _co.childNodes)
 			if(child.getAttribute('class') == 'notes-holder')
 				notesHolder = child
-		for(let note of notesHolder.childNodes)
-			if(note.getAttribute('class') == 'create-concept-note' && note.childNodes[0].value != '')
+		for(let note of notesHolder.childNodes){
+			console.log(note);
+			if(note.getAttribute('class') == 'create-concept-note' && note.childNodes[0].value != ''){
+				console.log('NOTE',note.childNodes[0]);
 				concept.notes.push(note.childNodes[0].value)
+			}
+
+		}
+
 
 		// --- FIND WRITEUPS
 		let writeupsHolder
@@ -440,6 +446,8 @@ let parseLesson = () => {
 		for(let writeup of writeupsHolder.childNodes)
 			if(writeup.getAttribute('class') == 'create-concept-writeup' && writeup.childNodes[0].value != '' && writeup.childNodes[0].value != null)
 				concept.writeups.push(writeup.childNodes[0].value)
+
+
 
 		lesson.concepts.push(concept)
 	}
