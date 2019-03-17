@@ -443,9 +443,16 @@ let parseLesson = () => {
 			if(child.getAttribute('class') == 'writeups-holder')
 				writeupsHolder = child
 
-		for(let writeup of writeupsHolder.childNodes)
-			if(writeup.getAttribute('class') == 'create-concept-writeup' && writeup.childNodes[0].value != '' && writeup.childNodes[0].value != null)
-				concept.writeups.push(writeup.childNodes[0].value)
+
+				// the problem is that the initial write up holder doesnt have an empty <div> child and the subsequent ones have
+		for(let child of writeupsHolder.childNodes)
+			if(child.getAttribute('class') == 'create-concept-writeup' && child.childNodes[0].value != '' && child.childNodes[0].value != null) //first case
+				concept.writeups.push(child.childNodes[0].value)
+			else
+				for(let subchild of child.childNodes)
+					if(subchild.getAttribute('class') == 'create-concept-writeup' && subchild.childNodes[0].value != '' && subchild.childNodes[0].value != null) //second case
+						concept.writeups.push(subchild.childNodes[0].value)
+
 
 
 

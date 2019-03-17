@@ -35,7 +35,8 @@ module.exports.list = () => {
 			//then we get the name of all the associated lessons
 			for(let l of lessons){
 				let lesson_name = l.substring(0, l.indexOf('.'))
-				course.lessons.push(lesson_name)
+				if(lesson_name != 'DS_Store')
+					course.lessons.push(lesson_name)
 			}
 
 			data.courses.push(course)
