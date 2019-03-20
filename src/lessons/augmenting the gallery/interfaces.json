@@ -1,1 +1,652 @@
-{"concepts":[{"concept":"interfaces","notes":[],"prep":[{"tag":"","text":"interfaces","type":"txt"},{"tag":"","text":"and interactions","type":"txt"}],"tag":"","writeups":[]},{"concept":"housekeeping","notes":[],"prep":[{"tag":"","text":"uploading your homework on your blogs (turn link sharing on!)","type":"txt"},{"tag":"","text":"attendance!","type":"txt"},{"tag":"","text":"ipads + xcode","type":"txt"}],"tag":"","writeups":[]},{"concept":"homework review","notes":[],"prep":[{"tag":"","text":"1. building an app","type":"txt"},{"tag":"","text":"2. curating a set of objects","type":"txt"}],"tag":"","writeups":[]},{"concept":"the medium","notes":[],"prep":[{"tag":"","text":"what is a medium?","type":"txt"}],"tag":"","writeups":[]},{"concept":"marshall mcluhan","notes":[],"prep":[{"tag":"","text":"how can a medium also be a message?","type":"txt"},{"text":"1-100 - charles bernstein","type":"url","url":"https://media.sas.upenn.edu/pennsound/authors/Bernstein/Class/Bernstein-Charles_02_1-100_1969-remastered.mp3"}],"tag":"","writeups":[]},{"concept":"the message","notes":[],"prep":[{"name":"postman.jpg","src":"assets/augmenting the gallery/interfaces/img/postman.jpg","type":"img"}],"tag":"","writeups":[]},{"concept":"the extension","notes":[],"prep":[{"tag":"","text":"media is an extension of ourselves, it helps us see, remember, talk and listen","type":"txt"}],"tag":"","writeups":[]},{"concept":"the interface","notes":[],"prep":[{"tag":"","text":"what is it?","type":"txt"}],"tag":"","writeups":[]},{"concept":"an interface","notes":[],"prep":[{"tag":"","text":"is a place of contact between two unknowable, foreign systems","type":"txt"}],"tag":"","writeups":[]},{"concept":"the need for digital interfaces","notes":[],"prep":[{"tag":"","text":"a computer is either:","type":"txt"},{"tag":"","text":"- a piece of tape","type":"txt"},{"tag":"","text":"- a machine that can do anything","type":"txt"}],"tag":"","writeups":[]},{"concept":"history of computer interfaces","notes":["susan kare"],"prep":[{"name":"z1_1983.jpg","src":"assets/augmenting the gallery/interfaces/img/z1_1983.jpg","type":"img"},{"name":"pdp10.jpg","src":"assets/augmenting the gallery/interfaces/img/pdp10.jpg","type":"img"},{"name":"susankare.jpg","src":"assets/augmenting the gallery/interfaces/img/susankare.jpg","type":"img"}],"tag":"","writeups":[]},{"concept":"metaphors","notes":[],"prep":[{"tag":"","text":"we came up with the desktop metaphor to make things more understandable","type":"txt"},{"tag":"","text":"what other metaphors did we come up with?","type":"txt"}],"tag":"","writeups":[]},{"concept":"theater","notes":[],"prep":[{"tag":"","text":"what do interfaces have to do with theater?","type":"txt"}],"tag":"","writeups":[]},{"concept":"theater and interaction design","notes":[],"prep":[{"tag":"","text":"\"settting the stage\" for an action","type":"txt"},{"tag":"","text":"using an interface is performing a role","type":"txt"},{"text":"it is as if you were doing work","type":"url","url":"https://pippinbarr.github.io/itisasifyouweredoingwork/"},{"text":"papers please","type":"url","url":"https://www.youtube.com/watch?v=kMC-r0e_Ly4"},{"text":"jodi.org","type":"url","url":"http://wwwwwwwww.jodi.org/"}],"tag":"","writeups":[]},{"concept":"an interaction","notes":[],"prep":[{"tag":"","text":"what do you need for an interaction to happen?","type":"txt"}],"tag":"","writeups":[]},{"concept":"affordances","notes":[],"prep":[{"tag":"","text":"all possible and obviously aware actions that one could do when presented with an object.","type":"txt"},{"name":"teapot.png","src":"assets/augmenting the gallery/interfaces/img/teapot.png","type":"img"}],"tag":"","writeups":[]},{"concept":"different kinds","notes":[],"prep":[{"name":"affordances.png","src":"assets/augmenting the gallery/interfaces/img/affordances.png","type":"img"}],"tag":"","writeups":[]},{"concept":"desgined affordances","notes":["metaphors\nthey relate to human nature, relate to real life\ntheater as set design"],"prep":[{"tag":"","text":"interfaces are designed affordances with a purpose to act and know about something else.","type":"txt"},{"tag":"","text":"because the digital is a black box exclusively made up by people.","type":"txt"},{"text":"designing a volume slider","type":"url","url":"https://www.designernews.co/stories/84443-redditors-design-worst-volume-sliders-possible"}],"tag":"","writeups":[]},{"concept":"paradigms","notes":[],"prep":[{"tag":"","text":"shared meaning, and shared context","type":"txt"},{"tag":"","text":"a good conversation","type":"txt"},{"name":"interaction_matrix.png","src":"assets/augmenting the gallery/interfaces/img/interaction_matrix.png","type":"img"}],"tag":"","writeups":[]},{"concept":"making interfaces","notes":[],"prep":[{"tag":"","text":"interfaces have:","type":"txt"},{"tag":"","text":"- an input and an output","type":"txt"},{"tag":"","text":"- a dialogue","type":"txt"},{"tag":"","text":"- a function","type":"txt"},{"tag":"","text":"- an organization","type":"txt"}],"tag":"","writeups":[]},{"concept":"making interactions","notes":["cognitive response\nthoughtful response\nvulnerability\nreciprocity (eye contact)\nparadigm > identifying the importance"],"prep":[{"tag":"","text":"visibility","type":"txt"},{"tag":"","text":"feedback","type":"txt"},{"tag":"","text":"constraints","type":"txt"},{"tag":"","text":"mapping","type":"txt"}],"tag":"","writeups":[]},{"concept":"place of the interface","notes":[],"prep":[{"name":"diegetic.png","src":"assets/augmenting the gallery/interfaces/img/diegetic.png","type":"img"}],"tag":"","writeups":[]},{"concept":"interface in augmented reality","notes":["diegetic"],"prep":[{"name":"bodylocked.gif","src":"assets/augmenting the gallery/interfaces/img/bodylocked.gif","type":"img"},{"name":"worldlocked.gif","src":"assets/augmenting the gallery/interfaces/img/worldlocked.gif","type":"img"},{"name":"diegetic.gif","src":"assets/augmenting the gallery/interfaces/img/diegetic.gif","type":"img"}],"tag":"","writeups":[]},{"concept":"break","notes":[],"prep":[],"tag":"","writeups":[]},{"concept":"ARKit remote","notes":[],"prep":[{"tag":"","text":"aka how to speed up development!","type":"txt"},{"text":"full steps","type":"url","url":"https://github.com/periode/augmenting-gallery/wiki/ARKit-Remote"}],"tag":"","writeups":[]},{"concept":"unity - interaction system","notes":[],"prep":[{"tag":"","text":"two main components:","type":"txt"},{"tag":"","text":"canvas","type":"txt"},{"tag":"","text":"event system","type":"txt"}],"tag":"","writeups":[]},{"concept":"unity - canvas","notes":[],"prep":[{"tag":"","text":"canvas is a game object which holds other UI elements","type":"txt"}],"tag":"","writeups":[]},{"concept":"unity - event system","notes":[],"prep":[{"tag":"","text":"you need an event system to listen for events","type":"txt"},{"tag":"","text":"and you need an event trigger on the object you want to interact with","type":"txt"},{"tag":"","text":"if you want to interact with 3D objects, you need a Physics Raycaster on the object","type":"txt"}],"tag":"","writeups":[]},{"concept":"exercise - UI","notes":[],"prep":[{"tag":"","text":"option A: make a button which creates a gameobject, and one which destroys it","type":"txt"},{"tag":"","text":"option B: make a scrollable text in 3D space which creates objects as the user reads it.","type":"txt"}],"tag":"","writeups":[]},{"concept":"unity - raycasting","notes":[],"prep":[{"tag":"","text":"all input relies on a technique called raycasting","type":"txt"},{"name":"unity-raycasting.jpg","src":"assets/augmenting the gallery/interfaces/img/unity-raycasting.jpg","type":"img"}],"tag":"","writeups":[]},{"concept":"unity - input","notes":[],"prep":[{"tag":"","text":"mouse input is straightforward > Input.GetMouseDown(0)","type":"txt"},{"tag":"","text":"touch input involves the step of counting how many inputs are happening","type":"txt"}],"tag":"","writeups":[]},{"concept":"exercise - input and UI","notes":[],"prep":[{"tag":"","text":"UI - option A: make a button that creates a game object.","type":"txt"},{"tag":"","text":"UI - option B: make a ScrollRect that creates game objects as you read through the text.","type":"txt"},{"tag":"","text":"Interaction - option A: make an object react when you touch it","type":"txt"},{"tag":"","text":"Interaction - option B: rotate an object left and right when you drag over it","type":"txt"}],"tag":"","writeups":[]},{"concept":"homework","notes":[],"prep":[{"tag":"","text":"build your own virtual museum!","type":"txt"}],"tag":"","writeups":[]},{"concept":"whiteboard","notes":[],"prep":[],"tag":"whiteboard","writeups":[]}],"contents":[],"course":{"name":"augmenting the gallery","path":"/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery/repo/docs","year":"2019"},"prefix":"in-class","title":"interfaces","date":{"year":2019,"month":"02","day":20,"hour":13,"minutes":"09"}}
+{
+  "concepts": [
+    {
+      "concept": "interfaces",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "interfaces",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "and interactions",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "housekeeping",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "uploading your homework on your blogs (turn link sharing on!)",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "attendance!",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "ipads + xcode",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "homework review",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "1. building an app",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "2. curating a set of objects",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "the medium",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what is a medium?",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "marshall mcluhan",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "how can a medium also be a message?",
+          "type": "txt"
+        },
+        {
+          "text": "1-100 - charles bernstein",
+          "type": "url",
+          "url": "https://media.sas.upenn.edu/pennsound/authors/Bernstein/Class/Bernstein-Charles_02_1-100_1969-remastered.mp3"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "the message",
+      "notes": [],
+      "prep": [
+        {
+          "name": "postman.jpg",
+          "src": "assets/augmenting the gallery/interfaces/img/postman.jpg",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "the extension",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "media is an extension of ourselves, it helps us see, remember, talk and listen",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "the interface",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what is it?",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "an interface",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "is a place of contact between two unknowable, foreign systems",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "the need for digital interfaces",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "a computer is either:",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- a piece of tape",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- a machine that can do anything",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "history of computer interfaces",
+      "notes": [
+        "susan kare"
+      ],
+      "prep": [
+        {
+          "name": "z1_1983.jpg",
+          "src": "assets/augmenting the gallery/interfaces/img/z1_1983.jpg",
+          "type": "img"
+        },
+        {
+          "name": "pdp10.jpg",
+          "src": "assets/augmenting the gallery/interfaces/img/pdp10.jpg",
+          "type": "img"
+        },
+        {
+          "name": "susankare.jpg",
+          "src": "assets/augmenting the gallery/interfaces/img/susankare.jpg",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "metaphors",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "we came up with the desktop metaphor to make things more understandable",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "what other metaphors did we come up with?",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "theater",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what do interfaces have to do with theater?",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "theater and interaction design",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "\"settting the stage\" for an action",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "using an interface is performing a role",
+          "type": "txt"
+        },
+        {
+          "text": "it is as if you were doing work",
+          "type": "url",
+          "url": "https://pippinbarr.github.io/itisasifyouweredoingwork/"
+        },
+        {
+          "text": "papers please",
+          "type": "url",
+          "url": "https://www.youtube.com/watch?v=kMC-r0e_Ly4"
+        },
+        {
+          "text": "jodi.org",
+          "type": "url",
+          "url": "http://wwwwwwwww.jodi.org/"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "an interaction",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "what do you need for an interaction to happen?",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "affordances",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "all possible and obviously aware actions that one could do when presented with an object.",
+          "type": "txt"
+        },
+        {
+          "name": "teapot.png",
+          "src": "assets/augmenting the gallery/interfaces/img/teapot.png",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "different kinds",
+      "notes": [],
+      "prep": [
+        {
+          "name": "affordances.png",
+          "src": "assets/augmenting the gallery/interfaces/img/affordances.png",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "desgined affordances",
+      "notes": [
+        "metaphors\nthey relate to human nature, relate to real life\ntheater as set design"
+      ],
+      "prep": [
+        {
+          "tag": "",
+          "text": "interfaces are designed affordances with a purpose to act and know about something else.",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "because the digital is a black box exclusively made up by people.",
+          "type": "txt"
+        },
+        {
+          "text": "designing a volume slider",
+          "type": "url",
+          "url": "https://www.designernews.co/stories/84443-redditors-design-worst-volume-sliders-possible"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "paradigms",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "shared meaning, and shared context",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "a good conversation",
+          "type": "txt"
+        },
+        {
+          "name": "interaction_matrix.png",
+          "src": "assets/augmenting the gallery/interfaces/img/interaction_matrix.png",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "making interfaces",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "interfaces have:",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- an input and an output",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- a dialogue",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- a function",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "- an organization",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "making interactions",
+      "notes": [
+        "cognitive response\nthoughtful response\nvulnerability\nreciprocity (eye contact)\nparadigm > identifying the importance"
+      ],
+      "prep": [
+        {
+          "tag": "",
+          "text": "visibility",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "feedback",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "constraints",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "mapping",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "place of the interface",
+      "notes": [],
+      "prep": [
+        {
+          "name": "diegetic.png",
+          "src": "assets/augmenting the gallery/interfaces/img/diegetic.png",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "interface in augmented reality",
+      "notes": [
+        "diegetic"
+      ],
+      "prep": [
+        {
+          "name": "bodylocked.gif",
+          "src": "assets/augmenting the gallery/interfaces/img/bodylocked.gif",
+          "type": "img"
+        },
+        {
+          "name": "worldlocked.gif",
+          "src": "assets/augmenting the gallery/interfaces/img/worldlocked.gif",
+          "type": "img"
+        },
+        {
+          "name": "diegetic.gif",
+          "src": "assets/augmenting the gallery/interfaces/img/diegetic.gif",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "break",
+      "notes": [],
+      "prep": [],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "ARKit remote",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "aka how to speed up development!",
+          "type": "txt"
+        },
+        {
+          "text": "full steps",
+          "type": "url",
+          "url": "https://github.com/periode/augmenting-gallery/wiki/ARKit-Remote"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "unity - interaction system",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "two main components:",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "canvas",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "event system",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "unity - canvas",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "canvas is a game object which holds other UI elements",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "unity - event system",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "you need an event system to listen for events",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "and you need an event trigger on the object you want to interact with",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "if you want to interact with 3D objects, you need a Physics Raycaster on the object",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "exercise - UI",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "option A: make a button which creates a gameobject, and one which destroys it",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "option B: make a scrollable text in 3D space which creates objects as the user reads it.",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "unity - raycasting",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "all input relies on a technique called raycasting",
+          "type": "txt"
+        },
+        {
+          "name": "unity-raycasting.jpg",
+          "src": "assets/augmenting the gallery/interfaces/img/unity-raycasting.jpg",
+          "type": "img"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "unity - input",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "mouse input is straightforward > Input.GetMouseDown(0)",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "touch input involves the step of counting how many inputs are happening",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "exercise - input and UI",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "UI - option A: make a button that creates a game object.",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "UI - option B: make a ScrollRect that creates game objects as you read through the text.",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "Interaction - option A: make an object react when you touch it",
+          "type": "txt"
+        },
+        {
+          "tag": "",
+          "text": "Interaction - option B: rotate an object left and right when you drag over it",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "homework",
+      "notes": [],
+      "prep": [
+        {
+          "tag": "",
+          "text": "build your own virtual museum!",
+          "type": "txt"
+        }
+      ],
+      "tag": "",
+      "writeups": []
+    },
+    {
+      "concept": "whiteboard",
+      "notes": [],
+      "prep": [],
+      "tag": "whiteboard",
+      "writeups": []
+    }
+  ],
+  "contents": [],
+  "course": {
+    "name": "augmenting the gallery",
+    "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery/repo/docs",
+    "year": "2019"
+  },
+  "prefix": "in-class",
+  "title": "interfaces",
+  "date": {
+    "year": 2019,
+    "month": "02",
+    "day": 20,
+    "hour": 13,
+    "minutes": "09"
+  }
+}
