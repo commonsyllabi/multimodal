@@ -34,4 +34,8 @@ html
 						div.note-group
 							each note in content.notes
 								div.prep.note(concept= index)= note
+								
+						div.writeup-group
+							each writeup in content.writeups
+								div.prep.writeup(concept= index)= writeup
 					hr
