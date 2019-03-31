@@ -1,1 +1,49 @@
-[{"name":"augmenting the gallery","path":"/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery/repo/docs","year":"2019"},{"name":"computational representations","path":"/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs","year":"2019"},null,{"id":"mm-t-9737482392","name":"mm-test","path":"/Users/Pierre/Desktop","date":"2019-03-31T17:45:26.574Z","lessons":[]},{"id":"mm-t-0598593261","name":"mm-test","path":"/Users/Pierre/Desktop","date":"2019-03-31T17:48:52.689Z","lessons":[]},{"id":"mm-t-0546738312","name":"mm-test","path":"/Users/Pierre/Desktop","date":"2019-03-31T17:50:58.913Z","lessons":[]},{"id":"mm-t-3685381982","name":"mm-test","path":"/Users/Pierre/Desktop","date":"2019-03-31T17:51:06.821Z","lessons":[]}]
+[
+  {
+    "id": "augm-666",
+    "name": "augmenting the gallery",
+    "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery/augmenting the gallery",
+    "year": "2019",
+    "lessons": [
+      {
+        "title":"introduction"
+      },
+      {
+        "title":"augmenting objects"
+      },
+      {
+        "title":"interfaces"
+      },
+      {
+        "title":"museums and digital"
+      },
+      {
+        "title":"art and gallery spaces"
+      },
+      {
+        "title":"publics and users"
+      }
+    ]
+  },
+  {
+    "id": "comp-666",
+    "name": "computational representations",
+    "path": "/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs",
+    "year": "2019",
+    "lessons": []
+  },
+  {
+    "id": "mm-t-9737482392",
+    "name": "mm-test",
+    "path": "/Users/Pierre/Desktop",
+    "date": "2019-03-31T17:45:26.574Z",
+    "lessons": []
+  },
+  {
+    "id": "test-4705580268",
+    "name": "test 2",
+    "path": "/Users/Pierre/Desktop",
+    "created": "2019-03-31T18:44:43.948Z",
+    "lessons": []
+  }
+]

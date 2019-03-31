@@ -220,13 +220,14 @@ const utils = __webpack_require__(1)
 
 let current = {
 	'course':'',
-	'title':''
+	'title':'',
+	'path': ''
 }
 
-let setLesson = (_e, _c, _l) => {
+let setLesson = (_e, _c, _l, _p) => {
 	current.course = _c
 	current.title = _l
-
+	current.path = _p
 
 	let all_lessons = document.getElementsByClassName('welcome-lesson')
 	for(let less of all_lessons)
@@ -240,10 +241,11 @@ let setLesson = (_e, _c, _l) => {
 		btn.disabled = false
 }
 
-let openLesson = (_c, _l) => {
+let openLesson = (_c, _l, _p) => {
 	let course = _c ? _c : current.course
 	let title = _l ? _l : current.title
-	ipc.send('open-lesson', {'course': course, 'title': title})
+	let path = _p ? _p : current.path
+	ipc.send('open-lesson', current)
 }
 
 let createLesson = () => {
