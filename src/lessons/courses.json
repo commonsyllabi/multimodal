@@ -2,7 +2,7 @@
   {
     "id": "augm-666",
     "name": "augmenting the gallery",
-    "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery/augmenting the gallery",
+    "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery",
     "year": "2019",
     "lessons": [
       {
@@ -22,6 +22,9 @@
       },
       {
         "title":"publics and users"
+      },
+      {
+        "title": "work session"
       }
     ]
   },
