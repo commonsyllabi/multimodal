@@ -1,239 +1,115 @@
-'use strict'
+const fs = require('fs')
+const utils = require('./utils.js')
 
-const fs  = require('fs')
-const path = require('path')
-const pug = require('pug')
-const { exec } = require('child_process')
-const BrowserWindow = require('electron').BrowserWindow
-const PUSH_TO_GITHUB = false
+class Lesson {
 
-let win
+  constructor(data){
+    this.id = generateId(data.title)
+    this.course = data.course
+    this.name = data.title
+    this.created = new Date()
+    this.updated = null
+    this.concepts = data.concepts
 
-exports = module.exports = {}
+    this.init()
+  }
 
-// lists all the lessons from courses.json and displays them on the welcome screen
-module.exports.list = () => {
+  init(){
+    //-- create the appropriate folders
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/media`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/other`)
 
-	//first we get all the courses
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+    //-- find the appropriate course and update it locally
+    let courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
+    for(let c of courses)
+      if(c.id == this.course.id)
+        c.lessons.push(this.toJSON())
 
-	let data = {
-		'courses':[]
-	}
+    //-- as well as remotely
+    let course = JSON.parse(fs.readFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`))
+    course.lessons.push(this.toJSON())
+    fs.writeFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`, JSON.stringify(course.toJSON()))
+  }
 
-	//then for each course we look for all the related lessons
-	for(let co of courses){
-		let course = {
-			'course':co,
-			'lessons': []
-		}
+  save(data){
+    //-- update the written content
+    this.concepts = data.concepts
 
-		let lessons
-		try {
-			lessons = fs.readdirSync(__dirname+'/lessons/'+co.name)
+    //-- make sure the folders exist
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/media`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/other`)
 
-			//then we get the name of all the associated lessons
-			for(let l of lessons){
-				let lesson_name = l.substring(0, l.indexOf('.'))
-				if(lesson_name != 'DS_Store')
-					course.lessons.push(lesson_name)
-			}
+    //-- check for external media assets and copy them in the local folder
+  	for(let concept of data.concepts){
+  		for(let p of concept.prep){
+  			if(p.type == 'img' || p.type == 'vid'){
+  				let re = (/[^/]*$/gi).exec(p.src)
+  				p.name = re[0]
 
-			data.courses.push(course)
-		} catch (e) {
-			//No lessons yet for the current course
-			//So don't display at all
-		}
-	}
+  				//-- check for existing assets
+  				let existing = fs.readdirSync(`${this.course.path}/${this.course.name}/${this.name}/media`)
+  				let isReplacing = false
+  				for(let e of existing)
+  					if(e == p.name)
+  						isReplacing = true
 
-	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', data)
-	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
+  				if(!isReplacing){
+  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.course.path}/${this.course.name}/${this.name}/media`))
+  					// now we redirect the source to the local folder
+  					p.src = `${this.course.path}/${this.course.name}/${this.name}/media/${p.name}`
+  					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
+  				}
+  			}
+  		}
+  	}
+
+    //-- update the remote file
+    fs.writeFile(`${this.course.path}/${this.course.name}/${this.name}/${this.name}.json`, JSON.stringify(this.toJSON()), (err) => {
+      if(err)
+        throw err
+    })
+
+    return true
+  }
+
+  export(type, path){
+
+  }
+
+  delete(){
+
+  }
+
+  toJSON(){
+    return {
+      "id": this.id,
+      "course": this.course,
+      "title": this.title,
+      "created": this.created,
+      "updated": this.updated,
+      "concepts": this.concepts
+    }
+  }
 }
 
-// creates a `new lesson` screen with a list of existing courses
-module.exports.create = () => {
+let generateId = (n) => {
+  let id = `${n.substring(0, 4)}-`
+  for(let i = 0; i < 10; i++)
+    id += Math.floor(Math.random()*10).toString()
 
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
-	let data = {
-		'courses': courses
-	}
-
-	let compiled = pug.renderFile(__dirname+'/views/create.pug', data)
-	fs.writeFileSync(__dirname+'/app/create.html', compiled)
+  return id
 }
 
-module.exports.remove = (_l) => {
+Lesson.prototype.find = (id) => {
+  //open the json file
+  let courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
 
-	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)){
-		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)
-		console.log(`[DELETED] ${_l.title}`)
-		return true
-	}else{
-		return false
-	}
+  for(let course of courses)
+    for(let lesson of course.lessons)
+      if(lesson.id == id) //if the id matches
+        return new Lesson(lesson) //return the lesson
 
+  return null
 }
 
-module.exports.getNewest = (_l) => {
-	let saves = fs.readdirSync(__dirname+'/lessons/'+_l.course+'/'+_l.title)
-
-	if(saves.length == 1) return saves[0]
-
-	let latest = {'year':0,'month':0, 'day':0, 'hour':0, 'minutes':0, 'save':''}
-	for(let save of saves){
-		let s = save.replace('.json', '').split('-')
-
-		let year = parseInt(s[0].substring(0, 4))
-		if(year >= latest.year){
-			latest.year = year
-			let month =  parseInt(s[0].substring(4, 6))
-			if(month >= latest.month){
-				latest.month = month
-
-				let day = parseInt(s[0].substring(6, 8))
-
-				if(day >= latest.day){
-					latest.day = day
-
-					let hour = parseInt(s[1].substring(0, 2))
-					if(hour >= latest.hour){
-						latest.hour = hour
-						let minutes = parseInt(s[1].substring(2, 4))
-
-						if(minutes >= latest.minutes){
-							latest.save = save
-						}
-					}
-				}
-			}
-		}
-	}
-
-	console.log('[EXPORT] found newest save:',latest.save)
-
-	return latest.save
-}
-
-// exports the lesson based on settings (HTML, PDF, GITHUB)
-module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/'+_l.title+'.json'))
-
-	if(PUSH_TO_GITHUB)
-		switchBranch(lesson, 'gh-pages', render)
-	else
-		render(lesson)
-}
-
-// copies all the necessary assets, renders the lesson HTML and re-builds the course index
-let render = (_lesson) => {
-	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
-
-	// we copy all the existing assets from the multimodal to the html exports
-	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img/`
-	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid/`
-
-	fs.readdirSync(imgp).forEach((file) => {
-		console.log(file);
-		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
-	})
-
-	fs.readdirSync(vidp).forEach((file) => {
-		fs.createReadStream(path.join(vidp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
-	})
-
-	// generating the HTML
-	fs.writeFile(`${_lesson.course.path}/${_lesson.title}.html`, compiled, (err) => {
-		if(err) throw err
-		console.log(`[EXPORTED] ${_lesson.course.path}/${_lesson.title}.html`)
-
-		//rebuild the index
-		let exported_lessons = []
-		let local_files = fs.readdirSync(_lesson.course.path+'/')
-		for(let f of local_files)
-			if(f != 'index.html' && f.indexOf('.html') > -1)
-				exported_lessons.push(f.replace('.html', ''))
-
-		let c = {
-			'course': _lesson.course.name,
-			'lessons': exported_lessons
-		}
-
-		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
-		fs.writeFile(_lesson.course.path+'/index.html', compiled, (err) => {
-			if(err) throw err
-			console.log('[REBUILT]', 'index.html')
-
-			if(PUSH_TO_GITHUB)
-				pushToRemote(_lesson)
-
-			let w = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-			let u = _lesson.course.path+'/index.html'
-			w.loadURL('file://'+u)
-		})
-	})
-}
-
-let switchBranch = (_lesson, _branch, _callback) => {
-	console.log(`[BASH] switching branch to ${_branch}, in repo ${_lesson.course.path}`)
-
-	//-- the conditional below handles the possibility
-	//-- of uncommitted changes
-	let script
-	if(_branch == 'master')
-		script = `cd ${_lesson.course.path} && git checkout ${_branch} && git stash apply`
-	else
-		script = `cd ${_lesson.course.path} && git stash && git checkout ${_branch}`
-
-	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
-		if (err) {
-			console.error(err)
-			console.log('[STDERR]',stderr)
-			win.webContents.send('msg-log', {msg: `failed to find path for ${_lesson.title}`, type: 'error'})
-			return
-		}
-		console.log(stdout)
-
-		// copy media files
-		if(_branch == 'gh-pages'){
-			for(let concept of _lesson.concepts){
-				for(let prep of concept.prep){
-					if(prep.type == 'img'){
-						let file_path = __dirname+'/app/'+prep.src
-
-						fs.createReadStream(file_path).pipe(fs.createWriteStream(_lesson.course.path+'/assets/img/'+prep.src))
-					}
-				}
-			}
-		}
-	})
-
-	if(_callback != undefined)
-		child.on('close', () => {
-			_callback(_lesson)
-		})
-}
-
-let pushToRemote = (_lesson) => {
-	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.title}"`// && git push origin gh-pages`
-
-	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
-		if (err) {
-			console.error(err)
-			console.log('[STDERR]',stderr)
-			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.title}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
-			return
-		}else{
-			win.webContents.send('msg-log', {msg: `exported ${_lesson.title}`, type: 'info'})
-		}
-
-		console.log(stdout)
-	})
-
-	child.on('close', () => {
-		switchBranch(_lesson, 'master')
-	})
-}
-
-module.exports.init = (w) => {
-	win = w
-}
+module.exports = Lesson

@@ -9,14 +9,15 @@ const fs = require('fs')
 const pug = require('pug')
 
 const utils = require('./utils.js')
-const lesson = require('./lesson.js')
+const board = require('./board.js')
 
-const Course = require('./models/course.js')
+const Course = require('./course.js')
+const Lesson = require('./lesson.js')
 
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+data.course+'/'+data.title+'.json'))
+	let c = JSON.parse(fs.readFileSync(`${data.path}/${data.title}/${data.title}.json`))
 
 	let compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', c)
 
@@ -44,9 +45,7 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
 	})
 
 	require('./menu.js').init(mainWindow)
-	require('./lesson.js').init(mainWindow)
-
-
+	require('./board.js').init(mainWindow)
 }
 
 module.exports.win = mainWindow
@@ -94,16 +93,16 @@ ipc.on('save-course', (event, data) => {
 
 // creates the 'new lesson' window
 ipc.on('create-lesson', () => {
-	lesson.create()
+	board.create()
 	replaceWindow('create')
 })
 
 ipc.on('remove-lesson', (event, data) => {
-	if(lesson.remove(data)){
+	if(board.remove(data)){
 		mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
 
 		setTimeout(() => {
-			lesson.list()
+			board.list()
 			replaceWindow('welcome')
 		}, 1000)
 
@@ -114,58 +113,35 @@ ipc.on('remove-lesson', (event, data) => {
 
 // exports a lesson
 ipc.on('export-lesson', (event, data) => {
-	lesson.export(data)
+	board.export(data)
 })
 
 //-- save lesson
-ipc.on('save-lesson', (event, lesson) => {
-	lesson.date = utils.date()
+ipc.on('save-lesson', (event, data) => {
+	let lesson
 
-	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/img`)
-	utils.touchDirectory(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/vid`)
+	//-- check if you're editing a lesson or creating a new one
+	if(data.id != null)
+		lesson = Lesson.find(data.id)
+	else
+		lesson = new Lesson(data)
 
-	//-- check for external media assets and copy them in the local folder
-
-	for(let concept of lesson.concepts){
-		for(let p of concept.prep){
-			if(p.type == 'img' || p.type == 'vid'){
-				let re = (/[^/]*$/gi).exec(p.src)
-				p.name = re[0]
-
-				//-- check for existing assets
-				let existing = fs.readdirSync(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}`)
-				let isReplacing = false
-				for(let e of existing)
-					if(e == p.name)
-						isReplacing = true
-
-				if(!isReplacing){
-					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`))
-					// now we redirect the source to the local folder
-					p.src = `${__dirname}/app/assets/${lesson.course.name}/${lesson.title}/${p.type}/${p.name}`
-					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-				}
-			}
-		}
+	if(lesson.save(data)){
+		console.log(`[SAVE LESSON] ${lesson.name} to ${lesson.course.path} at ${utils.time()}`)
+		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'}) //-- confirm that the lesson is saved
+		mainWindow.webContents.send('lesson-info', {id: lesson.id}) //-- update the id
+	}else{
+		console.error('NO LESSON FOUND', data);
 	}
-
-
-	let _path = __dirname+'/lessons/'+lesson.course.name
-	utils.touchDirectory(_path)
-
-	fs.writeFile(__dirname+'/lessons/'+lesson.course.name+'/'+lesson.title+'.json', JSON.stringify(lesson), () => {
-		console.log(`[SAVE LESSON] ${lesson.title} to ${_path} at ${utils.time()}`)
-		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
-	})
 })
 
 ipc.on('exit-home', () => {
-	lesson.list()
+	board.list()
 	replaceWindow('welcome')
 })
 
 app.on('ready', () => {
-	lesson.list()
+	board.list()
 	createWindow('welcome', 0.8, 0.8)
 })
 

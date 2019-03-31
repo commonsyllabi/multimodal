@@ -15,14 +15,14 @@ html
 							div.inter-class-title= co.course.name
 							ul
 								each lesson in co.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson+'")')= lesson
+									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson.title+'","'+co.course.path+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson.title+'","'+co.course.path+'")')= lesson.title
 					else
 						div.welcome-message
 							h2 Welcome to Multimodal!
 							div It seems you haven't added any courses!
 								ul
 									li Click 'Create' to get started...
-									li Or peruse <a href="https://periode.github.io/multimodal/" target="_blank">the homepage</a> to learn more.
+									li Or peruse the <a href="https://periode.github.io/multimodal/" target="_blank">homepage</a> to learn more.
 
 			div.interface-buttons
 				button.inter-btn-main(onclick='createLesson()') create
