@@ -28,7 +28,7 @@ module.exports.list = () => {
 		}
 
 		for(let lesson of course.lessons){
-			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${lesson.title}/${lesson.title}.json`)))
+			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/${lesson.title}/${lesson.title}.json`)))
 		}
 
 		if(obj.lessons.length > 0)

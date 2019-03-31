@@ -6,7 +6,7 @@ class Lesson {
   constructor(data){
     this.id = generateId(data.title)
     this.course = data.course
-    this.name = data.title
+    this.name = data.name
     this.created = new Date()
     this.updated = null
     this.concepts = data.concepts
@@ -28,7 +28,7 @@ class Lesson {
     //-- as well as remotely
     let course = JSON.parse(fs.readFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`))
     course.lessons.push(this.toJSON())
-    fs.writeFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`, JSON.stringify(course.toJSON()))
+    fs.writeFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`, JSON.stringify(course))
   }
 
   save(data){
