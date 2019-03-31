@@ -11,6 +11,8 @@ const pug = require('pug')
 const utils = require('./utils.js')
 const lesson = require('./lesson.js')
 
+const Course = require('./models/course.js')
+
 let mainWindow
 
 let generateHTML = (data, template) => {
@@ -43,6 +45,8 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
 
 	require('./menu.js').init(mainWindow)
 	require('./lesson.js').init(mainWindow)
+
+
 }
 
 module.exports.win = mainWindow
@@ -78,25 +82,7 @@ ipc.on('create-new-course', () => {
 
 // adds a new course by appending to the courses list, and creating the directory structure
 ipc.on('save-course', (event, data) => {
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
-
-	// check for existing courses
-	for(let course of courses){
-		if(course.name == data.name && course.year == data.year && course.path == data.path){
-			console.log(`[COURSE] ${data.name} already exists`)
-			BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course already exists!', type: 'error'})
-			return
-		}
-	}
-
-	// update courses data
-	courses.push(data)
-	fs.writeFileSync(__dirname+'/lessons/courses.json', JSON.stringify(courses))
-
-	//create empty folders for HTML exports
-	utils.touchDirectory(data.path+'/')
-	utils.touchDirectory(data.path+'/assets')
-	fs.createReadStream(__dirname+'/lessons/style.css').pipe(fs.createWriteStream(data.path+'/style.css'))
+	let c = new Course(data)
 
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
