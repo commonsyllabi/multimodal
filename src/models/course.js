@@ -6,7 +6,8 @@ class Course {
     this.id = generateId(data.name)
     this.name = data.name.trim()
     this.path = data.path
-    this.date = new Date()
+    this.created = new Date()
+    this.updated = null
     this.lessons = []
 
     this.init()
@@ -49,7 +50,7 @@ class Course {
       "id": this.id,
       "name": this.name,
       "path": this.path,
-      "date": this.date,
+      "created": this.created,
       "lessons": this.lessons
     }
   }
