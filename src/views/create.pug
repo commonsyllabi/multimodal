@@ -9,8 +9,8 @@ html
 		div.create-container
 			div.create-course
 				select.create-courses-list#course-list(onchange='selectCourse(this)' onfocus='this.selectedIndex = -1')
-					each co in courses
-						option(value= co.name, year= co.year, path= co.path)= co.name
+					each course in courses
+						option(value= course.name, created= course.created, path= course.path, id= course.id)= course.name
 					option(value='create-course') create new course...
 			div.create-lesson
 				input.create-lesson-title#name(placeholder='lesson title')

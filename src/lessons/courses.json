@@ -3,25 +3,25 @@
     "id": "augm-666",
     "name": "augmenting the gallery",
     "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery",
-    "year": "2019",
+    "date": "",
     "lessons": [
       {
-        "name":"introduction"
+        "name": "introduction"
       },
       {
-        "name":"augmenting objects"
+        "name": "augmenting objects"
       },
       {
-        "name":"interfaces"
+        "name": "interfaces"
       },
       {
-        "name":"museums and digital"
+        "name": "museums and digital"
       },
       {
-        "name":"art and gallery spaces"
+        "name": "art and gallery spaces"
       },
       {
-        "name":"publics and users"
+        "name": "publics and users"
       },
       {
         "name": "work session"
@@ -32,21 +32,57 @@
     "id": "comp-666",
     "name": "computational representations",
     "path": "/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs",
-    "year": "2019",
+    "date": "",
     "lessons": []
   },
   {
-    "id": "mm-t-9737482392",
-    "name": "mm-test",
+    "id": "test-0457493776",
+    "name": "test-course",
     "path": "/Users/Pierre/Desktop",
-    "date": "2019-03-31T17:45:26.574Z",
-    "lessons": []
-  },
-  {
-    "id": "test-4705580268",
-    "name": "test 2",
-    "path": "/Users/Pierre/Desktop",
-    "created": "2019-03-31T18:44:43.948Z",
-    "lessons": []
+    "created": "2019-04-01T12:30:13.877Z",
+    "lessons": [
+      {
+        "id": "the -1023168342",
+        "course": {
+          "date": null,
+          "id": "test-0457493776",
+          "name": "test-course",
+          "path": "/Users/Pierre/Desktop"
+        },
+        "name": "the lesson",
+        "created": "2019-04-01T12:30:26.925Z",
+        "updated": null,
+        "concepts": [
+          {
+            "concept": "the concept",
+            "notes": [
+              null
+            ],
+            "prep": [
+              {
+                "tag": "",
+                "text": "the text",
+                "type": "txt"
+              }
+            ],
+            "tag": "",
+            "writeups": []
+          },
+          {
+            "concept": "whiteboard",
+            "notes": [],
+            "prep": [
+              {
+                "tag": "",
+                "text": "",
+                "type": "wbd"
+              }
+            ],
+            "tag": "whiteboard",
+            "writeups": []
+          }
+        ]
+      }
+    ]
   }
 ]

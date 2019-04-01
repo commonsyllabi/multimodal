@@ -20,15 +20,16 @@ class Lesson {
     utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/other`)
 
     //-- find the appropriate course and update it locally
-    let courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
-    for(let c of courses)
+    let local_courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
+    for(let c of local_courses)
       if(c.id == this.course.id)
         c.lessons.push(this.toJSON())
+    fs.writeFileSync(`${__dirname}/lessons/courses.json`, JSON.stringify(local_courses))
 
     //-- as well as remotely
-    let course = JSON.parse(fs.readFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`))
-    course.lessons.push(this.toJSON())
-    fs.writeFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`, JSON.stringify(course))
+    let remote_course = JSON.parse(fs.readFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`))
+    remote_course.lessons.push(this.toJSON())
+    fs.writeFileSync(`${this.course.path}/${this.course.name}/${this.course.name}.json`, JSON.stringify(remote_course))
   }
 
   save(data){

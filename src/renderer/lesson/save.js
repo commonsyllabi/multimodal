@@ -25,7 +25,7 @@ let parseDocument = () => {
 	let lesson = {
 		'course': {
 			'path':'',
-			'year':'',
+			'created':'',
 			'name':'',
 		},
 		'name': '',
@@ -33,7 +33,7 @@ let parseDocument = () => {
 	}
 
 	lesson.course.name = document.getElementById('course-name').innerHTML
-	lesson.course.year = document.getElementById('course-year').innerHTML
+	lesson.course.created = document.getElementById('course-created').innerHTML
 	lesson.course.path = document.getElementById('course-path').innerHTML
 	lesson.name =  document.title.split('|')[1].trim()
 	lesson.concepts = []

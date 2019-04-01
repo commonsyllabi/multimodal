@@ -20,9 +20,8 @@ class Course {
     courses.push(data)
   	fs.writeFileSync(`${__dirname}/lessons/courses.json`, JSON.stringify(courses))
 
-    //create empty folders for HTML exports
+    //create course folder
   	utils.touchDirectory(`${this.path}/${this.name}/`)
-    utils.touchDirectory(`${this.path}/${this.name}/lessons`)
 
     //write the course file
     fs.writeFileSync(`${this.path}/${this.name}/${this.name}.json`, JSON.stringify(data))
