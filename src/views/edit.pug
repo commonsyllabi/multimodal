@@ -8,7 +8,7 @@ html
 	body
 		div.create-container
 			div.create-course
-				div.edit-existing-course#existing-course(year= course.year)= course.name
+				div.edit-existing-course#existing-course(created= course.created)= course.name
 			div.create-lesson
 				input.create-lesson-title#title(type='text', value= name)
 			div.create-path

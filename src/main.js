@@ -88,7 +88,7 @@ ipc.on('save-course', (event, data) => {
 	console.log(`[COURSE] saved ${data.name} successfully`)
 	BrowserWindow.getFocusedWindow().close()
 	mainWindow = BrowserWindow.getAllWindows()[0]
-	mainWindow.webContents.send('update-dropdown', data)
+	mainWindow.webContents.send('update-dropdown', c.toJSON())
 })
 
 // creates the 'new lesson' window

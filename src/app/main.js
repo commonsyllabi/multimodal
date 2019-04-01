@@ -168,8 +168,9 @@ ipc.on('update-dropdown', (event, data) => {
 	console.log('got updated dropdown course', data)
 	let new_course = document.createElement('option')
 	new_course.setAttribute('value', data.name)
-	new_course.setAttribute('year', data.year)
+	new_course.setAttribute('created', data.created)
 	new_course.setAttribute('path', data.path)
+	new_course.setAttribute('id', data.id)
 	new_course.innerText = data.name
 	new_course.setAttribute('selected', true)
 	document.getElementById('course-list').appendChild(new_course)
@@ -323,7 +324,7 @@ let lesson = {
 let course = {
 	'name': '',
 	'path': '',
-	'year':''
+	'date':''
 }
 
 let selectCourse = (_el) => {
@@ -340,10 +341,9 @@ let createNewCourse = () => {
 let saveCourse = () => {
 	let _course = {}
 	_course.name = document.getElementById('course-name').value
-	_course.year = document.getElementById('course-year').value
 	_course.path = document.getElementById('course-path').value
 
-	if(_course.name == null || _course.year == null || _course.path == null){
+	if(_course.name == null || _course.path == null){
 		alert('Some fields are missing!')
 		console.log(_course)
 	}else{
@@ -667,16 +667,18 @@ let parseLesson = () => {
 	if(document.getElementById('existing-course') != null){
 		lesson.course = {
 			'name': document.getElementById('existing-course').innerText,
-			'year': document.getElementById('existing-course').getAttribute('year'),
-			'path': document.getElementById('local-path').value
+			'created': document.getElementById('existing-course').getAttribute('created'),
+			'path': document.getElementById('local-path').value,
+			'id': document.getElementById('existing-course').getAttribute('id')
 		}
 	}else{ // or creating the new one
 		let dropdown = document.getElementById('course-list').selectedOptions[0]
 
 		lesson.course = {
 			'name': dropdown.value,
-			'year': dropdown.getAttribute('year'),
-			'path': dropdown.getAttribute('path')
+			'created': dropdown.getAttribute('created'),
+			'path': dropdown.getAttribute('path'),
+			'id': dropdown.getAttribute('id')
 		}
 	}
 

@@ -7,8 +7,9 @@ html
 		link(rel='stylesheet', href='./style.css')
 	body(onload='init()')
 		div.metadata#course-path= course.path
-		div.metadata#course-year= course.year
+		div.metadata#course-created= course.created
 		div.metadata#course-name= course.name
+		div.metadata#course-id= course.id
 		div.lessons-container#writing-board
 			div.concept-buttons
 				each concept, index in concepts
