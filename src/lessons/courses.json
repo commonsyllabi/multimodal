@@ -6,25 +6,25 @@
     "year": "2019",
     "lessons": [
       {
-        "title":"introduction"
+        "name":"introduction"
       },
       {
-        "title":"augmenting objects"
+        "name":"augmenting objects"
       },
       {
-        "title":"interfaces"
+        "name":"interfaces"
       },
       {
-        "title":"museums and digital"
+        "name":"museums and digital"
       },
       {
-        "title":"art and gallery spaces"
+        "name":"art and gallery spaces"
       },
       {
-        "title":"publics and users"
+        "name":"publics and users"
       },
       {
-        "title": "work session"
+        "name": "work session"
       }
     ]
   },

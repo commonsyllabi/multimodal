@@ -220,13 +220,13 @@ const utils = __webpack_require__(1)
 
 let current = {
 	'course':'',
-	'title':'',
+	'name':'',
 	'path': ''
 }
 
 let setLesson = (_e, _c, _l, _p) => {
 	current.course = _c
-	current.title = _l
+	current.name = _l
 	current.path = _p
 
 	let all_lessons = document.getElementsByClassName('welcome-lesson')
@@ -243,7 +243,7 @@ let setLesson = (_e, _c, _l, _p) => {
 
 let openLesson = (_c, _l, _p) => {
 	let course = _c ? _c : current.course
-	let title = _l ? _l : current.title
+	let name = _l ? _l : current.name
 	let path = _p ? _p : current.path
 	ipc.send('open-lesson', current)
 }
@@ -254,7 +254,7 @@ let createLesson = () => {
 
 let removeLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
-	let title = _l ? _l : current.title
+	let name = _l ? _l : current.name
 
 	let options = {	'type':'info',
 		'buttons':['Yes!', 'Nope.'],
@@ -263,7 +263,7 @@ let removeLesson = (_c, _l) => {
 	}
 
 	if(dialog.showMessageBox(options) == 0)
-		ipc.send('remove-lesson', {'course': course, 'title': title})
+		ipc.send('remove-lesson', {'course': course, 'name': name})
 }
 
 let editLesson = () => {
@@ -271,7 +271,7 @@ let editLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
+	ipc.send('edit-lesson', {'course': current.course, 'name': current.name})
 }
 
 let exportLesson = () => {
@@ -279,7 +279,7 @@ let exportLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
+	ipc.send('export-lesson', {'course': current.course, 'name': current.name})
 }
 
 
@@ -316,7 +316,7 @@ const utils = __webpack_require__(1)
 let lessonSaved = false
 let lesson = {
 	'course' : {},
-	'title' : '',
+	'name' : '',
 	'concepts': []
 }
 
@@ -681,7 +681,7 @@ let parseLesson = () => {
 	}
 
 	// --  GET LESSON INFORMATION
-	lesson.title = document.getElementById('title').value
+	lesson.name = document.getElementById('name').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
@@ -784,7 +784,7 @@ let parseLesson = () => {
 let saveLesson = (_type) => {
 
 	if(parseLesson()){ //if we're creating a lesson
-		if(lesson.course == '' || lesson.title == ''){
+		if(lesson.course == '' || lesson.name == ''){
 
 			let _title = 'something is missing'
 			let _error = 'it seems you haven\'t specified a course or a lesson title.'
@@ -806,7 +806,7 @@ let exitLesson = () => {
 		'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
 	}
 
-	if(lesson.course == '' || lesson.title == '' || !lessonSaved){
+	if(lesson.course == '' || lesson.name == '' || !lessonSaved){
 		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 

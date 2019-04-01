@@ -6,13 +6,13 @@ const utils = require('../utils.js')
 
 let current = {
 	'course':'',
-	'title':'',
+	'name':'',
 	'path': ''
 }
 
 let setLesson = (_e, _c, _l, _p) => {
 	current.course = _c
-	current.title = _l
+	current.name = _l
 	current.path = _p
 
 	let all_lessons = document.getElementsByClassName('welcome-lesson')
@@ -29,7 +29,7 @@ let setLesson = (_e, _c, _l, _p) => {
 
 let openLesson = (_c, _l, _p) => {
 	let course = _c ? _c : current.course
-	let title = _l ? _l : current.title
+	let name = _l ? _l : current.name
 	let path = _p ? _p : current.path
 	ipc.send('open-lesson', current)
 }
@@ -40,7 +40,7 @@ let createLesson = () => {
 
 let removeLesson = (_c, _l) => {
 	let course = _c ? _c : current.course
-	let title = _l ? _l : current.title
+	let name = _l ? _l : current.name
 
 	let options = {	'type':'info',
 		'buttons':['Yes!', 'Nope.'],
@@ -49,7 +49,7 @@ let removeLesson = (_c, _l) => {
 	}
 
 	if(dialog.showMessageBox(options) == 0)
-		ipc.send('remove-lesson', {'course': course, 'title': title})
+		ipc.send('remove-lesson', {'course': course, 'name': name})
 }
 
 let editLesson = () => {
@@ -57,7 +57,7 @@ let editLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('edit-lesson', {'course': current.course, 'title': current.title})
+	ipc.send('edit-lesson', {'course': current.course, 'name': current.name})
 }
 
 let exportLesson = () => {
@@ -65,7 +65,7 @@ let exportLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('export-lesson', {'course': current.course, 'title': current.title})
+	ipc.send('export-lesson', {'course': current.course, 'name': current.name})
 }
 
 export { openLesson, createLesson, removeLesson, editLesson, editNotesLesson, setLesson, exportLesson }

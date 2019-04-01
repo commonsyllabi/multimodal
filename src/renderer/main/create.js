@@ -8,7 +8,7 @@ const utils = require('../utils.js')
 let lessonSaved = false
 let lesson = {
 	'course' : {},
-	'title' : '',
+	'name' : '',
 	'concepts': []
 }
 
@@ -373,7 +373,7 @@ let parseLesson = () => {
 	}
 
 	// --  GET LESSON INFORMATION
-	lesson.title = document.getElementById('title').value
+	lesson.name = document.getElementById('name').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
@@ -476,7 +476,7 @@ let parseLesson = () => {
 let saveLesson = (_type) => {
 
 	if(parseLesson()){ //if we're creating a lesson
-		if(lesson.course == '' || lesson.title == ''){
+		if(lesson.course == '' || lesson.name == ''){
 
 			let _title = 'something is missing'
 			let _error = 'it seems you haven\'t specified a course or a lesson title.'
@@ -498,7 +498,7 @@ let exitLesson = () => {
 		'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
 	}
 
-	if(lesson.course == '' || lesson.title == '' || !lessonSaved){
+	if(lesson.course == '' || lesson.name == '' || !lessonSaved){
 		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 
