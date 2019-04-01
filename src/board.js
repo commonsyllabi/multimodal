@@ -28,7 +28,7 @@ module.exports.list = () => {
 		}
 
 		for(let lesson of course.lessons){
-			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/${lesson.title}/${lesson.title}.json`)))
+			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/${lesson.name}/${lesson.name}.json`)))
 		}
 
 		if(obj.lessons.length > 0)
@@ -53,9 +53,9 @@ module.exports.create = () => {
 
 module.exports.remove = (_l) => {
 
-	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)){
-		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/${_l.title}.json`)
-		console.log(`[DELETED] ${_l.title}`)
+	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/${_l.name}.json`)){
+		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/${_l.name}.json`)
+		console.log(`[DELETED] ${_l.name}`)
 		return true
 	}else{
 		return false
@@ -65,7 +65,7 @@ module.exports.remove = (_l) => {
 
 // exports the lesson based on settings (HTML, PDF, GITHUB)
 module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/'+_l.title+'.json'))
+	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/'+_l.name+'.json'))
 
 	if(PUSH_TO_GITHUB)
 		switchBranch(lesson, 'gh-pages', render)
@@ -78,8 +78,9 @@ let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 
 	// we copy all the existing assets from the multimodal to the html exports
-	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/img/`
-	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.title}/vid/`
+	// -- TODO change to media
+	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.name}/img/`
+	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.name}/vid/`
 
 	fs.readdirSync(imgp).forEach((file) => {
 		console.log(file);
@@ -91,9 +92,9 @@ let render = (_lesson) => {
 	})
 
 	// generating the HTML
-	fs.writeFile(`${_lesson.course.path}/${_lesson.title}.html`, compiled, (err) => {
+	fs.writeFile(`${_lesson.course.path}/${_lesson.name}.html`, compiled, (err) => {
 		if(err) throw err
-		console.log(`[EXPORTED] ${_lesson.course.path}/${_lesson.title}.html`)
+		console.log(`[EXPORTED] ${_lesson.course.path}/${_lesson.name}.html`)
 
 		//rebuild the index
 		let exported_lessons = []
@@ -137,7 +138,7 @@ let switchBranch = (_lesson, _branch, _callback) => {
 		if (err) {
 			console.error(err)
 			console.log('[STDERR]',stderr)
-			win.webContents.send('msg-log', {msg: `failed to find path for ${_lesson.title}`, type: 'error'})
+			win.webContents.send('msg-log', {msg: `failed to find path for ${_lesson.name}`, type: 'error'})
 			return
 		}
 		console.log(stdout)
@@ -163,16 +164,16 @@ let switchBranch = (_lesson, _branch, _callback) => {
 }
 
 let pushToRemote = (_lesson) => {
-	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.title}"`// && git push origin gh-pages`
+	let script = `cd ${_lesson.course.path} && git add -A && git commit -m "exported ${_lesson.name}"`// && git push origin gh-pages`
 
 	let child = exec(script, {shell: '/bin/bash'}, (err, stdout, stderr) => {
 		if (err) {
 			console.error(err)
 			console.log('[STDERR]',stderr)
-			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.title}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
+			win.webContents.send('msg-log', {msg: `failed to upload ${_lesson.name}`, type: 'error'}) //this type of error doesn't return whether the git process has failed
 			return
 		}else{
-			win.webContents.send('msg-log', {msg: `exported ${_lesson.title}`, type: 'info'})
+			win.webContents.send('msg-log', {msg: `exported ${_lesson.name}`, type: 'info'})
 		}
 
 		console.log(stdout)

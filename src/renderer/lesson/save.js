@@ -28,14 +28,14 @@ let parseDocument = () => {
 			'year':'',
 			'name':'',
 		},
-		'title': '',
+		'name': '',
 		'contents':[]
 	}
 
 	lesson.course.name = document.getElementById('course-name').innerHTML
 	lesson.course.year = document.getElementById('course-year').innerHTML
 	lesson.course.path = document.getElementById('course-path').innerHTML
-	lesson.title =  document.title.split('|')[1].trim()
+	lesson.name =  document.title.split('|')[1].trim()
 	lesson.concepts = []
 
 	let _concepts = document.getElementsByClassName('concept')

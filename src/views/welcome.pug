@@ -15,7 +15,7 @@ html
 							div.inter-class-title= co.course.name
 							ul
 								each lesson in co.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson.title+'","'+co.course.path+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson.title+'","'+co.course.path+'")')= lesson.title
+									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson.name+'","'+co.course.path+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson.name+'","'+co.course.path+'")')= lesson.name
 					else
 						div.welcome-message
 							h2 Welcome to Multimodal!

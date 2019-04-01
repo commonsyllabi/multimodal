@@ -4,7 +4,7 @@ const utils = require('./utils.js')
 class Lesson {
 
   constructor(data){
-    this.id = generateId(data.title)
+    this.id = generateId(data.name)
     this.course = data.course
     this.name = data.name
     this.created = new Date()
@@ -84,7 +84,7 @@ class Lesson {
     return {
       "id": this.id,
       "course": this.course,
-      "title": this.title,
+      "name": this.name,
       "created": this.created,
       "updated": this.updated,
       "concepts": this.concepts
