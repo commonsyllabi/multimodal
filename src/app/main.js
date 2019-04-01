@@ -702,32 +702,32 @@ let parseLesson = () => {
 				prepHolder = child
 
 		// then start going through the prep notes
-		for(let note of prepHolder.childNodes){
-			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
+		for(let prep of prepHolder.childNodes){
+			if(prep.hasChildNodes() && prep.getAttribute('class') == 'create-prep'){
 
-				let _cn = note.childNodes
+				let _pn = prep.childNodes
 
-				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
+				if(_pn[0].value == '' || _pn[0] == null) break //do not save empty fields
 
-				if(_cn[0].getAttribute('kind') == 'txt'){
-					concept.prep.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value ? _cn[1].value : ''})
-				}else if(_cn[0].getAttribute('kind') == 'url'){
-					concept.prep.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
-				}else if(_cn[0].getAttribute('kind') == 'img'){
+				if(_pn[0].getAttribute('kind') == 'txt'){
+					concept.prep.push({'type':'txt', 'text': _pn[0].value, 'tag': _pn[1].value ? _pn[1].value : ''})
+				}else if(_pn[0].getAttribute('kind') == 'url'){
+					concept.prep.push({'type':'url', 'url': _pn[0].value, 'text': _pn[1].value})
+				}else if(_pn[0].getAttribute('kind') == 'img'){
 
-					let p = _cn[0].value
+					let p = _pn[0].value
 					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
-						concept.prep.push({'type':'img', 'src': _cn[0].getAttribute('src'), 'name': _cn[0].getAttribute('filename')})
+						concept.prep.push({'type':'img', 'src': _pn[0].getAttribute('src'), 'name': _pn[0].getAttribute('filename')})
 					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
-						concept.prep.push({'type':'vid', 'src': _cn[0].getAttribute('src'), 'name': _cn[0].getAttribute('filename')})
+						concept.prep.push({'type':'vid', 'src': _pn[0].getAttribute('src'), 'name': _pn[0].getAttribute('filename')})
 					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
 					}
 
-				}else if(_cn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
-					console.log('got tag:'+_cn[0])
-					concept.prep.push({'type':'tag', 'tag':_cn[0].value})
+				}else if(_pn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
+					console.log('got tag:'+_pn[0])
+					concept.prep.push({'type':'tag', 'tag':_pn[0].value})
 				}
 			}
 		}
@@ -738,7 +738,7 @@ let parseLesson = () => {
 			if(child.getAttribute('class') == 'notes-holder')
 				notesHolder = child
 		for(let note of notesHolder.childNodes)
-			if(note.getAttribute('class') == 'create-concept-note' && note.childNodes[0].value != '')
+			if(note.getAttribute('class') == 'create-concept-note' && (note.childNodes[0].value != '' || note.childNodes[0].value != null))
 				concept.notes.push(note.childNodes[0].value)
 
 
