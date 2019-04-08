@@ -57,7 +57,7 @@ let editLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('edit-lesson', {'course': current.course, 'name': current.name})
+	ipc.send('edit-lesson', current)
 }
 
 let exportLesson = () => {

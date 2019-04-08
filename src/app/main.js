@@ -272,7 +272,7 @@ let editLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('edit-lesson', {'course': current.course, 'name': current.name})
+	ipc.send('edit-lesson', current)
 }
 
 let exportLesson = () => {
@@ -683,7 +683,7 @@ let parseLesson = () => {
 	}
 
 	// --  GET LESSON INFORMATION
-	lesson.name = document.getElementById('name').value
+	lesson.name = document.getElementById('title').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
