@@ -683,7 +683,7 @@ let parseLesson = () => {
 	}
 
 	// --  GET LESSON INFORMATION
-	lesson.name = document.getElementById('title').value
+	lesson.name = document.getElementById('name').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
