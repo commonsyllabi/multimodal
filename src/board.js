@@ -28,7 +28,7 @@ module.exports.list = () => {
 		}
 
 		for(let lesson of course.lessons){
-			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/${lesson.name}/${lesson.name}.json`)))
+			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/lessons/${lesson.name}/${lesson.name}.json`)))
 		}
 
 		if(obj.lessons.length > 0)
@@ -65,7 +65,7 @@ module.exports.remove = (_l) => {
 
 // exports the lesson based on settings (HTML, PDF, GITHUB)
 module.exports.export = (_l) => {
-	let lesson = JSON.parse(fs.readFileSync(__dirname+'/lessons/'+_l.course+'/'+_l.name+'.json'))
+	let lesson = JSON.parse(fs.readFileSync(`${_l.path}/${_l.course}/lessons/${_l.name}/${_l.name}.json`))
 
 	if(PUSH_TO_GITHUB)
 		switchBranch(lesson, 'gh-pages', render)
@@ -78,27 +78,22 @@ let render = (_lesson) => {
 	let compiled = pug.renderFile(__dirname+'/views/export.pug', _lesson)
 
 	// we copy all the existing assets from the multimodal to the html exports
-	// -- TODO change to media
-	let imgp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.name}/img/`
-	let vidp = `${__dirname}/app/assets/${_lesson.course.name}/${_lesson.name}/vid/`
+	let media_path = `${_lesson.course.path}/${_lesson.course.name}/lessons/${_lesson.name}/media/`
 
-	fs.readdirSync(imgp).forEach((file) => {
-		console.log(file);
-		fs.createReadStream(path.join(imgp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
-	})
-
-	fs.readdirSync(vidp).forEach((file) => {
-		fs.createReadStream(path.join(vidp, file)).pipe(fs.createWriteStream(path.join(_lesson.course.path+'/assets', file)))
+	fs.readdirSync(media_path).forEach((file) => {
+		console.log(path.join(`${_lesson.course.path}/${_lesson.course.name}/exports/assets/`, file));
+		if(file != '.DS_Store')
+			fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${_lesson.course.path}/${_lesson.course.name}/exports/assets/`, file)))
 	})
 
 	// generating the HTML
-	fs.writeFile(`${_lesson.course.path}/${_lesson.name}.html`, compiled, (err) => {
+	fs.writeFile(`${_lesson.course.path}/${_lesson.course.name}/exports/${_lesson.name}.html`, compiled, (err) => {
 		if(err) throw err
-		console.log(`[EXPORTED] ${_lesson.course.path}/${_lesson.name}.html`)
+		console.log(`[EXPORTED] ${_lesson.course.path}/exports/${_lesson.name}.html`)
 
 		//rebuild the index
 		let exported_lessons = []
-		let local_files = fs.readdirSync(_lesson.course.path+'/')
+		let local_files = fs.readdirSync(`${_lesson.course.path}/${_lesson.course.name}/exports`)
 		for(let f of local_files)
 			if(f != 'index.html' && f.indexOf('.html') > -1)
 				exported_lessons.push(f.replace('.html', ''))
@@ -108,17 +103,17 @@ let render = (_lesson) => {
 			'lessons': exported_lessons
 		}
 
-		compiled = pug.renderFile(__dirname+'/views/export-index.pug', c)
-		fs.writeFile(_lesson.course.path+'/index.html', compiled, (err) => {
+		compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
+		fs.writeFile(`${_lesson.course.path}/${_lesson.course.name}/exports/index.html`, compiled, (u) => {
 			if(err) throw err
 			console.log('[REBUILT]', 'index.html')
 
 			if(PUSH_TO_GITHUB)
 				pushToRemote(_lesson)
 
-			let w = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-			let u = _lesson.course.path+'/index.html'
-			w.loadURL('file://'+u)
+			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
+			let url =` ${_lesson.course.path}/${_lesson.course.name}/exports/index.html`
+			win.loadURL('file://'+url)
 		})
 	})
 }

@@ -49,7 +49,7 @@ let removeLesson = (_c, _l) => {
 	}
 
 	if(dialog.showMessageBox(options) == 0)
-		ipc.send('remove-lesson', {'course': course, 'name': name})
+		ipc.send('remove-lesson', current)
 }
 
 let editLesson = () => {
@@ -65,7 +65,7 @@ let exportLesson = () => {
 		utils.setMessage('no course selected!', 'error')
 		return
 	}
-	ipc.send('export-lesson', {'course': current.course, 'name': current.name})
+	ipc.send('export-lesson', current)
 }
 
 export { openLesson, createLesson, removeLesson, editLesson, editNotesLesson, setLesson, exportLesson }
