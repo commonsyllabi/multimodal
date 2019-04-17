@@ -1,4 +1,6 @@
 const fs = require('fs')
+const pug = require('pug')
+const path = require('path')
 const utils = require('./utils.js')
 
 class Lesson {
@@ -73,8 +75,48 @@ class Lesson {
     return true
   }
 
-  export(type, path){
+  static export(_info, _type, _path = undefined, resolve, reject){
 
+    let lesson = JSON.parse(fs.readFileSync(`${_info.path}/${_info.course}/lessons/${_info.name}/${_info.name}.json`))
+
+    if(_type == 'html'){
+      let compiled = pug.renderFile(__dirname+'/views/export.pug', lesson)
+
+      // we copy all the existing assets from the multimodal to the html exports
+      let media_path = `${lesson.course.path}/${lesson.course.name}/lessons/${lesson.name}/media/`
+
+      fs.readdirSync(media_path).forEach((file) => {
+        if(file != '.DS_Store')
+          fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${lesson.course.path}/${lesson.course.name}/exports/assets/`, file)))
+      })
+
+      // generating the HTML
+      fs.writeFileSync(`${lesson.course.path}/${lesson.course.name}/exports/${lesson.name}.html`, compiled)
+      console.log(`[EXPORTED] ${lesson.course.path}/exports/${lesson.name}.html`)
+
+      //-- rebuild the index with all the already exported lessons
+      //-- find the lesson
+      let exportedlessons = []
+      let local_files = fs.readdirSync(`${lesson.course.path}/${lesson.course.name}/exports`)
+      for(let f of local_files)
+        if(f != 'index.html' && f.indexOf('.html') > -1)
+          exportedlessons.push(f.replace('.html', ''))
+
+      let c = {
+        'course': lesson.course.name,
+        'lessons': exportedlessons
+      }
+
+      //-- render the template
+      compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
+      fs.writeFileSync(`${lesson.course.path}/${lesson.course.name}/exports/index.html`, compiled)
+
+      console.log('[REBUILT]', 'index.html')
+
+      //-- return the url to open the window
+      let url = `${lesson.course.path}/${lesson.course.name}/exports/index.html`
+      return new Promise((resolve, reject) => {resolve(url)})
+    }
   }
 
   delete(){

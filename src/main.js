@@ -112,8 +112,11 @@ ipc.on('remove-lesson', (event, data) => {
 })
 
 // exports a lesson
-ipc.on('export-lesson', (event, data) => {
-	board.export(data)
+ipc.on('export-lesson', (event, data, type, path) => {
+	Lesson.export(data, 'html', path).then((url) => {
+		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
+		win.loadURL('file://'+url)
+	})
 })
 
 //-- save lesson
