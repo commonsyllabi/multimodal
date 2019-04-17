@@ -35,11 +35,11 @@ html
 								a(href= prep.url, target="_blank")= prep.text
 						if prep.type == "img"
 							div.prep.note.moveable.concept-bound(concept= index)
-								img(name= prep.name, src= course.path+'/'+course.name+'/'+name+'/media/'+prep.name)
+								img(name= prep.name, src= course.path+'/'+course.name+'/lessons/'+name+'/media/'+prep.name)
 						if prep.type == "vid"
 							div.prep.note.written.concept-bound(concept= index)
 								video(max-width="800px", max-height="600px" controls)
-									source(name= prep.name, src= 'assets/'+course.name+'/'+name+'/media/'+prep.name)
+									source(name= prep.name, src= 'assets/'+course.name+'/lessons/'+name+'/media/'+prep.name)
 										
 		div.interface-buttons
 			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
