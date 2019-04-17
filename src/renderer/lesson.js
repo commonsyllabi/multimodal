@@ -17,13 +17,14 @@ let init = () => {
 
 	drawing.init()
 
+	//-- right now, this is only for moving images
 	let notes = document.getElementsByClassName('moveable')
 
 	for(let n of notes){
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable')
+			evt.target.setAttribute('class', 'note moveable concept-bound')
 			globals.setCurrentNote(evt.target)
 			globals.setCurrrentPosition(mouse.getGridPosition())
 		}

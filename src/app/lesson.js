@@ -389,13 +389,14 @@ let init = () => {
 
 	__WEBPACK_IMPORTED_MODULE_4__lesson_drawing_js__["e" /* init */]()
 
+	//-- right now, this is only for moving images
 	let notes = document.getElementsByClassName('moveable')
 
 	for(let n of notes){
 		n.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable')
+			evt.target.setAttribute('class', 'note moveable concept-bound')
 			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["h" /* setCurrentNote */](evt.target)
 			__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["i" /* setCurrrentPosition */](__WEBPACK_IMPORTED_MODULE_0__lesson_mouse_js__["a" /* getGridPosition */]())
 		}
