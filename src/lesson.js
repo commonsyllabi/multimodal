@@ -55,7 +55,7 @@ class Lesson {
   						isReplacing = true
 
   				if(!isReplacing){
-  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.course.path}/${this.course.name}/${this.name}/media`))
+  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.course.path}/${this.course.name}/${this.name}/media/${p.name}`))
   					// now we redirect the source to the local folder
   					p.src = `${this.course.path}/${this.course.name}/${this.name}/media/${p.name}`
   					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)

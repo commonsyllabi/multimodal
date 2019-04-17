@@ -1,1 +1,80 @@
-[{"id":"augm-666","name":"augmenting the gallery","path":"/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery","date":"","lessons":[{"name":"introduction"},{"name":"augmenting objects"},{"name":"interfaces"},{"name":"museums and digital"},{"name":"art and gallery spaces"},{"name":"publics and users"},{"name":"work session"},{"id":"unit-1463497693","course":{"created":null,"id":"augm-666","name":"augmenting the gallery","path":"/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery"},"name":"unity connectivity","created":"2019-04-08T15:16:25.774Z","updated":null,"concepts":[{"concept":"unity connectivity","notes":[null],"prep":[{"tag":"","text":"HTTP, WWW and API","type":"txt"}],"tag":"","writeups":[]},{"concept":"whiteboard","notes":[],"prep":[{"tag":"","text":"","type":"wbd"}],"tag":"whiteboard","writeups":[]}]}]},{"id":"comp-666","name":"computational representations","path":"/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs","date":"","lessons":[]}]
+[
+  {
+    "id": "augm-666",
+    "name": "augmenting the gallery",
+    "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery",
+    "date": "",
+    "lessons": [
+      {
+        "name": "introduction"
+      },
+      {
+        "name": "augmenting objects"
+      },
+      {
+        "name": "interfaces"
+      },
+      {
+        "name": "museums and digital"
+      },
+      {
+        "name": "art and gallery spaces"
+      },
+      {
+        "name": "publics and users"
+      },
+      {
+        "name": "work session"
+      },
+      {
+        "id": "unit-1463497693",
+        "course": {
+          "created": null,
+          "id": "augm-666",
+          "name": "augmenting the gallery",
+          "path": "/Users/Pierre/Documents/Teaching/NYUBerlin/AugmentingGallery"
+        },
+        "name": "museum education",
+        "created": "2019-04-08T15:16:25.774Z",
+        "updated": null,
+        "concepts": [
+          {
+            "concept": "museum education",
+            "notes": [
+              null
+            ],
+            "prep": [
+              {
+                "tag": "",
+                "text": "HTTP, WWW and API",
+                "type": "txt"
+              }
+            ],
+            "tag": "",
+            "writeups": []
+          },
+          {
+            "concept": "whiteboard",
+            "notes": [],
+            "prep": [
+              {
+                "tag": "",
+                "text": "",
+                "type": "wbd"
+              }
+            ],
+            "tag": "whiteboard",
+            "writeups": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "comp-666",
+    "name": "computational representations",
+    "path": "/Users/Pierre/Documents/Teaching/CTech/COMPUTATIONAL REPRESENTATIONS/repo/docs",
+    "date": "",
+    "lessons": []
+  }
+]
