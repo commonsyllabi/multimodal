@@ -39,8 +39,8 @@ class Lesson {
     this.concepts = data.concepts
 
     //-- make sure the folders exist
-    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/media`)
-    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/other`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/lessons/${this.name}/media`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/lessons/${this.name}/other`)
 
     //-- check for external media assets and copy them in the local folder
   	for(let concept of data.concepts){
@@ -50,16 +50,16 @@ class Lesson {
   				p.name = re[0]
 
   				//-- check for existing assets
-  				let existing = fs.readdirSync(`${this.course.path}/${this.course.name}/${this.name}/media`)
+  				let existing = fs.readdirSync(`${this.course.path}/${this.course.name}/lessons/${this.name}/media`)
   				let isReplacing = false
   				for(let e of existing)
   					if(e == p.name)
   						isReplacing = true
 
   				if(!isReplacing){
-  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.course.path}/${this.course.name}/${this.name}/media/${p.name}`))
+  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.course.path}/${this.course.name}/lessons/${this.name}/media/${p.name}`))
   					// now we redirect the source to the local folder
-  					p.src = `${this.course.path}/${this.course.name}/${this.name}/media/${p.name}`
+  					p.src = `${this.course.path}/${this.course.name}/lessons/${this.name}/media/${p.name}`
   					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
   				}
   			}
@@ -67,7 +67,7 @@ class Lesson {
   	}
 
     //-- update the remote file
-    fs.writeFile(`${this.course.path}/${this.course.name}/${this.name}/${this.name}.json`, JSON.stringify(this.toJSON()), (err) => {
+    fs.writeFile(`${this.course.path}/${this.course.name}/lessons/${this.name}/${this.name}.json`, JSON.stringify(this.toJSON()), (err) => {
       if(err)
         throw err
     })
@@ -150,9 +150,9 @@ Lesson.prototype.find = (id) => {
   for(let course of courses)
     for(let lesson of course.lessons)
       if(lesson.id == id) //if the id matches
-        return new Lesson(lesson) //return the lesson
+        return true //return the lesson
 
-  return null
+  return false
 }
 
 module.exports = Lesson

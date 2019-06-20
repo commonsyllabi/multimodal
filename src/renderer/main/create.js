@@ -360,7 +360,7 @@ let parseLesson = () => {
 			'name': document.getElementById('existing-course').innerText,
 			'created': document.getElementById('existing-course').getAttribute('created'),
 			'path': document.getElementById('local-path').value,
-			'id': document.getElementById('existing-course').getAttribute('id')
+			'id': document.getElementById('existing-course').getAttribute('course-id')
 		}
 	}else{ // or creating the new one
 		let dropdown = document.getElementById('course-list').selectedOptions[0]
@@ -369,12 +369,13 @@ let parseLesson = () => {
 			'name': dropdown.value,
 			'created': dropdown.getAttribute('created'),
 			'path': dropdown.getAttribute('path'),
-			'id': dropdown.getAttribute('id')
+			'id': dropdown.getAttribute('course-id')
 		}
 	}
 
 	// --  GET LESSON INFORMATION
 	lesson.name = document.getElementById('name').value
+	lesson.id = document.getElementById('name').getAttribute('lesson-id')
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts

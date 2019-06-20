@@ -123,12 +123,13 @@ ipc.on('export-lesson', (event, data, type, path) => {
 ipc.on('save-lesson', (event, data) => {
 	let lesson
 
-	//-- check if you're editing a lesson or creating a new one
-	if(data.id != null)
-		lesson = Lesson.find(data.id)
-	else
+	//-- check if you're editing a lesson or creating a new one FIX
+	// if(data.id != null && Lesson.find(data.id)) // if you're editing
+	// 	Lesson.update(data)
+	// else
 		lesson = new Lesson(data)
 
+//doesnt' this save twice? TODO TODO TODO TODOTODO TODOTODO TODOTODO TODOTODO TODOTODO TODOTODO TODO
 	if(lesson.save(data)){
 		console.log(`[SAVE LESSON] ${lesson.name} to ${lesson.course.path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'}) //-- confirm that the lesson is saved

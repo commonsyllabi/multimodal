@@ -575,7 +575,6 @@ let lessonSaved = false
 // appends the "in-class" prefix and send the IPC message to the main process
 let saveSession = () => {
 	let lesson = parseDocument()
-	lesson.prefix = 'in-class'
 
 	if(lesson.length == 0){
 		console.log('nothing found on the document!')
