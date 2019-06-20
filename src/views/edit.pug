@@ -8,9 +8,9 @@ html
 	body
 		div.create-container
 			div.create-course
-				div.edit-existing-course#existing-course(created= course.created)= course.name
+				div.edit-existing-course#existing-course(created= course.created course-id= course.id)= course.name
 			div.create-lesson
-				input.create-lesson-title#name(type='text', value= name)
+				input.create-lesson-title#name(type='text', value= name, lesson-id= id)
 			div.create-path
 				input.course-path#local-path(type='text', placeholder='course folder', value= course.path, disabled)
 

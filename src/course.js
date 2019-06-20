@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const utils = require('./utils.js')
 
 class Course {
@@ -21,10 +22,10 @@ class Course {
   	fs.writeFileSync(`${__dirname}/lessons/courses.json`, JSON.stringify(courses))
 
     //create course folder
-  	utils.touchDirectory(`${this.path}/${this.name}/courses`)
+  	utils.touchDirectory(`${this.path}/${this.name}/lessons`)
     utils.touchDirectory(`${this.path}/${this.name}/exports`)
     utils.touchDirectory(`${this.path}/${this.name}/exports/assets`)
-    fs.createReadStream(`${__dirname}/lessons/style.css`).pipe(fs.createWriteStream(path.join(`${_lesson.course.path}/${_lesson.course.name}/exports/style.css`, file)))
+    fs.createReadStream(`${__dirname}/lessons/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
 
     //write the course file
     fs.writeFileSync(`${this.path}/${this.name}/${this.name}.json`, JSON.stringify(data))
