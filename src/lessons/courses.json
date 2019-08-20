@@ -564,5 +564,16 @@
         "name": "raspberry pi web"
       }
     ]
+  },
+  {
+    "id": "test-5354137776",
+    "name": "test",
+    "path": "/home/pierre/Desktop",
+    "created": "2019-08-20T15:42:21.671Z",
+    "lessons": [
+      {
+        "name": "test lesson"
+      }
+    ]
   }
 ]

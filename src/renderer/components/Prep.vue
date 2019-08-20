@@ -1,8 +1,6 @@
-<!-- NOTE -->
-
 <template>
   <!-- <p>{{data.text}}</p> -->
-  <!-- <input type="text" v-model="data.text"/> -->
+  <input type="text" v-model="data.text"/>
 </template>
 
 <script>

@@ -17,9 +17,9 @@ const Lesson = require('./lesson.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(`${data.path}/${data.course}/lessons/${data.name}/${data.name}.json`))
+	let c = fs.readFileSync(`${data.path}/${data.course}/lessons/${data.name}/${data.name}.json`)
 
-	let compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', c)
+	let compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', {'data':c})
 
 	fs.writeFileSync(__dirname+'/app/'+template+'.html', compiled)
 }
