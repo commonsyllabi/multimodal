@@ -12,19 +12,20 @@ class Lesson {
     this.created = new Date()
     this.updated = null
     this.concepts = data.concepts
+    this.contexts = data.contexts
 
     this.init()
   }
 
   init(){
     //-- create the appropriate folders
-    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/media`)
-    utils.touchDirectory(`${this.course.path}/${this.course.name}/${this.name}/other`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/lessons/${this.name}/media`)
+    utils.touchDirectory(`${this.course.path}/${this.course.name}/lessons/${this.name}/other`)
 
     //-- find the appropriate course and update it locally
     let local_courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
     for(let c of local_courses)
-      if(c.id == this.course.id)
+      if(c.id == this.course.id) //TODO -> course id doesn't match with the lesson _id
         c.lessons.push(this.toJSON())
     fs.writeFileSync(`${__dirname}/lessons/courses.json`, JSON.stringify(local_courses))
 

@@ -13,8 +13,18 @@ import * as globals from './lesson/globals.js'
 import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'
 
-let init = () => {
+import Vue from 'vue'
+import Lesson from './components/Lesson.vue'
 
+new Vue({
+	el: '#writing-board',
+	template: '<Lesson/>',
+	components: {
+		Lesson
+	}
+})
+
+let init = () => {
 	drawing.init()
 
 	//-- right now, this is only for moving images

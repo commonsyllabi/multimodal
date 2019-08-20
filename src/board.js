@@ -28,7 +28,16 @@ module.exports.list = () => {
 		}
 
 		for(let lesson of course.lessons){
-			obj.lessons.push(JSON.parse(fs.readFileSync(`${course.path}/${course.name}/lessons/${lesson.name}/${lesson.name}.json`)))
+			let p = `${course.path}/${course.name}/lessons/${lesson.name}/${lesson.name}.json`
+			let l = null
+			try {
+				l = fs.readFileSync(p)
+			} catch (e) {
+				console.log(`[BOARD] Couldn't find lesson at ${lesson.name}`);
+			}
+
+			if(l != null)
+				obj.lessons.push(JSON.parse(l))
 		}
 
 		if(obj.lessons.length > 0)

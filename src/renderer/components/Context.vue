@@ -1,17 +1,13 @@
 <template>
-  <p>{{data}}</p>
+  <p>Concept</p>
 </template>
 
 <script>
 export default {
-  props: {
-    data: {
-      type: Object,
-      default: {}
-    }
-  },
   data: function () {
     return {
+      greeting: 'Hello'
+
     }
   }
 }
