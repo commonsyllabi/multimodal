@@ -1,7 +1,5 @@
-<!-- NOTE -->
-
 <template>
-  <textarea v-if="data" class="note moveable saved concept-bound" type="text">{{data.text}}</textarea>
+  <button class="concept-btn concept" :concept="index">{{data.concept}}</button>
 </template>
 
 <script>
@@ -10,11 +8,14 @@ export default {
     data: {
       type: Object,
       default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   data: function () {
     return {
-
     }
   }
 }

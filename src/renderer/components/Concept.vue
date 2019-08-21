@@ -1,21 +1,27 @@
 <template>
-  <div>
-    {{data.concept}}
-    <span v-for="prep in data.prep">
-      <Prep :data="prep"/>
-    </span>
+  <div class="concept-group" :id="index" :concept="index">
+    <canvas class="drawing-board" :concept="index"></canvas>
 
-    <!-- <span v-for="context in data.contexts">
-      <Context :data="context"/>
-    </span> -->
+    <div>
+      <div class="prep note title concept-bound" :concept="index">
+        {{data.concept}}
+      </div>
+      <span v-for="prep in data.prep">
+        <Prep :data="prep" :course="course"/>
+      </span>
 
-    <span v-for="note in data.notes">
-      <Note :data="note"/>
-    </span>
+      <span v-for="context in data.contexts">
+        <Context :data="context"/>
+      </span>
 
-    <span v-for="writeup in data.writeups">
-      <Writeup :data="writeup"/>
-    </span>
+      <span v-for="note in data.notes">
+        <Note :data="note"/>
+      </span>
+
+      <span v-for="writeup in data.writeups">
+        <Writeup :data="writeup"/>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -36,12 +42,25 @@ export default {
     data: {
       type: Object,
       default: {}
+    },
+    course: {
+      type: Object,
+      default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   data: function () {
     return {
-      greeting: 'Hello'
-
+    }
+  },
+  mounted(){
+    let root = document.getElementById(this.index)
+    root.ondblclick = (e) => {
+      if(e.target.getAttribute("concept") == this.index)
+        this.data.notes.push({text: "wallah"})
     }
   }
 }

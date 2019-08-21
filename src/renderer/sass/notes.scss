@@ -55,16 +55,18 @@ body{
      overflow-y: visible;
   }
 
-  .prep-group{
-	  position: absolute;
+  .concept-group{
+	  position: relative;
 	  padding-top: 5%;
 	  padding-left: 10%;
-	  width: 60%;
+	  width: 80%;
+    height: 100vh;
+    border: 2px solid black;
   }
 
   .prep{
 	  position: relative;
-	  opacity:0;
+	  opacity:1;
 
 	  font-family: 'Inter UI';
 	  font-style: italic;

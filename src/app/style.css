@@ -117,16 +117,18 @@ body #current {
   overflow-y: visible;
 }
 
-body .prep-group {
-  position: absolute;
+body .concept-group {
+  position: relative;
   padding-top: 5%;
   padding-left: 10%;
-  width: 60%;
+  width: 80%;
+  height: 100vh;
+  border: 2px solid black;
 }
 
 body .prep {
   position: relative;
-  opacity: 0;
+  opacity: 1;
   font-family: 'Inter UI';
   font-style: italic;
   font-size: 2em;
@@ -221,7 +223,6 @@ canvas {
   position: absolute;
   top: 0px;
   left: 0px;
-  overflow: hidden;
 }
 
 canvas {
@@ -296,7 +297,7 @@ canvas {
 }
 
 .concept-buttons {
-  position: absolute;
+  position: fixed;
   top: 0px;
   right: 0px;
   min-width: 10%;
