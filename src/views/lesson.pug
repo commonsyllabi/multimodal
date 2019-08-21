@@ -12,17 +12,21 @@ html
 		//- div.metadata#course-name= data.course.name
 		//- div.metadata#course-id= data.course.id
 		div.lessons-container#writing-board
+		
 			//- div.concept-buttons
 			//- 	each concept, index in concepts
 			//- 		button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= concept.tag)= index + '. '+ concept.concept
+			
+			
 			//- each concept, index in concepts
 			//- 	canvas.drawing-board(concept= index)
-			//- 	div.prep-group(id= index)
+			//- 	div.concept-group(id= index)
 			//- 		div.prep.note.title.concept-bound(concept= index)= concept.concept
       
 			//- 		//- EACH WRITEUP
 			//- 		each writeup in concept.writeups
 			//- 			textarea.writeup.concept-bound(concept= index, hidden)= writeup
+			
 			//- 		//-- EACH NOTES
 			//- 		each note in concept.notes
 			//- 			textarea.note.moveable.saved.concept-bound(concept= index, type="text")= note

@@ -1,5 +1,5 @@
 <template>
-  <p>{{data}}</p>
+  <textarea class="writeup concept-bound" hidden>{{data}}</textarea>
 </template>
 
 <script>

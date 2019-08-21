@@ -18,17 +18,20 @@ let handle = (e) => {
 	switch(e.keyCode){
 	case UP: //concept right before
 		if(currentNote == null){
+			e.preventDefault()
 			index = getCurrentConcept()
-			index = index - 1 >= 0 ? index - 1 : 0
-			setCurrentConcept(index)
+			index = index - 1 > 0 ? index - 1 : 0
+			setCurrentConcept(index, true)
 		}
 		break
 	case DOWN: //concept right after
+
 		if(currentNote == null){
+			e.preventDefault()
 			index = getCurrentConcept()
-			let len = document.getElementsByClassName('concept').length-1
+			let len = document.getElementsByClassName('concept-group').length-1
 			index = index + 1 < len ? index + 1 : len
-			setCurrentConcept(index)
+			setCurrentConcept(index, true)
 		}
 		break
 	case LEFT: // previous concept
@@ -39,7 +42,7 @@ let handle = (e) => {
 		break
 	case RIGHT: // jump to the whiteboard
 		if(currentNote == null){
-			let index = document.getElementsByClassName('concept').length-1
+			let index = document.getElementsByClassName('concept-group').length-1
 			setCurrentConcept(index)
 		}
 		break

@@ -137,10 +137,9 @@ let initTags = () => {
 	for(let e of els){
 		let t = e.getAttribute('tag')
 		if(t != '' && t != null)
-			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
+			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">^</sup>'
 
 	}
-
 }
 
 let jumpToTag = (_tag) => {
@@ -160,11 +159,11 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index) => {
-
+let setCurrentConcept = (index, shouldNavigate = false) => {
 	previousConcept = currentConcept
 	currentConcept = index ? index : 0
 
+	//-- highlight navigation
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){
 		c.setAttribute('class', 'concept concept-btn')
@@ -172,14 +171,16 @@ let setCurrentConcept = (index) => {
 			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
-	let ns = document.getElementsByClassName('concept-bound')
-	for(let n of ns){
-		if(n.getAttribute('concept') == currentConcept){
-			n.style.opacity = 1
-			n.style.pointerEvents = 'auto'
-		}else{
-			n.style.opacity = 0
-			n.style.pointerEvents = 'none'
+	//-- scroll element into view
+	if(shouldNavigate){
+		let ns = document.getElementsByClassName('concept-group')
+		for(let n of ns){
+			if(n.getAttribute('concept') == currentConcept){
+				n.scrollIntoView({behavior: "smooth"})
+				n.style.pointerEvents = 'auto'
+			}else{
+				n.style.pointerEvents = 'none'
+			}
 		}
 	}
 
@@ -417,20 +418,20 @@ let init = () => {
 
 	//basically these notes need to be given an initial position
 
-	window.ondblclick = () => {
-
-		let els = document.getElementsByClassName('written')
-		for(let el of els)
-			el.removeAttribute('id')
-
-		if(__WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["a" /* currentNote */] == null)
-			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["c" /* newNote */]()
-		else
-			__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* endNote */]()
-	}
+	// window.ondblclick = () => {
+  //
+	// 	let els = document.getElementsByClassName('written')
+	// 	for(let el of els)
+	// 		el.removeAttribute('id')
+  //
+	// 	if(globals.currentNote == null)
+	// 		typing.newNote()
+	// 	else
+	// 		typing.endNote()
+	// }
 
 	window.addEventListener('keydown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["b" /* handle */](e)
+		__WEBPACK_IMPORTED_MODULE_1__lesson_typing_js__["a" /* handle */](e)
 	})
 
 	window.addEventListener('mousemove', (e) =>{
@@ -451,6 +452,7 @@ let init = () => {
 }
 
 window.init = init
+window.setCurrentConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["g" /* setCurrentConcept */]
 window.saveSession = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_2__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_3__lesson_globals_js__["g" /* setCurrentConcept */]
@@ -471,9 +473,9 @@ ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_5__utils_js__["se
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return newNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return endNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return handle; });
+/* unused harmony export newNote */
+/* unused harmony export endNote */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mouse_js__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__globals_js__ = __webpack_require__(5);
 
@@ -496,17 +498,20 @@ let handle = (e) => {
 	switch(e.keyCode){
 	case UP: //concept right before
 		if(currentNote == null){
+			e.preventDefault()
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-			index = index - 1 >= 0 ? index - 1 : 0
-			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
+			index = index - 1 > 0 ? index - 1 : 0
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index, true)
 		}
 		break
 	case DOWN: //concept right after
+
 		if(currentNote == null){
+			e.preventDefault()
 			index = Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["b" /* getCurrentConcept */])()
-			let len = document.getElementsByClassName('concept').length-1
+			let len = document.getElementsByClassName('concept-group').length-1
 			index = index + 1 < len ? index + 1 : len
-			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
+			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index, true)
 		}
 		break
 	case LEFT: // previous concept
@@ -517,7 +522,7 @@ let handle = (e) => {
 		break
 	case RIGHT: // jump to the whiteboard
 		if(currentNote == null){
-			let index = document.getElementsByClassName('concept').length-1
+			let index = document.getElementsByClassName('concept-group').length-1
 			Object(__WEBPACK_IMPORTED_MODULE_1__globals_js__["g" /* setCurrentConcept */])(index)
 		}
 		break
@@ -12713,6 +12718,12 @@ let exitLesson = () => {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12730,12 +12741,25 @@ let exitLesson = () => {
     data: {
       type: Object,
       default: {}
+    },
+    course: {
+      type: Object,
+      default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   data: function () {
     return {
-      greeting: 'Hello'
-
+    }
+  },
+  mounted(){
+    let root = document.getElementById(this.index)
+    root.ondblclick = (e) => {
+      if(e.target.getAttribute("concept") == this.index)
+        this.data.notes.push({text: "wallah"})
     }
   }
 });
@@ -12813,21 +12837,51 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass: "concept-group",
+      attrs: { id: _vm.index, concept: _vm.index }
+    },
     [
-      _vm._v("\n  " + _vm._s(_vm.data.concept) + "\n  "),
-      _vm._l(_vm.data.prep, function(prep) {
-        return _c("span", [_c("Prep", { attrs: { data: prep } })], 1)
+      _c("canvas", {
+        staticClass: "drawing-board",
+        attrs: { concept: _vm.index }
       }),
       _vm._v(" "),
-      _vm._l(_vm.data.notes, function(note) {
-        return _c("span", [_c("Note", { attrs: { data: note } })], 1)
-      }),
-      _vm._v(" "),
-      _vm._l(_vm.data.writeups, function(writeup) {
-        return _c("span", [_c("Writeup", { attrs: { data: writeup } })], 1)
-      })
-    ],
-    2
+      _c(
+        "div",
+        [
+          _c(
+            "div",
+            {
+              staticClass: "prep note title concept-bound",
+              attrs: { concept: _vm.index }
+            },
+            [_vm._v("\n      " + _vm._s(_vm.data.concept) + "\n    ")]
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.data.prep, function(prep) {
+            return _c(
+              "span",
+              [_c("Prep", { attrs: { data: prep, course: _vm.course } })],
+              1
+            )
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.data.contexts, function(context) {
+            return _c("span", [_c("Context", { attrs: { data: context } })], 1)
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.data.notes, function(note) {
+            return _c("span", [_c("Note", { attrs: { data: note } })], 1)
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.data.writeups, function(writeup) {
+            return _c("span", [_c("Writeup", { attrs: { data: writeup } })], 1)
+          })
+        ],
+        2
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -12951,6 +13005,7 @@ function normalizeComponent (
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Concept_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__ = __webpack_require__(59);
 //
 //
 //
@@ -12961,20 +13016,46 @@ function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
-    Concept: __WEBPACK_IMPORTED_MODULE_0__Concept_vue__["a" /* default */]
+    Concept: __WEBPACK_IMPORTED_MODULE_0__Concept_vue__["a" /* default */],
+    Navigation: __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__["a" /* default */]
   },
   data: function () {
     return {
-      data: null
+      data: null,
+      currentConcept: 0
     }
   },
   methods: {
+    isScrolledIntoView() {
+      let visibleElements = []
+      for(let i = 0; i < this.data.concepts.length; i++){
+        let el = document.getElementById(i)
+        var rect = el.getBoundingClientRect();
+        var elemTop = rect.top;
+        var elemBottom = rect.bottom;
 
+        let isVisible = elemTop < window.innerHeight*0.9 && elemBottom >= 0;
+
+        if(isVisible)
+          visibleElements.push(i)
+      }
+      
+      if(visibleElements.length == 1)
+        window.setCurrentConcept(visibleElements[0])
+    }
+  },
+  mounted(){
+    document.addEventListener('scroll', this.isScrolledIntoView)
   },
   beforeMount() {
     this.data = window.data
@@ -13002,10 +13083,15 @@ function normalizeComponent (
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+  props: {
+    data: {
+      type: String,
+      default: {}
+    }
+  },
   data: function () {
     return {
       greeting: 'Hello'
-
     }
   }
 });
@@ -13030,12 +13116,32 @@ function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
       type: Object,
       default: {}
+    },
+    course: {
+      type: Object,
+      default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   data: function () {
@@ -13060,7 +13166,6 @@ function normalizeComponent (
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//
 //
 //
 //
@@ -13186,13 +13291,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.data.concepts, function(concept) {
-      return _c("span", [_c("Concept", { attrs: { data: concept } })], 1)
-    }),
-    0
-  )
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "lessons-container" },
+      _vm._l(_vm.data.concepts, function(concept, index) {
+        return _c(
+          "span",
+          [
+            _c("Concept", {
+              attrs: { data: concept, course: _vm.data.course, index: index }
+            })
+          ],
+          1
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "concept-buttons" },
+      _vm._l(_vm.data.concepts, function(concept, index) {
+        return _c("Navigation", { attrs: { data: concept, index: index } })
+      }),
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13270,7 +13395,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", [_vm._v("Concept")])
+  return _c("p", { attrs: { hidden: "" } }, [_vm._v(_vm._s(_vm.data))])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13347,26 +13472,87 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("input", {
-    directives: [
-      {
-        name: "model",
-        rawName: "v-model",
-        value: _vm.data.text,
-        expression: "data.text"
-      }
-    ],
-    attrs: { type: "text" },
-    domProps: { value: _vm.data.text },
-    on: {
-      input: function($event) {
-        if ($event.target.composing) {
-          return
-        }
-        _vm.$set(_vm.data, "text", $event.target.value)
-      }
-    }
-  })
+  return _vm.data.type == "txt"
+    ? _c(
+        "div",
+        {
+          staticClass: "prep note written concept-bound",
+          attrs: { concept: _vm.index, tag: _vm.data.tag }
+        },
+        [_vm._v("\n  " + _vm._s(_vm.data.text) + "\n")]
+      )
+    : _vm.data.type == "url"
+    ? _c(
+        "div",
+        {
+          staticClass: "prep note written concept-bound",
+          attrs: { concept: _vm.index, tag: _vm.data.tag }
+        },
+        [
+          _c("a", { attrs: { href: _vm.prep.url, target: "_blank" } }, [
+            _vm._v(_vm._s(_vm.data.url))
+          ])
+        ]
+      )
+    : _vm.data.type == "img"
+    ? _c(
+        "div",
+        {
+          staticClass: "prep note written concept-bound",
+          attrs: { concept: _vm.index, tag: _vm.data.tag }
+        },
+        [
+          _c("img", {
+            attrs: {
+              name: _vm.prep.name,
+              src:
+                _vm.course.path +
+                "/" +
+                _vm.course.name +
+                "/lessons/" +
+                _vm.name +
+                "/media/" +
+                _vm.prep.name
+            }
+          })
+        ]
+      )
+    : _vm.data.type == "vid"
+    ? _c(
+        "div",
+        {
+          staticClass: "prep note written concept-bound",
+          attrs: { concept: _vm.index, tag: _vm.data.tag }
+        },
+        [
+          _c(
+            "video",
+            {
+              attrs: {
+                "max-width": "800px",
+                ",": "",
+                "max-height": "600px",
+                controls: ""
+              }
+            },
+            [
+              _c("source", {
+                attrs: {
+                  name: _vm.prep.name,
+                  src:
+                    "assets/" +
+                    _vm.course.name +
+                    "/lessons/" +
+                    _vm.name +
+                    "/media/" +
+                    _vm.prep.name
+                }
+              })
+            ]
+          )
+        ]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13443,7 +13629,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _vm.data
+    ? _c(
+        "textarea",
+        {
+          staticClass: "note moveable saved concept-bound",
+          attrs: { type: "text" }
+        },
+        [_vm._v(_vm._s(_vm.data.text))]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13520,7 +13715,129 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", [_vm._v(_vm._s(_vm.data))])
+  return _c(
+    "textarea",
+    { staticClass: "writeup concept-bound", attrs: { hidden: "" } },
+    [_vm._v(_vm._s(_vm.data))]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_script_lang_js___ = __webpack_require__(58);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  data: function () {
+    return {
+    }
+  }
+});
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Navigation_vue_vue_type_template_id_7f70c41a___ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue_vue_type_script_lang_js___ = __webpack_require__(57);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(30);
+
+
+
+
+
+/* normalize component */
+
+var component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_1__Navigation_vue_vue_type_script_lang_js___["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__Navigation_vue_vue_type_template_id_7f70c41a___["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_0__Navigation_vue_vue_type_template_id_7f70c41a___["b" /* staticRenderFns */],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) {
+  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  api.install(require('vue'))
+  if (api.compatible) {
+    module.hot.accept()
+    if (!module.hot.data) {
+      api.createRecord('7f70c41a', component.options)
+    } else {
+      api.reload('7f70c41a', component.options)
+    }
+    module.hot.accept("./Navigation.vue?vue&type=template&id=7f70c41a&", function () {
+      api.rerender('7f70c41a', {
+        render: render,
+        staticRenderFns: staticRenderFns
+      })
+    })
+  }
+}
+component.options.__file = "src/renderer/components/Navigation.vue"
+/* harmony default export */ __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_template_id_7f70c41a___ = __webpack_require__(61);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_template_id_7f70c41a___["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Navigation_vue_vue_type_template_id_7f70c41a___["b"]; });
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    { staticClass: "concept-btn concept", attrs: { concept: _vm.index } },
+    [_vm._v(_vm._s(_vm.data.concept))]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

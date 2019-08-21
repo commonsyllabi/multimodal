@@ -17,7 +17,7 @@ html
 				each content, index in concepts
 					div.concept-group
 						h3.concept-name= content.concept
-						div.prep-group
+						div.concept-group
 							each prep in content.prep
 								if prep.type == "txt"
 									div.prep.note(concept= index)= prep.text

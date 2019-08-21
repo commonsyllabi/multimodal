@@ -42,17 +42,17 @@ let init = () => {
 
 	//basically these notes need to be given an initial position
 
-	window.ondblclick = () => {
-
-		let els = document.getElementsByClassName('written')
-		for(let el of els)
-			el.removeAttribute('id')
-
-		if(globals.currentNote == null)
-			typing.newNote()
-		else
-			typing.endNote()
-	}
+	// window.ondblclick = () => {
+  //
+	// 	let els = document.getElementsByClassName('written')
+	// 	for(let el of els)
+	// 		el.removeAttribute('id')
+  //
+	// 	if(globals.currentNote == null)
+	// 		typing.newNote()
+	// 	else
+	// 		typing.endNote()
+	// }
 
 	window.addEventListener('keydown', (e) => {
 		typing.handle(e)
@@ -76,6 +76,7 @@ let init = () => {
 }
 
 window.init = init
+window.setCurrentConcept = globals.setCurrentConcept
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept

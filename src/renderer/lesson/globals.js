@@ -11,10 +11,9 @@ let initTags = () => {
 	for(let e of els){
 		let t = e.getAttribute('tag')
 		if(t != '' && t != null)
-			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">⮹</sup>'
+			e.innerHTML += '<sup class="prep-tag-anchor" onclick="jumpToTag(\''+t+'\')" title="'+t+'">^</sup>'
 
 	}
-
 }
 
 let jumpToTag = (_tag) => {
@@ -34,11 +33,11 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index) => {
-
+let setCurrentConcept = (index, shouldNavigate = false) => {
 	previousConcept = currentConcept
 	currentConcept = index ? index : 0
 
+	//-- highlight navigation
 	let cs = document.getElementsByClassName('concept')
 	for(let c of cs){
 		c.setAttribute('class', 'concept concept-btn')
@@ -46,14 +45,16 @@ let setCurrentConcept = (index) => {
 			c.setAttribute('class', 'concept concept-btn current-concept')
 	}
 
-	let ns = document.getElementsByClassName('concept-bound')
-	for(let n of ns){
-		if(n.getAttribute('concept') == currentConcept){
-			n.style.opacity = 1
-			n.style.pointerEvents = 'auto'
-		}else{
-			n.style.opacity = 0
-			n.style.pointerEvents = 'none'
+	//-- scroll element into view
+	if(shouldNavigate){
+		let ns = document.getElementsByClassName('concept-group')
+		for(let n of ns){
+			if(n.getAttribute('concept') == currentConcept){
+				n.scrollIntoView({behavior: "smooth"})
+				n.style.pointerEvents = 'auto'
+			}else{
+				n.style.pointerEvents = 'none'
+			}
 		}
 	}
 
