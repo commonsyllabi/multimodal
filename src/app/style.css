@@ -83,11 +83,6 @@ body .note {
   }
 }
 
-body .saved {
-  position: relative;
-  float: right;
-}
-
 body .title {
   font-size: 2.3em;
   font-weight: bold;
@@ -106,13 +101,12 @@ body .written {
 }
 
 body .moveable {
-  position: fixed;
   z-index: 4;
   width: initial;
 }
 
 body #current {
-  position: fixed;
+  position: absolute;
   font-weight: bold;
   overflow-y: visible;
 }

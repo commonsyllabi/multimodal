@@ -15,7 +15,7 @@
       </span>
 
       <span v-for="note in data.notes">
-        <Note :data="note"/>
+        <Note :data="note" @new-note="handleNewNote"/>
       </span>
 
       <span v-for="writeup in data.writeups">
@@ -54,13 +54,25 @@ export default {
   },
   data: function () {
     return {
+      currentNote: null
+    }
+  },
+  methods: {
+    handleNewNote(el) {
+      this.$emit('new-note', el)
     }
   },
   mounted(){
     let root = document.getElementById(this.index)
     root.ondblclick = (e) => {
-      if(e.target.getAttribute("concept") == this.index)
-        this.data.notes.push({text: "wallah"})
+      if(e.target.getAttribute("concept") == this.index){
+        	let els = document.getElementsByClassName('written')
+        	for(let el of els)
+        		el.removeAttribute('id')
+
+        	if(window.currentNote == null)
+            this.data.notes.push({text: ''})
+      }
     }
   }
 }

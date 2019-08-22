@@ -1,6 +1,5 @@
 'use strict'
 
-import * as mouse from './mouse.js'
 import { getCurrentNote, setCurrentNote, setCurrrentPosition, getPreviousConcept, getCurrentConcept, setCurrentConcept } from './globals.js'
 
 const ESC = 27
@@ -9,15 +8,15 @@ const LEFT = 37
 const RIGHT = 39
 const DOWN = 40
 
-let currentNote = null
+let cn = null
 
 let handle = (e) => {
-	currentNote = getCurrentNote()
+	cn = window.currentNote
 
 	let index
 	switch(e.keyCode){
 	case UP: //concept right before
-		if(currentNote == null){
+		if(cn == null){
 			e.preventDefault()
 			index = getCurrentConcept()
 			index = index - 1 > 0 ? index - 1 : 0
@@ -25,72 +24,56 @@ let handle = (e) => {
 		}
 		break
 	case DOWN: //concept right after
-
-		if(currentNote == null){
+		if(cn == null){
 			e.preventDefault()
 			index = getCurrentConcept()
+			console.log('index before',index);
 			let len = document.getElementsByClassName('concept-group').length-1
 			index = index + 1 < len ? index + 1 : len
+			console.log('index after',index);
 			setCurrentConcept(index, true)
 		}
 		break
 	case LEFT: // previous concept
-		if(currentNote == null){
+		if(cn == null){
 			index = getPreviousConcept()
 			setCurrentConcept(index)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
-		if(currentNote == null){
+		if(cn == null){
 			let index = document.getElementsByClassName('concept-group').length-1
 			setCurrentConcept(index)
 		}
 		break
 	case ESC:
-		endNote()
+		if(cn != null)
+			endNote(cn)
 		break
 	default:
 		break
 	}
 }
 
-let newNote = () => {
-	let cn = document.createElement('textarea')
-	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note moveable concept-bound')
-	cn.setAttribute('concept', getCurrentConcept())
-	cn.setAttribute('id', 'current')
-	cn.addEventListener('input', () => { onInput(cn)}, false)
-	document.getElementById(getCurrentConcept()).append(cn)
 
-	setCurrentNote(cn)
-	setCurrrentPosition(mouse.getGridPosition())
+let endNote = (el) => {
 
-	cn.focus()
-}
-
-let onInput = (el) => {
-	el.style.height = 'auto'
-	el.style.height = (el.scrollHeight) + 'px'
-}
-
-let endNote = () => {
 	//if note is blank
-	if(currentNote != null && currentNote.value == ''){
-		currentNote.parentNode.removeChild(currentNote)
-	}else{
-		currentNote.style.height = (currentNote.scrollHeight)+'px'
-		// currentNote.style.overflowY = 'hidden'
+	if(el.value == ''){
+		el.parentNode.removeChild(el)
+	}else{ //-- else position it correctly
+		el.style.height = (el.scrollHeight)+'px'
 	}
 
-	currentNote.blur()
-	currentNote.removeAttribute('id')
-	currentNote.onclick = (evt) => {
+	el.blur()
+	el.removeAttribute('id')
+	el.onclick = (evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
-		setCurrentNote(evt.target)
+		window.currentNote = evt.target
 	}
-	setCurrentNote(null)
+
+	window.currentNote = null
 }
 
 export { handle, newNote, endNote }

@@ -6,7 +6,6 @@ require('./sass/globals.scss')
 require('./sass/notes.scss')
 require('./sass/interface.scss')
 
-import * as mouse from './lesson/mouse.js'
 import * as typing from './lesson/typing.js'
 import * as save from './lesson/save.js'
 import * as globals from './lesson/globals.js'
@@ -16,7 +15,7 @@ import * as utils from './utils.js'
 import Vue from 'vue'
 import Lesson from './components/Lesson.vue'
 
-new Vue({
+window.vm = new Vue({
 	el: '#writing-board',
 	template: '<Lesson/>',
 	components: {
@@ -24,44 +23,10 @@ new Vue({
 	}
 })
 
+window.currentNote = null
+
 let init = () => {
 	drawing.init()
-
-	//-- right now, this is only for moving images
-	let notes = document.getElementsByClassName('moveable')
-
-	for(let n of notes){
-		n.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current') return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable concept-bound')
-			globals.setCurrentNote(evt.target)
-			globals.setCurrrentPosition(mouse.getGridPosition())
-		}
-	}
-
-	//basically these notes need to be given an initial position
-
-	// window.ondblclick = () => {
-  //
-	// 	let els = document.getElementsByClassName('written')
-	// 	for(let el of els)
-	// 		el.removeAttribute('id')
-  //
-	// 	if(globals.currentNote == null)
-	// 		typing.newNote()
-	// 	else
-	// 		typing.endNote()
-	// }
-
-	window.addEventListener('keydown', (e) => {
-		typing.handle(e)
-	})
-
-	window.addEventListener('mousemove', (e) =>{
-		mouse.handle(e)
-		drawing.draw(e)
-	})
 
 	window.addEventListener('mousedown', (e) => {
 		drawing.beginDraw(e)
@@ -76,6 +41,7 @@ let init = () => {
 }
 
 window.init = init
+window.draw = drawing.draw
 window.setCurrentConcept = globals.setCurrentConcept
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson

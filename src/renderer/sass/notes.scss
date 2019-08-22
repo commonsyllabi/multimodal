@@ -21,11 +21,6 @@ body{
     }
   }
 
-  .saved{
-    position: relative;
-    float: right;
-  }
-
   .title {
     font-size: 2.3em;
     font-weight: bold;
@@ -44,13 +39,12 @@ body{
   }
 
   .moveable{
-    position: fixed;
     z-index: 4;
     width: initial;
   }
 
   #current{
-	   position: fixed;
+	   position: absolute;
      font-weight: bold;
      overflow-y: visible;
   }
