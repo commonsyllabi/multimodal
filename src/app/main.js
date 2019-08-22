@@ -60,17 +60,19 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
-/* 1 */
+
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92,48 +94,39 @@ module.exports.setMessage = (_msg, _type) => {
 
 
 /***/ }),
-/* 2 */
+
+/***/ 3:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 3 */
+
+/***/ 4:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
+/***/ 48:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
 
 
 const ipc = __webpack_require__(0).ipcRenderer
 
-__webpack_require__(2)
-__webpack_require__(12)
-__webpack_require__(13)
 __webpack_require__(3)
+__webpack_require__(49)
+__webpack_require__(50)
 __webpack_require__(4)
+__webpack_require__(5)
 
 
 
@@ -190,19 +183,29 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 
 
 /***/ }),
-/* 12 */
+
+/***/ 49:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 13 */
+
+/***/ 5:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 14 */
+
+/***/ 50:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -217,7 +220,7 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 
 const ipc = __webpack_require__(0).ipcRenderer
 const {dialog} = __webpack_require__(0).remote
-const utils = __webpack_require__(1)
+const utils = __webpack_require__(2)
 
 let current = {
 	'course':'',
@@ -287,7 +290,8 @@ let exportLesson = () => {
 
 
 /***/ }),
-/* 15 */
+
+/***/ 52:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -312,7 +316,7 @@ let exportLesson = () => {
 const {dialog} = __webpack_require__(0).remote
 const remote = __webpack_require__(0).remote
 const ipc = __webpack_require__(0).ipcRenderer
-const utils = __webpack_require__(1)
+const utils = __webpack_require__(2)
 
 let lessonSaved = false
 let lesson = {
@@ -822,4 +826,5 @@ let exitLesson = () => {
 
 
 /***/ })
-/******/ ]);
+
+/******/ });
