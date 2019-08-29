@@ -49,21 +49,27 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.pageX - cnv.offsetParent.offsetLeft
+	prevy = e.pageY - cnv.offsetParent.offsetTop
+
+	console.log(cnv.offsetParent.offsetTop);
+	ctx.moveTo(prevx, prevy)
+
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
+	let nextx, nexty
 
-	let x = (prevx + e.pageX-cnv.offsetLeft)/2
-	let y = (prevy + e.pageY-cnv.offsetTop)/2
+	nextx = e.pageX-cnv.offsetParent.offsetLeft
+	nexty = e.pageY-cnv.offsetParent.offsetTop
+	let x = (prevx + nextx)/2
+	let y = (prevy + nexty)/2
 
-	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
+	ctx.quadraticCurveTo(prevx, prevy, x, y)
 
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.pageX - cnv.offsetParent.offsetLeft
+	prevy = e.pageY - cnv.offsetParent.offsetTop
 	ctx.stroke()
 }
 

@@ -46,7 +46,6 @@ export default {
       ]
 
 			window.currentNote = evt.target
-      // evt.target.parentNode = document.body
 		}
   }
 }
