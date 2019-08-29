@@ -57,7 +57,6 @@ let handle = (e) => {
 
 
 let endNote = (el) => {
-
 	//if note is blank
 	if(el.value == ''){
 		el.parentNode.removeChild(el)

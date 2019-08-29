@@ -34,6 +34,7 @@ export default {
 			evt.target.setAttribute('id', 'current')
 			evt.target.setAttribute('class', 'note moveable concept-bound')
 			window.currentNote = evt.target
+      // evt.target.parent = document.body
 		}
 
     //-- resize on text input

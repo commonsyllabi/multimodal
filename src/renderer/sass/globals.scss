@@ -5,6 +5,9 @@ $light-orange: #ff9933;
 $mid-orange: #e77607;
 $dark-orange: #b25900;
 
+$main-bg-color: #202020;
+$main-fg-color: #eeeeee;
+
 
 $btn-size: 2.2em;
 $btn-concept-size: 1.3em;
@@ -33,7 +36,9 @@ $break-medium: 1300px;
 }
 
 body {
-	font-family: 'Inter UI', 'Trebuchet MS'
+	font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: $main-bg-color;
+  overflow-x: hidden;
 }
 
 a {

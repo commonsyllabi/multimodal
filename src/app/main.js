@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -109,13 +109,13 @@ module.exports.setMessage = (_msg, _type) => {
 
 /***/ }),
 
-/***/ 48:
+/***/ 47:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
 
@@ -123,8 +123,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const ipc = __webpack_require__(0).ipcRenderer
 
 __webpack_require__(3)
+__webpack_require__(48)
 __webpack_require__(49)
-__webpack_require__(50)
 __webpack_require__(4)
 __webpack_require__(5)
 
@@ -184,6 +184,13 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 
 /***/ }),
 
+/***/ 48:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 49:
 /***/ (function(module, exports) {
 
@@ -199,13 +206,6 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 /***/ }),
 
 /***/ 50:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -291,7 +291,7 @@ let exportLesson = () => {
 
 /***/ }),
 
-/***/ 52:
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

@@ -21,6 +21,8 @@
 
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  overflow-x: hidden;
 }
 
 a {
@@ -62,7 +64,75 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-}body {
+}@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+body {
+  font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  overflow-x: hidden;
+}
+
+a {
+  color: #e77607;
+}
+
+a:hover {
+  color: #b25900;
+}
+
+.msg-log {
+  float: right;
+  height: 100%;
+  margin-right: 3%;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 0;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.info {
+  background-color: darkseagreen;
+}
+
+.error {
+  background-color: crimson;
+}
+
+.metadata {
+  visibility: hidden;
+}
+
+div,
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+body {
   margin: 0px;
   padding: 0px;
   font-family: 'Inter UI';
@@ -72,7 +142,7 @@ body .note {
   position: absolute;
   z-index: 5;
   width: 40%;
-  color: black;
+  color: #eeeeee;
   font-size: 2.5em;
   transition: opacity 0.5s ease-in;
 }
@@ -117,7 +187,7 @@ body .concept-group {
   padding-left: 10%;
   width: 80%;
   height: 100vh;
-  border: 2px solid black;
+  border: 2px solid #eeeeee;
 }
 
 body .prep {
@@ -126,7 +196,7 @@ body .prep {
   font-family: 'Inter UI';
   font-style: italic;
   font-size: 2em;
-  color: black;
+  color: #eeeeee;
   margin-top: 5%;
   text-align: left;
 }
@@ -169,6 +239,8 @@ body img {
 
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  overflow-x: hidden;
 }
 
 a {
@@ -243,8 +315,8 @@ canvas {
 .lesson-btn,
 .concept-btn {
   border: none;
-  color: black;
-  background-color: white;
+  color: #eeeeee;
+  background-color: #202020;
   font-family: 'Inter UI';
   cursor: pointer;
 }
@@ -271,8 +343,8 @@ canvas {
 
 .lesson-btn:hover,
 .concept-btn:hover {
-  background-color: white;
-  color: black;
+  background-color: #202020;
+  color: #eeeeee;
 }
 
 .lesson-btn:active,
@@ -297,9 +369,9 @@ canvas {
   min-width: 10%;
   max-width: 15%;
   height: 100%;
-  background-color: white;
-  border-left: 2px solid black;
-  color: white;
+  background-color: #202020;
+  border-left: 2px solid #eeeeee;
+  color: #202020;
   overflow-y: scroll;
 }
 
@@ -313,9 +385,9 @@ canvas {
 }
 
 .current-concept {
-  background-color: white;
-  border-left: 10px solid black;
-  color: black;
+  background-color: #202020;
+  border-left: 10px solid #eeeeee;
+  color: #eeeeee;
   font-weight: bold;
 }
 
@@ -326,8 +398,8 @@ canvas {
   left: 0px;
   padding-left: 10px;
   width: 100%;
-  background-color: white;
-  border-top: 2px solid black;
+  background-color: #202020;
+  border-top: 2px solid #eeeeee;
 }
 
 .interface-buttons button {
@@ -355,6 +427,8 @@ canvas {
 
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  overflow-x: hidden;
 }
 
 a {
@@ -428,35 +502,35 @@ img {
 .welcome-lesson,
 .inter-btn-main {
   border: none;
-  color: black;
-  background-color: white;
+  color: #eeeeee;
+  background-color: #202020;
   font-family: 'Inter UI';
   font-size: 1.2em;
   cursor: pointer;
 }
 
 .welcome-lesson {
-  border: 2px solid white;
+  border: 2px solid #202020;
   padding: 5px;
   color: black;
 }
 
 .welcome-lesson:hover {
-  border-color: black;
+  border-color: #eeeeee;
   font-weight: bold;
 }
 
 .selected {
-  background-color: black;
-  color: white;
-  border-color: black;
+  background-color: #eeeeee;
+  color: #202020;
+  border-color: #eeeeee;
   font-weight: bold;
 }
 
 .inter-btn:hover,
 .inter-btn-main:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
 }
 
 .inter-btn-main {
@@ -474,8 +548,8 @@ img {
 
 .inter-btn-main:disabled {
   cursor: default;
-  background-color: white;
-  color: white;
+  background-color: #202020;
+  color: #202020;
 }@font-face {
   font-family: 'Inter UI';
   src: url("/fonts/Inter-UI-Regular.woff") format("woff");
@@ -499,6 +573,8 @@ img {
 
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  overflow-x: hidden;
 }
 
 a {
@@ -556,7 +632,7 @@ img {
   margin-top: 2%;
   padding: 2%;
   text-align: left;
-  border: 3px solid black;
+  border: 3px solid #eeeeee;
 }
 
 .create-course h1 {
@@ -585,8 +661,8 @@ img {
 
 .create-lesson-save:hover,
 .create-lesson-exit:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
 }
 
 .create-new-course {
@@ -594,8 +670,8 @@ img {
   padding: 0px 15px 5px 15px;
   float: right;
   margin-left: 5px;
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
   border: none;
   cursor: pointer;
 }
@@ -636,8 +712,8 @@ img {
   padding: 5px;
   margin-left: 5px;
   margin-top: 3%;
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
 }
 
 /* ---------------------------- */
@@ -647,8 +723,8 @@ img {
   text-align: right;
   font-size: 48px;
   font-weight: bold;
-  background-color: white;
-  color: black;
+  background-color: #202020;
+  color: #eeeeee;
 }
 
 .create-btn {
@@ -659,9 +735,9 @@ img {
 
 .create-courses-list {
   font-size: 36px;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
+  background-color: #202020;
+  color: #eeeeee;
+  border: 2px solid #eeeeee;
   width: 50%;
   cursor: pointer;
 }
@@ -693,7 +769,7 @@ img {
 .writeups-holder {
   width: 20%;
   float: left;
-  border-left: 2px solid black;
+  border-left: 2px solid #eeeeee;
 }
 
 .notes-holder textarea,
@@ -708,12 +784,12 @@ img {
 input[type=text],
 textarea {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #eeeeee;
 }
 
 input:disabled {
   float: left;
-  background-color: white;
+  background-color: #202020;
 }
 
 .create-concept {
@@ -721,7 +797,7 @@ input:disabled {
   margin: 1% 0 1% 0;
   padding: 10px;
   padding-bottom: 5px;
-  border: 2px solid black;
+  border: 2px solid #eeeeee;
   width: 90%;
 }
 
@@ -749,7 +825,7 @@ input:disabled {
 .create-concept-name {
   color: #333333;
   border: none;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #eeeeee;
   width: 60%;
   float: left;
   font-size: 48px;
@@ -759,7 +835,7 @@ input:disabled {
 .create-concept-tag {
   color: #333333;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #eeeeee;
   width: 50%;
   float: left;
   font-size: 24px;
@@ -795,9 +871,9 @@ input:disabled {
   border: none;
   margin: 5px;
   font-size: 18px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: #eeeeee;
+  background-color: #202020;
+  border: 2px solid #eeeeee;
   cursor: pointer;
 }
 
@@ -818,9 +894,9 @@ input:disabled {
   text-align: center;
   margin-bottom: 5px;
   margin-right: 5px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: #eeeeee;
+  background-color: #202020;
+  border: 2px solid #eeeeee;
   cursor: pointer;
 }
 
@@ -830,7 +906,7 @@ input:disabled {
 .create-remove-note:hover,
 .create-add-prep:hover,
 .create-remove-prep:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
   cursor: pointer;
 }

@@ -1,27 +1,13 @@
 <template>
   <div class="concept-group" :id="index" :concept="index">
     <canvas class="drawing-board" :concept="index"></canvas>
-
-    <div>
       <div class="prep note title concept-bound" :concept="index">
         {{data.concept}}
       </div>
-      <span v-for="prep in data.prep">
-        <Prep :data="prep" :course="course"/>
-      </span>
-
-      <span v-for="context in data.contexts">
-        <Context :data="context"/>
-      </span>
-
-      <span v-for="note in data.notes">
-        <Note :data="note" @new-note="handleNewNote"/>
-      </span>
-
-      <span v-for="writeup in data.writeups">
-        <Writeup :data="writeup"/>
-      </span>
-    </div>
+        <Prep v-for="(prep, index) in data.prep" :data="prep" :key="`prep-${index}`" :course="course"/>
+        <Context v-for="(context, index) in data.contexts" :data="context" :key="`context-${index}`"/>
+        <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote"/>
+        <Writeup v-for="(writeup, index) in data.writeups" :data="writeup" :key="`writeup-${index}`"/>
   </div>
 </template>
 

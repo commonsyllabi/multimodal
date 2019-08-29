@@ -14,7 +14,7 @@
 	margin-top: 2%;
 	padding: 2%;
 	text-align: left;
-	border: 3px solid black;
+	border: 3px solid $main-fg-color;
 }
 
 .create-course h1{
@@ -40,8 +40,8 @@
 }
 
 .create-lesson-save:hover, .create-lesson-exit:hover{
-	background-color: black;
-	color: white;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 }
 
 .create-new-course{
@@ -49,8 +49,8 @@
 	padding: 0px 15px 5px 15px;
 	float: right;
 	margin-left: 5px;
-	background-color: black;
-	color: white;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 	border: none;
 	cursor: pointer;
 }
@@ -89,8 +89,8 @@
 	padding: 5px;
 	margin-left: 5px;
 	margin-top: 3%;
-	background-color: black;
-	color: white;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 }
 
 /* ---------------------------- */
@@ -100,8 +100,8 @@
 	text-align: right;
 	font-size: 48px;
 	font-weight: bold;
-	background-color: white;
-	color: black;
+	background-color: $main-bg-color;
+	color: $main-fg-color;
 }
 
 .create-btn {
@@ -112,9 +112,9 @@
 
 .create-courses-list {
 	font-size: 36px;
-	background-color: white;
-	color: black;
-	border: 2px solid black;
+	background-color: $main-bg-color;
+	color: $main-fg-color;
+	border: 2px solid $main-fg-color;
 	width: 50%;
 	cursor: pointer;
 }
@@ -148,7 +148,7 @@
 .notes-holder, .writeups-holder{
 	width: 20%;
 	float: left;
-	border-left: 2px solid black;
+	border-left: 2px solid $main-fg-color;
 }
 
 .notes-holder textarea, .writeups-holder textarea {
@@ -162,12 +162,12 @@
 input[type=text], textarea{
 //	font-size: 20px;
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid $main-fg-color;
 }
 
 input:disabled{
 	float: left;
-	background-color: white;
+	background-color: $main-bg-color;
 }
 
 .create-concept {
@@ -175,7 +175,7 @@ input:disabled{
 	margin: 1% 0 1% 0;
 	padding: 10px;
 	padding-bottom: 5px;
-	border: 2px solid black;
+	border: 2px solid $main-fg-color;
 	width: 90%;
 }
 
@@ -201,7 +201,7 @@ input:disabled{
 .create-concept-name {
 	color: $dark-grey;
 	border: none;
-	border-bottom: 2px solid black;
+	border-bottom: 2px solid $main-fg-color;
 	width: 60%;
 	float: left;
 	font-size: 48px;
@@ -211,7 +211,7 @@ input:disabled{
 .create-concept-tag {
 	color: $dark-grey;
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid $main-fg-color;
 	width: 50%;
 	float: left;
 	font-size: 24px;
@@ -242,9 +242,9 @@ input:disabled{
 	border: none;
 	margin: 5px;
 	font-size: 18px;
-	color: black;
-	background-color: white;
-	border: 2px solid black;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
+	border: 2px solid $main-fg-color;
 
 	cursor: pointer;
 }
@@ -264,15 +264,15 @@ input:disabled{
 	text-align: center;
 	margin-bottom: 5px;
 	margin-right: 5px;
-	color: black;
-	background-color: white;
-	border: 2px solid black;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
+	border: 2px solid $main-fg-color;
 
 	cursor: pointer;
 }
 
 .create-add-concept:hover, .create-remove-concept:hover, .create-add-note:hover, .create-remove-note:hover, .create-add-prep:hover, .create-remove-prep:hover{
-	background-color: black;
-	color: white;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 	cursor: pointer;
 }

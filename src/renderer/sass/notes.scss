@@ -1,3 +1,5 @@
+@import 'globals';
+
 body{
 
   margin: 0px;
@@ -11,7 +13,7 @@ body{
 
     width: 40%;
 
-    color: black;
+    color: $main-fg-color;
     font-size: 2.5em;
 
     transition: opacity 0.5s ease-in;
@@ -55,7 +57,7 @@ body{
 	  padding-left: 10%;
 	  width: 80%;
     height: 100vh;
-    border: 2px solid black;
+    border: 2px solid $main-fg-color;
   }
 
   .prep{
@@ -70,7 +72,7 @@ body{
       font-size: 2.5em;
     }
 
-	  color: black;
+	  color: $main-fg-color;
 
 	  margin-top: 5%;
 	  text-align: left;
