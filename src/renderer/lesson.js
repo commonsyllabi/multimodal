@@ -26,22 +26,21 @@ window.vm = new Vue({
 window.currentNote = null
 
 let init = () => {
-	drawing.init()
-
-	window.addEventListener('mousedown', (e) => {
-		drawing.beginDraw(e)
-	})
-
-	window.addEventListener('mouseup', () => {
-		drawing.endDraw()
-	})
-
-	globals.setCurrentConcept()
-	globals.initTags()
+	// drawing.init()
+  //
+	// window.addEventListener('mousedown', (e) => {
+	// 	drawing.beginDraw(e)
+	// })
+  //
+	// window.addEventListener('mouseup', () => {
+	// 	drawing.endDraw()
+	// })
+  //
+	// globals.setCurrentConcept()
+	// globals.initTags()
 }
 
 window.init = init
-window.draw = drawing.draw
 window.setCurrentConcept = globals.setCurrentConcept
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson

@@ -301,11 +301,6 @@ canvas {
   cursor: crosshair;
 }
 
-.inactive {
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .lessons-container {
   width: 100%;
   height: 100%;

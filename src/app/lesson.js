@@ -240,32 +240,32 @@ let handle = (e) => {
 	case UP: //concept right before
 		if(cn == null){
 			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* getCurrentConcept */])()
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
 			index = index - 1 > 0 ? index - 1 : 0
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["e" /* setCurrentConcept */])(index, true)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
 		}
 		break
 	case DOWN: //concept right after
 		if(cn == null){
 			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["a" /* getCurrentConcept */])()
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
 			console.log('index before',index);
 			let len = document.getElementsByClassName('concept-group').length-1
 			index = index + 1 < len ? index + 1 : len
 			console.log('index after',index);
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["e" /* setCurrentConcept */])(index, true)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
 		}
 		break
 	case LEFT: // previous concept
 		if(cn == null){
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["b" /* getPreviousConcept */])()
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["e" /* setCurrentConcept */])(index)
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
 			let index = document.getElementsByClassName('concept-group').length-1
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["e" /* setCurrentConcept */])(index)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
 		}
 		break
 	case ESC:
@@ -305,15 +305,16 @@ let endNote = (el) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return initTags; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return jumpToTag; });
-/* unused harmony export currentNote */
-/* unused harmony export getCurrentNote */
-/* unused harmony export setCurrentNote */
-/* unused harmony export setCurrrentPosition */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return setCurrentConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getCurrentConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getPreviousConcept; });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initTags", function() { return initTags; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "jumpToTag", function() { return jumpToTag; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentNote", function() { return currentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentNote", function() { return getCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentNote", function() { return setCurrentNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrrentPosition", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentConcept", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentConcept", function() { return getCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousConcept", function() { return getPreviousConcept; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(8);
 
 
@@ -375,7 +376,7 @@ let setCurrentConcept = (index, shouldNavigate = false) => {
 		}
 	}
 
-	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["f" /* selectCanvas */](currentConcept)
+	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["selectCanvas"](currentConcept)
 }
 
 let getCurrentConcept = () => {
@@ -399,13 +400,14 @@ let setCurrrentPosition = (pos) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return init; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return beginDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return draw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return endDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return clearBoard; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return toggleDraw; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return selectCanvas; });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "init", function() { return init; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "beginDraw", function() { return beginDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw", function() { return draw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDraw", function() { return endDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearBoard", function() { return clearBoard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleDraw", function() { return toggleDraw; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectCanvas", function() { return selectCanvas; });
 let canvases, cnv, ctx, ctn, toggle_btn
 let contexts = []
 let isDrawing = false
@@ -457,21 +459,27 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.pageX - cnv.offsetParent.offsetLeft
+	prevy = e.pageY - cnv.offsetParent.offsetTop
+
+	console.log(cnv.offsetParent.offsetTop);
+	ctx.moveTo(prevx, prevy)
+
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
+	let nextx, nexty
 
-	let x = (prevx + e.pageX-cnv.offsetLeft)/2
-	let y = (prevy + e.pageY-cnv.offsetTop)/2
+	nextx = e.pageX-cnv.offsetParent.offsetLeft
+	nexty = e.pageY-cnv.offsetParent.offsetTop
+	let x = (prevx + nextx)/2
+	let y = (prevy + nexty)/2
 
-	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
+	ctx.quadraticCurveTo(prevx, prevy, x, y)
 
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.pageX - cnv.offsetParent.offsetLeft
+	prevy = e.pageY - cnv.offsetParent.offsetTop
 	ctx.stroke()
 }
 
@@ -538,6 +546,8 @@ let toggleDraw = () => {
 
 
 const typing = __webpack_require__(6)
+const drawing = __webpack_require__(8)
+const globals = __webpack_require__(7)
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
@@ -595,15 +605,27 @@ const typing = __webpack_require__(6)
     }
   },
   mounted(){
+    drawing.init()
+    globals.setCurrentConcept()
+    globals.initTags()
+
     document.addEventListener('scroll', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
     })
 
+    window.addEventListener('mousedown', (e) => {
+  		drawing.beginDraw(e)
+  	})
+
     window.addEventListener('mousemove', (e) => {
   		this.handleMousePosition(e)
-  		window.draw(e)
+  		drawing.draw(e)
   	})
+
+    window.addEventListener('mouseup', () => {
+      drawing.endDraw()
+    })
 
     window.addEventListener('keydown', (e) => {
   		typing.handle(e)
@@ -811,7 +833,6 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       ]
 
 			window.currentNote = evt.target
-      // evt.target.parentNode = document.body
 		}
   }
 });
@@ -996,34 +1017,33 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_5_vue___default.a({
 window.currentNote = null
 
 let init = () => {
-	__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["e" /* init */]()
-
-	window.addEventListener('mousedown', (e) => {
-		__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["a" /* beginDraw */](e)
-	})
-
-	window.addEventListener('mouseup', () => {
-		__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["d" /* endDraw */]()
-	})
-
-	__WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["e" /* setCurrentConcept */]()
-	__WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["c" /* initTags */]()
+	// drawing.init()
+  //
+	// window.addEventListener('mousedown', (e) => {
+	// 	drawing.beginDraw(e)
+	// })
+  //
+	// window.addEventListener('mouseup', () => {
+	// 	drawing.endDraw()
+	// })
+  //
+	// globals.setCurrentConcept()
+	// globals.initTags()
 }
 
 window.init = init
-window.draw = __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["c" /* draw */]
-window.setCurrentConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["e" /* setCurrentConcept */]
+window.setCurrentConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["setCurrentConcept"]
 window.saveSession = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["a" /* exitLesson */]
-window.switchConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["e" /* setCurrentConcept */]
-window.jumpToTag = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["d" /* jumpToTag */]
-window.clearBoard = __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["b" /* clearBoard */]
-window.toggleDraw = __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["g" /* toggleDraw */]
+window.switchConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["setCurrentConcept"]
+window.jumpToTag = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["jumpToTag"]
+window.clearBoard = __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["clearBoard"]
+window.toggleDraw = __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["toggleDraw"]
 
 ipc.on('menu-save', () => {window.saveSession()})
 ipc.on('menu-exit', () => {window.exitLesson()})
-ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["g" /* toggleDraw */]()})
-ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["b" /* clearBoard */]()})
+ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["toggleDraw"]()})
+ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__["clearBoard"]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_4__utils_js__["setMessage"](data.msg, data.type)})
 

@@ -17,6 +17,8 @@ import Concept from './Concept.vue'
 import Navigation from './Navigation.vue'
 
 const typing = require('../lesson/typing.js')
+const drawing = require('../lesson/drawing.js')
+const globals = require('../lesson/globals.js')
 
 export default {
   components: {
@@ -74,15 +76,27 @@ export default {
     }
   },
   mounted(){
+    drawing.init()
+    globals.setCurrentConcept()
+    globals.initTags()
+
     document.addEventListener('scroll', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
     })
 
+    window.addEventListener('mousedown', (e) => {
+  		drawing.beginDraw(e)
+  	})
+
     window.addEventListener('mousemove', (e) => {
   		this.handleMousePosition(e)
-  		window.draw(e)
+  		drawing.draw(e)
   	})
+
+    window.addEventListener('mouseup', () => {
+      drawing.endDraw()
+    })
 
     window.addEventListener('keydown', (e) => {
   		typing.handle(e)
