@@ -29,34 +29,34 @@
 
 .welcome-lesson, .inter-btn-main {
 	border: none;
-	color: black;
-	background-color: white;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
 	font-family: 'Inter UI';
 	font-size: 1.2em;
 	cursor: pointer;
 }
 
 .welcome-lesson {
-	border: 2px solid white;
+	border: 2px solid $main-bg-color;
 	padding: 5px;
 	color: black;
 }
 
 .welcome-lesson:hover{
-	border-color: black;
+	border-color: $main-fg-color;
 	font-weight: bold;
 }
 
 .selected {
-	background-color: black;
-	color: white;
-	border-color: black;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
+	border-color: $main-fg-color;
 	font-weight: bold;
 }
 
 .inter-btn:hover, .inter-btn-main:hover{
-	background-color: black;
-	color: white;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 }
 
 .inter-btn-main{
@@ -72,6 +72,6 @@
 
 .inter-btn-main:disabled {
 	cursor: default;
-	background-color: white;
-	color: white;
+	background-color: $main-bg-color;
+	color: $main-bg-color; // ?????????
 }

@@ -29,8 +29,8 @@ canvas {
 
 .lesson-btn, .concept-btn {
 	border: none;
-	color: black;
-	background-color: white;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
 
 	font-family: 'Inter UI';
 
@@ -55,8 +55,8 @@ canvas {
 
 
 .lesson-btn:hover, .concept-btn:hover{
-	background-color: white;
-	color: black;
+	background-color: $main-bg-color;
+	color: $main-fg-color;
 }
 
 .lesson-btn:active, .lesson-btn:active{
@@ -79,9 +79,9 @@ canvas {
 	max-width: 15%;
 	height: 100%;
 
-	background-color: white;
-	border-left: 2px solid black;
-	color: white;
+	background-color: $main-bg-color;
+	border-left: 2px solid $main-fg-color;
+	color: $main-bg-color;
 
 	overflow-y: scroll;
 }
@@ -97,9 +97,9 @@ canvas {
 }
 
 .current-concept {
-	background-color: white;
-	border-left: 10px solid black;
-	color: black;
+	background-color: $main-bg-color;
+	border-left: 10px solid $main-fg-color;
+	color: $main-fg-color;
 	font-weight: bold;
 }
 
@@ -112,8 +112,8 @@ canvas {
 	// height: 50px;
 	width: 100%;
 
-	background-color: white;
-	border-top: 2px solid black;
+	background-color: $main-bg-color;
+	border-top: 2px solid $main-fg-color;
 
 	button {
 		margin-right: 2%;

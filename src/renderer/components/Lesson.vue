@@ -2,12 +2,12 @@
   <div>
     <div class="lessons-container">
       <span v-for="(concept, index) in data.concepts">
-        <Concept :data="concept" :course="data.course" :index="index" @new-note="handleNewNote"/>
+        <Concept :data="concept" :course="data.course" :index="index" @new-note="handleNewNote" :key="index"/>
       </span>
     </div>
 
     <div class="concept-buttons">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index"/>
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index" :key="index"/>
     </div>
   </div>
 </template>
@@ -50,28 +50,36 @@ export default {
         window.setCurrentConcept(visibleElements[0])
     },
     handleMousePosition(evt) {
+      evt.preventDefault()
+
       this.position = {x: evt.clientX, y: evt.clientY}
 
     	if(window.currentNote != null){
     		let pos = getGridPosition(this.position)
-        window.currentNote.style.top = pos.y+'px'
-      	window.currentNote.style.left = pos.x+'px'
+
+      	window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
+        window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
     	}
     },
     handleNewNote(el) {
       window.currentNote = el
+      window.offsets = [0,0]
+
       el.setAttribute('id', 'current')
-      e.focus()
+      el.focus()
 
       let pos = getGridPosition(this.position)
-      window.currentNote.style.top = pos.y+'px'
-      window.currentNote.style.left = pos.x+'px'
+      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
+      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
     }
   },
   mounted(){
-    document.addEventListener('scroll', this.isScrolledIntoView)
+    document.addEventListener('scroll', (e) => {
+      this.isScrolledIntoView()
+      this.handleMousePosition(e)
+    })
 
-    window.addEventListener('mousemove', (e) =>{
+    window.addEventListener('mousemove', (e) => {
   		this.handleMousePosition(e)
   		window.draw(e)
   	})
@@ -91,8 +99,8 @@ let getGridPosition = (p) =>{
 		y : 0
 	}
 
-	normalized_pos.x = Math.floor(map(p.x, 0, 1800, 0, 18))*100
-	normalized_pos.y = Math.floor(map(p.y, 0, 1000, 0, 25))*40
+	normalized_pos.x = Math.floor(map(p.x, 0, 1800, 0, 36))*50
+	normalized_pos.y = Math.floor(map(p.y, 0, 1000, 0, 50))*20
 
 	return normalized_pos
 }
