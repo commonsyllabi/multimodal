@@ -216,96 +216,6 @@ module.exports.setMessage = (_msg, _type) => {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handle", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newNote", function() { return newNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endNote", function() { return endNote; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(7);
-
-
-
-
-const ESC = 27
-const UP = 38
-const LEFT = 37
-const RIGHT = 39
-const DOWN = 40
-
-let cn = null
-
-let handle = (e) => {
-	cn = window.currentNote
-
-	let index
-	switch(e.keyCode){
-	case UP: //concept right before
-		if(cn == null){
-			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			index = index - 1 > 0 ? index - 1 : 0
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
-		}
-		break
-	case DOWN: //concept right after
-		if(cn == null){
-			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			console.log('index before',index);
-			let len = document.getElementsByClassName('concept-group').length-1
-			index = index + 1 < len ? index + 1 : len
-			console.log('index after',index);
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
-		}
-		break
-	case LEFT: // previous concept
-		if(cn == null){
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
-		}
-		break
-	case RIGHT: // jump to the whiteboard
-		if(cn == null){
-			let index = document.getElementsByClassName('concept-group').length-1
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
-		}
-		break
-	case ESC:
-		if(cn != null)
-			endNote(cn)
-		break
-	default:
-		break
-	}
-}
-
-
-let endNote = (el) => {
-	//if note is blank
-	if(el.value == ''){
-		el.parentNode.removeChild(el)
-	}else{ //-- else position it correctly
-		el.style.height = (el.scrollHeight)+'px'
-	}
-
-	el.blur()
-	el.removeAttribute('id')
-	el.onclick = (evt) => {
-		if(evt.target.getAttribute('id') == 'current') return
-		evt.target.setAttribute('id', 'current')
-		window.currentNote = evt.target
-	}
-
-	window.currentNote = null
-}
-
-
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initTags", function() { return initTags; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "jumpToTag", function() { return jumpToTag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentNote", function() { return currentNote; });
@@ -315,7 +225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentConcept", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentConcept", function() { return getCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousConcept", function() { return getPreviousConcept; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(7);
 
 
 
@@ -396,7 +306,7 @@ let setCurrrentPosition = (pos) => {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -512,6 +422,96 @@ let toggleDraw = () => {
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handle", function() { return handle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newNote", function() { return newNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endNote", function() { return endNote; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(6);
+
+
+
+
+const ESC = 27
+const UP = 38
+const LEFT = 37
+const RIGHT = 39
+const DOWN = 40
+
+let cn = null
+
+let handle = (e) => {
+	cn = window.currentNote
+
+	let index
+	switch(e.keyCode){
+	case UP: //concept right before
+		if(cn == null){
+			e.preventDefault()
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
+			index = index - 1 > 0 ? index - 1 : 0
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
+		}
+		break
+	case DOWN: //concept right after
+		if(cn == null){
+			e.preventDefault()
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
+			console.log('index before',index);
+			let len = document.getElementsByClassName('concept-group').length-1
+			index = index + 1 < len ? index + 1 : len
+			console.log('index after',index);
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
+		}
+		break
+	case LEFT: // previous concept
+		if(cn == null){
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
+		}
+		break
+	case RIGHT: // jump to the whiteboard
+		if(cn == null){
+			let index = document.getElementsByClassName('concept-group').length-1
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
+		}
+		break
+	case ESC:
+		if(cn != null)
+			endNote(cn)
+		break
+	default:
+		break
+	}
+}
+
+
+let endNote = (el) => {
+	//if note is blank
+	if(el.value == ''){
+		el.parentNode.removeChild(el)
+	}else{ //-- else position it correctly
+		el.style.height = (el.scrollHeight)+'px'
+	}
+
+	el.blur()
+	el.removeAttribute('id')
+	el.onclick = (evt) => {
+		if(evt.target.getAttribute('id') == 'current') return
+		evt.target.setAttribute('id', 'current')
+		window.currentNote = evt.target
+	}
+
+	window.currentNote = null
+}
+
+
+
+
+/***/ }),
 /* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -541,13 +541,23 @@ let toggleDraw = () => {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
-const typing = __webpack_require__(6)
-const drawing = __webpack_require__(8)
-const globals = __webpack_require__(7)
+const typing = __webpack_require__(8)
+const drawing = __webpack_require__(7)
+const globals = __webpack_require__(6)
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
@@ -557,6 +567,7 @@ const globals = __webpack_require__(7)
   data: function () {
     return {
       data: null,
+      isEdit: false,
       currentConcept: 0,
       previousConcept: 0,
       position: { x: 0, y: 0}
@@ -594,7 +605,6 @@ const globals = __webpack_require__(7)
     },
     handleNewNote(el) {
       window.currentNote = el
-      window.offsets = [0,0]
 
       el.setAttribute('id', 'current')
       el.focus()
@@ -602,6 +612,21 @@ const globals = __webpack_require__(7)
       let pos = getGridPosition(this.position)
       window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
       window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+    },
+    toggleDraw() {
+
+    },
+    clearBoard() {
+
+    },
+    editLesson() {
+      this.isEdit = !this.isEdit
+    },
+    exitLesson() {
+
+    },
+    saveSession() {
+
     }
   },
   mounted(){
@@ -684,6 +709,11 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -709,6 +739,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
     index: {
       type: Number,
       default: 0
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -719,6 +753,24 @@ let map = (value, start_1, end_1, start_2, end_2) => {
   methods: {
     handleNewNote(el) {
       this.$emit('new-note', el)
+    },
+    addPrep(_type) {
+      this.data.prep.push({
+        "tag": "",
+        "text": "",
+        "type": _type
+      })
+    },
+    removePrep(i) {
+      console.log(i);
+      let sa = this.data.prep.slice(0, i)
+      let sb = this.data.prep.slice(i+1, this.data.prep.length)
+      let conc = sa.concat(sb)
+      this.data.prep = conc
+      console.log(this.data.prep);
+      // this.data.prep.splice(i)
+
+      //TODO this might not be a good idea since there is the chance of misalignment between the saved _id and the dynamically changing array in this.data.prep
     }
   },
   mounted(){
@@ -761,6 +813,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
     data: {
       type: String,
       default: {}
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -800,9 +856,25 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
+    _id: {
+      type: String,
+      default: ''
+    },
     data: {
       type: Object,
       default: {}
@@ -814,6 +886,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
     index: {
       type: Number,
       default: 0
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -821,19 +897,13 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
     }
   },
+  methods: {
+    removePrep() {
+      this.$emit('remove-prep', this)
+    }
+  },
   mounted(){
-    this.$el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current') return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable concept-bound')
 
-      window.offsets = [
-        evt.target.offsetLeft - evt.clientX,
-        evt.target.offsetTop - evt.clientY
-      ]
-
-			window.currentNote = evt.target
-		}
   }
 });
 
@@ -862,8 +932,12 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
-      type: Object,
-      default: {}
+      type: String,
+      default: ''
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -888,7 +962,6 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 			evt.target.setAttribute('id', 'current')
 			evt.target.setAttribute('class', 'note moveable concept-bound')
 			window.currentNote = evt.target
-      // evt.target.parent = document.body
 		}
 
     //-- resize on text input
@@ -926,8 +999,12 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
-      type: Object,
-      default: {}
+      type: String,
+      default: ''
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -980,10 +1057,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_typing_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_typing_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lesson_drawing_js__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__utils_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue__ = __webpack_require__(25);
@@ -1015,23 +1092,13 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_5_vue___default.a({
 })
 
 window.currentNote = null
+window.offsets = [0,0]
+window.isEdit = false
 
-let init = () => {
-	// drawing.init()
-  //
-	// window.addEventListener('mousedown', (e) => {
-	// 	drawing.beginDraw(e)
-	// })
-  //
-	// window.addEventListener('mouseup', () => {
-	// 	drawing.endDraw()
-	// })
-  //
-	// globals.setCurrentConcept()
-	// globals.initTags()
+window.editLesson = (e) => {
+	window.isEdit = !window.isEdit
+	e.innerText = window.isEdit ? "present" : "edit"
 }
-
-window.init = init
 window.setCurrentConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["setCurrentConcept"]
 window.saveSession = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["a" /* exitLesson */]
@@ -13220,7 +13287,12 @@ var render = function() {
           [
             _c("Concept", {
               key: index,
-              attrs: { data: concept, course: _vm.data.course, index: index },
+              attrs: {
+                data: concept,
+                course: _vm.data.course,
+                index: index,
+                isEdit: _vm.isEdit
+              },
               on: { "new-note": _vm.handleNewNote }
             })
           ],
@@ -13233,14 +13305,52 @@ var render = function() {
     _c(
       "div",
       { staticClass: "concept-buttons" },
-      _vm._l(_vm.data.concepts, function(concept, index) {
-        return _c("Navigation", {
-          key: index,
-          attrs: { data: concept, index: index }
-        })
-      }),
-      1
-    )
+      [
+        _vm._l(_vm.data.concepts, function(concept, index) {
+          return _c("Navigation", {
+            key: index,
+            attrs: { data: concept, index: index }
+          })
+        }),
+        _vm._v(" "),
+        _vm.isEdit ? _c("div", [_vm._v("add concept")]) : _vm._e()
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "interface-buttons" }, [
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.toggleDraw } },
+        [_vm._v(" write ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.clearBoard } },
+        [_vm._v(" clear ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.editLesson } },
+        [_vm._v(" " + _vm._s(_vm.isEdit ? "present" : "edit") + " ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.exitLesson } },
+        [_vm._v(" exit ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.saveSession } },
+        [_vm._v(" save ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
+    ])
   ])
 }
 var staticRenderFns = []
@@ -13325,38 +13435,72 @@ var render = function() {
       attrs: { id: _vm.index, concept: _vm.index }
     },
     [
-      _c("canvas", {
-        staticClass: "drawing-board",
-        attrs: { concept: _vm.index }
-      }),
+      !_vm.isEdit
+        ? _c("canvas", {
+            staticClass: "drawing-board",
+            attrs: { concept: _vm.index }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "prep note title concept-bound",
-          attrs: { concept: _vm.index }
-        },
-        [_vm._v("\n      " + _vm._s(_vm.data.concept) + "\n    ")]
-      ),
+      _vm.isEdit
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model:value",
+                value: _vm.data.concept,
+                expression: "data.concept",
+                arg: "value"
+              }
+            ],
+            attrs: { type: "text", placeholder: "page name here" },
+            domProps: { value: _vm.data.concept },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.data, "concept", $event.target.value)
+              }
+            }
+          })
+        : _c(
+            "div",
+            {
+              staticClass: "prep note title concept-bound",
+              attrs: { concept: _vm.index }
+            },
+            [_vm._v("\n    " + _vm._s(_vm.data.concept) + "\n  ")]
+          ),
       _vm._v(" "),
       _vm._l(_vm.data.prep, function(prep, index) {
         return _c("Prep", {
           key: "prep-" + index,
-          attrs: { data: prep, course: _vm.course }
+          attrs: {
+            data: prep,
+            _id: "prep-" + index,
+            course: _vm.course,
+            isEdit: _vm.isEdit
+          },
+          on: {
+            "remove-prep": function($event) {
+              return _vm.removePrep(index)
+            }
+          }
         })
       }),
       _vm._v(" "),
       _vm._l(_vm.data.contexts, function(context, index) {
         return _c("Context", {
           key: "context-" + index,
-          attrs: { data: context }
+          attrs: { data: context, isEdit: _vm.isEdit }
         })
       }),
       _vm._v(" "),
       _vm._l(_vm.data.notes, function(note, index) {
         return _c("Note", {
           key: "note-" + index,
-          attrs: { data: note },
+          attrs: { data: note, isEdit: _vm.isEdit },
           on: { "new-note": _vm.handleNewNote }
         })
       }),
@@ -13364,9 +13508,37 @@ var render = function() {
       _vm._l(_vm.data.writeups, function(writeup, index) {
         return _c("Writeup", {
           key: "writeup-" + index,
-          attrs: { data: writeup }
+          attrs: { data: writeup, isEdit: _vm.isEdit }
         })
-      })
+      }),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.addPrep("txt")
+                }
+              }
+            },
+            [_vm._v("add text")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.addPrep("url")
+                }
+              }
+            },
+            [_vm._v("add link")]
+          )
+        : _vm._e()
     ],
     2
   )
@@ -13523,74 +13695,150 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.data.type == "txt"
-    ? _c(
-        "div",
-        {
-          staticClass: "prep note written concept-bound",
-          attrs: { concept: _vm.index, tag: _vm.data.tag }
-        },
-        [_vm._v("\n  " + _vm._s(_vm.data.text) + "\n")]
-      )
-    : _vm.data.type == "url"
-    ? _c(
-        "div",
-        {
-          staticClass: "prep note written concept-bound",
-          attrs: { concept: _vm.index, tag: _vm.data.tag }
-        },
-        [
-          _c("a", { attrs: { href: _vm.prep.url, target: "_blank" } }, [
-            _vm._v(_vm._s(_vm.data.url))
-          ])
-        ]
-      )
-    : _vm.data.type == "img"
-    ? _c("img", {
-        staticClass: "prep note moveable concept-bound",
-        attrs: {
-          concept: _vm.index,
-          tag: _vm.data.tag,
-          name: _vm.data.name,
-          src: _vm.data.src
-        }
-      })
-    : _vm.data.type == "vid"
-    ? _c(
-        "div",
-        {
-          staticClass: "prep note written concept-bound",
-          attrs: { concept: _vm.index, tag: _vm.data.tag }
-        },
-        [
-          _c(
-            "video",
-            {
-              attrs: {
-                "max-width": "800px",
-                ",": "",
-                "max-height": "600px",
-                controls: ""
-              }
-            },
-            [
-              _c("source", {
+  return _c("span", [
+    _vm.data.type == "txt"
+      ? _c(
+          "div",
+          {
+            staticClass: "prep note written concept-bound",
+            attrs: { concept: _vm.index, tag: _vm.data.tag }
+          },
+          [
+            _vm.isEdit
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.data.text,
+                      expression: "data.text",
+                      arg: "value"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "your prep here" },
+                  domProps: { value: _vm.data.text },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.data, "text", $event.target.value)
+                    }
+                  }
+                })
+              : _c("span", [_vm._v(_vm._s(_vm.data.text))])
+          ]
+        )
+      : _vm.data.type == "url"
+      ? _c(
+          "div",
+          {
+            staticClass: "prep note written concept-bound",
+            attrs: { concept: _vm.index, tag: _vm.data.tag }
+          },
+          [
+            _vm.isEdit
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.data.text,
+                      expression: "data.text",
+                      arg: "value"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "resource text" },
+                  domProps: { value: _vm.data.text },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.data, "text", $event.target.value)
+                    }
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isEdit
+              ? _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model:value",
+                      value: _vm.data.url,
+                      expression: "data.url",
+                      arg: "value"
+                    }
+                  ],
+                  attrs: { type: "text", placeholder: "resource link" },
+                  domProps: { value: _vm.data.url },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.data, "url", $event.target.value)
+                    }
+                  }
+                })
+              : _c("a", { attrs: { href: _vm.data.url, target: "_blank" } }, [
+                  _vm._v(_vm._s(_vm.data.text))
+                ])
+          ]
+        )
+      : _vm.data.type == "img"
+      ? _c("img", {
+          staticClass: "prep note moveable concept-bound",
+          attrs: {
+            concept: _vm.index,
+            tag: _vm.data.tag,
+            name: _vm.data.name,
+            src: _vm.data.src
+          }
+        })
+      : _vm.data.type == "vid"
+      ? _c(
+          "div",
+          {
+            staticClass: "prep note written concept-bound",
+            attrs: { concept: _vm.index, tag: _vm.data.tag }
+          },
+          [
+            _c(
+              "video",
+              {
                 attrs: {
-                  name: _vm.data.name,
-                  src:
-                    "assets/" +
-                    _vm.course.name +
-                    "/lessons/" +
-                    _vm.name +
-                    "/media/" +
-                    _vm.data.name
+                  "max-width": "800px",
+                  ",": "",
+                  "max-height": "600px",
+                  controls: ""
                 }
-              })
-            ]
-          )
-        ]
-      )
-    : _vm._e()
+              },
+              [
+                _c("source", {
+                  attrs: {
+                    name: _vm.data.name,
+                    src:
+                      "assets/" +
+                      _vm.course.name +
+                      "/lessons/" +
+                      _vm.name +
+                      "/media/" +
+                      _vm.data.name
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isEdit
+      ? _c("button", { on: { click: _vm.removePrep } }, [_vm._v("-")])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

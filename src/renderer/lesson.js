@@ -24,23 +24,13 @@ window.vm = new Vue({
 })
 
 window.currentNote = null
+window.offsets = [0,0]
+window.isEdit = false
 
-let init = () => {
-	// drawing.init()
-  //
-	// window.addEventListener('mousedown', (e) => {
-	// 	drawing.beginDraw(e)
-	// })
-  //
-	// window.addEventListener('mouseup', () => {
-	// 	drawing.endDraw()
-	// })
-  //
-	// globals.setCurrentConcept()
-	// globals.initTags()
+window.editLesson = (e) => {
+	window.isEdit = !window.isEdit
+	e.innerText = window.isEdit ? "present" : "edit"
 }
-
-window.init = init
 window.setCurrentConcept = globals.setCurrentConcept
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson

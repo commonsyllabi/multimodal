@@ -35,9 +35,14 @@ $break-medium: 1300px;
     font-style: italic;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
 	font-family: 'Inter UI', 'Trebuchet MS';
   background-color: $main-bg-color;
+  color: $main-fg-color;
   overflow-x: hidden;
 }
 
