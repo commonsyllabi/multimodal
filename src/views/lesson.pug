@@ -6,53 +6,9 @@ html
 		title Multimodal
 		script(src="http://localhost:8098")
 		link(rel='stylesheet', href='./style.css')
-	body(onload='init()')
-		//- div.metadata#course-path= data.course.path
-		//- div.metadata#course-created= data.course.created
-		//- div.metadata#course-name= data.course.name
-		//- div.metadata#course-id= data.course.id
-		div.lessons-container#writing-board
-		
-			//- div.concept-buttons
-			//- 	each concept, index in concepts
-			//- 		button.concept-btn.concept(concept= index, onclick='switchConcept(' + index + ')', tag= concept.tag)= index + '. '+ concept.concept
-			
-			
-			//- each concept, index in concepts
-			//- 	canvas.drawing-board(concept= index)
-			//- 	div.concept-group(id= index)
-			//- 		div.prep.note.title.concept-bound(concept= index)= concept.concept
-      
-			//- 		//- EACH WRITEUP
-			//- 		each writeup in concept.writeups
-			//- 			textarea.writeup.concept-bound(concept= index, hidden)= writeup
-			
-			//- 		//-- EACH NOTES
-			//- 		each note in concept.notes
-			//- 			textarea.note.moveable.saved.concept-bound(concept= index, type="text")= note
-      
-			//- 		//-- EACH PREP
-			//- 		each prep in concept.prep
-			//- 			if prep.type == "txt"
-			//- 				div.prep.note.written.concept-bound(concept= index, tag= prep.tag)= prep.text
-			//- 			if prep.type == "url"
-			//- 				div.prep.note.written.concept-bound(concept= index)
-			//- 					a(href= prep.url, target="_blank")= prep.text
-			//- 			if prep.type == "img"
-			//- 				div.prep.note.moveable.concept-bound(concept= index)
-			//- 					img(name= prep.name, src= course.path+'/'+course.name+'/lessons/'+name+'/media/'+prep.name)
-			//- 			if prep.type == "vid"
-			//- 				div.prep.note.written.concept-bound(concept= index)
-			//- 					video(max-width="800px", max-height="600px" controls)
-			//- 						source(name= prep.name, src= 'assets/'+course.name+'/lessons/'+name+'/media/'+prep.name)
-										
-		div.interface-buttons
-			button.lesson-btn.toggle-draw(onclick="toggleDraw()") write
-			button.lesson-btn.clear-board(onclick="clearBoard()") clear
-			button.lesson-btn.exit-lesson(onclick="exitLesson()") exit
-			button.lesson-btn.save-session(onclick="saveSession()") save
+	body
 
-			div.msg-log#msg-log
+		div#writing-board
 				
 		script.
 			data=!{data}

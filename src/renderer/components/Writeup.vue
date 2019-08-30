@@ -6,8 +6,12 @@
 export default {
   props: {
     data: {
-      type: Object,
-      default: {}
+      type: String,
+      default: ''
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {

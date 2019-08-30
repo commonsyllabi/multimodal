@@ -2,12 +2,22 @@
   <div>
     <div class="lessons-container">
       <span v-for="(concept, index) in data.concepts">
-        <Concept :data="concept" :course="data.course" :index="index" @new-note="handleNewNote" :key="index"/>
+        <Concept :data="concept" :course="data.course" :index="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
     <div class="concept-buttons">
       <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index" :key="index"/>
+      <div v-if="isEdit">add concept</div>
+    </div>
+    <div class="interface-buttons">
+      <button class="lesson-btn" @click="toggleDraw"> write </button>
+      <button class="lesson-btn" @click="clearBoard"> clear </button>
+      <button class="lesson-btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
+      <button class="lesson-btn" @click="exitLesson"> exit </button>
+      <button class="lesson-btn" @click="saveSession"> save </button>
+
+      <div class="msg-log" id="msg-log"></div>
     </div>
   </div>
 </template>
@@ -28,6 +38,7 @@ export default {
   data: function () {
     return {
       data: null,
+      isEdit: false,
       currentConcept: 0,
       previousConcept: 0,
       position: { x: 0, y: 0}
@@ -65,7 +76,6 @@ export default {
     },
     handleNewNote(el) {
       window.currentNote = el
-      window.offsets = [0,0]
 
       el.setAttribute('id', 'current')
       el.focus()
@@ -73,6 +83,21 @@ export default {
       let pos = getGridPosition(this.position)
       window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
       window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+    },
+    toggleDraw() {
+
+    },
+    clearBoard() {
+
+    },
+    editLesson() {
+      this.isEdit = !this.isEdit
+    },
+    exitLesson() {
+
+    },
+    saveSession() {
+
     }
   },
   mounted(){

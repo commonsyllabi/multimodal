@@ -19,9 +19,14 @@
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
   background-color: #202020;
+  color: #eeeeee;
   overflow-x: hidden;
 }
 
@@ -85,9 +90,14 @@ img {
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
   background-color: #202020;
+  color: #eeeeee;
   overflow-x: hidden;
 }
 
@@ -237,9 +247,14 @@ body img {
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
   background-color: #202020;
+  color: #eeeeee;
   overflow-x: hidden;
 }
 
@@ -420,9 +435,14 @@ canvas {
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
   background-color: #202020;
+  color: #eeeeee;
   overflow-x: hidden;
 }
 
@@ -566,9 +586,14 @@ img {
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
   background-color: #202020;
+  color: #eeeeee;
   overflow-x: hidden;
 }
 

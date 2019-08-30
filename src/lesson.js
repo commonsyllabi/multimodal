@@ -12,7 +12,7 @@ class Lesson {
     this.created = new Date()
     this.updated = null
     this.concepts = data.concepts
-    this.contexts = data.contexts
+    this.context = data.context
 
     this.init()
   }

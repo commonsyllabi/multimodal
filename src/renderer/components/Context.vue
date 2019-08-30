@@ -8,6 +8,10 @@ export default {
     data: {
       type: String,
       default: {}
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {

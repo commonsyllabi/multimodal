@@ -8,8 +8,12 @@
 export default {
   props: {
     data: {
-      type: Object,
-      default: {}
+      type: String,
+      default: ''
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -34,7 +38,6 @@ export default {
 			evt.target.setAttribute('id', 'current')
 			evt.target.setAttribute('class', 'note moveable concept-bound')
 			window.currentNote = evt.target
-      // evt.target.parent = document.body
 		}
 
     //-- resize on text input
