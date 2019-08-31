@@ -107,7 +107,7 @@ canvas {
 	bottom: 0px;
 	left: 0px;
 	padding-left: 10px;
-	// height: 50px;
+	height: 5vh;
 	width: 100%;
 
 	background-color: $main-bg-color;
@@ -116,4 +116,26 @@ canvas {
 	button {
 		margin-right: 2%;
 	}
+}
+
+.writeup-toggle-outer{
+	position: absolute;
+	bottom: 0px;
+	width: 90%;
+	height: 0vh;
+	z-index: 4;
+	background-color: white;
+	transition: all 0.1s linear;
+}
+
+.writeup-toggle-inner{
+	position:absolute;
+	width: 20%;
+	top: -10px;
+	height: 10px;
+	background-color: white;
+	margin: auto;
+	cursor: pointer;
+	z-index: 3;
+	margin-left: 40%;
 }

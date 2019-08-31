@@ -75,10 +75,11 @@ export default {
     	}
     },
     handleNewNote(el) {
+      console.log('handling new note');
       window.currentNote = el
-
       el.setAttribute('id', 'current')
       el.focus()
+
 
       let pos = getGridPosition(this.position)
       window.currentNote.style.left = (pos.x + window.offsets[0])+'px'

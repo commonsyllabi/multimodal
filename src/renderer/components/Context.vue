@@ -1,5 +1,5 @@
 <template>
-  <p hidden>{{data}}</p>
+  <p class="context" hidden>{{data}}</p>
 </template>
 
 <script>
