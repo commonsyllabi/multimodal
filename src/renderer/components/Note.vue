@@ -1,15 +1,17 @@
 <!-- NOTE -->
 
 <template>
-  <textarea v-if="data" class="note moveable concept-bound" type="text" v-model:value="data.text"></textarea>
+  <textarea class="note moveable concept-bound" type="text" v-model:value="data.text"></textarea>
 </template>
 
 <script>
 export default {
   props: {
     data: {
-      type: String,
-      default: ''
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,
@@ -27,11 +29,6 @@ export default {
   mounted(){
     let el = this.$el
 
-    //-- if there is empty text it means we just created it (instead of loaded from previous sessions)
-    if(this.data.text == '')
-      setTimeout(() => {this.$emit('new-note', el)}, 1)
-
-
     //-- make them reactive to a click (for notes that have been loaded from previous sessions)
     el.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
@@ -46,9 +43,11 @@ export default {
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
+
+    this.$emit('new-note', el)
   },
   afterMount(){
-    this.$emit('new-note', el)
+    // this.$emit('new-note', el)
   }
 }
 </script>

@@ -7,86 +7,94 @@ body{
 
   font-family: 'Inter UI';
 
-  .note{
-    position: absolute;
-    z-index: 5;
+}
 
-    width: 40%;
+.note{
+  position: absolute;
+  z-index: 5;
 
-    color: $main-fg-color;
+  width: 40%;
+
+  color: $main-fg-color;
+  font-size: 2.5em;
+
+  transition: opacity 0.5s ease-in;
+
+  @media (max-width: 1300px){
+    font-size: 2em;
+  }
+}
+
+.title {
+  font-size: 2.3em;
+  font-weight: bold;
+}
+
+textarea {
+  font-family: 'Inter UI';
+  background-color: rgba(1, 0, 0, 0);
+  border: none;
+  outline: none;
+  height: auto;
+}
+
+.written {
+   width: 100%;
+}
+
+.moveable{
+  z-index: 4;
+  width: initial;
+}
+
+#current{
+   position: absolute;
+   font-weight: bold;
+   overflow-y: visible;
+}
+
+.concept-group{
+  position: relative;
+  padding-top: 5%;
+  padding-left: 10%;
+  width: 75vw;
+  height: 85vh;
+  overflow: hidden;
+  border: 2px solid $main-fg-color;
+}
+
+.prep{
+  position: relative;
+  opacity:1;
+
+  font-family: 'Inter UI';
+  font-style: italic;
+  font-size: 2em;
+
+  @media (max-width: 1300px){
     font-size: 2.5em;
-
-    transition: opacity 0.5s ease-in;
-
-    @media (max-width: 1300px){
-      font-size: 2em;
-    }
   }
 
-  .title {
-    font-size: 2.3em;
-    font-weight: bold;
-  }
+  color: $main-fg-color;
 
-  textarea {
-	  font-family: 'Inter UI';
-	  background-color: rgba(1, 0, 0, 0);
-	  border: none;
-	  outline: none;
-    height: auto;
-  }
+  margin-top: 5%;
+  text-align: left;
 
-  .written {
-	   width: 100%;
-  }
+}
 
-  .moveable{
-    z-index: 4;
-    width: initial;
-  }
+.prep-tag-anchor {
+  margin-left: 10px;
+  font-size: 0.5em;
+  cursor: pointer;
+}
 
-  #current{
-	   position: absolute;
-     font-weight: bold;
-     overflow-y: visible;
-  }
+img{
+  max-width: 800px !important;
+  max-height: 600px;
+}
 
-  .concept-group{
-	  position: relative;
-	  padding-top: 5%;
-	  padding-left: 10%;
-	  width: 80%;
-    height: 100vh;
-    border: 2px solid $main-fg-color;
-  }
-
-  .prep{
-	  position: relative;
-	  opacity:1;
-
-	  font-family: 'Inter UI';
-	  font-style: italic;
-	  font-size: 2em;
-
-    @media (max-width: 1300px){
-      font-size: 2.5em;
-    }
-
-	  color: $main-fg-color;
-
-	  margin-top: 5%;
-	  text-align: left;
-
-  }
-
-  .prep-tag-anchor {
-    margin-left: 10px;
-    font-size: 0.5em;
-    cursor: pointer;
-  }
-
-  img{
-	  max-width: 800px !important;
-	  max-height: 600px;
-  }
+.writeup{
+  width: 100%;
+  margin: 5px;
+  font-family: 'Inter UI'
 }

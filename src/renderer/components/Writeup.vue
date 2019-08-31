@@ -1,5 +1,11 @@
 <template>
-  <textarea class="writeup concept-bound" hidden>{{data}}</textarea>
+  <div class="writeup-toggle-outer">
+    <div class="writeup-toggle-inner" @click="toggleView">
+
+    </div>
+    <textarea class="writeup">{{data}}</textarea>
+  </div>
+
 </template>
 
 <script>
@@ -7,7 +13,7 @@ export default {
   props: {
     data: {
       type: String,
-      default: ''
+      default: 'no current writeup bro'
     },
     isEdit: {
       type: Boolean,
@@ -16,7 +22,16 @@ export default {
   },
   data: function () {
     return {
+      visible: false
     }
+  },
+  methods: {
+    toggleView(e) {
+      this.visible = !this.visible
+      e.target.parentNode.style.height = this.visible ? '100px' : '0px'
+    }
+  },
+  mounted(){
   }
 }
 </script>

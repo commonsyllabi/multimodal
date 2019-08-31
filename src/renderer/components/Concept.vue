@@ -9,7 +9,7 @@
     <Prep v-for="(prep, index) in data.prep" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :course="course" @remove-prep="removePrep(index)" :isEdit="isEdit"/>
     <Context v-for="(context, index) in data.contexts" :data="context" :key="`context-${index}`" :isEdit="isEdit"/>
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
-    <Writeup v-for="(writeup, index) in data.writeups" :data="writeup" :key="`writeup-${index}`":isEdit="isEdit"/>
+    <Writeup :data="data.writeup" :isEdit="isEdit"/>
 
     <button v-if="isEdit" @click="addPrep('txt')">add text</button>
     <button v-if="isEdit" @click="addPrep('url')">add link</button>
@@ -64,15 +64,10 @@ export default {
       })
     },
     removePrep(i) {
-      console.log(i);
-      let sa = this.data.prep.slice(0, i)
-      let sb = this.data.prep.slice(i+1, this.data.prep.length)
-      let conc = sa.concat(sb)
-      this.data.prep = conc
-      console.log(this.data.prep);
-      // this.data.prep.splice(i)
-
-      //TODO this might not be a good idea since there is the chance of misalignment between the saved _id and the dynamically changing array in this.data.prep
+      let a = this.data.prep.slice(0, i)
+      let b = this.data.prep.slice(i+1, this.data.prep.length)
+      let c = a.concat(b)
+      this.data.prep = c
     }
   },
   mounted(){
@@ -84,7 +79,7 @@ export default {
         		el.removeAttribute('id')
 
         	if(window.currentNote == null)
-            this.data.notes.push({text: ''})
+            this.data.notes.push({text: null, tag: "", type: "text"})
       }
     }
   }

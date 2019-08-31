@@ -604,10 +604,11 @@ const globals = __webpack_require__(6)
     	}
     },
     handleNewNote(el) {
+      console.log('handling new note');
       window.currentNote = el
-
       el.setAttribute('id', 'current')
       el.focus()
+
 
       let pos = getGridPosition(this.position)
       window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
@@ -762,15 +763,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       })
     },
     removePrep(i) {
-      console.log(i);
-      let sa = this.data.prep.slice(0, i)
-      let sb = this.data.prep.slice(i+1, this.data.prep.length)
-      let conc = sa.concat(sb)
-      this.data.prep = conc
-      console.log(this.data.prep);
-      // this.data.prep.splice(i)
-
-      //TODO this might not be a good idea since there is the chance of misalignment between the saved _id and the dynamically changing array in this.data.prep
+      let a = this.data.prep.slice(0, i)
+      let b = this.data.prep.slice(i+1, this.data.prep.length)
+      let c = a.concat(b)
+      this.data.prep = c
     }
   },
   mounted(){
@@ -782,7 +778,7 @@ let map = (value, start_1, end_1, start_2, end_2) => {
         		el.removeAttribute('id')
 
         	if(window.currentNote == null)
-            this.data.notes.push({text: ''})
+            this.data.notes.push({text: null, tag: "", type: "text"})
       }
     }
   }
@@ -932,8 +928,10 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
-      type: String,
-      default: ''
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,
@@ -951,11 +949,6 @@ let map = (value, start_1, end_1, start_2, end_2) => {
   mounted(){
     let el = this.$el
 
-    //-- if there is empty text it means we just created it (instead of loaded from previous sessions)
-    if(this.data.text == '')
-      setTimeout(() => {this.$emit('new-note', el)}, 1)
-
-
     //-- make them reactive to a click (for notes that have been loaded from previous sessions)
     el.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
@@ -970,9 +963,11 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
+
+    this.$emit('new-note', el)
   },
   afterMount(){
-    this.$emit('new-note', el)
+    // this.$emit('new-note', el)
   }
 });
 
@@ -995,12 +990,18 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
       type: String,
-      default: ''
+      default: 'no current writeup bro'
     },
     isEdit: {
       type: Boolean,
@@ -1009,7 +1010,16 @@ let map = (value, start_1, end_1, start_2, end_2) => {
   },
   data: function () {
     return {
+      visible: false
     }
+  },
+  methods: {
+    toggleView(e) {
+      this.visible = !this.visible
+      e.target.parentNode.style.height = this.visible ? '100px' : '0px'
+    }
+  },
+  mounted(){
   }
 });
 
@@ -13505,12 +13515,7 @@ var render = function() {
         })
       }),
       _vm._v(" "),
-      _vm._l(_vm.data.writeups, function(writeup, index) {
-        return _c("Writeup", {
-          key: "writeup-" + index,
-          attrs: { data: writeup, isEdit: _vm.isEdit }
-        })
-      }),
+      _c("Writeup", { attrs: { data: _vm.data.writeup, isEdit: _vm.isEdit } }),
       _vm._v(" "),
       _vm.isEdit
         ? _c(
@@ -13618,7 +13623,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", { attrs: { hidden: "" } }, [_vm._v(_vm._s(_vm.data))])
+  return _c("p", { staticClass: "context", attrs: { hidden: "" } }, [
+    _vm._v(_vm._s(_vm.data))
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13915,30 +13922,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.data
-    ? _c("textarea", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model:value",
-            value: _vm.data.text,
-            expression: "data.text",
-            arg: "value"
-          }
-        ],
-        staticClass: "note moveable concept-bound",
-        attrs: { type: "text" },
-        domProps: { value: _vm.data.text },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.data, "text", $event.target.value)
-          }
+  return _c("textarea", {
+    directives: [
+      {
+        name: "model",
+        rawName: "v-model:value",
+        value: _vm.data.text,
+        expression: "data.text",
+        arg: "value"
+      }
+    ],
+    staticClass: "note moveable concept-bound",
+    attrs: { type: "text" },
+    domProps: { value: _vm.data.text },
+    on: {
+      input: function($event) {
+        if ($event.target.composing) {
+          return
         }
-      })
-    : _vm._e()
+        _vm.$set(_vm.data, "text", $event.target.value)
+      }
+    }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -14015,11 +14020,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "textarea",
-    { staticClass: "writeup concept-bound", attrs: { hidden: "" } },
-    [_vm._v(_vm._s(_vm.data))]
-  )
+  return _c("div", { staticClass: "writeup-toggle-outer" }, [
+    _c("div", {
+      staticClass: "writeup-toggle-inner",
+      on: { click: _vm.toggleView }
+    }),
+    _vm._v(" "),
+    _c("textarea", { staticClass: "writeup" }, [_vm._v(_vm._s(_vm.data))])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
