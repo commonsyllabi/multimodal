@@ -1,6 +1,6 @@
 'use strict'
 
-import { getCurrentNote, setCurrentNote, setCurrrentPosition, getPreviousConcept, getCurrentConcept, setCurrentConcept } from './globals.js'
+import { getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, setCurrentPosition, getPreviousPage, getCurrentPage, setCurrentPage } from './globals.js'
 
 const ESC = 27
 const UP = 38
@@ -10,40 +10,66 @@ const DOWN = 40
 
 let cn = null
 
-let handle = (e) => {
+let handle = (e, data) => {
 	cn = window.currentNote
 
-	let index
+	let page, concept
 	switch(e.keyCode){
-	case UP: //concept right before
+	case UP: //page right before
 		if(cn == null){
 			e.preventDefault()
-			index = getCurrentConcept()
-			index = index - 1 > 0 ? index - 1 : 0
-			setCurrentConcept(index, true)
+			// page = getCurrentPage()
+			// page = page - 1 > 0 ? page - 1 : 0
+			// setCurrentPage(page, true)
+
+			page = getCurrentPage()
+			concept = getCurrentConcept()
+			if(page > 0){
+				page--
+			}else{
+				//-- check for concept overflow
+				if(concept > 0)
+					concept--
+				else
+					concept = 0
+
+				page = data.concepts[concept].pages.length - 1
+			}
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
-	case DOWN: //concept right after
+	case DOWN: //page right after
 		if(cn == null){
 			e.preventDefault()
-			index = getCurrentConcept()
-			console.log('index before',index);
-			let len = document.getElementsByClassName('concept-group').length-1
-			index = index + 1 < len ? index + 1 : len
-			console.log('index after',index);
-			setCurrentConcept(index, true)
+			page = getCurrentPage()
+			concept = getCurrentConcept()
+			if(page < data.concepts[concept].pages.length-1){
+				page++
+			}else{
+				page = 0
+				//-- check for concept overflow
+				if(concept < data.concepts.length-1)
+					concept++
+				else
+					concept = 0
+			}
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
-	case LEFT: // previous concept
+	case LEFT: // previous page
 		if(cn == null){
-			index = getPreviousConcept()
-			setCurrentConcept(index)
+			index = getPreviousPage()
+			setCurrentPage(index)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
 			let index = document.getElementsByClassName('concept-group').length-1
-			setCurrentConcept(index)
+			setCurrentPage(index)
 		}
 		break
 	case ESC:
