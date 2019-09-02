@@ -7,8 +7,7 @@
     </div>
 
     <div class="concept-buttons">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index" :key="index"/>
-      <div v-if="isEdit">add concept</div>
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index" :key="index" :isEdit="isEdit" @add-concept="addConcept"/>
     </div>
     <div class="interface-buttons">
       <button class="lesson-btn" @click="toggleDraw"> write </button>
@@ -53,7 +52,7 @@ export default {
         var elemTop = rect.top;
         var elemBottom = rect.bottom;
 
-        let isVisible = elemTop < window.innerHeight*0.9 && elemBottom >= 0;
+        let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
 
         if(isVisible)
           visibleElements.push(i)
@@ -99,6 +98,22 @@ export default {
     },
     saveSession() {
 
+    },
+    addConcept(i) {
+      this.data.concepts.splice(i+1, 0, {
+        name: "please fill",
+        tag: "",
+        prep: [{
+          "tag": "",
+          "text": "type here",
+          "type": "txt"
+        }],
+        notes: [],
+        writeups: ""
+      })
+
+      //then focus on the concept
+      globals.setCurrentConcept(i+1, true)
     }
   },
   mounted(){

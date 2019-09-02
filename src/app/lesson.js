@@ -492,6 +492,7 @@ let handle = (e) => {
 let endNote = (el) => {
 	//if note is blank
 	if(el.value == ''){
+		el.style.display = 'none'
 		el.parentNode.removeChild(el)
 	}else{ //-- else position it correctly
 		el.style.height = (el.scrollHeight)+'px'
@@ -550,7 +551,6 @@ let endNote = (el) => {
 //
 //
 //
-//
 
 
 
@@ -582,7 +582,7 @@ const globals = __webpack_require__(6)
         var elemTop = rect.top;
         var elemBottom = rect.bottom;
 
-        let isVisible = elemTop < window.innerHeight*0.9 && elemBottom >= 0;
+        let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
 
         if(isVisible)
           visibleElements.push(i)
@@ -628,6 +628,22 @@ const globals = __webpack_require__(6)
     },
     saveSession() {
 
+    },
+    addConcept(i) {
+      this.data.concepts.splice(i+1, 0, {
+        name: "please fill",
+        tag: "",
+        prep: [{
+          "tag": "",
+          "text": "type here",
+          "type": "txt"
+        }],
+        notes: [],
+        writeups: ""
+      })
+
+      //then focus on the concept
+      globals.setCurrentConcept(i+1, true)
     }
   },
   mounted(){
@@ -1042,12 +1058,20 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
       type: Object,
-      default: {}
+      default: {},
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
     },
     index: {
       type: Number,
@@ -1056,6 +1080,14 @@ let map = (value, start_1, end_1, start_2, end_2) => {
   },
   data: function () {
     return {
+    }
+  },
+  methods: {
+    addConcept () {
+      this.$emit('add-concept', this.index)
+    },
+    removeConcept() {
+      this.$emit('remove-concept', this.index)
     }
   }
 });
@@ -13315,17 +13347,14 @@ var render = function() {
     _c(
       "div",
       { staticClass: "concept-buttons" },
-      [
-        _vm._l(_vm.data.concepts, function(concept, index) {
-          return _c("Navigation", {
-            key: index,
-            attrs: { data: concept, index: index }
-          })
-        }),
-        _vm._v(" "),
-        _vm.isEdit ? _c("div", [_vm._v("add concept")]) : _vm._e()
-      ],
-      2
+      _vm._l(_vm.data.concepts, function(concept, index) {
+        return _c("Navigation", {
+          key: index,
+          attrs: { data: concept, index: index, isEdit: _vm.isEdit },
+          on: { "add-concept": _vm.addConcept }
+        })
+      }),
+      1
     ),
     _vm._v(" "),
     _c("div", { staticClass: "interface-buttons" }, [
@@ -14104,11 +14133,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "button",
-    { staticClass: "concept-btn concept", attrs: { concept: _vm.index } },
-    [_vm._v(_vm._s(_vm.data.concept))]
-  )
+  return _c("div", [
+    _c(
+      "button",
+      { staticClass: "concept-btn concept", attrs: { concept: _vm.index } },
+      [_vm._v(_vm._s(_vm.data.concept))]
+    ),
+    _vm._v(" "),
+    _vm.isEdit
+      ? _c("button", { on: { click: _vm.addConcept } }, [_vm._v("+")])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isEdit
+      ? _c("button", { on: { click: _vm.removeConcept } }, [_vm._v("-")])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
