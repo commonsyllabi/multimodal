@@ -31,11 +31,11 @@ let setupCanvas = (i) => {
 	contexts[i].beginPath()
 }
 
-let selectCanvas = (_currentConcept) => {
+let selectCanvas = (_page, _concept) => {
 
 	for(let i in canvases){
 		if(i == 'length') break
-		if(canvases[i].getAttribute('concept') == _currentConcept){
+		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
@@ -52,9 +52,7 @@ let beginDraw = (e) => {
 	prevx = e.pageX - cnv.offsetParent.offsetLeft
 	prevy = e.pageY - cnv.offsetParent.offsetTop
 
-	console.log(cnv.offsetParent.offsetTop);
 	ctx.moveTo(prevx, prevy)
-
 }
 
 let draw = (e) => {
@@ -83,16 +81,14 @@ let clearBoard = () => {
 	ctx.clearRect(0, 0, cnv.width, cnv.height)
 }
 
-let toggleDraw = () => {
-	isDrawMode = !isDrawMode
+let toggleDraw = (mode) => {
+	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
-		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
 		cnv.setAttribute('class', 'drawing-board')
-		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1
 	}

@@ -273,7 +273,6 @@ let getCurrentConcept = () => {
 }
 
 let setCurrentPage = (page, shouldNavigate = false) => {
-	console.log('setting concept', currentConcept, 'page', page);
 	previousPage = currentPage
 	currentPage = page ? page : 0
 
@@ -287,7 +286,7 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 
 	//-- scroll element into view
 	if(shouldNavigate){
-		let ns = document.getElementsByClassName('concept-group')
+		let ns = document.getElementsByClassName('page-group')
 		for(let n of ns){
 			if(n.getAttribute('page') == `${currentConcept}-${currentPage}`){
 				n.scrollIntoView({behavior: "smooth"})
@@ -298,7 +297,7 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 		}
 	}
 
-	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["selectCanvas"](currentPage)
+	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["selectCanvas"](currentPage, currentConcept)
 }
 
 let getCurrentPage = () => {
@@ -363,11 +362,11 @@ let setupCanvas = (i) => {
 	contexts[i].beginPath()
 }
 
-let selectCanvas = (_currentConcept) => {
+let selectCanvas = (_page, _concept) => {
 
 	for(let i in canvases){
 		if(i == 'length') break
-		if(canvases[i].getAttribute('concept') == _currentConcept){
+		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
@@ -384,9 +383,7 @@ let beginDraw = (e) => {
 	prevx = e.pageX - cnv.offsetParent.offsetLeft
 	prevy = e.pageY - cnv.offsetParent.offsetTop
 
-	console.log(cnv.offsetParent.offsetTop);
 	ctx.moveTo(prevx, prevy)
-
 }
 
 let draw = (e) => {
@@ -415,16 +412,14 @@ let clearBoard = () => {
 	ctx.clearRect(0, 0, cnv.width, cnv.height)
 }
 
-let toggleDraw = () => {
-	isDrawMode = !isDrawMode
+let toggleDraw = (mode) => {
+	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
-		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
 		cnv.setAttribute('class', 'drawing-board')
-		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1
 	}
@@ -513,7 +508,7 @@ let handle = (e, data) => {
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
-			let index = document.getElementsByClassName('concept-group').length-1
+			let index = document.getElementsByClassName('page-group').length-1
 			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(index)
 		}
 		break
@@ -960,7 +955,7 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-window.setCurrentConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["setCurrentConcept"]
+// window.setCurrentPage = globals.setCurrentPage
 window.saveSession = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["b" /* saveSession */]
 window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_2__lesson_globals_js__["setCurrentConcept"]
@@ -13821,6 +13816,7 @@ const globals = __webpack_require__(6)
     return {
       data: null,
       isEdit: false,
+      isDrawing: false,
       currentPage: 0,
       previousPage: 0,
       position: { x: 0, y: 0}
@@ -13829,22 +13825,28 @@ const globals = __webpack_require__(6)
   methods: {
     isScrolledIntoView() {
       let visibleElements = []
-      for(let concept of this.data.concepts){
-        for(let i = 0; i < concept.length; i++){
-          let el = document.getElementById(i)
-          var rect = el.getBoundingClientRect();
-          var elemTop = rect.top;
-          var elemBottom = rect.bottom;
+      let pages = document.getElementsByClassName('page-group')
+      for(let page of pages){
+            var rect = page.getBoundingClientRect();
+            var elemTop = rect.top;
+            var elemBottom = rect.bottom;
 
-          let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
+            console.log(page);
+            console.log('top', elemTop, 'bottom', elemBottom);
 
-          if(isVisible)
-            visibleElements.push(i)
-        }
+            let isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+
+            if(isVisible){
+              let comp = page.getAttribute('page').split('-')
+              visibleElements.push({"page": comp[1], "concept": comp[0]})
+            }
       }
 
-      if(visibleElements.length == 1)
-        window.setCurrentPage(visibleElements[0])
+      if(visibleElements.length == 1){
+        globals.setCurrentConcept(visibleElements[0].concept)
+        globals.setCurrentPage(visibleElements[0].page)
+      }
+
     },
     handleMousePosition(evt) {
       evt.preventDefault()
@@ -13869,7 +13871,8 @@ const globals = __webpack_require__(6)
       window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
     },
     toggleDraw() {
-
+      this.isDrawing = !this.isDrawing
+      drawing.toggleDraw(this.isDrawing)
     },
     clearBoard() {
 
@@ -14063,7 +14066,7 @@ var render = function() {
       _c(
         "button",
         { staticClass: "lesson-btn", on: { click: _vm.toggleDraw } },
-        [_vm._v(" write ")]
+        [_vm._v(" " + _vm._s(_vm.isDrawing ? "write" : "draw") + " ")]
       ),
       _vm._v(" "),
       _c(
@@ -14194,7 +14197,7 @@ render._withStripped = true
     }
   },
   mounted(){
-    let root = document.getElementById(this.index)
+    let root = this.$el
     root.ondblclick = (e) => {
       if(e.target.getAttribute("concept") == this.index){
         	let els = document.getElementsByClassName('written')
@@ -14282,7 +14285,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "concept-group",
+      staticClass: "page-group",
       attrs: {
         id: _vm.index,
         page: _vm.concept + "-" + _vm.index,
@@ -14293,7 +14296,7 @@ var render = function() {
       !_vm.isEdit
         ? _c("canvas", {
             staticClass: "drawing-board",
-            attrs: { concept: _vm.index }
+            attrs: { page: _vm.concept + "-" + _vm.index }
           })
         : _vm._e(),
       _vm._v(" "),
