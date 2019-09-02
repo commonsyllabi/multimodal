@@ -1,8 +1,11 @@
 <template>
   <div>
-    <button class="concept-btn concept" :concept="index">{{data.concept}}</button>
-    <button v-if="isEdit" @click="addConcept">+</button>
-    <button v-if="isEdit" @click="removeConcept">-</button>
+    <button class="concept-btn concept"> {{data.name}} </button>
+    <div v-for="(page, index) in data.pages">
+      <button class="concept-btn page" :page="`${concept}-${index}`">{{page.name}}</button>
+      <button v-if="isEdit" @click="addPage">+</button>
+      <button v-if="isEdit" @click="removePage">-</button>
+    </div>
   </div>
 </template>
 
@@ -17,7 +20,7 @@ export default {
       type: Boolean,
       default: false
     },
-    index: {
+    concept: {
       type: Number,
       default: 0
     }
@@ -27,11 +30,11 @@ export default {
     }
   },
   methods: {
-    addConcept () {
-      this.$emit('add-concept', this.index)
+    addPage () {
+      this.$emit('add-page', this.index)
     },
-    removeConcept() {
-      this.$emit('remove-concept', this.index)
+    removePage() {
+      this.$emit('remove-page', this.index)
     }
   }
 }

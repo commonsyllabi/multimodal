@@ -13,13 +13,13 @@ import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'
 
 import Vue from 'vue'
-import Lesson from './components/Lesson.vue'
+import Subject from './components/Subject.vue'
 
 window.vm = new Vue({
 	el: '#writing-board',
-	template: '<Lesson/>',
+	template: '<Subject/>',
 	components: {
-		Lesson
+		Subject
 	}
 })
 

@@ -2,12 +2,12 @@
   <div>
     <div class="lessons-container">
       <span v-for="(concept, index) in data.concepts">
-        <Concept :data="concept" :course="data.course" :index="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
+        <Concept :data="concept" :course="data.course" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
     <div class="concept-buttons">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :index="index" :key="index" :isEdit="isEdit" @add-concept="addConcept"/>
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit" @add-page="addPage"/>
     </div>
     <div class="interface-buttons">
       <button class="lesson-btn" @click="toggleDraw"> write </button>
@@ -38,28 +38,30 @@ export default {
     return {
       data: null,
       isEdit: false,
-      currentConcept: 0,
-      previousConcept: 0,
+      currentPage: 0,
+      previousPage: 0,
       position: { x: 0, y: 0}
     }
   },
   methods: {
     isScrolledIntoView() {
       let visibleElements = []
-      for(let i = 0; i < this.data.concepts.length; i++){
-        let el = document.getElementById(i)
-        var rect = el.getBoundingClientRect();
-        var elemTop = rect.top;
-        var elemBottom = rect.bottom;
+      for(let concept of this.data.concepts){
+        for(let i = 0; i < concept.length; i++){
+          let el = document.getElementById(i)
+          var rect = el.getBoundingClientRect();
+          var elemTop = rect.top;
+          var elemBottom = rect.bottom;
 
-        let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
+          let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
 
-        if(isVisible)
-          visibleElements.push(i)
+          if(isVisible)
+            visibleElements.push(i)
+        }
       }
 
       if(visibleElements.length == 1)
-        window.setCurrentConcept(visibleElements[0])
+        window.setCurrentPage(visibleElements[0])
     },
     handleMousePosition(evt) {
       evt.preventDefault()
@@ -74,7 +76,6 @@ export default {
     	}
     },
     handleNewNote(el) {
-      console.log('handling new note');
       window.currentNote = el
       el.setAttribute('id', 'current')
       el.focus()
@@ -99,11 +100,11 @@ export default {
     saveSession() {
 
     },
-    addConcept(i) {
+    addPage(ci, pi) {
       this.data.concepts.splice(i+1, 0, {
         name: "please fill",
         tag: "",
-        prep: [{
+        preps: [{
           "tag": "",
           "text": "type here",
           "type": "txt"
@@ -112,13 +113,15 @@ export default {
         writeups: ""
       })
 
-      //then focus on the concept
-      globals.setCurrentConcept(i+1, true)
+      globals.setCurrentPage(i+1, true)
+    },
+    removePage(ci, pi) {
+      this.data.concepts[ci].splice(pi, 1)
     }
   },
   mounted(){
     drawing.init()
-    globals.setCurrentConcept()
+    globals.setCurrentPage(0, 0)
     globals.initTags()
 
     document.addEventListener('scroll', (e) => {
@@ -140,7 +143,7 @@ export default {
     })
 
     window.addEventListener('keydown', (e) => {
-  		typing.handle(e)
+  		typing.handle(e, this.data)
   	})
   },
   beforeMount() {

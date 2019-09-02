@@ -3,8 +3,9 @@
 import * as drawing from './drawing.js'
 
 let currentNote = null
+let currentPage = 0
 let currentConcept = 0
-let previousConcept = 0
+let previousPage = 0
 
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
@@ -17,11 +18,11 @@ let initTags = () => {
 }
 
 let jumpToTag = (_tag) => {
-	let concepts = document.getElementsByClassName('concept')
+	let concepts = document.getElementsByClassName('page')
 
 	for(let co of concepts)
 		if(co.getAttribute('tag') == _tag)
-			setCurrentConcept(co.getAttribute('concept'))
+			setCurrentPage(co.getAttribute('page'))
 
 }
 
@@ -33,23 +34,32 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index, shouldNavigate = false) => {
-	previousConcept = currentConcept
-	currentConcept = index ? index : 0
+let setCurrentConcept = (el) => {
+	currentConcept = el
+}
+
+let getCurrentConcept = () => {
+	return currentConcept
+}
+
+let setCurrentPage = (page, shouldNavigate = false) => {
+	console.log('setting concept', currentConcept, 'page', page);
+	previousPage = currentPage
+	currentPage = page ? page : 0
 
 	//-- highlight navigation
-	let cs = document.getElementsByClassName('concept')
+	let cs = document.getElementsByClassName('page')
 	for(let c of cs){
-		c.setAttribute('class', 'concept concept-btn')
-		if(c.getAttribute('concept') == currentConcept)
-			c.setAttribute('class', 'concept concept-btn current-concept')
+		c.setAttribute('class', 'page concept-btn')
+		if(c.getAttribute('page') == `${currentConcept}-${currentPage}`)
+			c.setAttribute('class', 'page concept-btn current-concept')
 	}
 
 	//-- scroll element into view
 	if(shouldNavigate){
 		let ns = document.getElementsByClassName('concept-group')
 		for(let n of ns){
-			if(n.getAttribute('concept') == currentConcept){
+			if(n.getAttribute('page') == `${currentConcept}-${currentPage}`){
 				n.scrollIntoView({behavior: "smooth"})
 				n.style.pointerEvents = 'auto'
 			}else{
@@ -58,15 +68,15 @@ let setCurrentConcept = (index, shouldNavigate = false) => {
 		}
 	}
 
-	drawing.selectCanvas(currentConcept)
+	drawing.selectCanvas(currentPage)
 }
 
-let getCurrentConcept = () => {
-	return currentConcept
+let getCurrentPage = () => {
+	return currentPage
 }
 
-let getPreviousConcept = () => {
-	return previousConcept
+let getPreviousPage = () => {
+	return previousPage
 }
 
 let setCurrrentPosition = (pos) => {
@@ -74,4 +84,4 @@ let setCurrrentPosition = (pos) => {
 	currentNote.style.left = pos.x+'px'
 }
 
-export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, setCurrrentPosition, setCurrentConcept, getCurrentConcept, getPreviousConcept}
+export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, setCurrrentPosition, setCurrentPage, getCurrentPage, getPreviousPage}

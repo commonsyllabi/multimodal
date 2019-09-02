@@ -221,18 +221,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currentNote", function() { return currentNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentNote", function() { return getCurrentNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentNote", function() { return setCurrentNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrrentPosition", function() { return setCurrrentPosition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentConcept", function() { return setCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentConcept", function() { return getCurrentConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousConcept", function() { return getPreviousConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentConcept", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrrentPosition", function() { return setCurrrentPosition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentPage", function() { return setCurrentPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentPage", function() { return getCurrentPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousPage", function() { return getPreviousPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawing_js__ = __webpack_require__(7);
 
 
 
 
 let currentNote = null
+let currentPage = 0
 let currentConcept = 0
-let previousConcept = 0
+let previousPage = 0
 
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
@@ -245,11 +248,11 @@ let initTags = () => {
 }
 
 let jumpToTag = (_tag) => {
-	let concepts = document.getElementsByClassName('concept')
+	let concepts = document.getElementsByClassName('page')
 
 	for(let co of concepts)
 		if(co.getAttribute('tag') == _tag)
-			setCurrentConcept(co.getAttribute('concept'))
+			setCurrentPage(co.getAttribute('page'))
 
 }
 
@@ -261,23 +264,32 @@ let getCurrentNote = () => {
 	return currentNote
 }
 
-let setCurrentConcept = (index, shouldNavigate = false) => {
-	previousConcept = currentConcept
-	currentConcept = index ? index : 0
+let setCurrentConcept = (el) => {
+	currentConcept = el
+}
+
+let getCurrentConcept = () => {
+	return currentConcept
+}
+
+let setCurrentPage = (page, shouldNavigate = false) => {
+	console.log('setting concept', currentConcept, 'page', page);
+	previousPage = currentPage
+	currentPage = page ? page : 0
 
 	//-- highlight navigation
-	let cs = document.getElementsByClassName('concept')
+	let cs = document.getElementsByClassName('page')
 	for(let c of cs){
-		c.setAttribute('class', 'concept concept-btn')
-		if(c.getAttribute('concept') == currentConcept)
-			c.setAttribute('class', 'concept concept-btn current-concept')
+		c.setAttribute('class', 'page concept-btn')
+		if(c.getAttribute('page') == `${currentConcept}-${currentPage}`)
+			c.setAttribute('class', 'page concept-btn current-concept')
 	}
 
 	//-- scroll element into view
 	if(shouldNavigate){
 		let ns = document.getElementsByClassName('concept-group')
 		for(let n of ns){
-			if(n.getAttribute('concept') == currentConcept){
+			if(n.getAttribute('page') == `${currentConcept}-${currentPage}`){
 				n.scrollIntoView({behavior: "smooth"})
 				n.style.pointerEvents = 'auto'
 			}else{
@@ -286,15 +298,15 @@ let setCurrentConcept = (index, shouldNavigate = false) => {
 		}
 	}
 
-	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["selectCanvas"](currentConcept)
+	__WEBPACK_IMPORTED_MODULE_0__drawing_js__["selectCanvas"](currentPage)
 }
 
-let getCurrentConcept = () => {
-	return currentConcept
+let getCurrentPage = () => {
+	return currentPage
 }
 
-let getPreviousConcept = () => {
-	return previousConcept
+let getPreviousPage = () => {
+	return previousPage
 }
 
 let setCurrrentPosition = (pos) => {
@@ -443,40 +455,66 @@ const DOWN = 40
 
 let cn = null
 
-let handle = (e) => {
+let handle = (e, data) => {
 	cn = window.currentNote
 
-	let index
+	let page, concept
 	switch(e.keyCode){
-	case UP: //concept right before
+	case UP: //page right before
 		if(cn == null){
 			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			index = index - 1 > 0 ? index - 1 : 0
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
+			// page = getCurrentPage()
+			// page = page - 1 > 0 ? page - 1 : 0
+			// setCurrentPage(page, true)
+
+			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
+			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
+			if(page > 0){
+				page--
+			}else{
+				//-- check for concept overflow
+				if(concept > 0)
+					concept--
+				else
+					concept = 0
+
+				page = data.concepts[concept].pages.length - 1
+			}
+
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
 		}
 		break
-	case DOWN: //concept right after
+	case DOWN: //page right after
 		if(cn == null){
 			e.preventDefault()
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			console.log('index before',index);
-			let len = document.getElementsByClassName('concept-group').length-1
-			index = index + 1 < len ? index + 1 : len
-			console.log('index after',index);
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index, true)
+			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
+			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
+			if(page < data.concepts[concept].pages.length-1){
+				page++
+			}else{
+				page = 0
+				//-- check for concept overflow
+				if(concept < data.concepts.length-1)
+					concept++
+				else
+					concept = 0
+			}
+
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
 		}
 		break
-	case LEFT: // previous concept
+	case LEFT: // previous page
 		if(cn == null){
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
+			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousPage"])()
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(index)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
 			let index = document.getElementsByClassName('concept-group').length-1
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(index)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(index)
 		}
 		break
 	case ESC:
@@ -513,189 +551,8 @@ let endNote = (el) => {
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Lesson_vue_vue_type_script_lang_js___ = __webpack_require__(10);
-/* unused harmony namespace reexport */
- /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Lesson_vue_vue_type_script_lang_js___["a" /* default */]); 
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Concept_vue__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__ = __webpack_require__(44);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-const typing = __webpack_require__(8)
-const drawing = __webpack_require__(7)
-const globals = __webpack_require__(6)
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  components: {
-    Concept: __WEBPACK_IMPORTED_MODULE_0__Concept_vue__["a" /* default */],
-    Navigation: __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__["a" /* default */]
-  },
-  data: function () {
-    return {
-      data: null,
-      isEdit: false,
-      currentConcept: 0,
-      previousConcept: 0,
-      position: { x: 0, y: 0}
-    }
-  },
-  methods: {
-    isScrolledIntoView() {
-      let visibleElements = []
-      for(let i = 0; i < this.data.concepts.length; i++){
-        let el = document.getElementById(i)
-        var rect = el.getBoundingClientRect();
-        var elemTop = rect.top;
-        var elemBottom = rect.bottom;
-
-        let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
-
-        if(isVisible)
-          visibleElements.push(i)
-      }
-
-      if(visibleElements.length == 1)
-        window.setCurrentConcept(visibleElements[0])
-    },
-    handleMousePosition(evt) {
-      evt.preventDefault()
-
-      this.position = {x: evt.clientX, y: evt.clientY}
-
-    	if(window.currentNote != null){
-    		let pos = getGridPosition(this.position)
-
-      	window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-        window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
-    	}
-    },
-    handleNewNote(el) {
-      console.log('handling new note');
-      window.currentNote = el
-      el.setAttribute('id', 'current')
-      el.focus()
-
-
-      let pos = getGridPosition(this.position)
-      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
-    },
-    toggleDraw() {
-
-    },
-    clearBoard() {
-
-    },
-    editLesson() {
-      this.isEdit = !this.isEdit
-    },
-    exitLesson() {
-
-    },
-    saveSession() {
-
-    },
-    addConcept(i) {
-      this.data.concepts.splice(i+1, 0, {
-        name: "please fill",
-        tag: "",
-        prep: [{
-          "tag": "",
-          "text": "type here",
-          "type": "txt"
-        }],
-        notes: [],
-        writeups: ""
-      })
-
-      //then focus on the concept
-      globals.setCurrentConcept(i+1, true)
-    }
-  },
-  mounted(){
-    drawing.init()
-    globals.setCurrentConcept()
-    globals.initTags()
-
-    document.addEventListener('scroll', (e) => {
-      this.isScrolledIntoView()
-      this.handleMousePosition(e)
-    })
-
-    window.addEventListener('mousedown', (e) => {
-  		drawing.beginDraw(e)
-  	})
-
-    window.addEventListener('mousemove', (e) => {
-  		this.handleMousePosition(e)
-  		drawing.draw(e)
-  	})
-
-    window.addEventListener('mouseup', () => {
-      drawing.endDraw()
-    })
-
-    window.addEventListener('keydown', (e) => {
-  		typing.handle(e)
-  	})
-  },
-  beforeMount() {
-    this.data = window.data
-  }
-});
-
-let getGridPosition = (p) =>{
-	let normalized_pos = {
-		x : 0,
-		y : 0
-	}
-
-	normalized_pos.x = Math.floor(map(p.x, 0, 1800, 0, 36))*50
-	normalized_pos.y = Math.floor(map(p.y, 0, 1000, 0, 50))*20
-
-	return normalized_pos
-}
-
-let map = (value, start_1, end_1, start_2, end_2) => {
-	return start_2 + (end_2 - start_2) * (value - start_1) / (end_1 - start_1)
-}
-
-
-/***/ }),
+/* 9 */,
+/* 10 */,
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -710,39 +567,21 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Context_vue__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prep_vue__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Note_vue__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Writeup_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Page_vue__ = __webpack_require__(67);
 //
 //
 //
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
-    Context: __WEBPACK_IMPORTED_MODULE_0__Context_vue__["a" /* default */],
-    Note: __WEBPACK_IMPORTED_MODULE_2__Note_vue__["a" /* default */],
-    Writeup: __WEBPACK_IMPORTED_MODULE_3__Writeup_vue__["a" /* default */],
-    Prep: __WEBPACK_IMPORTED_MODULE_1__Prep_vue__["a" /* default */]
+    Page: __WEBPACK_IMPORTED_MODULE_1__Page_vue__["a" /* default */],
+    Context: __WEBPACK_IMPORTED_MODULE_0__Context_vue__["a" /* default */]
   },
   props: {
     data: {
@@ -753,7 +592,7 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       type: Object,
       default: {}
     },
-    index: {
+    concept: {
       type: Number,
       default: 0
     },
@@ -768,35 +607,12 @@ let map = (value, start_1, end_1, start_2, end_2) => {
     }
   },
   methods: {
-    handleNewNote(el) {
+    handleNewNote(el){
       this.$emit('new-note', el)
-    },
-    addPrep(_type) {
-      this.data.prep.push({
-        "tag": "",
-        "text": "",
-        "type": _type
-      })
-    },
-    removePrep(i) {
-      let a = this.data.prep.slice(0, i)
-      let b = this.data.prep.slice(i+1, this.data.prep.length)
-      let c = a.concat(b)
-      this.data.prep = c
     }
   },
   mounted(){
-    let root = document.getElementById(this.index)
-    root.ondblclick = (e) => {
-      if(e.target.getAttribute("concept") == this.index){
-        	let els = document.getElementsByClassName('written')
-        	for(let el of els)
-        		el.removeAttribute('id')
 
-        	if(window.currentNote == null)
-            this.data.notes.push({text: null, tag: "", type: "text"})
-      }
-    }
   }
 });
 
@@ -1062,6 +878,9 @@ let map = (value, start_1, end_1, start_2, end_2) => {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -1073,7 +892,7 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       type: Boolean,
       default: false
     },
-    index: {
+    concept: {
       type: Number,
       default: 0
     }
@@ -1083,11 +902,11 @@ let map = (value, start_1, end_1, start_2, end_2) => {
     }
   },
   methods: {
-    addConcept () {
-      this.$emit('add-concept', this.index)
+    addPage () {
+      this.$emit('add-page', this.index)
     },
-    removeConcept() {
-      this.$emit('remove-concept', this.index)
+    removePage() {
+      this.$emit('remove-page', this.index)
     }
   }
 });
@@ -1107,7 +926,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__utils_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Lesson_vue__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Subject_vue__ = __webpack_require__(62);
 'ust strict'
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -1127,9 +946,9 @@ __webpack_require__(5)
 
 window.vm = new __WEBPACK_IMPORTED_MODULE_5_vue___default.a({
 	el: '#writing-board',
-	template: '<Lesson/>',
+	template: '<Subject/>',
 	components: {
-		Lesson: __WEBPACK_IMPORTED_MODULE_6__components_Lesson_vue__["a" /* default */]
+		Subject: __WEBPACK_IMPORTED_MODULE_6__components_Subject_vue__["a" /* default */]
 	}
 })
 
@@ -13250,154 +13069,9 @@ let exitLesson = () => {
 
 
 /***/ }),
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Lesson_vue_vue_type_template_id_6aab1c3e___ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Lesson_vue_vue_type_script_lang_js___ = __webpack_require__(9);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(1);
-
-
-
-
-
-/* normalize component */
-
-var component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
-  __WEBPACK_IMPORTED_MODULE_1__Lesson_vue_vue_type_script_lang_js___["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_0__Lesson_vue_vue_type_template_id_6aab1c3e___["a" /* render */],
-  __WEBPACK_IMPORTED_MODULE_0__Lesson_vue_vue_type_template_id_6aab1c3e___["b" /* staticRenderFns */],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
-  api.install(require('vue'))
-  if (api.compatible) {
-    module.hot.accept()
-    if (!module.hot.data) {
-      api.createRecord('6aab1c3e', component.options)
-    } else {
-      api.reload('6aab1c3e', component.options)
-    }
-    module.hot.accept("./Lesson.vue?vue&type=template&id=6aab1c3e&", function () {
-      api.rerender('6aab1c3e', {
-        render: render,
-        staticRenderFns: staticRenderFns
-      })
-    })
-  }
-}
-component.options.__file = "src/renderer/components/Lesson.vue"
-/* harmony default export */ __webpack_exports__["a"] = (component.exports);
-
-/***/ }),
-/* 27 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Lesson_vue_vue_type_template_id_6aab1c3e___ = __webpack_require__(28);
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Lesson_vue_vue_type_template_id_6aab1c3e___["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Lesson_vue_vue_type_template_id_6aab1c3e___["b"]; });
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "lessons-container" },
-      _vm._l(_vm.data.concepts, function(concept, index) {
-        return _c(
-          "span",
-          [
-            _c("Concept", {
-              key: index,
-              attrs: {
-                data: concept,
-                course: _vm.data.course,
-                index: index,
-                isEdit: _vm.isEdit
-              },
-              on: { "new-note": _vm.handleNewNote }
-            })
-          ],
-          1
-        )
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "concept-buttons" },
-      _vm._l(_vm.data.concepts, function(concept, index) {
-        return _c("Navigation", {
-          key: index,
-          attrs: { data: concept, index: index, isEdit: _vm.isEdit },
-          on: { "add-concept": _vm.addConcept }
-        })
-      }),
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "interface-buttons" }, [
-      _c(
-        "button",
-        { staticClass: "lesson-btn", on: { click: _vm.toggleDraw } },
-        [_vm._v(" write ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "lesson-btn", on: { click: _vm.clearBoard } },
-        [_vm._v(" clear ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "lesson-btn", on: { click: _vm.editLesson } },
-        [_vm._v(" " + _vm._s(_vm.isEdit ? "present" : "edit") + " ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "lesson-btn", on: { click: _vm.exitLesson } },
-        [_vm._v(" exit ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "lesson-btn", on: { click: _vm.saveSession } },
-        [_vm._v(" save ")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
+/* 26 */,
+/* 27 */,
+/* 28 */,
 /* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -13469,112 +13143,21 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "concept-group",
-      attrs: { id: _vm.index, concept: _vm.index }
-    },
-    [
-      !_vm.isEdit
-        ? _c("canvas", {
-            staticClass: "drawing-board",
-            attrs: { concept: _vm.index }
-          })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isEdit
-        ? _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model:value",
-                value: _vm.data.concept,
-                expression: "data.concept",
-                arg: "value"
-              }
-            ],
-            attrs: { type: "text", placeholder: "page name here" },
-            domProps: { value: _vm.data.concept },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.data, "concept", $event.target.value)
-              }
-            }
-          })
-        : _c(
-            "div",
-            {
-              staticClass: "prep note title concept-bound",
-              attrs: { concept: _vm.index }
-            },
-            [_vm._v("\n    " + _vm._s(_vm.data.concept) + "\n  ")]
-          ),
-      _vm._v(" "),
-      _vm._l(_vm.data.prep, function(prep, index) {
-        return _c("Prep", {
-          key: "prep-" + index,
-          attrs: {
-            data: prep,
-            _id: "prep-" + index,
-            course: _vm.course,
-            isEdit: _vm.isEdit
-          },
-          on: {
-            "remove-prep": function($event) {
-              return _vm.removePrep(index)
-            }
-          }
-        })
-      }),
-      _vm._v(" "),
-      _vm._l(_vm.data.contexts, function(context, index) {
-        return _c("Context", {
-          key: "context-" + index,
-          attrs: { data: context, isEdit: _vm.isEdit }
-        })
-      }),
-      _vm._v(" "),
-      _vm._l(_vm.data.notes, function(note, index) {
-        return _c("Note", {
-          key: "note-" + index,
-          attrs: { data: note, isEdit: _vm.isEdit },
-          on: { "new-note": _vm.handleNewNote }
-        })
-      }),
-      _vm._v(" "),
-      _c("Writeup", { attrs: { data: _vm.data.writeup, isEdit: _vm.isEdit } }),
-      _vm._v(" "),
-      _vm.isEdit
-        ? _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.addPrep("txt")
-                }
-              }
-            },
-            [_vm._v("add text")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isEdit
-        ? _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.addPrep("url")
-                }
-              }
-            },
-            [_vm._v("add link")]
-          )
-        : _vm._e()
-    ],
-    2
+    _vm._l(_vm.data.pages, function(page, index) {
+      return _c("Page", {
+        key: "page-" + index,
+        attrs: {
+          concept: _vm.concept,
+          index: index,
+          data: page,
+          _id: "page-" + index,
+          course: _vm.course,
+          isEdit: _vm.isEdit
+        },
+        on: { "new-note": _vm.handleNewNote }
+      })
+    }),
+    1
   )
 }
 var staticRenderFns = []
@@ -14133,21 +13716,682 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("button", { staticClass: "concept-btn concept" }, [
+        _vm._v(" " + _vm._s(_vm.data.name) + " ")
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.data.pages, function(page, index) {
+        return _c("div", [
+          _c(
+            "button",
+            {
+              staticClass: "concept-btn page",
+              attrs: { page: _vm.concept + "-" + index }
+            },
+            [_vm._v(_vm._s(page.name))]
+          ),
+          _vm._v(" "),
+          _vm.isEdit
+            ? _c("button", { on: { click: _vm.addPage } }, [_vm._v("+")])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isEdit
+            ? _c("button", { on: { click: _vm.removePage } }, [_vm._v("-")])
+            : _vm._e()
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Subject_vue_vue_type_script_lang_js___ = __webpack_require__(61);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Subject_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Concept_vue__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__ = __webpack_require__(44);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+const typing = __webpack_require__(8)
+const drawing = __webpack_require__(7)
+const globals = __webpack_require__(6)
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+    Concept: __WEBPACK_IMPORTED_MODULE_0__Concept_vue__["a" /* default */],
+    Navigation: __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__["a" /* default */]
+  },
+  data: function () {
+    return {
+      data: null,
+      isEdit: false,
+      currentPage: 0,
+      previousPage: 0,
+      position: { x: 0, y: 0}
+    }
+  },
+  methods: {
+    isScrolledIntoView() {
+      let visibleElements = []
+      for(let concept of this.data.concepts){
+        for(let i = 0; i < concept.length; i++){
+          let el = document.getElementById(i)
+          var rect = el.getBoundingClientRect();
+          var elemTop = rect.top;
+          var elemBottom = rect.bottom;
+
+          let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
+
+          if(isVisible)
+            visibleElements.push(i)
+        }
+      }
+
+      if(visibleElements.length == 1)
+        window.setCurrentPage(visibleElements[0])
+    },
+    handleMousePosition(evt) {
+      evt.preventDefault()
+
+      this.position = {x: evt.clientX, y: evt.clientY}
+
+    	if(window.currentNote != null){
+    		let pos = getGridPosition(this.position)
+
+      	window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
+        window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+    	}
+    },
+    handleNewNote(el) {
+      window.currentNote = el
+      el.setAttribute('id', 'current')
+      el.focus()
+
+
+      let pos = getGridPosition(this.position)
+      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
+      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+    },
+    toggleDraw() {
+
+    },
+    clearBoard() {
+
+    },
+    editLesson() {
+      this.isEdit = !this.isEdit
+    },
+    exitLesson() {
+
+    },
+    saveSession() {
+
+    },
+    addPage(ci, pi) {
+      this.data.concepts.splice(i+1, 0, {
+        name: "please fill",
+        tag: "",
+        preps: [{
+          "tag": "",
+          "text": "type here",
+          "type": "txt"
+        }],
+        notes: [],
+        writeups: ""
+      })
+
+      globals.setCurrentPage(i+1, true)
+    },
+    removePage(ci, pi) {
+      this.data.concepts[ci].splice(pi, 1)
+    }
+  },
+  mounted(){
+    drawing.init()
+    globals.setCurrentPage(0, 0)
+    globals.initTags()
+
+    document.addEventListener('scroll', (e) => {
+      this.isScrolledIntoView()
+      this.handleMousePosition(e)
+    })
+
+    window.addEventListener('mousedown', (e) => {
+  		drawing.beginDraw(e)
+  	})
+
+    window.addEventListener('mousemove', (e) => {
+  		this.handleMousePosition(e)
+  		drawing.draw(e)
+  	})
+
+    window.addEventListener('mouseup', () => {
+      drawing.endDraw()
+    })
+
+    window.addEventListener('keydown', (e) => {
+  		typing.handle(e, this.data)
+  	})
+  },
+  beforeMount() {
+    this.data = window.data
+  }
+});
+
+let getGridPosition = (p) =>{
+	let normalized_pos = {
+		x : 0,
+		y : 0
+	}
+
+	normalized_pos.x = Math.floor(map(p.x, 0, 1800, 0, 36))*50
+	normalized_pos.y = Math.floor(map(p.y, 0, 1000, 0, 50))*20
+
+	return normalized_pos
+}
+
+let map = (value, start_1, end_1, start_2, end_2) => {
+	return start_2 + (end_2 - start_2) * (value - start_1) / (end_1 - start_1)
+}
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Subject_vue_vue_type_template_id_bbdef1d4___ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Subject_vue_vue_type_script_lang_js___ = __webpack_require__(60);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(1);
+
+
+
+
+
+/* normalize component */
+
+var component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_1__Subject_vue_vue_type_script_lang_js___["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__Subject_vue_vue_type_template_id_bbdef1d4___["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_0__Subject_vue_vue_type_template_id_bbdef1d4___["b" /* staticRenderFns */],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) {
+  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  api.install(require('vue'))
+  if (api.compatible) {
+    module.hot.accept()
+    if (!module.hot.data) {
+      api.createRecord('bbdef1d4', component.options)
+    } else {
+      api.reload('bbdef1d4', component.options)
+    }
+    module.hot.accept("./Subject.vue?vue&type=template&id=bbdef1d4&", function () {
+      api.rerender('bbdef1d4', {
+        render: render,
+        staticRenderFns: staticRenderFns
+      })
+    })
+  }
+}
+component.options.__file = "src/renderer/components/Subject.vue"
+/* harmony default export */ __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Subject_vue_vue_type_template_id_bbdef1d4___ = __webpack_require__(64);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Subject_vue_vue_type_template_id_bbdef1d4___["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Subject_vue_vue_type_template_id_bbdef1d4___["b"]; });
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
   return _c("div", [
     _c(
-      "button",
-      { staticClass: "concept-btn concept", attrs: { concept: _vm.index } },
-      [_vm._v(_vm._s(_vm.data.concept))]
+      "div",
+      { staticClass: "lessons-container" },
+      _vm._l(_vm.data.concepts, function(concept, index) {
+        return _c(
+          "span",
+          [
+            _c("Concept", {
+              key: index,
+              attrs: {
+                data: concept,
+                course: _vm.data.course,
+                concept: index,
+                isEdit: _vm.isEdit
+              },
+              on: { "new-note": _vm.handleNewNote }
+            })
+          ],
+          1
+        )
+      }),
+      0
     ),
     _vm._v(" "),
-    _vm.isEdit
-      ? _c("button", { on: { click: _vm.addConcept } }, [_vm._v("+")])
-      : _vm._e(),
+    _c(
+      "div",
+      { staticClass: "concept-buttons" },
+      _vm._l(_vm.data.concepts, function(concept, index) {
+        return _c("Navigation", {
+          key: index,
+          attrs: { data: concept, concept: index, isEdit: _vm.isEdit },
+          on: { "add-page": _vm.addPage }
+        })
+      }),
+      1
+    ),
     _vm._v(" "),
-    _vm.isEdit
-      ? _c("button", { on: { click: _vm.removeConcept } }, [_vm._v("-")])
-      : _vm._e()
+    _c("div", { staticClass: "interface-buttons" }, [
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.toggleDraw } },
+        [_vm._v(" write ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.clearBoard } },
+        [_vm._v(" clear ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.editLesson } },
+        [_vm._v(" " + _vm._s(_vm.isEdit ? "present" : "edit") + " ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.exitLesson } },
+        [_vm._v(" exit ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "lesson-btn", on: { click: _vm.saveSession } },
+        [_vm._v(" save ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
+    ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Page_vue_vue_type_script_lang_js___ = __webpack_require__(66);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Page_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Context_vue__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prep_vue__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Note_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Writeup_vue__ = __webpack_require__(41);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+    Context: __WEBPACK_IMPORTED_MODULE_0__Context_vue__["a" /* default */],
+    Note: __WEBPACK_IMPORTED_MODULE_2__Note_vue__["a" /* default */],
+    Writeup: __WEBPACK_IMPORTED_MODULE_3__Writeup_vue__["a" /* default */],
+    Prep: __WEBPACK_IMPORTED_MODULE_1__Prep_vue__["a" /* default */]
+  },
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    },
+    course: {
+      type: Object,
+      default: {}
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    concept: {
+      type: Number,
+      default: 0
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: function () {
+    return {
+      currentNote: null
+    }
+  },
+  methods: {
+    handleNewNote(el) {
+      this.$emit('new-note', el)
+    },
+    addPrep(_type) {
+      this.data.preps.push({
+        "tag": "",
+        "text": "",
+        "type": _type
+      })
+    },
+    removePrep(i) {
+      let a = this.data.preps.slice(0, i)
+      let b = this.data.preps.slice(i+1, this.data.preps.length)
+      let c = a.concat(b)
+      this.data.preps = c
+    }
+  },
+  mounted(){
+    let root = document.getElementById(this.index)
+    root.ondblclick = (e) => {
+      if(e.target.getAttribute("concept") == this.index){
+        	let els = document.getElementsByClassName('written')
+        	for(let el of els)
+        		el.removeAttribute('id')
+
+        	if(window.currentNote == null)
+            this.data.notes.push({text: null, tag: "", type: "text"})
+      }
+    }
+  }
+});
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Page_vue_vue_type_template_id_4b44dcd6___ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Page_vue_vue_type_script_lang_js___ = __webpack_require__(65);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(1);
+
+
+
+
+
+/* normalize component */
+
+var component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_1__Page_vue_vue_type_script_lang_js___["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__Page_vue_vue_type_template_id_4b44dcd6___["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_0__Page_vue_vue_type_template_id_4b44dcd6___["b" /* staticRenderFns */],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) {
+  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  api.install(require('vue'))
+  if (api.compatible) {
+    module.hot.accept()
+    if (!module.hot.data) {
+      api.createRecord('4b44dcd6', component.options)
+    } else {
+      api.reload('4b44dcd6', component.options)
+    }
+    module.hot.accept("./Page.vue?vue&type=template&id=4b44dcd6&", function () {
+      api.rerender('4b44dcd6', {
+        render: render,
+        staticRenderFns: staticRenderFns
+      })
+    })
+  }
+}
+component.options.__file = "src/renderer/components/Page.vue"
+/* harmony default export */ __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Page_vue_vue_type_template_id_4b44dcd6___ = __webpack_require__(69);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Page_vue_vue_type_template_id_4b44dcd6___["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Page_vue_vue_type_template_id_4b44dcd6___["b"]; });
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "concept-group",
+      attrs: {
+        id: _vm.index,
+        page: _vm.concept + "-" + _vm.index,
+        concept: _vm.concept
+      }
+    },
+    [
+      !_vm.isEdit
+        ? _c("canvas", {
+            staticClass: "drawing-board",
+            attrs: { concept: _vm.index }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model:value",
+                value: _vm.data.concept,
+                expression: "data.concept",
+                arg: "value"
+              }
+            ],
+            attrs: { type: "text", placeholder: "page name here" },
+            domProps: { value: _vm.data.concept },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.data, "concept", $event.target.value)
+              }
+            }
+          })
+        : _c(
+            "div",
+            {
+              staticClass: "prep note title concept-bound",
+              attrs: { concept: _vm.index }
+            },
+            [_vm._v("\n    " + _vm._s(_vm.data.name) + "\n  ")]
+          ),
+      _vm._v(" "),
+      _vm._l(_vm.data.preps, function(prep, index) {
+        return _c("Prep", {
+          key: "prep-" + index,
+          attrs: {
+            data: prep,
+            _id: "prep-" + index,
+            course: _vm.course,
+            isEdit: _vm.isEdit
+          },
+          on: {
+            "remove-prep": function($event) {
+              return _vm.removePrep(index)
+            }
+          }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.data.contexts, function(context, index) {
+        return _c("Context", {
+          key: "context-" + index,
+          attrs: { data: context, isEdit: _vm.isEdit }
+        })
+      }),
+      _vm._v(" "),
+      _vm._l(_vm.data.notes, function(note, index) {
+        return _c("Note", {
+          key: "note-" + index,
+          attrs: { data: note, isEdit: _vm.isEdit },
+          on: { "new-note": _vm.handleNewNote }
+        })
+      }),
+      _vm._v(" "),
+      _c("Writeup", { attrs: { data: _vm.data.writeup, isEdit: _vm.isEdit } }),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.addPrep("txt")
+                }
+              }
+            },
+            [_vm._v("add text")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.addPrep("url")
+                }
+              }
+            },
+            [_vm._v("add link")]
+          )
+        : _vm._e()
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
