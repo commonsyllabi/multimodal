@@ -59,6 +59,7 @@ let handle = (e) => {
 let endNote = (el) => {
 	//if note is blank
 	if(el.value == ''){
+		el.style.display = 'none'
 		el.parentNode.removeChild(el)
 	}else{ //-- else position it correctly
 		el.style.height = (el.scrollHeight)+'px'
