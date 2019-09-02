@@ -43,7 +43,6 @@ let getCurrentConcept = () => {
 }
 
 let setCurrentPage = (page, shouldNavigate = false) => {
-	console.log('setting concept', currentConcept, 'page', page);
 	previousPage = currentPage
 	currentPage = page ? page : 0
 
@@ -57,7 +56,7 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 
 	//-- scroll element into view
 	if(shouldNavigate){
-		let ns = document.getElementsByClassName('concept-group')
+		let ns = document.getElementsByClassName('page-group')
 		for(let n of ns){
 			if(n.getAttribute('page') == `${currentConcept}-${currentPage}`){
 				n.scrollIntoView({behavior: "smooth"})
@@ -68,7 +67,7 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 		}
 	}
 
-	drawing.selectCanvas(currentPage)
+	drawing.selectCanvas(currentPage, currentConcept)
 }
 
 let getCurrentPage = () => {

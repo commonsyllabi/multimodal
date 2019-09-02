@@ -191,12 +191,12 @@ textarea {
   overflow-y: visible;
 }
 
-.concept-group {
+.page-group {
   position: relative;
   padding-top: 5%;
   padding-left: 10%;
   width: 75vw;
-  height: 85vh;
+  height: 100vh;
   overflow: hidden;
   border: 2px solid #eeeeee;
 }

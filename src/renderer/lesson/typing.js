@@ -68,7 +68,7 @@ let handle = (e, data) => {
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
-			let index = document.getElementsByClassName('concept-group').length-1
+			let index = document.getElementsByClassName('page-group').length-1
 			setCurrentPage(index)
 		}
 		break

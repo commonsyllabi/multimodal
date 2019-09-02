@@ -31,7 +31,7 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-window.setCurrentConcept = globals.setCurrentConcept
+// window.setCurrentPage = globals.setCurrentPage
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept

@@ -10,7 +10,7 @@
       <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit" @add-page="addPage"/>
     </div>
     <div class="interface-buttons">
-      <button class="lesson-btn" @click="toggleDraw"> write </button>
+      <button class="lesson-btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
       <button class="lesson-btn" @click="clearBoard"> clear </button>
       <button class="lesson-btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
       <button class="lesson-btn" @click="exitLesson"> exit </button>
@@ -38,6 +38,7 @@ export default {
     return {
       data: null,
       isEdit: false,
+      isDrawing: false,
       currentPage: 0,
       previousPage: 0,
       position: { x: 0, y: 0}
@@ -46,22 +47,28 @@ export default {
   methods: {
     isScrolledIntoView() {
       let visibleElements = []
-      for(let concept of this.data.concepts){
-        for(let i = 0; i < concept.length; i++){
-          let el = document.getElementById(i)
-          var rect = el.getBoundingClientRect();
-          var elemTop = rect.top;
-          var elemBottom = rect.bottom;
+      let pages = document.getElementsByClassName('page-group')
+      for(let page of pages){
+            var rect = page.getBoundingClientRect();
+            var elemTop = rect.top;
+            var elemBottom = rect.bottom;
 
-          let isVisible = elemTop*1.2 < window.innerHeight && elemBottom >= 100;
+            console.log(page);
+            console.log('top', elemTop, 'bottom', elemBottom);
 
-          if(isVisible)
-            visibleElements.push(i)
-        }
+            let isVisible = elemTop < window.innerHeight && elemBottom >= 0;
+
+            if(isVisible){
+              let comp = page.getAttribute('page').split('-')
+              visibleElements.push({"page": comp[1], "concept": comp[0]})
+            }
       }
 
-      if(visibleElements.length == 1)
-        window.setCurrentPage(visibleElements[0])
+      if(visibleElements.length == 1){
+        globals.setCurrentConcept(visibleElements[0].concept)
+        globals.setCurrentPage(visibleElements[0].page)
+      }
+
     },
     handleMousePosition(evt) {
       evt.preventDefault()
@@ -86,7 +93,8 @@ export default {
       window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
     },
     toggleDraw() {
-
+      this.isDrawing = !this.isDrawing
+      drawing.toggleDraw(this.isDrawing)
     },
     clearBoard() {
 

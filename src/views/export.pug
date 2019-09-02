@@ -15,9 +15,9 @@ html
 					//- each val, index in contents
 						//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
 				each content, index in concepts
-					div.concept-group
+					div.page-group
 						h3.concept-name= content.concept
-						div.concept-group
+						div.page-group
 							each prep in content.prep
 								if prep.type == "txt"
 									div.prep.note(concept= index)= prep.text

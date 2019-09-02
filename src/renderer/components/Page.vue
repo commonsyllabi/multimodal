@@ -1,6 +1,6 @@
 <template>
-  <div class="concept-group" :id="index" :page="`${concept}-${index}`" :concept="concept">
-    <canvas v-if="!isEdit" class="drawing-board" :concept="index"></canvas>
+  <div class="page-group" :id="index" :page="`${concept}-${index}`" :concept="concept">
+    <canvas v-if="!isEdit" class="drawing-board" :page="`${concept}-${index}`"></canvas>
     <input type="text" v-if="isEdit" placeholder="page name here" v-model:value="data.concept">
     <div v-else class="prep note title concept-bound" :concept="index">
       {{data.name}}
@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted(){
-    let root = document.getElementById(this.index)
+    let root = this.$el
     root.ondblclick = (e) => {
       if(e.target.getAttribute("concept") == this.index){
         	let els = document.getElementsByClassName('written')
