@@ -17,10 +17,7 @@ module.exports = {
       rules: [
           {
               test: /\.scss$/,
-              use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: ['css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
-              })
+              use: ['vue-style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
           },
           {
             test: /\.(woff2?|ttf|otf|eot|svg)$/,
