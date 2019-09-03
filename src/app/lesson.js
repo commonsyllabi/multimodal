@@ -1084,7 +1084,7 @@ const globals = __webpack_require__(10)
       this.isEdit = !this.isEdit
     },
     exitLesson() {
-
+      window.exitLesson()
     },
     saveSession() {
 
@@ -1411,6 +1411,15 @@ component.options.__file = "src/renderer/components/Context.vue"
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1456,11 +1465,35 @@ component.options.__file = "src/renderer/components/Context.vue"
       this.$emit('new-note', el)
     },
     addPrep(_type) {
-      this.data.preps.push({
-        "tag": "",
-        "text": "",
-        "type": _type
-      })
+      let p = {}
+      switch (_type) {
+        case 'txt':
+          p = {
+            "tag": "",
+            "text": "",
+            "type": _type
+          }
+          break;
+        case 'url':
+          p = {
+            "tag": "",
+            "text": "",
+            "url": "",
+            "type": _type
+          }
+          break;
+        case 'img':
+          p = {
+            "tag": "",
+            "name": "",
+            "src": "",
+            "type": _type
+          }
+          break;
+        default:
+          break
+      }
+      this.data.preps.push(p)
     },
     removePrep(i) {
       let a = this.data.preps.slice(0, i)
@@ -1558,6 +1591,18 @@ component.options.__file = "src/renderer/components/Context.vue"
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -1584,12 +1629,17 @@ component.options.__file = "src/renderer/components/Context.vue"
   },
   data: function () {
     return {
-
+      newFile: ''
     }
   },
   methods: {
     removePrep() {
       this.$emit('remove-prep', this)
+    },
+    handleFileInput(e) {
+      e.preventDefault()
+      this.data.src = e.target.files[0].path
+      this.data.name = e.target.files[0].name
     }
   },
   mounted(){
@@ -2029,7 +2079,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 const ipc = __webpack_require__(2).ipcRenderer
 
-// import * as typing from './lesson/typing.js'
 
 
 
@@ -14600,31 +14649,43 @@ var render = function() {
       _c("Writeup", { attrs: { data: _vm.data.writeup, isEdit: _vm.isEdit } }),
       _vm._v(" "),
       _vm.isEdit
-        ? _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.addPrep("txt")
+        ? _c("div", { staticClass: "add-buttons" }, [
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.addPrep("txt")
+                  }
                 }
-              }
-            },
-            [_vm._v("add text")]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.isEdit
-        ? _c(
-            "button",
-            {
-              on: {
-                click: function($event) {
-                  return _vm.addPrep("url")
+              },
+              [_vm._v("add text")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.addPrep("url")
+                  }
                 }
-              }
-            },
-            [_vm._v("add link")]
-          )
+              },
+              [_vm._v("add link")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    return _vm.addPrep("img")
+                  }
+                }
+              },
+              [_vm._v("add image")]
+            )
+          ])
         : _vm._e()
     ],
     2
@@ -14870,7 +14931,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-4b44dcd6] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  padding-top: 5%;\n  padding-left: 10%;\n  width: 100vw;\n  height: 100vh;\n  overflow: hidden;\n  border: 2px solid #eeeeee;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n}\n.edit-input[data-v-4b44dcd6] {\n  color: #eeeeee;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-4b44dcd6] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  padding-top: 5%;\n  padding-left: 10%;\n  width: 100vw;\n  height: 100vh;\n  overflow: hidden;\n  border: 2px solid #eeeeee;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n}\n.edit-input[data-v-4b44dcd6] {\n  color: #eeeeee;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.add-buttons[data-v-4b44dcd6] {\n  width: 100%;\n  float: left;\n  margin-top: 50px;\n}", ""]);
 
 // exports
 
@@ -15242,7 +15303,7 @@ var render = function() {
       ? _c(
           "div",
           {
-            staticClass: "prep written ",
+            staticClass: "prep written",
             attrs: { concept: _vm.index, tag: _vm.data.tag }
           },
           [
@@ -15276,7 +15337,7 @@ var render = function() {
       ? _c(
           "div",
           {
-            staticClass: "prep written ",
+            staticClass: "prep written",
             attrs: { concept: _vm.index, tag: _vm.data.tag }
           },
           [
@@ -15334,15 +15395,28 @@ var render = function() {
           ]
         )
       : _vm.data.type == "img"
-      ? _c("img", {
-          staticClass: "prep moveable",
-          attrs: {
-            concept: _vm.index,
-            tag: _vm.data.tag,
-            name: _vm.data.name,
-            src: _vm.data.src
-          }
-        })
+      ? _c(
+          "div",
+          {
+            staticClass: "prep moveable",
+            attrs: { concept: _vm.index, tag: _vm.data.tag }
+          },
+          [
+            _vm.isEdit
+              ? _c("div", [
+                  _c("input", {
+                    attrs: { type: "file" },
+                    on: { change: _vm.handleFileInput }
+                  }),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "preview",
+                    attrs: { src: _vm.data.src }
+                  })
+                ])
+              : _c("img", { attrs: { name: _vm.data.name, src: _vm.data.src } })
+          ]
+        )
       : _vm.data.type == "vid"
       ? _c(
           "div",
@@ -15409,7 +15483,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-5ad8d233]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-5ad8d233] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-5ad8d233] {\n  color: #e77607;\n}\na[data-v-5ad8d233]:hover {\n  color: #b25900;\n}\nbutton[data-v-5ad8d233] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-5ad8d233] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-5ad8d233] {\n  background-color: darkseagreen;\n}\n.error[data-v-5ad8d233] {\n  background-color: crimson;\n}\n.metadata[data-v-5ad8d233] {\n  visibility: hidden;\n}\ndiv[data-v-5ad8d233],\nimg[data-v-5ad8d233] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.prep[data-v-5ad8d233],\n.edit-input[data-v-5ad8d233] {\n  position: relative;\n  opacity: 1;\n  font-family: 'Inter UI';\n  font-style: italic;\n  font-size: 2em;\n  color: #eeeeee;\n  margin-top: 5%;\n  text-align: left;\n}\n@media (max-width: 1300px) {\n.prep[data-v-5ad8d233],\n  .edit-input[data-v-5ad8d233] {\n    font-size: 2.5em;\n}\n}\n.edit-input[data-v-5ad8d233] {\n  margin: 0;\n  font-size: 1em;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.prep-tag-anchor[data-v-5ad8d233] {\n  margin-left: 10px;\n  font-size: 0.5em;\n  cursor: pointer;\n}\nimg[data-v-5ad8d233] {\n  max-width: 800px !important;\n  max-height: 600px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-5ad8d233]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-5ad8d233] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-5ad8d233] {\n  color: #e77607;\n}\na[data-v-5ad8d233]:hover {\n  color: #b25900;\n}\nbutton[data-v-5ad8d233] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-5ad8d233] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-5ad8d233] {\n  background-color: darkseagreen;\n}\n.error[data-v-5ad8d233] {\n  background-color: crimson;\n}\n.metadata[data-v-5ad8d233] {\n  visibility: hidden;\n}\ndiv[data-v-5ad8d233],\nimg[data-v-5ad8d233] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.prep[data-v-5ad8d233],\n.edit-input[data-v-5ad8d233] {\n  position: relative;\n  opacity: 1;\n  font-family: 'Inter UI';\n  font-style: italic;\n  font-size: 2em;\n  color: #eeeeee;\n  margin-top: 5%;\n  text-align: left;\n}\n@media (max-width: 1300px) {\n.prep[data-v-5ad8d233],\n  .edit-input[data-v-5ad8d233] {\n    font-size: 2.5em;\n}\n}\n.edit-input[data-v-5ad8d233] {\n  margin: 0;\n  font-size: 1em;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.prep-tag-anchor[data-v-5ad8d233] {\n  margin-left: 10px;\n  font-size: 0.5em;\n  cursor: pointer;\n}\nimg[data-v-5ad8d233] {\n  max-width: 800px !important;\n  max-height: 600px;\n}\n.preview[data-v-5ad8d233] {\n  max-width: 400px !important;\n  max-height: 300px;\n  float: left;\n}", ""]);
 
 // exports
 
