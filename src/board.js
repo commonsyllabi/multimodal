@@ -44,7 +44,7 @@ module.exports.list = () => {
 			data.courses.push(obj)
 	}
 
-	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', data)
+	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', {'data': JSON.stringify(data)})
 	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
 }
 

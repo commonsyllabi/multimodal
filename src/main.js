@@ -19,6 +19,7 @@ let mainWindow
 let generateHTML = (data, template) => {
 	let c = fs.readFileSync(`${data.path}/${data.course}/lessons/${data.name}/${data.name}.json`)
 
+	//-- TODO cleanup
 	let compiled
 	if(template == 'lesson')
 		compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', {'data':c})

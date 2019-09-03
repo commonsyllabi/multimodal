@@ -1,11 +1,11 @@
 @import 'globals';
 
-.courses-container{
+.subjects-container{
 	overflow-y: auto;
 }
 
 
-.buttons-container, .courses-container{
+.buttons-container, .subjects-container{
 	position: absolute;
 	width: 50%;
 	height: 100%;
@@ -16,18 +16,18 @@
 	right: 0px;
 }
 
-.lessons{
+.subjects{
 	padding: 5%;
 	margin-bottom: 5%;
 }
 
-.inter-class-title {
+.subject-title {
 	width: 100%;
 	font-weight: bold;
 	font-size: 2em;
 }
 
-.welcome-lesson, .inter-btn-main {
+.welcome-subject, .inter-btn-main {
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
@@ -36,12 +36,12 @@
 	cursor: pointer;
 }
 
-.welcome-lesson {
+.welcome-subject {
 	border: 2px solid $main-bg-color;
 	padding: 5px;
 }
 
-.welcome-lesson:hover{
+.welcome-subject:hover{
 	border-color: $main-fg-color;
 	font-weight: bold;
 }
