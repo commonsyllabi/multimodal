@@ -2,12 +2,14 @@
   <div>
     <div class="main-container">
       <span v-for="(concept, index) in data.concepts">
-        <Concept :data="concept" :course="data.course" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
+        <Concept class="concept-group" :data="concept" :course="data.course" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
     <div class="nav-container">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit" @add-page="addPage"/>
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit"
+        @add-page="addPage" @remove-page="removePage"
+        @add-concept="addConcept" @remove-concept="removeConcept"/>
     </div>
 
     <div class="buttons-container">
@@ -184,9 +186,9 @@ export default {
     saveSession() {
 
     },
-    addPage(ci, pi) {
-      this.data.concepts.splice(i+1, 0, {
-        name: "please fill",
+    addPage(_i) {
+      this.data.concepts[_i.concept].pages.splice(_i.page+1, 0, {
+        name: "new page",
         tag: "",
         preps: [{
           "tag": "",
@@ -197,10 +199,36 @@ export default {
         writeups: ""
       })
 
-      globals.setCurrentPage(i+1, true)
+      globals.setCurrentConcept(_i.concept)
+      globals.setCurrentPage(_i.page+1, true)
     },
-    removePage(ci, pi) {
-      this.data.concepts[ci].splice(pi, 1)
+    removePage(_i) {
+      this.data.concepts[_i.concept].pages.splice(_i.page, 1)
+    },
+    addConcept(_i) {
+      this.data.concepts.splice(_i+1, 0, {
+        name: "new concept",
+        context: "",
+        pages: [
+          {
+            name: "new page",
+            tag: "",
+            preps: [{
+              "tag": "",
+              "text": "type here",
+              "type": "txt"
+            }],
+            notes: [],
+            writeups: ""
+          }
+        ]
+      })
+
+      globals.setCurrentConcept(_i+1)
+      globals.setCurrentPage(0, true)
+    },
+    removeConcept(_i) {
+      this.data.concepts.splice(_i, 1)
     }
   },
   mounted(){

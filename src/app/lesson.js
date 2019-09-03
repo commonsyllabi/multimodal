@@ -558,6 +558,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentNote", function() { return setCurrentNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentConcept", function() { return getCurrentConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentConcept", function() { return setCurrentConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousConcept", function() { return getPreviousConcept; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrrentPosition", function() { return setCurrrentPosition; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentPage", function() { return setCurrentPage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentPage", function() { return getCurrentPage; });
@@ -568,9 +569,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 let currentNote = null
-let currentPage = 0
-let currentConcept = 0
-let previousPage = 0
+let currentPage = 0, previousPage = 0
+let currentConcept = 0, previousConcept = 0
 
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
@@ -600,11 +600,16 @@ let getCurrentNote = () => {
 }
 
 let setCurrentConcept = (el) => {
+	previousConcept = currentConcept
 	currentConcept = el
 }
 
 let getCurrentConcept = () => {
 	return currentConcept
+}
+
+let getPreviousConcept = () => {
+	return previousConcept
 }
 
 let setCurrentPage = (page, shouldNavigate = false) => {
@@ -770,7 +775,6 @@ let toggleDraw = (mode) => {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handle", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "newNote", function() { return newNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endNote", function() { return endNote; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(10);
 
@@ -793,10 +797,6 @@ let handle = (e, data) => {
 	case UP: //page right before
 		if(cn == null){
 			e.preventDefault()
-			// page = getCurrentPage()
-			// page = page - 1 > 0 ? page - 1 : 0
-			// setCurrentPage(page, true)
-
 			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
 			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
 			if(page > 0){
@@ -837,14 +837,19 @@ let handle = (e, data) => {
 		break
 	case LEFT: // previous page
 		if(cn == null){
-			index = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousPage"])()
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(index)
+			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
+			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousPage"])()
+
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
-			let index = document.getElementsByClassName('page-group').length-1
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(index)
+			concept = document.getElementsByClassName('concept-group').length-1
+
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
+			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(0, true)
 		}
 		break
 	case ESC:
@@ -896,6 +901,8 @@ let endNote = (el) => {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Concept_vue__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__ = __webpack_require__(61);
+//
+//
 //
 //
 //
@@ -1082,9 +1089,9 @@ const globals = __webpack_require__(10)
     saveSession() {
 
     },
-    addPage(ci, pi) {
-      this.data.concepts.splice(i+1, 0, {
-        name: "please fill",
+    addPage(_i) {
+      this.data.concepts[_i.concept].pages.splice(_i.page+1, 0, {
+        name: "new page",
         tag: "",
         preps: [{
           "tag": "",
@@ -1095,10 +1102,36 @@ const globals = __webpack_require__(10)
         writeups: ""
       })
 
-      globals.setCurrentPage(i+1, true)
+      globals.setCurrentConcept(_i.concept)
+      globals.setCurrentPage(_i.page+1, true)
     },
-    removePage(ci, pi) {
-      this.data.concepts[ci].splice(pi, 1)
+    removePage(_i) {
+      this.data.concepts[_i.concept].pages.splice(_i.page, 1)
+    },
+    addConcept(_i) {
+      this.data.concepts.splice(_i+1, 0, {
+        name: "new concept",
+        context: "",
+        pages: [
+          {
+            name: "new page",
+            tag: "",
+            preps: [{
+              "tag": "",
+              "text": "type here",
+              "type": "txt"
+            }],
+            notes: [],
+            writeups: ""
+          }
+        ]
+      })
+
+      globals.setCurrentConcept(_i+1)
+      globals.setCurrentPage(0, true)
+    },
+    removeConcept(_i) {
+      this.data.concepts.splice(_i, 1)
     }
   },
   mounted(){
@@ -1881,6 +1914,12 @@ if(false) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -1902,11 +1941,17 @@ if(false) {
     }
   },
   methods: {
-    addPage () {
-      this.$emit('add-page', this.index)
+    addPage (i) {
+      this.$emit('add-page', {concept: this.concept, page:i})
     },
-    removePage() {
-      this.$emit('remove-page', this.index)
+    removePage(i) {
+      this.$emit('remove-page', {concept: this.concept, page:i})
+    },
+    addConcept () {
+      this.$emit('add-concept', this.concept)
+    },
+    removeConcept() {
+      this.$emit('remove-concept', this.concept)
     }
   }
 });
@@ -2075,8 +2120,15 @@ let parseDocument = () => {
 	// let _notes = document.getElementsByClassName('note')
 	// let _writeup = document.getElementsByClassName('writeup')
 
+
+
 //--TODO sanitize lesson so that it doesn't include things like EMPTY NOTES
+//--TODO read above
 	let lesson = window.data
+
+
+
+
 	// for(let i in _concepts){
 	// 	if(i == 'length') break
   //
@@ -14198,6 +14250,7 @@ var render = function() {
           [
             _c("Concept", {
               key: index,
+              staticClass: "concept-group",
               attrs: {
                 data: concept,
                 course: _vm.data.course,
@@ -14220,7 +14273,12 @@ var render = function() {
         return _c("Navigation", {
           key: index,
           attrs: { data: concept, concept: index, isEdit: _vm.isEdit },
-          on: { "add-page": _vm.addPage }
+          on: {
+            "add-page": _vm.addPage,
+            "remove-page": _vm.removePage,
+            "add-concept": _vm.addConcept,
+            "remove-concept": _vm.removeConcept
+          }
         })
       }),
       1
@@ -14892,9 +14950,40 @@ var render = function() {
   return _c(
     "span",
     [
-      _c("button", { staticClass: "nav concept" }, [
-        _vm._v(" " + _vm._s(_vm.data.name) + " ")
-      ]),
+      _vm.isEdit
+        ? _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model:value",
+                value: _vm.data.name,
+                expression: "data.name",
+                arg: "value"
+              }
+            ],
+            staticClass: "edit-input",
+            attrs: { type: "text", placeholder: "new concept" },
+            domProps: { value: _vm.data.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.data, "name", $event.target.value)
+              }
+            }
+          })
+        : _c("button", { staticClass: "nav concept" }, [
+            _vm._v(" " + _vm._s(_vm.data.name) + " ")
+          ]),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c("button", { on: { click: _vm.addConcept } }, [_vm._v("C+")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isEdit
+        ? _c("button", { on: { click: _vm.removeConcept } }, [_vm._v("C-")])
+        : _vm._e(),
       _vm._v(" "),
       _vm._l(_vm.data.pages, function(page, index) {
         return _c("div", [
@@ -14908,11 +14997,31 @@ var render = function() {
           ),
           _vm._v(" "),
           _vm.isEdit
-            ? _c("button", { on: { click: _vm.addPage } }, [_vm._v("+")])
+            ? _c(
+                "button",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.addPage(index)
+                    }
+                  }
+                },
+                [_vm._v("P+")]
+              )
             : _vm._e(),
           _vm._v(" "),
           _vm.isEdit
-            ? _c("button", { on: { click: _vm.removePage } }, [_vm._v("-")])
+            ? _c(
+                "button",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.removePage(index)
+                    }
+                  }
+                },
+                [_vm._v("P-")]
+              )
             : _vm._e()
         ])
       })
@@ -14944,7 +15053,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-7f70c41a]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-7f70c41a] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-7f70c41a] {\n  color: #e77607;\n}\na[data-v-7f70c41a]:hover {\n  color: #b25900;\n}\nbutton[data-v-7f70c41a] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-7f70c41a] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-7f70c41a] {\n  background-color: darkseagreen;\n}\n.error[data-v-7f70c41a] {\n  background-color: crimson;\n}\n.metadata[data-v-7f70c41a] {\n  visibility: hidden;\n}\ndiv[data-v-7f70c41a],\nimg[data-v-7f70c41a] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.nav[data-v-7f70c41a] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n.concept[data-v-7f70c41a],\n.page[data-v-7f70c41a] {\n  width: 100%;\n  margin: 0%;\n  display: block;\n  float: left;\n  padding-right: 10px;\n  text-align: right;\n}\n.concept[data-v-7f70c41a] {\n  font-size: 1.1em;\n  font-weight: bold;\n  border-bottom: 2px solid #eeeeee;\n  margin-top: 10px;\n  margin-bottom: 5px;\n}\n.page[data-v-7f70c41a] {\n  padding-right: 20px;\n}\n.concept[data-v-7f70c41a]:hover,\n.page[data-v-7f70c41a]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.current-page[data-v-7f70c41a] {\n  background-color: #202020;\n  border-left: 10px solid #eeeeee;\n  color: #eeeeee;\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-7f70c41a]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-7f70c41a] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-7f70c41a] {\n  color: #e77607;\n}\na[data-v-7f70c41a]:hover {\n  color: #b25900;\n}\nbutton[data-v-7f70c41a] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-7f70c41a] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-7f70c41a] {\n  background-color: darkseagreen;\n}\n.error[data-v-7f70c41a] {\n  background-color: crimson;\n}\n.metadata[data-v-7f70c41a] {\n  visibility: hidden;\n}\ndiv[data-v-7f70c41a],\nimg[data-v-7f70c41a] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.nav[data-v-7f70c41a],\n.edit-input[data-v-7f70c41a] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n.edit-input[data-v-7f70c41a] {\n  border-bottom: 1px solid #eeeeee;\n  text-align: right;\n}\n.concept[data-v-7f70c41a],\n.page[data-v-7f70c41a] {\n  width: 100%;\n  margin: 0%;\n  padding-right: 10px;\n  text-align: right;\n}\n.concept[data-v-7f70c41a] {\n  font-size: 1.1em;\n  font-weight: bold;\n  border-bottom: 2px solid #eeeeee;\n  margin-top: 10px;\n  margin-bottom: 5px;\n}\n.page[data-v-7f70c41a] {\n  padding-right: 20px;\n}\n.concept[data-v-7f70c41a]:hover,\n.page[data-v-7f70c41a]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.current-page[data-v-7f70c41a] {\n  background-color: #202020;\n  border-left: 10px solid #eeeeee;\n  color: #eeeeee;\n  font-weight: bold;\n}", ""]);
 
 // exports
 
