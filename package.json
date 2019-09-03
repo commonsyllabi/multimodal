@@ -84,6 +84,7 @@
     "mem": "^4.0.0",
     "pug": "^2.0.3",
     "vue": "^2.6.10",
-    "vue-electron": "^1.0.6"
+    "vue-electron": "^1.0.6",
+    "vue-style-loader": "^4.1.2"
   }
 }
