@@ -28,6 +28,8 @@ body {
   background-color: #202020;
   color: #eeeeee;
   overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -36,6 +38,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -99,6 +107,8 @@ body {
   background-color: #202020;
   color: #eeeeee;
   overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -107,6 +117,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -140,12 +156,6 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-}
-
-body {
-  margin: 0px;
-  padding: 0px;
-  font-family: 'Inter UI';
 }
 
 .note {
@@ -263,6 +273,8 @@ body {
   background-color: #202020;
   color: #eeeeee;
   overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -271,6 +283,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -313,6 +331,12 @@ canvas {
   left: 0px;
 }
 
+.lessons-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
 canvas {
   z-index: 1;
 }
@@ -323,14 +347,7 @@ canvas {
   cursor: crosshair;
 }
 
-.lessons-container {
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.lesson-btn,
-.concept-btn {
+.lesson-btn {
   border: none;
   color: #eeeeee;
   background-color: #202020;
@@ -348,23 +365,12 @@ canvas {
   }
 }
 
-.concept-btn {
-  font-size: 1.3em;
-}
-
-@media (max-width: 1300px) {
-  .concept-btn {
-    font-size: 1em;
-  }
-}
-
 .lesson-btn:hover,
 .concept-btn:hover {
   background-color: #202020;
   color: #eeeeee;
 }
 
-.lesson-btn:active,
 .lesson-btn:active {
   border: none;
 }
@@ -372,40 +378,6 @@ canvas {
 .exit-lesson,
 .save-session {
   float: right;
-}
-
-.concept-buttons,
-.interface-buttons {
-  z-index: 2;
-}
-
-.concept-buttons {
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  min-width: 10%;
-  max-width: 15%;
-  height: 100%;
-  background-color: #202020;
-  border-left: 2px solid #eeeeee;
-  color: #202020;
-  overflow-y: scroll;
-}
-
-.concept {
-  width: 100%;
-  margin: 0%;
-  display: block;
-  float: left;
-  padding-right: 20px;
-  text-align: right;
-}
-
-.current-concept {
-  background-color: #202020;
-  border-left: 10px solid #eeeeee;
-  color: #eeeeee;
-  font-weight: bold;
 }
 
 .interface-buttons {
@@ -474,6 +446,8 @@ body {
   background-color: #202020;
   color: #eeeeee;
   overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -482,6 +456,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -557,7 +537,6 @@ img {
 .welcome-lesson {
   border: 2px solid #202020;
   padding: 5px;
-  color: black;
 }
 
 .welcome-lesson:hover {
@@ -625,6 +604,8 @@ body {
   background-color: #202020;
   color: #eeeeee;
   overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -633,6 +614,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {

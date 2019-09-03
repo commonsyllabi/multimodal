@@ -1,8 +1,47 @@
-<!-- NOTE -->
-
 <template>
-  <textarea class="note moveable concept-bound" type="text" v-model:value="data.text"></textarea>
+  <textarea class="note moveable" type="text" v-model:value="data.text"></textarea>
 </template>
+
+<style scoped lang="scss">
+@import '../sass/globals.scss';
+
+textarea {
+  font-family: 'Inter UI';
+  background-color: rgba(1, 0, 0, 0);
+  border: none;
+  outline: none;
+  height: auto;
+}
+
+.note{
+  position: absolute;
+  z-index: 5;
+  width: 40%;
+  color: $main-fg-color;
+  font-size: 2.5em;
+
+  transition: opacity 0.5s ease-in;
+
+  @media (max-width: 1300px){
+    font-size: 2em;
+  }
+}
+
+.written {
+   width: 100%;
+}
+
+.moveable{
+  z-index: 4;
+  width: initial;
+}
+
+#current{
+   position: absolute;
+   font-weight: bold;
+   overflow-y: visible;
+}
+</style>
 
 <script>
 export default {
@@ -33,7 +72,7 @@ export default {
     el.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current') return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable concept-bound')
+			evt.target.setAttribute('class', 'note moveable')
 			window.currentNote = evt.target
 		}
 
