@@ -42,8 +42,15 @@ let parseDocument = () => {
 	// let _notes = document.getElementsByClassName('note')
 	// let _writeup = document.getElementsByClassName('writeup')
 
+
+
 //--TODO sanitize lesson so that it doesn't include things like EMPTY NOTES
+//--TODO read above
 	let lesson = window.data
+
+
+
+
 	// for(let i in _concepts){
 	// 	if(i == 'length') break
   //
