@@ -3,9 +3,8 @@
 import * as drawing from './drawing.js'
 
 let currentNote = null
-let currentPage = 0
-let currentConcept = 0
-let previousPage = 0
+let currentPage = 0, previousPage = 0
+let currentConcept = 0, previousConcept = 0
 
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
@@ -35,11 +34,16 @@ let getCurrentNote = () => {
 }
 
 let setCurrentConcept = (el) => {
+	previousConcept = currentConcept
 	currentConcept = el
 }
 
 let getCurrentConcept = () => {
 	return currentConcept
+}
+
+let getPreviousConcept = () => {
+	return previousConcept
 }
 
 let setCurrentPage = (page, shouldNavigate = false) => {
@@ -83,4 +87,4 @@ let setCurrrentPosition = (pos) => {
 	currentNote.style.left = pos.x+'px'
 }
 
-export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, setCurrrentPosition, setCurrentPage, getCurrentPage, getPreviousPage}
+export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, getPreviousConcept, setCurrrentPosition, setCurrentPage, getCurrentPage, getPreviousPage}

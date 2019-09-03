@@ -1,6 +1,6 @@
 'use strict'
 
-import { getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, setCurrentPosition, getPreviousPage, getCurrentPage, setCurrentPage } from './globals.js'
+import { getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, getPreviousConcept, setCurrentPosition, getPreviousPage, getCurrentPage, setCurrentPage } from './globals.js'
 
 const ESC = 27
 const UP = 38
@@ -18,10 +18,6 @@ let handle = (e, data) => {
 	case UP: //page right before
 		if(cn == null){
 			e.preventDefault()
-			// page = getCurrentPage()
-			// page = page - 1 > 0 ? page - 1 : 0
-			// setCurrentPage(page, true)
-
 			page = getCurrentPage()
 			concept = getCurrentConcept()
 			if(page > 0){
@@ -62,14 +58,19 @@ let handle = (e, data) => {
 		break
 	case LEFT: // previous page
 		if(cn == null){
-			index = getPreviousPage()
-			setCurrentPage(index)
+			concept = getPreviousConcept()
+			page = getPreviousPage()
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
 		if(cn == null){
-			let index = document.getElementsByClassName('page-group').length-1
-			setCurrentPage(index)
+			concept = document.getElementsByClassName('concept-group').length-1
+
+			setCurrentConcept(concept)
+			setCurrentPage(0, true)
 		}
 		break
 	case ESC:
@@ -102,4 +103,4 @@ let endNote = (el) => {
 	window.currentNote = null
 }
 
-export { handle, newNote, endNote }
+export { handle, endNote }
