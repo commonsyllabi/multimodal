@@ -13,11 +13,11 @@
     </div>
 
     <div class="buttons-container">
-      <button class="lesson-btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
-      <button class="lesson-btn" @click="clearBoard"> clear </button>
-      <button class="lesson-btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
-      <button class="lesson-btn" @click="exitLesson"> exit </button>
-      <button class="lesson-btn" @click="saveSession"> save </button>
+      <button class="btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
+      <button class="btn" @click="clearBoard"> clear </button>
+      <button class="btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
+      <button class="btn" @click="exitLesson"> exit </button>
+      <button class="btn" @click="saveSession"> save </button>
 
       <div class="msg-log" id="msg-log"></div>
     </div>
@@ -56,7 +56,7 @@
 	}
 }
 
-.lesson-btn {
+.btn {
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
@@ -69,12 +69,12 @@
 	}
 }
 
-.lesson-btn:hover{
+.btn:hover{
 	background-color: $main-bg-color;
 	color: $main-fg-color;
 }
 
-.lesson-btn:active{
+.btn:active{
 	border: none;
 }
 

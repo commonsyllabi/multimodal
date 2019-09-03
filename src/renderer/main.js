@@ -10,13 +10,25 @@ import * as welcome from './main/welcome.js'
 import * as create from './main/create.js'
 import * as utils from './utils.js'
 
-window.setLesson = welcome.setLesson
-window.openLesson = welcome.openLesson
-window.editLesson = welcome.editLesson
+import Vue from 'vue'
+import Board from './components/Board.vue'
 
-window.createLesson = welcome.createLesson
-window.removeLesson = welcome.removeLesson
-window.exportLesson = welcome.exportLesson
+window.vm = new Vue({
+	el: '#notice-board',
+	template: '<Board/>',
+	components: {
+		Board
+	}
+})
+
+// TODO: deal later with shortcuts
+// window.setTopic = welcome.setTopic
+// window.openTopic = welcome.openTopic
+// window.editTopic = welcome.editTopic
+//
+// window.createLesson = welcome.createLesson
+// window.removeLesson = welcome.removeLesson
+// window.exportLesson = welcome.exportLesson
 
 window.createNewCourse = create.createNewCourse
 window.saveCourse = create.saveCourse
