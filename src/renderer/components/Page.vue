@@ -11,8 +11,11 @@
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
     <Writeup :data="data.writeup" :isEdit="isEdit"/>
 
-    <button v-if="isEdit" @click="addPrep('txt')">add text</button>
-    <button v-if="isEdit" @click="addPrep('url')">add link</button>
+    <div v-if="isEdit"class="add-buttons">
+      <button @click="addPrep('txt')">add text</button>
+      <button @click="addPrep('url')">add link</button>
+      <button @click="addPrep('img')">add image</button>
+    </div>
   </div>
 </template>
 
@@ -52,6 +55,12 @@ canvas {
   color: $main-fg-color;
   background-color: $main-bg-color;
   border-bottom: 2px solid $main-fg-color;
+}
+
+.add-buttons{
+  width: 100%;
+  float: left;
+  margin-top: 50px;
 }
 
 </style>
@@ -101,11 +110,35 @@ export default {
       this.$emit('new-note', el)
     },
     addPrep(_type) {
-      this.data.preps.push({
-        "tag": "",
-        "text": "",
-        "type": _type
-      })
+      let p = {}
+      switch (_type) {
+        case 'txt':
+          p = {
+            "tag": "",
+            "text": "",
+            "type": _type
+          }
+          break;
+        case 'url':
+          p = {
+            "tag": "",
+            "text": "",
+            "url": "",
+            "type": _type
+          }
+          break;
+        case 'img':
+          p = {
+            "tag": "",
+            "name": "",
+            "src": "",
+            "type": _type
+          }
+          break;
+        default:
+          break
+      }
+      this.data.preps.push(p)
     },
     removePrep(i) {
       let a = this.data.preps.slice(0, i)

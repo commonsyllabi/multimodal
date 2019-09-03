@@ -181,7 +181,7 @@ export default {
       this.isEdit = !this.isEdit
     },
     exitLesson() {
-
+      window.exitLesson()
     },
     saveSession() {
 
