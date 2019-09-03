@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add vue-style-loader -d
 
 PATH: 
   /home/pierre/.mozbuild/arcanist/bin:/home/pierre/.mozbuild/moz-phab:/home/pierre/.cargo/bin:/home/pierre/.cargo/bin:/home/pierre/.mozbuild/git-cinnabar:/home/pierre/.mozbuild/arcanist/bin:/home/pierre/.mozbuild/moz-phab:/home/pierre/.cargo/bin:/home/pierre/.cargo/bin:/home/pierre/.mozbuild/git-cinnabar:/home/pierre/.local/share/umake/bin:/home/pierre/.cargo/bin:/home/pierre/bin:/home/pierre/.local/bin:/home/pierre/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/pierre/.fzf/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
