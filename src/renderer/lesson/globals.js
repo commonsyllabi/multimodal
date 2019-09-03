@@ -49,9 +49,9 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 	//-- highlight navigation
 	let cs = document.getElementsByClassName('page')
 	for(let c of cs){
-		c.setAttribute('class', 'page concept-btn')
+		c.setAttribute('class', 'page nav')
 		if(c.getAttribute('page') == `${currentConcept}-${currentPage}`)
-			c.setAttribute('class', 'page concept-btn current-concept')
+			c.setAttribute('class', 'page nav current-page')
 	}
 
 	//-- scroll element into view

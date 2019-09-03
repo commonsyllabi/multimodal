@@ -1,8 +1,8 @@
 <template>
   <div class="page-group" :id="index" :page="`${concept}-${index}`" :concept="concept">
     <canvas v-if="!isEdit" class="drawing-board" :page="`${concept}-${index}`"></canvas>
-    <input type="text" v-if="isEdit" placeholder="page name here" v-model:value="data.concept">
-    <div v-else class="prep note title concept-bound" :concept="index">
+    <input class="edit-input" type="text" v-if="isEdit" placeholder="page name here" v-model:value="data.name">
+    <div v-else class="title" :concept="index">
       {{data.name}}
     </div>
 
@@ -15,6 +15,46 @@
     <button v-if="isEdit" @click="addPrep('url')">add link</button>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import '../sass/globals.scss';
+
+canvas {
+ position: absolute;
+ top: 0px;
+ left: 0px;
+ z-index: 1;
+ width: 100%;
+ height: 100%;
+}
+
+.active {
+	pointer-events: auto;
+	cursor: crosshair;
+}
+
+.page-group{
+  position: relative;
+  padding-top: 5%;
+  padding-left: 10%;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  border: 2px solid $main-fg-color;
+}
+
+.title, .edit-input {
+  font-size: 2.3em;
+  font-weight: bold;
+}
+
+.edit-input{
+  color: $main-fg-color;
+  background-color: $main-bg-color;
+  border-bottom: 2px solid $main-fg-color;
+}
+
+</style>
 
 <script>
 import Context from './Context.vue'
@@ -75,16 +115,9 @@ export default {
     }
   },
   mounted(){
-    let root = this.$el
-    root.ondblclick = (e) => {
-      if(e.target.getAttribute("concept") == this.index){
-        	let els = document.getElementsByClassName('written')
-        	for(let el of els)
-        		el.removeAttribute('id')
-
-        	if(window.currentNote == null)
+    this.$el.ondblclick = (e) => {
+      if(window.currentNote == null)
             this.data.notes.push({text: null, tag: "", type: "text"})
-      }
     }
   }
 }

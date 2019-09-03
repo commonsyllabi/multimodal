@@ -1,12 +1,8 @@
-'ust strict'
+'use strict'
 
 const ipc = require('electron').ipcRenderer
 
-require('./sass/globals.scss')
-require('./sass/notes.scss')
-require('./sass/interface.scss')
-
-import * as typing from './lesson/typing.js'
+// import * as typing from './lesson/typing.js'
 import * as save from './lesson/save.js'
 import * as globals from './lesson/globals.js'
 import * as drawing from './lesson/drawing.js'
@@ -31,7 +27,6 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-// window.setCurrentPage = globals.setCurrentPage
 window.saveSession = save.saveSession
 window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept

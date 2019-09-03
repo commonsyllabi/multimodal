@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div class="lessons-container">
+    <div class="main-container">
       <span v-for="(concept, index) in data.concepts">
         <Concept :data="concept" :course="data.course" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
-    <div class="concept-buttons">
+    <div class="nav-container">
       <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit" @add-page="addPage"/>
     </div>
-    <div class="interface-buttons">
+
+    <div class="buttons-container">
       <button class="lesson-btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
       <button class="lesson-btn" @click="clearBoard"> clear </button>
       <button class="lesson-btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
@@ -20,6 +21,82 @@
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+@import '../sass/globals.scss';
+
+.main-container {
+  position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 90vw;
+	height: 100%;
+	z-index: 0;
+}
+
+
+//---------------- BUTTONS
+.buttons-container {
+	position: fixed;
+	z-index: 3;
+	bottom: 0px;
+	left: 0px;
+	padding-left: 10px;
+	height: 5vh;
+	width: 100%;
+
+	background-color: $main-bg-color;
+	border-top: 2px solid $main-fg-color;
+
+	button {
+		margin-right: 2%;
+    border: none;
+	}
+}
+
+.lesson-btn {
+	border: none;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
+  font-size: $btn-size;
+	font-family: 'Inter UI';
+	cursor: pointer;
+
+  @media (max-width: $break-medium){
+		font-size: 1.5em;
+	}
+}
+
+.lesson-btn:hover{
+	background-color: $main-bg-color;
+	color: $main-fg-color;
+}
+
+.lesson-btn:active{
+	border: none;
+}
+
+.exit-lesson, .save-session {
+	float: right;
+}
+
+
+//--------------- NAVIGATION
+.nav-container{
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	min-width: 10%;
+	width: 10vw;
+	height: 100%;
+
+	background-color: $main-bg-color;
+	border-left: 2px solid $main-fg-color;
+	color: $main-bg-color;
+
+	overflow-y: scroll;
+}
+</style>
 
 <script>
 import Concept from './Concept.vue'
@@ -49,19 +126,13 @@ export default {
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
-            var rect = page.getBoundingClientRect();
-            var elemTop = rect.top;
-            var elemBottom = rect.bottom;
+        let rect = page.getBoundingClientRect();
+        let isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
 
-            console.log(page);
-            console.log('top', elemTop, 'bottom', elemBottom);
-
-            let isVisible = elemTop < window.innerHeight && elemBottom >= 0;
-
-            if(isVisible){
-              let comp = page.getAttribute('page').split('-')
-              visibleElements.push({"page": comp[1], "concept": comp[0]})
-            }
+        if(isVisible){
+          let comp = page.getAttribute('page').split('-')
+          visibleElements.push({"page": comp[1], "concept": comp[0]})
+        }
       }
 
       if(visibleElements.length == 1){
@@ -84,6 +155,11 @@ export default {
     },
     handleNewNote(el) {
       window.currentNote = el
+
+      let els = document.getElementsByClassName('written')
+      for(let el of els)
+        el.removeAttribute('id')
+
       el.setAttribute('id', 'current')
       el.focus()
 
