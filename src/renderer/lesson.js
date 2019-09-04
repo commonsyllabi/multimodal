@@ -2,7 +2,6 @@
 
 const ipc = require('electron').ipcRenderer
 
-import * as save from './lesson/save.js'
 import * as globals from './lesson/globals.js'
 import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'

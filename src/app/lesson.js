@@ -13770,6 +13770,11 @@ if(false) {
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -13790,7 +13795,7 @@ if(false) {
   methods: {
     toggleView(e) {
       this.visible = !this.visible
-      e.target.parentNode.style.height = this.visible ? '100px' : '0px'
+      e.target.parentNode.style.width = this.visible ? '70vw' : '0px'
     }
   },
   mounted(){
@@ -14034,15 +14039,14 @@ if(false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_save_js__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_globals_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Subject_vue__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Dialog_vue__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lesson_globals_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Subject_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Dialog_vue__ = __webpack_require__(101);
 
 
 const ipc = __webpack_require__(0).ipcRenderer
@@ -14055,20 +14059,19 @@ const ipc = __webpack_require__(0).ipcRenderer
 
 
 
-
-window.vm = new __WEBPACK_IMPORTED_MODULE_4_vue___default.a({
+window.vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	el: '#writing-board',
 	template: '<Subject/>',
 	components: {
-		Subject: __WEBPACK_IMPORTED_MODULE_5__components_Subject_vue__["a" /* default */]
+		Subject: __WEBPACK_IMPORTED_MODULE_4__components_Subject_vue__["a" /* default */]
 	}
 })
 
-const dialog = new __WEBPACK_IMPORTED_MODULE_4_vue___default.a({
+const dialog = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	el: '#dialog',
 	template: '<Dialog/>',
 	components: {
-		'Dialog':__WEBPACK_IMPORTED_MODULE_6__components_Dialog_vue__["a" /* default */]
+		'Dialog':__WEBPACK_IMPORTED_MODULE_5__components_Dialog_vue__["a" /* default */]
 	}
 })
 
@@ -14082,52 +14085,21 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-window.switchConcept = __WEBPACK_IMPORTED_MODULE_1__lesson_globals_js__["setCurrentConcept"]
-window.jumpToTag = __WEBPACK_IMPORTED_MODULE_1__lesson_globals_js__["jumpToTag"]
-window.clearBoard = __WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__["clearBoard"]
-window.toggleDraw = __WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__["toggleDraw"]
+window.switchConcept = __WEBPACK_IMPORTED_MODULE_0__lesson_globals_js__["setCurrentConcept"]
+window.jumpToTag = __WEBPACK_IMPORTED_MODULE_0__lesson_globals_js__["jumpToTag"]
+window.clearBoard = __WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["clearBoard"]
+window.toggleDraw = __WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["toggleDraw"]
 
 ipc.on('menu-save', () => {window.saveSession()})
 ipc.on('menu-exit', () => {window.exitLesson()})
-ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__["toggleDraw"]()})
-ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__["clearBoard"]()})
+ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["toggleDraw"]()})
+ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["clearBoard"]()})
 
-ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_3__utils_js__["setMessage"](data.msg, data.type)})
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export saveSession */
-/* unused harmony export exitLesson */
-
-
-const ipc = __webpack_require__(0).ipcRenderer
-const {dialog} = __webpack_require__(0).remote
-let lessonSaved = false
-
-let exitLesson = () => {
-	if(!lessonSaved){
-		let options = {	'type':'info',
-			'buttons':['Cancel', 'Quit anyways'],
-			'title':'Are you sure?',
-			'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
-		}
-
-			if(dialog.showMessageBox(options) == 1)
-				ipc.send('exit-home', {'coming':'back'})
-
-		}else {
-			ipc.send('exit-home', {'coming':'back'})
-		}
-}
-
-
+ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
 
 /***/ }),
+/* 43 */,
 /* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15090,7 +15062,11 @@ var render = function() {
       on: { click: _vm.toggleView }
     }),
     _vm._v(" "),
-    _c("textarea", { staticClass: "writeup" }, [_vm._v(_vm._s(_vm.data))])
+    this.visible
+      ? _c("textarea", { staticClass: "writeup", attrs: { rows: "12" } }, [
+          _vm._v(_vm._s(_vm.data))
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -15112,12 +15088,13 @@ render._withStripped = true
 /* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var escape = __webpack_require__(4);
 exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, ".writeup-toggle-outer[data-v-53f0a5a4] {\n  position: absolute;\n  bottom: 0px;\n  width: 90%;\n  height: 0vh;\n  z-index: 4;\n  background-color: white;\n  transition: all 0.1s linear;\n}\n.writeup-toggle-inner[data-v-53f0a5a4] {\n  position: absolute;\n  width: 20%;\n  top: -10px;\n  height: 10px;\n  background-color: white;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  margin-left: 40%;\n}\n.writeup[data-v-53f0a5a4] {\n  width: 100%;\n  margin: 5px;\n  font-family: 'Inter UI';\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-53f0a5a4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-53f0a5a4] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-53f0a5a4] {\n  color: #e77607;\n}\na[data-v-53f0a5a4]:hover {\n  color: #b25900;\n}\nbutton[data-v-53f0a5a4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-53f0a5a4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-53f0a5a4] {\n  background-color: darkseagreen;\n}\n.error[data-v-53f0a5a4] {\n  background-color: crimson;\n}\n.metadata[data-v-53f0a5a4] {\n  visibility: hidden;\n}\n.right[data-v-53f0a5a4] {\n  float: right;\n}\n.left[data-v-53f0a5a4] {\n  float: left;\n}\ndiv[data-v-53f0a5a4],\nimg[data-v-53f0a5a4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-53f0a5a4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.writeup-toggle-outer[data-v-53f0a5a4] {\n  position: absolute;\n  bottom: 100px;\n  left: 0px;\n  width: 0;\n  height: 20vh;\n  z-index: 4;\n  background-color: #eeeeee;\n  transition: all 0.3s linear;\n}\n.writeup-toggle-inner[data-v-53f0a5a4] {\n  position: absolute;\n  width: 10px;\n  top: 20px;\n  right: -20px;\n  height: 10vh;\n  background-color: #eeeeee;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  margin-left: 40%;\n  border: 5px solid #202020;\n}\n.writeup[data-v-53f0a5a4] {\n  width: 90%;\n  margin: 5px;\n  font-family: 'Inter UI';\n}", ""]);
 
 // exports
 
