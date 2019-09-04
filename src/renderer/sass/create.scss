@@ -1,26 +1,5 @@
 @import 'globals';
 
-.create-container {
-	width: 90%;
-	margin-left: 5%;
-	margin-bottom: 100px;
-	overflow: auto;
-}
-
-.create-course{
-	width: 95%;
-	height: auto;
-	overflow: auto;
-	margin-top: 2%;
-	padding: 2%;
-	text-align: left;
-	border: 3px solid $main-fg-color;
-}
-
-.create-course h1{
-	margin-left: 3%;
-}
-
 .create-lesson {
 	margin: 10px;
 	font-size: 20px;
@@ -56,21 +35,7 @@
 }
 
 /* COURSE WINDOW */
-.course-name, .course-year, .course-path {
-	width: 94%;
-	font-size: 24px;
-	height: 48px;
-	display: block;
-	float: left;
 
-	margin: 3%;
-}
-
-.course-path {
-	width: 70%;
-	margin: 10px;
-	float: left;
-}
 
 .create-course-save{
 	float: left;
@@ -80,18 +45,6 @@
 	 width: 85%;
 	 font-size: 36px;
  }
-
-.create-local-path{
-	display: inline;
-	border: none;
-	font-size: 24px;
-	height: 48px;
-	padding: 5px;
-	margin-left: 5px;
-	margin-top: 3%;
-	background-color: $main-fg-color;
-	color: $main-bg-color;
-}
 
 /* ---------------------------- */
 

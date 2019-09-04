@@ -25,329 +25,294 @@ let selectCourse = (_el) => {
 		createNewCourse()
 }
 
-let createNewCourse = () => {
-	ipc.send('create-new-course')
-}
-
-let saveCourse = () => {
-	let _course = {}
-	_course.name = document.getElementById('course-name').value
-	_course.path = document.getElementById('course-path').value
-
-	if(_course.name == null || _course.path == null){
-		alert('Some fields are missing!')
-		console.log(_course)
-	}else{
-		ipc.send('save-course', _course)
-	}
-}
-
-let exitCourse = () => {
-	let w = remote.getCurrentWindow()
-	w.close()
-}
-
-let selectCoursePath = () => {
-	let options = {
-		'title':'Select course folder',
-		'defaultPath':'~/',
-		'properties':['openDirectory', 'createDirectory']
-	}
-
-	dialog.showOpenDialog(options, (path) => {
-		course.path = path
-		document.getElementById('course-path').value = path
-	})
-}
-
-let selectMediaPath = (_el) => {
-	let options = {
-		'title':'Select file',
-		'defaultPath': '~/',
-		'properties':['openFile']
-	}
-
-	dialog.showOpenDialog(options, (path) => {
-		_el.previousSibling.value = path
-		_el.previousSibling.setAttribute('src', path)
-	})
-}
-
-let createPrep = (kind) => {
-	let prep = document.createElement('div')
-	prep.setAttribute('class', 'create-prep')
-
-	if(kind == 'txt'){
-		let text = document.createElement('input')
-		text.setAttribute('type', 'text')
-		text.setAttribute('placeholder', 'text')
-		text.setAttribute('kind', 'txt')
-		text.setAttribute('class', 'create-concept-prep')
-		prep.appendChild(text)
-
-		let tag = document.createElement('input')
-		tag.setAttribute('type', 'text')
-		tag.setAttribute('placeholder', 'tag')
-		tag.setAttribute('kind', 'tag')
-		tag.setAttribute('class', 'create-concept-prep create-concept-tag')
-		prep.appendChild(tag)
-	}else if(kind == 'url'){
-		let url = document.createElement('input')
-		url.setAttribute('type', 'text')
-		url.setAttribute('kind', 'url')
-		url.setAttribute('placeholder', 'url')
-		url.setAttribute('class', 'create-concept-prep')
-		prep.appendChild(url)
-
-		let text = document.createElement('input')
-		text.setAttribute('type', 'text')
-		text.setAttribute('kind', 'txt')
-		text.setAttribute('placeholder', 'text')
-		text.setAttribute('class', 'create-concept-prep url')
-		prep.appendChild(text)
-	}else if(kind == 'img'){
-		let src = document.createElement('input')
-		src.setAttribute('type', 'text')
-		src.setAttribute('kind', 'img')
-		src.setAttribute('placeholder', 'src')
-		src.setAttribute('filename', '')
-		src.setAttribute('class', 'create-concept-prep img')
-		prep.appendChild(src)
-
-		let expl = document.createElement('button')
-		expl.innerText = 'select'
-		expl.setAttribute('onclick', 'selectMediaPath(this)')
-		expl.setAttribute('kind', 'path')
-		expl.setAttribute('class', 'create-add-prep')
-		prep.appendChild(expl)
-	}else{
-		console.log('unexpected type for new prep')
-	}
-
-
-	// create interface
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-remove-holder')
-
-	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-prep')
-	b_txt.setAttribute('onclick', 'addPrep(this)')
-	b_txt.setAttribute('value', 'txt')
-	b_txt.innerText = 'txt'
-
-	b_holder.appendChild(b_txt)
-
-	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-prep')
-	b_url.setAttribute('onclick', 'addPrep(this)')
-	b_url.setAttribute('value', 'url')
-	b_url.innerText = 'url'
-
-	b_holder.appendChild(b_url)
-
-	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-prep')
-	b_img.setAttribute('onclick', 'addPrep(this)')
-	b_img.setAttribute('value', 'img')
-	b_img.innerText = 'img'
-
-	b_holder.appendChild(b_img)
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-prep')
-	rem.setAttribute('onclick', 'removePrep(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	prep.appendChild(b_holder)
-
-	return prep
-}
-
-let addPrep = (el) => {
-	let prep = createPrep(el.value) //either txt, or url, or img
-
-	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
-
-		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
-		// 	if(_el.getAttribute('class') == 'content-holder')
-				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
-
-	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
-		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
-	}
-}
-
-let removePrep = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-let addWriteup = (el) => {
-	let writeup = createWriteup()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
-}
-
-let createWriteup = () => {
-	let writeup = document.createElement('div')
-	writeup.setAttribute('class', 'create-concept-writeup')
-	writeup.setAttribute('type', 'text')
-
-	let content = document.createElement('textarea')
-	content.setAttribute('placeholder', 'empty writeup')
-	writeup.appendChild(content)
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-writeup-holder')
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-writeup')
-	rem.setAttribute('onclick', 'removeWriteup(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-writeup')
-	add.setAttribute('onclick', 'addWriteup(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
-	writeup.appendChild(b_holder)
-
-	return writeup
-}
-
-let removeWriteup = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-
-let addNote = (el) => {
-	let note = createNote()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
-}
-
-let createNote = () => {
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-concept-note')
-	note.setAttribute('type', 'text')
-
-	let content = document.createElement('textarea')
-	content.setAttribute('placeholder', 'empty note')
-	note.appendChild(content)
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-note-holder')
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-note')
-	rem.setAttribute('onclick', 'removeNote(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-note')
-	add.setAttribute('onclick', 'addNote(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
-	note.appendChild(b_holder)
-
-	return note
-}
-
-let removeNote = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-let addConcept = (el) => {
-
-	let concept = document.createElement('div')
-	concept.setAttribute('class', 'create-concept')
-
-	let prep_holder = document.createElement('div')
-	prep_holder.setAttribute('class', 'prep-holder')
-
-	let name = document.createElement('input')
-	name.setAttribute('class', 'create-concept-name')
-	name.setAttribute('placeholder', 'concept name')
-	concept.appendChild(name)
-
-	let tag = document.createElement('input')
-	tag.setAttribute('class', 'create-concept-tag')
-	tag.setAttribute('placeholder', 'concept tag')
-	concept.appendChild(tag)
-
-	let prep = document.createElement('div')
-	prep.setAttribute('class', 'create-prep')
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-holder')
-
-	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-prep')
-	b_txt.setAttribute('onclick', 'addPrep(this)')
-	b_txt.setAttribute('value', 'txt')
-	b_txt.innerText = 'txt'
-
-	b_holder.appendChild(b_txt)
-
-	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-prep')
-	b_url.setAttribute('onclick', 'addPrep(this)')
-	b_url.setAttribute('value', 'url')
-	b_url.innerText = 'url'
-
-	b_holder.appendChild(b_url)
-
-	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-prep')
-	b_img.setAttribute('onclick', 'addPrep(this)')
-	b_img.setAttribute('value', 'img')
-	b_img.innerText = 'img'
-
-	b_holder.appendChild(b_img)
-
-	prep_holder.appendChild(b_holder)
-
-	concept.append(prep_holder)
-
-	//-- add one note
-	let notes_holder = document.createElement('div')
-	notes_holder.setAttribute('class', 'notes-holder')
-	let dummy = document.createElement('div')
-	let note = createNote()
-	dummy.append(note)
-	notes_holder.append(dummy)
-	concept.append(notes_holder)
-
-	//-- add one writeup
-	let writeups_holder = document.createElement('div')
-	writeups_holder.setAttribute('class', 'writeups-holder')
-	dummy = document.createElement('div')
-	let writeup = createWriteup()
-	dummy.append(writeup)
-	writeups_holder.append(dummy)
-	concept.append(writeups_holder)
-
-	// add the two buttons at the bottom
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-concept')
-	add.setAttribute('onclick', 'addConcept(this)')
-	add.innerText = '+'
-	concept.appendChild(add)
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-concept')
-	rem.setAttribute('onclick', 'removeConcept(this)')
-	rem.innerText = '-'
-	concept.appendChild(rem)
-
-	el.parentNode.insertAdjacentElement('afterend', concept)
-}
-
-let removeConcept = (el) => {
-	el.parentNode.parentNode.removeChild(el.parentNode)
-}
+// let selectMediaPath = (_el) => {
+// 	let options = {
+// 		'title':'Select file',
+// 		'defaultPath': '~/',
+// 		'properties':['openFile']
+// 	}
+//
+// 	dialog.showOpenDialog(options, (path) => {
+// 		_el.previousSibling.value = path
+// 		_el.previousSibling.setAttribute('src', path)
+// 	})
+// }
+
+// let createPrep = (kind) => {
+// 	let prep = document.createElement('div')
+// 	prep.setAttribute('class', 'create-prep')
+//
+// 	if(kind == 'txt'){
+// 		let text = document.createElement('input')
+// 		text.setAttribute('type', 'text')
+// 		text.setAttribute('placeholder', 'text')
+// 		text.setAttribute('kind', 'txt')
+// 		text.setAttribute('class', 'create-concept-prep')
+// 		prep.appendChild(text)
+//
+// 		let tag = document.createElement('input')
+// 		tag.setAttribute('type', 'text')
+// 		tag.setAttribute('placeholder', 'tag')
+// 		tag.setAttribute('kind', 'tag')
+// 		tag.setAttribute('class', 'create-concept-prep create-concept-tag')
+// 		prep.appendChild(tag)
+// 	}else if(kind == 'url'){
+// 		let url = document.createElement('input')
+// 		url.setAttribute('type', 'text')
+// 		url.setAttribute('kind', 'url')
+// 		url.setAttribute('placeholder', 'url')
+// 		url.setAttribute('class', 'create-concept-prep')
+// 		prep.appendChild(url)
+//
+// 		let text = document.createElement('input')
+// 		text.setAttribute('type', 'text')
+// 		text.setAttribute('kind', 'txt')
+// 		text.setAttribute('placeholder', 'text')
+// 		text.setAttribute('class', 'create-concept-prep url')
+// 		prep.appendChild(text)
+// 	}else if(kind == 'img'){
+// 		let src = document.createElement('input')
+// 		src.setAttribute('type', 'text')
+// 		src.setAttribute('kind', 'img')
+// 		src.setAttribute('placeholder', 'src')
+// 		src.setAttribute('filename', '')
+// 		src.setAttribute('class', 'create-concept-prep img')
+// 		prep.appendChild(src)
+//
+// 		let expl = document.createElement('button')
+// 		expl.innerText = 'select'
+// 		expl.setAttribute('onclick', 'selectMediaPath(this)')
+// 		expl.setAttribute('kind', 'path')
+// 		expl.setAttribute('class', 'create-add-prep')
+// 		prep.appendChild(expl)
+// 	}else{
+// 		console.log('unexpected type for new prep')
+// 	}
+//
+//
+// 	// create interface
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-remove-holder')
+//
+// 	let b_txt = document.createElement('button')
+// 	b_txt.setAttribute('class', 'create-add-prep')
+// 	b_txt.setAttribute('onclick', 'addPrep(this)')
+// 	b_txt.setAttribute('value', 'txt')
+// 	b_txt.innerText = 'txt'
+//
+// 	b_holder.appendChild(b_txt)
+//
+// 	let b_url = document.createElement('button')
+// 	b_url.setAttribute('class', 'create-add-prep')
+// 	b_url.setAttribute('onclick', 'addPrep(this)')
+// 	b_url.setAttribute('value', 'url')
+// 	b_url.innerText = 'url'
+//
+// 	b_holder.appendChild(b_url)
+//
+// 	let b_img = document.createElement('button')
+// 	b_img.setAttribute('class', 'create-add-prep')
+// 	b_img.setAttribute('onclick', 'addPrep(this)')
+// 	b_img.setAttribute('value', 'img')
+// 	b_img.innerText = 'img'
+//
+// 	b_holder.appendChild(b_img)
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-prep')
+// 	rem.setAttribute('onclick', 'removePrep(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	prep.appendChild(b_holder)
+//
+// 	return prep
+// }
+//
+// let addPrep = (el) => {
+// 	let prep = createPrep(el.value) //either txt, or url, or img
+//
+// 	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
+//
+// 		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
+// 		// 	if(_el.getAttribute('class') == 'content-holder')
+// 				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
+//
+// 	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
+// 		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
+// 	}
+// }
+//
+// let removePrep = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+// let addWriteup = (el) => {
+// 	let writeup = createWriteup()
+// 	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
+// }
+//
+// let createWriteup = () => {
+// 	let writeup = document.createElement('div')
+// 	writeup.setAttribute('class', 'create-concept-writeup')
+// 	writeup.setAttribute('type', 'text')
+//
+// 	let content = document.createElement('textarea')
+// 	content.setAttribute('placeholder', 'empty writeup')
+// 	writeup.appendChild(content)
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-writeup-holder')
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-writeup')
+// 	rem.setAttribute('onclick', 'removeWriteup(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-writeup')
+// 	add.setAttribute('onclick', 'addWriteup(this)')
+// 	add.innerText = '+'
+// 	b_holder.appendChild(add)
+//
+// 	writeup.appendChild(b_holder)
+//
+// 	return writeup
+// }
+//
+// let removeWriteup = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+//
+// let addNote = (el) => {
+// 	let note = createNote()
+// 	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
+// }
+//
+// let createNote = () => {
+// 	let note = document.createElement('div')
+// 	note.setAttribute('class', 'create-concept-note')
+// 	note.setAttribute('type', 'text')
+//
+// 	let content = document.createElement('textarea')
+// 	content.setAttribute('placeholder', 'empty note')
+// 	note.appendChild(content)
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-note-holder')
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-note')
+// 	rem.setAttribute('onclick', 'removeNote(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-note')
+// 	add.setAttribute('onclick', 'addNote(this)')
+// 	add.innerText = '+'
+// 	b_holder.appendChild(add)
+//
+// 	note.appendChild(b_holder)
+//
+// 	return note
+// }
+//
+// let removeNote = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+// let addConcept = (el) => {
+//
+// 	let concept = document.createElement('div')
+// 	concept.setAttribute('class', 'create-concept')
+//
+// 	let prep_holder = document.createElement('div')
+// 	prep_holder.setAttribute('class', 'prep-holder')
+//
+// 	let name = document.createElement('input')
+// 	name.setAttribute('class', 'create-concept-name')
+// 	name.setAttribute('placeholder', 'concept name')
+// 	concept.appendChild(name)
+//
+// 	let tag = document.createElement('input')
+// 	tag.setAttribute('class', 'create-concept-tag')
+// 	tag.setAttribute('placeholder', 'concept tag')
+// 	concept.appendChild(tag)
+//
+// 	let prep = document.createElement('div')
+// 	prep.setAttribute('class', 'create-prep')
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-holder')
+//
+// 	let b_txt = document.createElement('button')
+// 	b_txt.setAttribute('class', 'create-add-prep')
+// 	b_txt.setAttribute('onclick', 'addPrep(this)')
+// 	b_txt.setAttribute('value', 'txt')
+// 	b_txt.innerText = 'txt'
+//
+// 	b_holder.appendChild(b_txt)
+//
+// 	let b_url = document.createElement('button')
+// 	b_url.setAttribute('class', 'create-add-prep')
+// 	b_url.setAttribute('onclick', 'addPrep(this)')
+// 	b_url.setAttribute('value', 'url')
+// 	b_url.innerText = 'url'
+//
+// 	b_holder.appendChild(b_url)
+//
+// 	let b_img = document.createElement('button')
+// 	b_img.setAttribute('class', 'create-add-prep')
+// 	b_img.setAttribute('onclick', 'addPrep(this)')
+// 	b_img.setAttribute('value', 'img')
+// 	b_img.innerText = 'img'
+//
+// 	b_holder.appendChild(b_img)
+//
+// 	prep_holder.appendChild(b_holder)
+//
+// 	concept.append(prep_holder)
+//
+// 	//-- add one note
+// 	let notes_holder = document.createElement('div')
+// 	notes_holder.setAttribute('class', 'notes-holder')
+// 	let dummy = document.createElement('div')
+// 	let note = createNote()
+// 	dummy.append(note)
+// 	notes_holder.append(dummy)
+// 	concept.append(notes_holder)
+//
+// 	//-- add one writeup
+// 	let writeups_holder = document.createElement('div')
+// 	writeups_holder.setAttribute('class', 'writeups-holder')
+// 	dummy = document.createElement('div')
+// 	let writeup = createWriteup()
+// 	dummy.append(writeup)
+// 	writeups_holder.append(dummy)
+// 	concept.append(writeups_holder)
+//
+// 	// add the two buttons at the bottom
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-concept')
+// 	add.setAttribute('onclick', 'addConcept(this)')
+// 	add.innerText = '+'
+// 	concept.appendChild(add)
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-concept')
+// 	rem.setAttribute('onclick', 'removeConcept(this)')
+// 	rem.innerText = '-'
+// 	concept.appendChild(rem)
+//
+// 	el.parentNode.insertAdjacentElement('afterend', concept)
+// }
+//
+// let removeConcept = (el) => {
+// 	el.parentNode.parentNode.removeChild(el.parentNode)
+// }
 
 // goes through all the information on the input fields and saves them as JSON
 let parseLesson = () => {
@@ -451,9 +416,6 @@ let parseLesson = () => {
 				for(let subchild of child.childNodes)
 					if(subchild.getAttribute('class') == 'create-concept-writeup' && subchild.childNodes[0].value != '' && subchild.childNodes[0].value != null) //second case
 						concept.writeups.push(subchild.childNodes[0].value)
-
-
-
 
 		lesson.concepts.push(concept)
 	}

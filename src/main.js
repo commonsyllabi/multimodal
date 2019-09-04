@@ -11,17 +11,17 @@ const pug = require('pug')
 const utils = require('./utils.js')
 const board = require('./board.js')
 
-const Course = require('./course.js')
-const Lesson = require('./lesson.js')
+const Subject = require('./subject.js')
+const Topic = require('./topic.js')
 
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = fs.readFileSync(`${data.path}/${data.course}/lessons/${data.name}/${data.name}.json`)
+	let c = fs.readFileSync(`${data.path}/${data.subject}/topics/${data.name}/topic.json`)
 
 	//-- TODO cleanup
 	let compiled
-	if(template == 'lesson')
+	if(template == 'topic')
 		compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', {'data':c})
 	else
 		compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', JSON.parse(c))
@@ -76,9 +76,9 @@ let replaceWindow = (_target) => {
 // ------------------------------ IPC MESSAGES
 // -----------------------------
 
-ipc.on('open-lesson', (event, data) => {
-	generateHTML(data, 'lesson')
-	replaceWindow('lesson')
+ipc.on('open-topic', (event, data) => {
+	generateHTML(data, 'topic')
+	replaceWindow('topic')
 })
 
 // creates a window with the ability to edit notes
@@ -87,22 +87,34 @@ ipc.on('edit-lesson', (event, data) => {
 		replaceWindow('edit')
 })
 
-ipc.on('create-new-course', () => {
-	if(!fs.existsSync(`${__dirname}/app/course.html`))
-		fs.writeFileSync(`${__dirname}/app/course.html`, pug.renderFile(`${__dirname}/views/course.pug`))
-	createWindow('course', 0.4, 0.4)
-})
-
 // adds a new course by appending to the courses list, and creating the directory structure
-ipc.on('save-course', (event, data) => {
-	let c = new Course(data)
+ipc.on('save-subject', (event, data) => {
+	let s = new Subject(data)
 
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
 	console.log(`[COURSE] saved ${data.name} successfully`)
-	BrowserWindow.getFocusedWindow().close()
-	mainWindow = BrowserWindow.getAllWindows()[0]
-	mainWindow.webContents.send('update-dropdown', c.toJSON())
+
+	let t = new Topic({
+		subject: s,
+		name: 'new-topic',
+		concepts: [{
+			name: "new concept",
+			context: "",
+			pages: [{
+				name: "new page"
+			}]
+		}]
+	})
+
+	let d = {
+		"path": s.path,
+		"subject": s.name,
+		"name": t.name
+	}
+
+	generateHTML(d, 'topic')
+	replaceWindow('topic')
 })
 
 // creates the 'new lesson' window

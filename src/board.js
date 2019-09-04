@@ -11,37 +11,37 @@ let win
 
 exports = module.exports = {}
 
-// lists all the lessons from courses.json and displays them on the welcome screen
+// lists all the lessons from subjects.json and displays them on the welcome screen
 module.exports.list = () => {
 	let data = {
-		'courses':[]
+		'subjects':[]
 	}
 
 	//first we get all the courses
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
 
 	//then for each course we look for all the related lessons
-	for(let course of courses){
+	for(let s of subjects){
 		let obj = {
-			'course':course,
-			'lessons': []
+			'subject':s,
+			'topics': []
 		}
 
-		for(let lesson of course.lessons){
-			let p = `${course.path}/${course.name}/lessons/${lesson.name}/${lesson.name}.json`
+		for(let t of s.topics){
+			let p = `${s.path}/${s.name}/topics/${t.name}/topic.json`
 			let l = null
 			try {
 				l = fs.readFileSync(p)
 			} catch (e) {
-				console.log(`[BOARD] Couldn't find lesson at ${lesson.name}`);
+				console.log(`[BOARD] Couldn't find topic at ${t.name}`);
 			}
 
 			if(l != null)
-				obj.lessons.push(JSON.parse(l))
+				obj.topics.push(JSON.parse(l))
 		}
 
-		if(obj.lessons.length > 0)
-			data.courses.push(obj)
+		if(obj.topics.length > 0)
+			data.subjects.push(obj)
 	}
 
 	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', {'data': JSON.stringify(data)})
@@ -50,7 +50,7 @@ module.exports.list = () => {
 
 // creates a `new lesson` screen with a list of existing courses
 module.exports.create = () => {
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/lessons/courses.json'))
+	let courses = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
 	let data = {
 		'courses': courses
 	}
@@ -60,11 +60,12 @@ module.exports.create = () => {
 }
 
 module.exports.remove = (_l) => {
-	if(fs.existsSync(`${__dirname}/lessons/${_l.course}/${_l.name}.json`)){
-		fs.unlinkSync(`${__dirname}/lessons/${_l.course}/${_l.name}.json`)
+	if(fs.existsSync(`${__dirname}/topics/${_l.course}/topic.json`)){
+		fs.unlinkSync(`${__dirname}/topics/${_l.course}/topic.json`)
 		console.log(`[DELETED] ${_l.name}`)
 		return true
 	}else{
+		console.log('problem deleting');
 		return false
 	}
 }

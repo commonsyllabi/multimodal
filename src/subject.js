@@ -2,33 +2,34 @@ const fs = require('fs')
 const path = require('path')
 const utils = require('./utils.js')
 
-class Course {
+class Subject {
   constructor(data){
     this.id = generateId(data.name)
     this.name = data.name.trim()
     this.path = data.path
+    this.description = data.description
     this.created = new Date()
     this.updated = null
-    this.lessons = []
+    this.topics = []
 
     this.init()
   }
 
   init(){
     //add to the internal data
-    let courses = JSON.parse(fs.readFileSync(`${__dirname}/lessons/courses.json`))
+    let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
     let data = this.toJSON()
-    courses.push(data)
-  	fs.writeFileSync(`${__dirname}/lessons/courses.json`, JSON.stringify(courses))
+    subjects.push(data)
+  	fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
 
-    //create course folder
-  	utils.touchDirectory(`${this.path}/${this.name}/lessons`)
+    //create subject folder
+  	utils.touchDirectory(`${this.path}/${this.name}/topics`)
     utils.touchDirectory(`${this.path}/${this.name}/exports`)
     utils.touchDirectory(`${this.path}/${this.name}/exports/assets`)
-    fs.createReadStream(`${__dirname}/lessons/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
+    fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
 
     //write the course file
-    fs.writeFileSync(`${this.path}/${this.name}/${this.name}.json`, JSON.stringify(data))
+    fs.writeFileSync(`${this.path}/${this.name}/subject.json`, JSON.stringify(data))
   }
 
   delete(){
@@ -40,7 +41,7 @@ class Course {
     if(type == 'web'){
       //copy over the style.css
       utils.touchDirectory(`${path}/${this.name}-web/`)
-      fs.createReadStream(`${__dirname}/lessons/style.css`).pipe(fs.createWriteStream(`${path}/style.css`))
+      fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${path}/style.css`))
     }else if(type == 'pdf'){
 
     }else{
@@ -53,13 +54,14 @@ class Course {
       "id": this.id,
       "name": this.name,
       "path": this.path,
+      'description': this.description,
       "created": this.created,
-      "lessons": this.lessons
+      "topics": this.topics
     }
   }
 }
 
-Course.prototype.find = (_id) => {
+Subject.prototype.find = (_id) => {
   //open the json file
   //find the specific course
   //return a Course instance
@@ -73,4 +75,4 @@ let generateId = (n) => {
   return id
 }
 
-module.exports = Course
+module.exports = Subject

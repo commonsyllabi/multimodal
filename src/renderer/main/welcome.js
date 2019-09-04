@@ -10,30 +10,6 @@ let current = {
 	'path': ''
 }
 
-// let setLesson = (_e, _c, _l, _p) => {
-// 	current.course = _c
-// 	current.name = _l
-// 	current.path = _p
-//
-// 	let all_lessons = document.getElementsByClassName('welcome-lesson')
-// 	for(let l of all_lessons)
-// 		l.setAttribute('class', 'welcome-lesson')
-//
-//
-// 	_e.setAttribute('class', 'welcome-lesson selected')
-//
-// 	let btns = document.getElementsByClassName('inter-btn-main')
-// 	for(let btn of btns)
-// 		btn.disabled = false
-// }
-
-// let openLesson = (_c, _l, _p) => {
-// 	let course = _c ? _c : current.course
-// 	let name = _l ? _l : current.name
-// 	let path = _p ? _p : current.path
-// 	ipc.send('open-lesson', current)
-// }
-
 let createLesson = () => {
 	ipc.send('create-lesson')
 }
