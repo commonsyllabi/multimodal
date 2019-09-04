@@ -7,7 +7,6 @@ require('./sass/welcome.scss')
 require('./sass/create.scss')
 
 import * as welcome from './main/welcome.js'
-import * as create from './main/create.js'
 import * as utils from './utils.js'
 
 import Vue from 'vue'
@@ -33,19 +32,7 @@ const dialog = new Vue({
 window.dialog = dialog.$children[0]
 
 // TODO: deal later with shortcuts
-// window.setTopic = welcome.setTopic
-// window.openTopic = welcome.openTopic
-// window.editTopic = welcome.editTopic
-//
-// window.createLesson = welcome.createLesson
-// window.removeLesson = welcome.removeLesson
-// window.exportLesson = welcome.exportLesson
 
-// window.createNewCourse = create.createNewCourse
-// window.saveCourse = create.saveCourse
-// window.exitCourse = create.exitCourse
-// window.saveLesson = create.saveLesson
-// window.exitLesson = create.exitLesson
 
 ipc.on('menu-create', () => { welcome.createLesson()})
 ipc.on('menu-open', () => { welcome.openLesson()})
@@ -68,6 +55,3 @@ ipc.on('update-dropdown', (event, data) => {
 	new_course.setAttribute('selected', true)
 	document.getElementById('course-list').appendChild(new_course)
 })
-
-window.selectCourse = create.selectCourse
-// window.selectSubjectPath = create.selectSubjectPath

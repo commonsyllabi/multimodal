@@ -7,7 +7,6 @@
     </div>
 
     <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" @remove-prep="removePrep(index)" :isEdit="isEdit"/>
-    <Context v-for="(context, index) in data.contexts" :data="context" :key="`context-${index}`" :isEdit="isEdit"/>
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
     <Writeup :data="data.writeup" :isEdit="isEdit"/>
 

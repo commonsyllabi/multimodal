@@ -52,6 +52,12 @@
   padding: 5px;
 }
 
+.concept-group{
+  height: auto;
+  overflow: visible;
+  position: relative;
+}
+
 
 //---------------- BUTTONS
 .buttons-container {
