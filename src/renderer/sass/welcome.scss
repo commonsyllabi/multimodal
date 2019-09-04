@@ -27,25 +27,6 @@
 	font-size: 2em;
 }
 
-.welcome-subject, .inter-btn-main {
-	border: none;
-	color: $main-fg-color;
-	background-color: $main-bg-color;
-	font-family: 'Inter UI';
-	font-size: 1.2em;
-	cursor: pointer;
-}
-
-.welcome-subject {
-	border: 2px solid $main-bg-color;
-	padding: 5px;
-}
-
-.welcome-subject:hover{
-	border-color: $main-fg-color;
-	font-weight: bold;
-}
-
 .selected {
 	background-color: $main-fg-color;
 	color: $main-bg-color;
