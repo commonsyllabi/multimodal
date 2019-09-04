@@ -32,8 +32,37 @@ class Subject {
     fs.writeFileSync(`${this.path}/${this.name}/subject.json`, JSON.stringify(data))
   }
 
-  delete(){
+  static remove(subject){
+    console.log(`[SUBJECT] deleting ${subject.name}...`);
+    return new Promise((resolve, reject) => {
 
+      console.log('[SUBJECT] first locally');
+      let foundSubject = false
+      let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
+      for(let i = 0; i < subjects.length; i++){
+        if(subjects[i].id == subject.id){
+          foundSubject = true
+          console.log('[SUBJECT] found the subject to be deleted...');
+          subjects.splice(i, 1)
+          console.log('[SUBJECT] deleted from local list...');
+        }
+      }
+
+      if(!foundSubject)
+        reject({
+          err: 404,
+          info: "could not find the subject"
+        })
+
+      console.log('[SUBJECT] then remotely..');
+      try{
+        utils.deleteFolderRecursive(`${subject.path}/${subject.name}/`)
+        resolve()
+      }catch (e){
+        console.log(e);
+        reject(e)
+      }
+    })
   }
 
   export(type, path){

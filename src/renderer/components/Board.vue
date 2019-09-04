@@ -5,6 +5,7 @@
       <div v-for="single in data.subjects" class="inter-class">
         <div class="subject-title">
           {{single.subject.name}}
+          <button class="right" @click="removeSubject(single.subject)">-</button>
         </div>
         <ul>
           <li v-for="topic in single.topics" class="topic"
@@ -181,6 +182,9 @@ export default {
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
+    },
+    removeSubject(subject){
+      ipc.send('remove-subject', subject)
     }
   },
   beforeMount(){

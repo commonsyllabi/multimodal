@@ -38,6 +38,20 @@ module.exports.time = () => {
 	return time
 }
 
+module.exports.deleteFolderRecursive = (path) => {
+  if (fs.existsSync(path)) {
+    fs.readdirSync(path).forEach(function(file, index){
+      let curPath = path + "/" + file;
+      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+        module.exports.deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+}
+
 module.exports.touchDirectory = (_path) => {
 	const sep = path.sep
 	const initDir = path.isAbsolute(_path) ? sep : ''

@@ -12694,6 +12694,7 @@ function listToStyles (parentId, list) {
 //
 //
 //
+//
 
 const ipc = __webpack_require__(0).ipcRenderer
 
@@ -12754,6 +12755,9 @@ const ipc = __webpack_require__(0).ipcRenderer
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
+    },
+    removeSubject(subject){
+      ipc.send('remove-subject', subject)
     }
   },
   beforeMount(){
@@ -13884,7 +13888,21 @@ var render = function() {
               return _c("div", { staticClass: "inter-class" }, [
                 _c("div", { staticClass: "subject-title" }, [
                   _vm._v(
-                    "\n          " + _vm._s(single.subject.name) + "\n        "
+                    "\n          " +
+                      _vm._s(single.subject.name) +
+                      "\n          "
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "right",
+                      on: {
+                        click: function($event) {
+                          return _vm.removeSubject(single.subject)
+                        }
+                      }
+                    },
+                    [_vm._v("-")]
                   )
                 ]),
                 _vm._v(" "),
