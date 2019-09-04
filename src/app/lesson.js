@@ -12888,6 +12888,7 @@ function listToStyles (parentId, list) {
 //
 //
 //
+//
 
 
 
@@ -12911,7 +12912,8 @@ const ipc = __webpack_require__(0).ipcRenderer
       isDrawing: false,
       currentPage: 0,
       previousPage: 0,
-      position: { x: 0, y: 0}
+      position: { x: 0, y: 0},
+      lessonSaved: false
     }
   },
   methods: {
@@ -12972,11 +12974,27 @@ const ipc = __webpack_require__(0).ipcRenderer
       this.isEdit = !this.isEdit
     },
     exitLesson() {
-      window.exitLesson()
+      if(!this.lessonSaved)
+        dialog.setMessage("it seems you haven\'t saved this session. would you still like quit?", () => {ipc.send('exit-home', {'coming':'back'})}, null, true)
+      else
+        ipc.send('exit-home', {'coming':'back'})
     },
     saveSession() {
       utils.setMessage('saving...', 'info')
+      for(let i = 0; i < this.data.concepts.length; i++){
+    		for(let j = 0; j < this.data.concepts[i].pages.length; j++){
+    			let cleaned_notes = []
+    			for(let k = 0; k < this.data.concepts[i].pages[j].notes.length; k++){
+    				if(this.data.concepts[i].pages[j].notes[k].text != "")
+    					cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+    			}
+
+    			this.data.concepts[i].pages[j].notes = cleaned_notes
+    		}
+    	}
+
 			ipc.send('save-topic', this.data)
+      this.lessonSaved = true
     },
     addPage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page+1, 0, {
@@ -13108,9 +13126,9 @@ let map = (value, start_1, end_1, start_2, end_2) => {
       type: Object,
       default: {}
     },
-    course: {
+    subject: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     concept: {
       type: Number,
@@ -13327,9 +13345,9 @@ component.options.__file = "src/renderer/components/Context.vue"
       type: Object,
       default: {}
     },
-    course: {
+    subject: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     index: {
       type: Number,
@@ -13503,9 +13521,9 @@ component.options.__file = "src/renderer/components/Context.vue"
       type: Object,
       default: {}
     },
-    course: {
+    subject: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     index: {
       type: Number,
@@ -14024,9 +14042,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Subject_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Dialog_vue__ = __webpack_require__(101);
 
 
 const ipc = __webpack_require__(0).ipcRenderer
+
 
 
 
@@ -14044,6 +14064,16 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_4_vue___default.a({
 	}
 })
 
+const dialog = new __WEBPACK_IMPORTED_MODULE_4_vue___default.a({
+	el: '#dialog',
+	template: '<Dialog/>',
+	components: {
+		'Dialog':__WEBPACK_IMPORTED_MODULE_6__components_Dialog_vue__["a" /* default */]
+	}
+})
+
+window.dialog = dialog.$children[0]
+
 window.currentNote = null
 window.offsets = [0,0]
 window.isEdit = false
@@ -14052,8 +14082,6 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-window.saveSession = __WEBPACK_IMPORTED_MODULE_0__lesson_save_js__["b" /* saveSession */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_0__lesson_save_js__["a" /* exitLesson */]
 window.switchConcept = __WEBPACK_IMPORTED_MODULE_1__lesson_globals_js__["setCurrentConcept"]
 window.jumpToTag = __WEBPACK_IMPORTED_MODULE_1__lesson_globals_js__["jumpToTag"]
 window.clearBoard = __WEBPACK_IMPORTED_MODULE_2__lesson_drawing_js__["clearBoard"]
@@ -14072,130 +14100,13 @@ ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_3__utils_js__["se
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return saveSession; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return exitLesson; });
+/* unused harmony export saveSession */
+/* unused harmony export exitLesson */
 
 
 const ipc = __webpack_require__(0).ipcRenderer
 const {dialog} = __webpack_require__(0).remote
 let lessonSaved = false
-
-// function called from the window. parses the document,
-// appends the "in-class" prefix and send the IPC message to the main process
-let saveSession = () => {
-	let lesson = parseDocument()
-
-	if(lesson.length == 0){
-		console.log('nothing found on the document!')
-		return
-	}
-
-	ipc.send('save-lesson', lesson)
-
-	lessonSaved = true
-}
-
-// parses the document for all information
-let parseDocument = () => {
-	// let lesson = {
-	// 	'course': {
-	// 		'path':'',
-	// 		'created':'',
-	// 		'name':'',
-	// 	},
-	// 	'name': '',
-	// 	'contents':[]
-	// }
-
-	// lesson.course.name = document.getElementById('course-name').innerHTML
-	// lesson.course.created = document.getElementById('course-created').innerHTML
-	// lesson.course.path = document.getElementById('course-path').innerHTML
-	// lesson.name =  document.title.split('|')[1].trim()
-	// lesson.concepts = []
-  //
-	// let _concepts = document.getElementsByClassName('concept')
-	// let _prep = document.getElementsByClassName('prep')
-	// let _notes = document.getElementsByClassName('note')
-	// let _writeup = document.getElementsByClassName('writeup')
-
-
-
-//--TODO sanitize lesson so that it doesn't include things like EMPTY NOTES
-//--TODO read above
-	let lesson = window.data
-
-
-
-
-	// for(let i in _concepts){
-	// 	if(i == 'length') break
-  //
-	// 	let ct = _concepts[i].innerText
-	// 	let tc = ct.substring(ct.indexOf('.')+2, ct.length) //trim the concept title
-  //
-	// 	let content =  {
-	// 		'concept': tc,
-	// 		'tag': _concepts[i].getAttribute('tag'),
-	// 		'prep':[],
-	// 		'notes':[],
-	// 		'writeups': []
-	// 	}
-  //
-	// 	//going through all the prep notes
-	// 	//and appending them to content.prep
-	// 	//as txt, url or img objects
-	// 	for(let j in _prep){
-	// 		if(j == 'length') break
-  //
-	// 		if(_prep[j].getAttribute('concept') == i){
-	// 			if(_prep[j].childNodes[0].tagName == 'A'){
-	// 				content.prep.push({
-	// 					'type':'url',
-	// 					'url':_prep[j].childNodes[0].getAttribute('href'),
-	// 					'text':_prep[j].childNodes[0].innerText
-	// 				})
-	// 			}else if(_prep[j].childNodes[0].tagName == 'IMG'){
-	// 				content.prep.push({
-	// 					'type':'img',
-	// 					'src':_prep[j].childNodes[0].getAttribute('src'),
-	// 					'name':_prep[j].childNodes[0].getAttribute('name')
-	// 				})
-	// 			}else if(_prep[j].childNodes[0].tagName == 'VIDEO'){
-	// 				content.prep.push({
-	// 					'type':'vid',
-	// 					'src':_prep[j].childNodes[0].childNodes[0].getAttribute('src'),
-	// 					'name':_prep[j].childNodes[0].childNodes[0].getAttribute('name')
-	// 				})
-	// 			} else{
-	// 				content.prep.push({
-	// 					'type':'txt',
-	// 					'text':_prep[j].innerText,
-	// 					'tag': _prep[j].getAttribute('tag')
-	// 				})
-	// 			}
-	// 		}
-	// 	}
-  //
-	// 	//this line removes the first element of the prep which is the title of the concept
-	// 	content.prep.splice(0, 1)
-  //
-	// 	for(let _n of _notes)
-	// 		if(_n.getAttribute('concept') == i && _n.value != null && _n.value != undefined)
-	// 			content.notes.push(_n.value)
-  //
-  //
-	// 	for(let _w of _writeup)
-	// 		if(_w.getAttribute('concept') == i)
-	// 			content.writeups.push(_w.value)
-  //
-  //
-	// 	lesson.concepts.push(content)
-	// }
-
-	console.log('saving:',lesson)
-
-	return lesson
-}
 
 let exitLesson = () => {
 	if(!lessonSaved){
@@ -14328,7 +14239,7 @@ var render = function() {
                 staticClass: "concept-group",
                 attrs: {
                   data: concept,
-                  course: _vm.data.subject,
+                  subject: _vm.data.subject,
                   concept: index,
                   isEdit: _vm.isEdit
                 },
@@ -14470,7 +14381,7 @@ var render = function() {
           index: index,
           data: page,
           _id: "page-" + index,
-          course: _vm.course,
+          subject: _vm.subject,
           isEdit: _vm.isEdit
         },
         on: { "new-note": _vm.handleNewNote }
@@ -14637,7 +14548,7 @@ var render = function() {
           attrs: {
             data: prep,
             _id: "prep-" + index,
-            course: _vm.course,
+            subject: _vm.subject,
             isEdit: _vm.isEdit
           },
           on: {
@@ -14928,7 +14839,7 @@ var render = function() {
                     name: _vm.data.name,
                     src:
                       "assets/" +
-                      _vm.course.name +
+                      _vm.subject.name +
                       "/lessons/" +
                       _vm.name +
                       "/media/" +
@@ -15557,7 +15468,310 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-bbdef1d4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-bbdef1d4] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-bbdef1d4] {\n  color: #e77607;\n}\na[data-v-bbdef1d4]:hover {\n  color: #b25900;\n}\nbutton[data-v-bbdef1d4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-bbdef1d4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-bbdef1d4] {\n  background-color: darkseagreen;\n}\n.error[data-v-bbdef1d4] {\n  background-color: crimson;\n}\n.metadata[data-v-bbdef1d4] {\n  visibility: hidden;\n}\n.right[data-v-bbdef1d4] {\n  float: right;\n}\n.left[data-v-bbdef1d4] {\n  float: left;\n}\ndiv[data-v-bbdef1d4],\nimg[data-v-bbdef1d4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-bbdef1d4] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n}\n.subject-name[data-v-bbdef1d4] {\n  z-index: 5;\n  position: absolute;\n  right: 0;\n  width: 30vw;\n  margin: 10px;\n}\n.subject-name input[data-v-bbdef1d4] {\n  font-size: 48px;\n  padding: 5px;\n}\n.buttons-container[data-v-bbdef1d4] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 5vh;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-bbdef1d4] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-bbdef1d4] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-bbdef1d4] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-bbdef1d4]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-bbdef1d4]:active {\n  border: none;\n}\n.exit-lesson[data-v-bbdef1d4],\n.save-session[data-v-bbdef1d4] {\n  float: right;\n}\n.nav-container[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 100%;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-bbdef1d4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-bbdef1d4] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-bbdef1d4] {\n  color: #e77607;\n}\na[data-v-bbdef1d4]:hover {\n  color: #b25900;\n}\nbutton[data-v-bbdef1d4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-bbdef1d4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-bbdef1d4] {\n  background-color: darkseagreen;\n}\n.error[data-v-bbdef1d4] {\n  background-color: crimson;\n}\n.metadata[data-v-bbdef1d4] {\n  visibility: hidden;\n}\n.right[data-v-bbdef1d4] {\n  float: right;\n}\n.left[data-v-bbdef1d4] {\n  float: left;\n}\ndiv[data-v-bbdef1d4],\nimg[data-v-bbdef1d4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-bbdef1d4] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n}\n.subject-name[data-v-bbdef1d4] {\n  z-index: 5;\n  position: absolute;\n  right: 0;\n  width: 30vw;\n  margin: 10px;\n}\n.subject-name input[data-v-bbdef1d4] {\n  font-size: 48px;\n  padding: 5px;\n}\n.buttons-container[data-v-bbdef1d4] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-bbdef1d4] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-bbdef1d4] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-bbdef1d4] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-bbdef1d4]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-bbdef1d4]:active {\n  border: none;\n}\n.exit-lesson[data-v-bbdef1d4],\n.save-session[data-v-bbdef1d4] {\n  float: right;\n}\n.nav-container[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 100%;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_script_lang_js___ = __webpack_require__(100);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 100 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  data () {
+    return {
+      message: '',
+      visible: false,
+      choice: false,
+      cb: null
+    }
+  },
+  methods: {
+    setMessage(msg, cb = null, err = null, choice = false){
+      this.visible = true
+      this.message = msg
+
+      this.cb = cb
+      this.choice = choice
+
+      if(err)
+        console.log(err);
+    },
+    close(){
+      this.visible = false
+    }
+  }
+});
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Dialog_vue_vue_type_template_id_58ede44e_scoped_true___ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Dialog_vue_vue_type_script_lang_js___ = __webpack_require__(99);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Dialog_vue_vue_type_style_index_0_id_58ede44e_scoped_true_lang_scss___ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(3);
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_1__Dialog_vue_vue_type_script_lang_js___["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__Dialog_vue_vue_type_template_id_58ede44e_scoped_true___["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_0__Dialog_vue_vue_type_template_id_58ede44e_scoped_true___["b" /* staticRenderFns */],
+  false,
+  null,
+  "58ede44e",
+  null
+  
+)
+
+/* hot reload */
+if (false) {
+  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  api.install(require('vue'))
+  if (api.compatible) {
+    module.hot.accept()
+    if (!module.hot.data) {
+      api.createRecord('58ede44e', component.options)
+    } else {
+      api.reload('58ede44e', component.options)
+    }
+    module.hot.accept("./Dialog.vue?vue&type=template&id=58ede44e&scoped=true&", function () {
+      api.rerender('58ede44e', {
+        render: render,
+        staticRenderFns: staticRenderFns
+      })
+    })
+  }
+}
+component.options.__file = "src/renderer/components/Dialog.vue"
+/* harmony default export */ __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 102 */,
+/* 103 */,
+/* 104 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_template_id_58ede44e_scoped_true___ = __webpack_require__(105);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_template_id_58ede44e_scoped_true___["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_template_id_58ede44e_scoped_true___["b"]; });
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.visible,
+          expression: "visible"
+        }
+      ]
+    },
+    [
+      _c("div", { staticClass: "dialog-overlay" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "dialog" }, [
+        _c("div", { staticClass: "message" }, [
+          _vm._v("\n      " + _vm._s(_vm.message) + "\n    ")
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.choice,
+                expression: "choice"
+              }
+            ],
+            staticClass: "btn",
+            on: {
+              click: function($event) {
+                return _vm.close()
+              }
+            }
+          },
+          [_vm._v("cancel")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn right",
+            on: {
+              click: function($event) {
+                _vm.close()
+                if (_vm.cb) {
+                  _vm.cb()
+                }
+              }
+            }
+          },
+          [_vm._v("ok")]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(108);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(2).default
+var update = add("1c697118", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dialog.vue?vue&type=style&index=0&id=58ede44e&scoped=true&lang=scss&", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dialog.vue?vue&type=style&index=0&id=58ede44e&scoped=true&lang=scss&");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_style_index_0_id_58ede44e_scoped_true_lang_scss___ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_style_index_0_id_58ede44e_scoped_true_lang_scss____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_style_index_0_id_58ede44e_scoped_true_lang_scss___);
+/* unused harmony reexport namespace */
+ /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Dialog_vue_vue_type_style_index_0_id_58ede44e_scoped_true_lang_scss____default.a); 
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: relative;\n  top: 100px;\n  width: 50vw;\n  margin: auto;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 3%;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}", ""]);
 
 // exports
 

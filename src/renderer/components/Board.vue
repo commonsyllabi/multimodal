@@ -37,7 +37,6 @@
   <div class="buttons-container">
     <button class="btn" @click="create"> create </button>
     <button class="btn" @click="exportTo"> export </button>
-    <button class="btn" @click="remove"> remove </button>
 
     <div class="msg-log" id="msg-log"></div>
   </div>
@@ -171,20 +170,21 @@ export default {
     exportTo() {
 
     },
-    remove(){
-
-    },
     createTopic(subject){
       ipc.send('create-topic', {subject: subject})
     },
     removeTopic(topic){
-      ipc.send('remove-topic', topic)
+      dialog.setMessage("are you sure you want to remove this topic?", ()=>{
+        ipc.send('remove-topic', topic)
+      }, null, true)
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
     },
     removeSubject(subject){
-      ipc.send('remove-subject', subject)
+      dialog.setMessage("are you sure you want to remove this subject?", ()=>{
+        ipc.send('remove-subject', subject)
+      }, null, true)
     }
   },
   beforeMount(){
