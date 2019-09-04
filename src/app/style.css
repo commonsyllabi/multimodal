@@ -718,7 +718,7 @@ img {
 .course-name,
 .course-year,
 .course-path {
-  width: 94%;
+  width: 100%;
   font-size: 24px;
   height: 48px;
   display: block;
@@ -746,11 +746,9 @@ img {
   border: none;
   font-size: 24px;
   height: 48px;
-  padding: 5px;
-  margin-left: 5px;
-  margin-top: 3%;
   background-color: #eeeeee;
   color: #202020;
+  float: left;
 }
 
 /* ---------------------------- */

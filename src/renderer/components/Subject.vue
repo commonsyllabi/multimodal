@@ -2,7 +2,7 @@
   <div>
     <div class="main-container">
       <span v-for="(concept, index) in data.concepts">
-        <Concept class="concept-group" :data="concept" :course="data.course" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
+        <Concept class="concept-group" :data="concept" :course="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 

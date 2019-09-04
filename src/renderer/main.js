@@ -31,8 +31,8 @@ window.vm = new Vue({
 // window.exportLesson = welcome.exportLesson
 
 window.createNewCourse = create.createNewCourse
-window.saveCourse = create.saveCourse
-window.exitCourse = create.exitCourse
+// window.saveCourse = create.saveCourse
+// window.exitCourse = create.exitCourse
 window.saveLesson = create.saveLesson
 window.exitLesson = create.exitLesson
 
@@ -59,7 +59,7 @@ ipc.on('update-dropdown', (event, data) => {
 })
 
 window.selectCourse = create.selectCourse
-window.selectCoursePath = create.selectCoursePath
+// window.selectSubjectPath = create.selectSubjectPath
 window.selectMediaPath = create.selectMediaPath
 window.addPrep = create.addPrep
 window.removePrep = create.removePrep

@@ -12570,6 +12570,10 @@ function listToStyles (parentId, list) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue__ = __webpack_require__(93);
+//
+//
+//
 //
 //
 //
@@ -12657,9 +12661,11 @@ function listToStyles (parentId, list) {
 
 const ipc = __webpack_require__(0).ipcRenderer
 
+
+
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
-
+    Create: __WEBPACK_IMPORTED_MODULE_0__Create_vue__["a" /* default */]
   },
   props: {
 
@@ -12668,15 +12674,16 @@ const ipc = __webpack_require__(0).ipcRenderer
     return {
       data: {},
       current: {
-      	'course':'',
+      	'subject':'',
       	'name':'',
       	'path': ''
-      }
+      },
+      showCreate: false
     }
   },
   methods: {
     setTopic(_e, _c, _l, _p) {
-      this.current.course = _c
+      this.current.subject = _c
       this.current.name = _l
       this.current.path = _p
 
@@ -12692,16 +12699,19 @@ const ipc = __webpack_require__(0).ipcRenderer
         btn.disabled = false
     },
     openTopic(_c, _l, _p){
-    	ipc.send('open-lesson', this.current)
+    	ipc.send('open-topic', this.current)
     },
     create() {
-
+      this.showCreate = true
     },
     exportTo() {
 
     },
     remove(){
 
+    },
+    createSubject(subject){
+      ipc.send('save-subject', subject)
     }
   },
   beforeMount(){
@@ -12824,18 +12834,18 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 // window.exportLesson = welcome.exportLesson
 
 window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* createNewCourse */]
-window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* saveCourse */]
-window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitCourse */]
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]
+// window.saveCourse = create.saveCourse
+// window.exitCourse = create.exitCourse
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
 ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
@@ -12851,17 +12861,17 @@ ipc.on('update-dropdown', (event, data) => {
 	document.getElementById('course-list').appendChild(new_course)
 })
 
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["n" /* selectCourse */]
-window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["o" /* selectCoursePath */]
-window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["p" /* selectMediaPath */]
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* selectCourse */]
+// window.selectSubjectPath = create.selectSubjectPath
+window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* selectMediaPath */]
 window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
-window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* removePrep */]
+window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removePrep */]
 window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removeConcept */]
 window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removeNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeNote */]
 window.addWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* addWriteup */]
-window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* removeWriteup */]
+window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* removeWriteup */]
 
 
 /***/ }),
@@ -12901,7 +12911,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}", ""]);
 
 // exports
 
@@ -12943,7 +12953,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.subjects-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.subjects-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.subjects {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.subject-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.welcome-subject,\n.inter-btn-main {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n\n.welcome-subject {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n\n.welcome-subject:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.selected {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: #202020;\n  color: #202020;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n\n.subjects-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.subjects-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.subjects {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.subject-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.welcome-subject,\n.inter-btn-main {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n\n.welcome-subject {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n\n.welcome-subject:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.selected {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: #202020;\n  color: #202020;\n}", ""]);
 
 // exports
 
@@ -12985,7 +12995,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.create-container {\n  width: 90%;\n  margin-left: 5%;\n  margin-bottom: 100px;\n  overflow: auto;\n}\n\n.create-course {\n  width: 95%;\n  height: auto;\n  overflow: auto;\n  margin-top: 2%;\n  padding: 2%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n}\n\n.create-course h1 {\n  margin-left: 3%;\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.course-name,\n.course-year,\n.course-path {\n  width: 94%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin: 3%;\n}\n\n.course-path {\n  width: 70%;\n  margin: 10px;\n  float: left;\n}\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n.create-local-path {\n  display: inline;\n  border: none;\n  font-size: 24px;\n  height: 48px;\n  padding: 5px;\n  margin-left: 5px;\n  margin-top: 3%;\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: #202020;\n  color: #eeeeee;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: #202020;\n  color: #eeeeee;\n  border: 2px solid #eeeeee;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid #eeeeee;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n}\n\ninput:disabled {\n  float: left;\n  background-color: #202020;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid #eeeeee;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: #eeeeee;\n  color: #202020;\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: #202020;\n  color: #eeeeee;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: #202020;\n  color: #eeeeee;\n  border: 2px solid #eeeeee;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid #eeeeee;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n}\n\ninput:disabled {\n  float: left;\n  background-color: #202020;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid #eeeeee;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: #eeeeee;\n  color: #202020;\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -13013,30 +13023,6 @@ let current = {
 	'name':'',
 	'path': ''
 }
-
-// let setLesson = (_e, _c, _l, _p) => {
-// 	current.course = _c
-// 	current.name = _l
-// 	current.path = _p
-//
-// 	let all_lessons = document.getElementsByClassName('welcome-lesson')
-// 	for(let l of all_lessons)
-// 		l.setAttribute('class', 'welcome-lesson')
-//
-//
-// 	_e.setAttribute('class', 'welcome-lesson selected')
-//
-// 	let btns = document.getElementsByClassName('inter-btn-main')
-// 	for(let btn of btns)
-// 		btn.disabled = false
-// }
-
-// let openLesson = (_c, _l, _p) => {
-// 	let course = _c ? _c : current.course
-// 	let name = _l ? _l : current.name
-// 	let path = _p ? _p : current.path
-// 	ipc.send('open-lesson', current)
-// }
 
 let createLesson = () => {
 	ipc.send('create-lesson')
@@ -13081,21 +13067,21 @@ let exportLesson = () => {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return createNewCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return saveCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return exitCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return selectCourse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return selectCoursePath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return selectMediaPath; });
+/* unused harmony export saveCourse */
+/* unused harmony export exitCourse */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return selectCourse; });
+/* unused harmony export selectCoursePath */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return selectMediaPath; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removePrep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removePrep; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removeNote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return removeNote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return addWriteup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return removeWriteup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removeWriteup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return removeConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return saveLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return exitLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removeConcept; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return saveLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return exitLesson; });
 
 
 const {dialog} = __webpack_require__(0).remote
@@ -13123,329 +13109,294 @@ let selectCourse = (_el) => {
 		createNewCourse()
 }
 
-let createNewCourse = () => {
-	ipc.send('create-new-course')
-}
-
-let saveCourse = () => {
-	let _course = {}
-	_course.name = document.getElementById('course-name').value
-	_course.path = document.getElementById('course-path').value
-
-	if(_course.name == null || _course.path == null){
-		alert('Some fields are missing!')
-		console.log(_course)
-	}else{
-		ipc.send('save-course', _course)
-	}
-}
-
-let exitCourse = () => {
-	let w = remote.getCurrentWindow()
-	w.close()
-}
-
-let selectCoursePath = () => {
-	let options = {
-		'title':'Select course folder',
-		'defaultPath':'~/',
-		'properties':['openDirectory', 'createDirectory']
-	}
-
-	dialog.showOpenDialog(options, (path) => {
-		course.path = path
-		document.getElementById('course-path').value = path
-	})
-}
-
-let selectMediaPath = (_el) => {
-	let options = {
-		'title':'Select file',
-		'defaultPath': '~/',
-		'properties':['openFile']
-	}
-
-	dialog.showOpenDialog(options, (path) => {
-		_el.previousSibling.value = path
-		_el.previousSibling.setAttribute('src', path)
-	})
-}
-
-let createPrep = (kind) => {
-	let prep = document.createElement('div')
-	prep.setAttribute('class', 'create-prep')
-
-	if(kind == 'txt'){
-		let text = document.createElement('input')
-		text.setAttribute('type', 'text')
-		text.setAttribute('placeholder', 'text')
-		text.setAttribute('kind', 'txt')
-		text.setAttribute('class', 'create-concept-prep')
-		prep.appendChild(text)
-
-		let tag = document.createElement('input')
-		tag.setAttribute('type', 'text')
-		tag.setAttribute('placeholder', 'tag')
-		tag.setAttribute('kind', 'tag')
-		tag.setAttribute('class', 'create-concept-prep create-concept-tag')
-		prep.appendChild(tag)
-	}else if(kind == 'url'){
-		let url = document.createElement('input')
-		url.setAttribute('type', 'text')
-		url.setAttribute('kind', 'url')
-		url.setAttribute('placeholder', 'url')
-		url.setAttribute('class', 'create-concept-prep')
-		prep.appendChild(url)
-
-		let text = document.createElement('input')
-		text.setAttribute('type', 'text')
-		text.setAttribute('kind', 'txt')
-		text.setAttribute('placeholder', 'text')
-		text.setAttribute('class', 'create-concept-prep url')
-		prep.appendChild(text)
-	}else if(kind == 'img'){
-		let src = document.createElement('input')
-		src.setAttribute('type', 'text')
-		src.setAttribute('kind', 'img')
-		src.setAttribute('placeholder', 'src')
-		src.setAttribute('filename', '')
-		src.setAttribute('class', 'create-concept-prep img')
-		prep.appendChild(src)
-
-		let expl = document.createElement('button')
-		expl.innerText = 'select'
-		expl.setAttribute('onclick', 'selectMediaPath(this)')
-		expl.setAttribute('kind', 'path')
-		expl.setAttribute('class', 'create-add-prep')
-		prep.appendChild(expl)
-	}else{
-		console.log('unexpected type for new prep')
-	}
-
-
-	// create interface
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-remove-holder')
-
-	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-prep')
-	b_txt.setAttribute('onclick', 'addPrep(this)')
-	b_txt.setAttribute('value', 'txt')
-	b_txt.innerText = 'txt'
-
-	b_holder.appendChild(b_txt)
-
-	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-prep')
-	b_url.setAttribute('onclick', 'addPrep(this)')
-	b_url.setAttribute('value', 'url')
-	b_url.innerText = 'url'
-
-	b_holder.appendChild(b_url)
-
-	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-prep')
-	b_img.setAttribute('onclick', 'addPrep(this)')
-	b_img.setAttribute('value', 'img')
-	b_img.innerText = 'img'
-
-	b_holder.appendChild(b_img)
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-prep')
-	rem.setAttribute('onclick', 'removePrep(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	prep.appendChild(b_holder)
-
-	return prep
-}
-
-let addPrep = (el) => {
-	let prep = createPrep(el.value) //either txt, or url, or img
-
-	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
-
-		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
-		// 	if(_el.getAttribute('class') == 'content-holder')
-				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
-
-	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
-		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
-	}
-}
-
-let removePrep = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-let addWriteup = (el) => {
-	let writeup = createWriteup()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
-}
-
-let createWriteup = () => {
-	let writeup = document.createElement('div')
-	writeup.setAttribute('class', 'create-concept-writeup')
-	writeup.setAttribute('type', 'text')
-
-	let content = document.createElement('textarea')
-	content.setAttribute('placeholder', 'empty writeup')
-	writeup.appendChild(content)
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-writeup-holder')
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-writeup')
-	rem.setAttribute('onclick', 'removeWriteup(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-writeup')
-	add.setAttribute('onclick', 'addWriteup(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
-	writeup.appendChild(b_holder)
-
-	return writeup
-}
-
-let removeWriteup = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-
-let addNote = (el) => {
-	let note = createNote()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
-}
-
-let createNote = () => {
-	let note = document.createElement('div')
-	note.setAttribute('class', 'create-concept-note')
-	note.setAttribute('type', 'text')
-
-	let content = document.createElement('textarea')
-	content.setAttribute('placeholder', 'empty note')
-	note.appendChild(content)
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-note-holder')
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-note')
-	rem.setAttribute('onclick', 'removeNote(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-note')
-	add.setAttribute('onclick', 'addNote(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
-	note.appendChild(b_holder)
-
-	return note
-}
-
-let removeNote = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
-let addConcept = (el) => {
-
-	let concept = document.createElement('div')
-	concept.setAttribute('class', 'create-concept')
-
-	let prep_holder = document.createElement('div')
-	prep_holder.setAttribute('class', 'prep-holder')
-
-	let name = document.createElement('input')
-	name.setAttribute('class', 'create-concept-name')
-	name.setAttribute('placeholder', 'concept name')
-	concept.appendChild(name)
-
-	let tag = document.createElement('input')
-	tag.setAttribute('class', 'create-concept-tag')
-	tag.setAttribute('placeholder', 'concept tag')
-	concept.appendChild(tag)
-
-	let prep = document.createElement('div')
-	prep.setAttribute('class', 'create-prep')
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-holder')
-
-	let b_txt = document.createElement('button')
-	b_txt.setAttribute('class', 'create-add-prep')
-	b_txt.setAttribute('onclick', 'addPrep(this)')
-	b_txt.setAttribute('value', 'txt')
-	b_txt.innerText = 'txt'
-
-	b_holder.appendChild(b_txt)
-
-	let b_url = document.createElement('button')
-	b_url.setAttribute('class', 'create-add-prep')
-	b_url.setAttribute('onclick', 'addPrep(this)')
-	b_url.setAttribute('value', 'url')
-	b_url.innerText = 'url'
-
-	b_holder.appendChild(b_url)
-
-	let b_img = document.createElement('button')
-	b_img.setAttribute('class', 'create-add-prep')
-	b_img.setAttribute('onclick', 'addPrep(this)')
-	b_img.setAttribute('value', 'img')
-	b_img.innerText = 'img'
-
-	b_holder.appendChild(b_img)
-
-	prep_holder.appendChild(b_holder)
-
-	concept.append(prep_holder)
-
-	//-- add one note
-	let notes_holder = document.createElement('div')
-	notes_holder.setAttribute('class', 'notes-holder')
-	let dummy = document.createElement('div')
-	let note = createNote()
-	dummy.append(note)
-	notes_holder.append(dummy)
-	concept.append(notes_holder)
-
-	//-- add one writeup
-	let writeups_holder = document.createElement('div')
-	writeups_holder.setAttribute('class', 'writeups-holder')
-	dummy = document.createElement('div')
-	let writeup = createWriteup()
-	dummy.append(writeup)
-	writeups_holder.append(dummy)
-	concept.append(writeups_holder)
-
-	// add the two buttons at the bottom
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-concept')
-	add.setAttribute('onclick', 'addConcept(this)')
-	add.innerText = '+'
-	concept.appendChild(add)
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-concept')
-	rem.setAttribute('onclick', 'removeConcept(this)')
-	rem.innerText = '-'
-	concept.appendChild(rem)
-
-	el.parentNode.insertAdjacentElement('afterend', concept)
-}
-
-let removeConcept = (el) => {
-	el.parentNode.parentNode.removeChild(el.parentNode)
-}
+// let selectMediaPath = (_el) => {
+// 	let options = {
+// 		'title':'Select file',
+// 		'defaultPath': '~/',
+// 		'properties':['openFile']
+// 	}
+//
+// 	dialog.showOpenDialog(options, (path) => {
+// 		_el.previousSibling.value = path
+// 		_el.previousSibling.setAttribute('src', path)
+// 	})
+// }
+
+// let createPrep = (kind) => {
+// 	let prep = document.createElement('div')
+// 	prep.setAttribute('class', 'create-prep')
+//
+// 	if(kind == 'txt'){
+// 		let text = document.createElement('input')
+// 		text.setAttribute('type', 'text')
+// 		text.setAttribute('placeholder', 'text')
+// 		text.setAttribute('kind', 'txt')
+// 		text.setAttribute('class', 'create-concept-prep')
+// 		prep.appendChild(text)
+//
+// 		let tag = document.createElement('input')
+// 		tag.setAttribute('type', 'text')
+// 		tag.setAttribute('placeholder', 'tag')
+// 		tag.setAttribute('kind', 'tag')
+// 		tag.setAttribute('class', 'create-concept-prep create-concept-tag')
+// 		prep.appendChild(tag)
+// 	}else if(kind == 'url'){
+// 		let url = document.createElement('input')
+// 		url.setAttribute('type', 'text')
+// 		url.setAttribute('kind', 'url')
+// 		url.setAttribute('placeholder', 'url')
+// 		url.setAttribute('class', 'create-concept-prep')
+// 		prep.appendChild(url)
+//
+// 		let text = document.createElement('input')
+// 		text.setAttribute('type', 'text')
+// 		text.setAttribute('kind', 'txt')
+// 		text.setAttribute('placeholder', 'text')
+// 		text.setAttribute('class', 'create-concept-prep url')
+// 		prep.appendChild(text)
+// 	}else if(kind == 'img'){
+// 		let src = document.createElement('input')
+// 		src.setAttribute('type', 'text')
+// 		src.setAttribute('kind', 'img')
+// 		src.setAttribute('placeholder', 'src')
+// 		src.setAttribute('filename', '')
+// 		src.setAttribute('class', 'create-concept-prep img')
+// 		prep.appendChild(src)
+//
+// 		let expl = document.createElement('button')
+// 		expl.innerText = 'select'
+// 		expl.setAttribute('onclick', 'selectMediaPath(this)')
+// 		expl.setAttribute('kind', 'path')
+// 		expl.setAttribute('class', 'create-add-prep')
+// 		prep.appendChild(expl)
+// 	}else{
+// 		console.log('unexpected type for new prep')
+// 	}
+//
+//
+// 	// create interface
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-remove-holder')
+//
+// 	let b_txt = document.createElement('button')
+// 	b_txt.setAttribute('class', 'create-add-prep')
+// 	b_txt.setAttribute('onclick', 'addPrep(this)')
+// 	b_txt.setAttribute('value', 'txt')
+// 	b_txt.innerText = 'txt'
+//
+// 	b_holder.appendChild(b_txt)
+//
+// 	let b_url = document.createElement('button')
+// 	b_url.setAttribute('class', 'create-add-prep')
+// 	b_url.setAttribute('onclick', 'addPrep(this)')
+// 	b_url.setAttribute('value', 'url')
+// 	b_url.innerText = 'url'
+//
+// 	b_holder.appendChild(b_url)
+//
+// 	let b_img = document.createElement('button')
+// 	b_img.setAttribute('class', 'create-add-prep')
+// 	b_img.setAttribute('onclick', 'addPrep(this)')
+// 	b_img.setAttribute('value', 'img')
+// 	b_img.innerText = 'img'
+//
+// 	b_holder.appendChild(b_img)
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-prep')
+// 	rem.setAttribute('onclick', 'removePrep(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	prep.appendChild(b_holder)
+//
+// 	return prep
+// }
+//
+// let addPrep = (el) => {
+// 	let prep = createPrep(el.value) //either txt, or url, or img
+//
+// 	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
+//
+// 		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
+// 		// 	if(_el.getAttribute('class') == 'content-holder')
+// 				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
+//
+// 	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
+// 		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
+// 	}
+// }
+//
+// let removePrep = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+// let addWriteup = (el) => {
+// 	let writeup = createWriteup()
+// 	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
+// }
+//
+// let createWriteup = () => {
+// 	let writeup = document.createElement('div')
+// 	writeup.setAttribute('class', 'create-concept-writeup')
+// 	writeup.setAttribute('type', 'text')
+//
+// 	let content = document.createElement('textarea')
+// 	content.setAttribute('placeholder', 'empty writeup')
+// 	writeup.appendChild(content)
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-writeup-holder')
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-writeup')
+// 	rem.setAttribute('onclick', 'removeWriteup(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-writeup')
+// 	add.setAttribute('onclick', 'addWriteup(this)')
+// 	add.innerText = '+'
+// 	b_holder.appendChild(add)
+//
+// 	writeup.appendChild(b_holder)
+//
+// 	return writeup
+// }
+//
+// let removeWriteup = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+//
+// let addNote = (el) => {
+// 	let note = createNote()
+// 	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
+// }
+//
+// let createNote = () => {
+// 	let note = document.createElement('div')
+// 	note.setAttribute('class', 'create-concept-note')
+// 	note.setAttribute('type', 'text')
+//
+// 	let content = document.createElement('textarea')
+// 	content.setAttribute('placeholder', 'empty note')
+// 	note.appendChild(content)
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-note-holder')
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-note')
+// 	rem.setAttribute('onclick', 'removeNote(this)')
+// 	rem.innerText = '-'
+// 	b_holder.appendChild(rem)
+//
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-note')
+// 	add.setAttribute('onclick', 'addNote(this)')
+// 	add.innerText = '+'
+// 	b_holder.appendChild(add)
+//
+// 	note.appendChild(b_holder)
+//
+// 	return note
+// }
+//
+// let removeNote = (el) => {
+// 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+// }
+//
+// let addConcept = (el) => {
+//
+// 	let concept = document.createElement('div')
+// 	concept.setAttribute('class', 'create-concept')
+//
+// 	let prep_holder = document.createElement('div')
+// 	prep_holder.setAttribute('class', 'prep-holder')
+//
+// 	let name = document.createElement('input')
+// 	name.setAttribute('class', 'create-concept-name')
+// 	name.setAttribute('placeholder', 'concept name')
+// 	concept.appendChild(name)
+//
+// 	let tag = document.createElement('input')
+// 	tag.setAttribute('class', 'create-concept-tag')
+// 	tag.setAttribute('placeholder', 'concept tag')
+// 	concept.appendChild(tag)
+//
+// 	let prep = document.createElement('div')
+// 	prep.setAttribute('class', 'create-prep')
+//
+// 	let b_holder = document.createElement('div')
+// 	b_holder.setAttribute('class', 'create-add-holder')
+//
+// 	let b_txt = document.createElement('button')
+// 	b_txt.setAttribute('class', 'create-add-prep')
+// 	b_txt.setAttribute('onclick', 'addPrep(this)')
+// 	b_txt.setAttribute('value', 'txt')
+// 	b_txt.innerText = 'txt'
+//
+// 	b_holder.appendChild(b_txt)
+//
+// 	let b_url = document.createElement('button')
+// 	b_url.setAttribute('class', 'create-add-prep')
+// 	b_url.setAttribute('onclick', 'addPrep(this)')
+// 	b_url.setAttribute('value', 'url')
+// 	b_url.innerText = 'url'
+//
+// 	b_holder.appendChild(b_url)
+//
+// 	let b_img = document.createElement('button')
+// 	b_img.setAttribute('class', 'create-add-prep')
+// 	b_img.setAttribute('onclick', 'addPrep(this)')
+// 	b_img.setAttribute('value', 'img')
+// 	b_img.innerText = 'img'
+//
+// 	b_holder.appendChild(b_img)
+//
+// 	prep_holder.appendChild(b_holder)
+//
+// 	concept.append(prep_holder)
+//
+// 	//-- add one note
+// 	let notes_holder = document.createElement('div')
+// 	notes_holder.setAttribute('class', 'notes-holder')
+// 	let dummy = document.createElement('div')
+// 	let note = createNote()
+// 	dummy.append(note)
+// 	notes_holder.append(dummy)
+// 	concept.append(notes_holder)
+//
+// 	//-- add one writeup
+// 	let writeups_holder = document.createElement('div')
+// 	writeups_holder.setAttribute('class', 'writeups-holder')
+// 	dummy = document.createElement('div')
+// 	let writeup = createWriteup()
+// 	dummy.append(writeup)
+// 	writeups_holder.append(dummy)
+// 	concept.append(writeups_holder)
+//
+// 	// add the two buttons at the bottom
+// 	let add = document.createElement('button')
+// 	add.setAttribute('class', 'create-add-concept')
+// 	add.setAttribute('onclick', 'addConcept(this)')
+// 	add.innerText = '+'
+// 	concept.appendChild(add)
+//
+// 	let rem = document.createElement('button')
+// 	rem.setAttribute('class', 'create-remove-concept')
+// 	rem.setAttribute('onclick', 'removeConcept(this)')
+// 	rem.innerText = '-'
+// 	concept.appendChild(rem)
+//
+// 	el.parentNode.insertAdjacentElement('afterend', concept)
+// }
+//
+// let removeConcept = (el) => {
+// 	el.parentNode.parentNode.removeChild(el.parentNode)
+// }
 
 // goes through all the information on the input fields and saves them as JSON
 let parseLesson = () => {
@@ -13549,9 +13500,6 @@ let parseLesson = () => {
 				for(let subchild of child.childNodes)
 					if(subchild.getAttribute('class') == 'create-concept-writeup' && subchild.childNodes[0].value != '' && subchild.childNodes[0].value != null) //second case
 						concept.writeups.push(subchild.childNodes[0].value)
-
-
-
 
 		lesson.concepts.push(concept)
 	}
@@ -13682,85 +13630,100 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "subjects-container" }, [
-      _c(
-        "div",
-        { staticClass: "subjects" },
-        [
-          _vm._l(_vm.data.courses, function(subject) {
-            return _c("div", { staticClass: "inter-class" }, [
-              _c("div", { staticClass: "subject-title" }, [
-                _vm._v(
-                  "\n          " + _vm._s(subject.course.name) + "\n        "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "ul",
-                _vm._l(subject.lessons, function(topic) {
-                  return _c(
-                    "li",
-                    {
-                      staticClass: "welcome-subject",
-                      on: {
-                        click: function($event) {
-                          return _vm.setTopic(
-                            $event,
-                            subject.course.name,
-                            topic.name,
-                            subject.course.path
-                          )
-                        },
-                        dblclick: function($event) {
-                          return _vm.openTopic(
-                            subject.course.name,
-                            topic.name,
-                            subject.course.path
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n            " + _vm._s(topic.name) + "\n          "
-                      )
-                    ]
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "subjects-container" }, [
+        _c(
+          "div",
+          { staticClass: "subjects" },
+          [
+            _vm._l(_vm.data.subjects, function(single) {
+              return _c("div", { staticClass: "inter-class" }, [
+                _c("div", { staticClass: "subject-title" }, [
+                  _vm._v(
+                    "\n          " + _vm._s(single.subject.name) + "\n        "
                   )
-                }),
-                0
-              )
-            ])
-          }),
-          _vm._v(" "),
-          _vm.data.courses.length == 0
-            ? _c("div", { staticClass: "welcome-message" }, [
-                _c("h2", [_vm._v(" Welcome to Multimodal! ")]),
+                ]),
                 _vm._v(" "),
-                _vm._m(0)
+                _c(
+                  "ul",
+                  _vm._l(single.topics, function(topic) {
+                    return _c(
+                      "li",
+                      {
+                        staticClass: "welcome-subject",
+                        on: {
+                          click: function($event) {
+                            return _vm.setTopic(
+                              $event,
+                              single.subject.name,
+                              topic.name,
+                              single.subject.path
+                            )
+                          },
+                          dblclick: function($event) {
+                            return _vm.openTopic(
+                              single.subject.name,
+                              topic.name,
+                              single.subject.path
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " + _vm._s(topic.name) + "\n          "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
               ])
-            : _vm._e()
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "buttons-container" }, [
-      _c("button", { staticClass: "btn", on: { click: _vm.create } }, [
-        _vm._v(" create ")
+            }),
+            _vm._v(" "),
+            _vm.data.subjects.length == 0
+              ? _c("div", { staticClass: "welcome-message" }, [
+                  _c("h2", [_vm._v(" Welcome to Multimodal! ")]),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ])
+              : _vm._e()
+          ],
+          2
+        )
       ]),
       _vm._v(" "),
-      _c("button", { staticClass: "btn", on: { click: _vm.exportTo } }, [
-        _vm._v(" export ")
-      ]),
+      _vm.showCreate
+        ? _c("Create", {
+            on: {
+              exit: function($event) {
+                _vm.showCreate = false
+              },
+              "create-subject": _vm.createSubject
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
-      _c("button", { staticClass: "btn", on: { click: _vm.remove } }, [
-        _vm._v(" remove ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
-    ])
-  ])
+      _c("div", { staticClass: "buttons-container" }, [
+        _c("button", { staticClass: "btn", on: { click: _vm.create } }, [
+          _vm._v(" create ")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.exportTo } }, [
+          _vm._v(" export ")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.remove } }, [
+          _vm._v(" remove ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -13816,7 +13779,417 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 5vh;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 91 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___ = __webpack_require__(92);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+const {dialog} = __webpack_require__(0).remote
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+
+  },
+  props: {
+
+  },
+  data: function () {
+    return {
+      subject: {
+        name: '',
+        path: '',
+        description: ''
+      }
+    }
+  },
+  methods: {
+    exit() {
+      this.$emit('exit')
+    },
+    create(){
+      if(this.subject.name == '' || this.subject.path == '')
+    		alert('Some fields are missing!')
+      else
+        this.$emit('create-subject', this.subject)
+    },
+    selectSubjectPath(){
+    	let options = {
+    		'title':'Select course folder',
+    		'defaultPath':'~/',
+    		'properties':['openDirectory', 'createDirectory']
+    	}
+
+    	dialog.showOpenDialog(options, (path) => {
+    		this.subject.path = path[0]
+    	})
+    }
+  },
+  mounted(){
+
+  }
+});
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Create_vue_vue_type_script_lang_js___ = __webpack_require__(91);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(3);
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__["a" /* default */])(
+  __WEBPACK_IMPORTED_MODULE_1__Create_vue_vue_type_script_lang_js___["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__Create_vue_vue_type_template_id_05cee3fc_scoped_true___["a" /* render */],
+  __WEBPACK_IMPORTED_MODULE_0__Create_vue_vue_type_template_id_05cee3fc_scoped_true___["b" /* staticRenderFns */],
+  false,
+  null,
+  "05cee3fc",
+  null
+  
+)
+
+/* hot reload */
+if (false) {
+  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  api.install(require('vue'))
+  if (api.compatible) {
+    module.hot.accept()
+    if (!module.hot.data) {
+      api.createRecord('05cee3fc', component.options)
+    } else {
+      api.reload('05cee3fc', component.options)
+    }
+    module.hot.accept("./Create.vue?vue&type=template&id=05cee3fc&scoped=true&", function () {
+      api.rerender('05cee3fc', {
+        render: render,
+        staticRenderFns: staticRenderFns
+      })
+    })
+  }
+}
+component.options.__file = "src/renderer/components/Create.vue"
+/* harmony default export */ __webpack_exports__["a"] = (component.exports);
+
+/***/ }),
+/* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(95);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___["b"]; });
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "create-container" }, [
+    _c("div", { staticClass: "cover" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "create-subject" }, [
+      _c("h1", [_vm._v("new subject")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.subject.name,
+            expression: "subject.name"
+          }
+        ],
+        staticClass: "name",
+        attrs: { type: "text", placeholder: "subject name" },
+        domProps: { value: _vm.subject.name },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.subject, "name", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.subject.description,
+            expression: "subject.description"
+          }
+        ],
+        staticClass: "description",
+        attrs: { rows: "8", placeholder: "subject description" },
+        domProps: { value: _vm.subject.description },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.subject, "description", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.subject.path,
+            expression: "subject.path"
+          }
+        ],
+        staticClass: "path",
+        attrs: { type: "text", placeholder: "subject folder" },
+        domProps: { value: _vm.subject.path },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.subject, "path", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "create-local-path",
+          on: {
+            click: function($event) {
+              return _vm.selectSubjectPath($event)
+            }
+          }
+        },
+        [_vm._v("select")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "buttons-container" }, [
+        _c("button", { staticClass: "btn", on: { click: _vm.exit } }, [
+          _vm._v("exit")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn", on: { click: _vm.create } }, [
+          _vm._v("create")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(98);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(2).default
+var update = add("40224164", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Create.vue?vue&type=style&index=0&id=05cee3fc&scoped=true&lang=scss&", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Create.vue?vue&type=style&index=0&id=05cee3fc&scoped=true&lang=scss&");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 97 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___);
+/* unused harmony reexport namespace */
+ /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss____default.a); 
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-05cee3fc]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-05cee3fc] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-05cee3fc] {\n  color: #e77607;\n}\na[data-v-05cee3fc]:hover {\n  color: #b25900;\n}\nbutton[data-v-05cee3fc] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-05cee3fc] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-05cee3fc] {\n  background-color: darkseagreen;\n}\n.error[data-v-05cee3fc] {\n  background-color: crimson;\n}\n.metadata[data-v-05cee3fc] {\n  visibility: hidden;\n}\ndiv[data-v-05cee3fc],\nimg[data-v-05cee3fc] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-05cee3fc] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.create-container[data-v-05cee3fc] {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  margin: auto;\n  overflow: auto;\n  z-index: 10;\n  top: 50px;\n}\n.create-subject[data-v-05cee3fc] {\n  position: relative;\n  width: 50%;\n  min-height: 40vh;\n  overflow: auto;\n  margin: auto;\n  padding: 4%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n  background-color: #202020;\n}\n.create-subject h1[data-v-05cee3fc] {\n  margin-left: 3%;\n}\n.name[data-v-05cee3fc],\n.path[data-v-05cee3fc],\n.description[data-v-05cee3fc] {\n  width: 98%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin-bottom: 20px;\n  padding-left: 2%;\n  color: #eeeeee;\n  background-color: #202020;\n}\n.path[data-v-05cee3fc] {\n  width: 78%;\n}\n.description[data-v-05cee3fc] {\n  height: 72px;\n}\n.create-local-path[data-v-05cee3fc] {\n  width: 20%;\n  float: right;\n  display: inline;\n  font-size: 24px;\n  height: 51px;\n  background-color: #eeeeee;\n  color: #202020;\n}\n.buttons-container[data-v-05cee3fc] {\n  position: absolute;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-05cee3fc] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-05cee3fc] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-05cee3fc] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-05cee3fc]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-05cee3fc]:active {\n  border: none;\n}", ""]);
 
 // exports
 

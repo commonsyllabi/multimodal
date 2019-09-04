@@ -2,19 +2,19 @@
 <div>
   <div class="subjects-container">
     <div class="subjects">
-      <div v-for="subject in data.courses" class="inter-class">
+      <div v-for="single in data.subjects" class="inter-class">
         <div class="subject-title">
-          {{subject.course.name}}
+          {{single.subject.name}}
         </div>
         <ul>
-          <li v-for="topic in subject.lessons" class="welcome-subject"
-          @click="setTopic($event, subject.course.name, topic.name, subject.course.path)"
-          @dblclick="openTopic(subject.course.name, topic.name, subject.course.path)">
+          <li v-for="topic in single.topics" class="welcome-subject"
+          @click="setTopic($event, single.subject.name, topic.name, single.subject.path)"
+          @dblclick="openTopic(single.subject.name, topic.name, single.subject.path)">
             {{topic.name}}
           </li>
         </ul>
       </div>
-      <div v-if="data.courses.length == 0" class="welcome-message">
+      <div v-if="data.subjects.length == 0" class="welcome-message">
         <h2> Welcome to Multimodal! </h2>
         <div>
           It seems you haven't added any subjects yet.
@@ -26,6 +26,8 @@
       </div>
     </div>
   </div>
+
+  <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
 
   <div class="buttons-container">
     <button class="btn" @click="create"> create </button>
@@ -47,7 +49,8 @@
 	bottom: 0px;
 	left: 0px;
 	padding-left: 10px;
-	height: 5vh;
+	height: 50px;
+  line-height: 50px;
 	width: 100%;
 
 	background-color: $main-bg-color;
@@ -85,9 +88,11 @@
 <script>
 const ipc = require('electron').ipcRenderer
 
+import Create from './Create.vue'
+
 export default {
   components: {
-
+    Create
   },
   props: {
 
@@ -96,15 +101,16 @@ export default {
     return {
       data: {},
       current: {
-      	'course':'',
+      	'subject':'',
       	'name':'',
       	'path': ''
-      }
+      },
+      showCreate: false
     }
   },
   methods: {
     setTopic(_e, _c, _l, _p) {
-      this.current.course = _c
+      this.current.subject = _c
       this.current.name = _l
       this.current.path = _p
 
@@ -120,16 +126,19 @@ export default {
         btn.disabled = false
     },
     openTopic(_c, _l, _p){
-    	ipc.send('open-lesson', this.current)
+    	ipc.send('open-topic', this.current)
     },
     create() {
-
+      this.showCreate = true
     },
     exportTo() {
 
     },
     remove(){
 
+    },
+    createSubject(subject){
+      ipc.send('save-subject', subject)
     }
   },
   beforeMount(){
