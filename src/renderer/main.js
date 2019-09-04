@@ -30,11 +30,11 @@ window.vm = new Vue({
 // window.removeLesson = welcome.removeLesson
 // window.exportLesson = welcome.exportLesson
 
-window.createNewCourse = create.createNewCourse
+// window.createNewCourse = create.createNewCourse
 // window.saveCourse = create.saveCourse
 // window.exitCourse = create.exitCourse
-window.saveLesson = create.saveLesson
-window.exitLesson = create.exitLesson
+// window.saveLesson = create.saveLesson
+// window.exitLesson = create.exitLesson
 
 ipc.on('menu-create', () => { welcome.createLesson()})
 ipc.on('menu-open', () => { welcome.openLesson()})
@@ -60,12 +60,3 @@ ipc.on('update-dropdown', (event, data) => {
 
 window.selectCourse = create.selectCourse
 // window.selectSubjectPath = create.selectSubjectPath
-window.selectMediaPath = create.selectMediaPath
-window.addPrep = create.addPrep
-window.removePrep = create.removePrep
-window.addConcept = create.addConcept
-window.removeConcept = create.removeConcept
-window.addNote = create.addNote
-window.removeNote = create.removeNote
-window.addWriteup = create.addWriteup
-window.removeWriteup = create.removeWriteup

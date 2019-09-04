@@ -121,9 +121,17 @@ ipc.on('save-subject', (event, data) => {
 })
 
 // creates the 'new lesson' window
-ipc.on('create-lesson', () => {
-	board.create()
-	replaceWindow('create')
+ipc.on('create-topic', (event, data) => {
+	let t = new Topic(data)
+
+	let d = {
+		"path": t.subject.path,
+		"subject": t.subject.name,
+		"name": t.name
+	}
+	
+	generateHTML(d, 'topic')
+	replaceWindow('topic')
 })
 
 ipc.on('remove-lesson', (event, data) => {

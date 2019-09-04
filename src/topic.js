@@ -6,13 +6,28 @@ const utils = require('./utils.js')
 class Topic {
 
   constructor(data){
-    this.id = generateId(data.name)
     this.subject = data.subject
-    this.name = data.name
+    this.name = data.name ? data.name : "new-topic"
+    this.id = generateId(this.name)
     this.created = new Date()
     this.updated = null
-    this.concepts = data.concepts
-    this.context = data.context
+    this.concepts = data.concepts ? data.concepts : [{
+      name: "new concept",
+      context: "",
+      pages: [
+        {
+          name: "new page",
+          tag: "",
+          preps: [{
+            "tag": "",
+            "text": "type here",
+            "type": "txt"
+          }],
+          notes: [],
+          writeups: ""
+        }
+      ]
+    }]
 
     this.init()
   }
