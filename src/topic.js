@@ -38,45 +38,87 @@ class Topic {
     fs.writeFileSync(`${this.subject.path}/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
   }
 
-  save(data){
-    //-- update the written content
-    this.concepts = data.concepts
+  static save(data){
+    //TODO check for name change!
+    data.updated = new Date()
 
-    //-- make sure the folders exist
-    utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media`)
-    utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/other`)
+    return new Promise((resolve, reject) => {
 
-    //-- check for external media assets and copy them in the local folder
-  	for(let concept of data.concepts){
-  		for(let p of concept.prep){
-  			if(p.type == 'img' || p.type == 'vid'){
-  				let re = (/[^/]*$/gi).exec(p.src)
-  				p.name = re[0]
+      console.log(`[TOPIC] checking for existing topic...`);
+      let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
+      let foundTopic = false
+      let foundSubject = false
 
-  				//-- check for existing assets
-  				let existing = fs.readdirSync(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media`)
-  				let isReplacing = false
-  				for(let e of existing)
-  					if(e == p.name)
-  						isReplacing = true
+      for(let i = 0; i < subjects.length; i++){
+        let s = subjects[i]
 
-  				if(!isReplacing){
-  					fs.createReadStream(p.src).pipe(fs.createWriteStream(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media/${p.name}`))
-  					// now we redirect the source to the local folder
-  					p.src = `${this.subject.path}/${this.subject.name}/topics/${this.name}/media/${p.name}`
-  					console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-  				}
-  			}
-  		}
-  	}
+        if(s.id == data.subject.id){ //we have found the subject of the topic we're trying to
 
-    //-- update the remote file
-    fs.writeFile(`${this.subject.path}/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()), (err) => {
-      if(err)
-        throw err
+          foundSubject = true
+          console.log(`[TOPIC] found subject...`);
+
+          for(let j = 0; j < s.topics.length; j++){
+            let t = s.topics[j]
+            if(t.id == data.id){
+              if(t.name != data.name){ //--this is where I check for the name change
+                console.log('[TOPIC] found different name, renaming folder...');
+                fs.renameSync(`${t.subject.path}/${t.subject.name}/topics/${t.name}`, `${data.subject.path}/${data.subject.name}/topics/${data.name}`)
+              }
+
+              console.log(`[TOPIC] found existing topic...`);
+              subjects[i].topics[j] = data
+              foundTopic = true
+            }
+          }
+
+          //-- we add the topic to the end of the array
+          if(!foundTopic)
+            s.topics.push(data)
+        }
+      }
+
+      if(!foundSubject)
+        reject({
+          err: 404,
+          info: `subject ${data.subject.id} not found`
+        })
+
+      console.log('[MEDIA] checking for media to copy...');
+      //-- check for external media assets and copy them in the local folder
+      for(let concept of data.concepts){
+        for(let page of concept.pages){
+          for(let p of page.preps){
+            if(p.type == 'img' || p.type == 'vid'){
+              let re = (/[^/]*$/gi).exec(p.src)
+              p.name = re[0]
+
+              //-- check for existing assets
+              let existing = fs.readdirSync(`${data.subject.path}/${data.subject.name}/topics/${data.name}/media`)
+              let isReplacing = false
+              for(let e of existing)
+                if(e == p.name)
+                  isReplacing = true
+
+              if(!isReplacing){
+                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${data.subject.path}/${data.subject.name}/topics/${data.name}/media/${p.name}`))
+                // now we redirect the source to the local folder
+                p.src = `${data.subject.path}/${data.subject.name}/topics/${data.name}/media/${p.name}`
+                console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
+              }
+            }
+          }
+        }
+      }
+
+      console.log(`[TOPIC] writing to local file...`);
+      fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
+
+      //-- update the remote file
+      console.log(`[TOPIC] Writing to remote file topic.json...`);
+      fs.writeFileSync(`${data.subject.path}/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
+
+      resolve(data)
     })
-
-    return true
   }
 
   static export(_info, _type, _path = undefined, resolve, reject){
@@ -141,7 +183,7 @@ class Topic {
 }
 
 let generateId = (n) => {
-  let id = `${n.substring(0, 4)}-`
+  let id = `${n.substring(0, Math.max(4, n.length))}-`
   for(let i = 0; i < 10; i++)
     id += Math.floor(Math.random()*10).toString()
 
@@ -150,11 +192,11 @@ let generateId = (n) => {
 
 Topic.prototype.find = (id) => {
   //open the json file
-  let courses = JSON.parse(fs.readFileSync(`${__dirname}/topics/subjects.json`))
+  let subjects = JSON.parse(fs.readFileSync(`${__dirname}/topics/subjects.json`))
 
-  for(let course of courses)
-    for(let lesson of course.lessons)
-      if(lesson.id == id) //if the id matches
+  for(let subject of subjects)
+    for(let topic of subject.topics)
+      if(topic.id == id) //if the id matches
         return true //return the lesson
 
   return false

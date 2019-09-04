@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="main-container">
+      <div v-if="isEdit" class="subject-name">
+        <input type="text" name="" v-model:value="data.name">
+      </div>
       <span v-for="(concept, index) in data.concepts">
         <Concept class="concept-group" :data="concept" :course="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
@@ -34,6 +37,19 @@
 	width: 90vw;
 	height: 100%;
 	z-index: 0;
+}
+
+.subject-name{
+  z-index: 5;
+  position: absolute;
+  right: 0;
+  width: 30vw;
+  margin: 10px;
+}
+
+.subject-name input{
+  font-size: 48px;
+  padding: 5px;
 }
 
 
@@ -107,6 +123,9 @@ import Navigation from './Navigation.vue'
 const typing = require('../lesson/typing.js')
 const drawing = require('../lesson/drawing.js')
 const globals = require('../lesson/globals.js')
+const utils = require('../utils.js')
+
+const ipc = require('electron').ipcRenderer
 
 export default {
   components: {
@@ -184,7 +203,8 @@ export default {
       window.exitLesson()
     },
     saveSession() {
-
+      utils.setMessage('saving...', 'info')
+			ipc.send('save-topic', this.data)
     },
     addPage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page+1, 0, {
