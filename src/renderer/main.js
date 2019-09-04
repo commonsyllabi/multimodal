@@ -12,6 +12,7 @@ import * as utils from './utils.js'
 
 import Vue from 'vue'
 import Board from './components/Board.vue'
+import Dialog from './components/Dialog.vue'
 
 window.vm = new Vue({
 	el: '#notice-board',
@@ -20,6 +21,16 @@ window.vm = new Vue({
 		Board
 	}
 })
+
+const dialog = new Vue({
+	el: '#dialog',
+	template: '<Dialog/>',
+	components: {
+		'Dialog':Dialog
+	}
+})
+
+window.dialog = dialog.$children[0]
 
 // TODO: deal later with shortcuts
 // window.setTopic = welcome.setTopic

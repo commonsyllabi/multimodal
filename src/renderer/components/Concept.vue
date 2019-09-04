@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Page v-for="(page, index) in data.pages" :concept="concept" :index="index ":data="page" :key="`page-${index}`" :_id="`page-${index}`" :course="course" :isEdit="isEdit" @new-note="handleNewNote"/>
+    <Page v-for="(page, index) in data.pages" :concept="concept" :index="index ":data="page" :key="`page-${index}`" :_id="`page-${index}`" :subject="subject" :isEdit="isEdit" @new-note="handleNewNote"/>
   </div>
 </template>
 
@@ -18,9 +18,9 @@ export default {
       type: Object,
       default: {}
     },
-    course: {
+    subject: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     concept: {
       type: Number,

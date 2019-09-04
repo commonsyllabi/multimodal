@@ -9,6 +9,7 @@ import * as utils from './utils.js'
 
 import Vue from 'vue'
 import Subject from './components/Subject.vue'
+import Dialog from './components/Dialog.vue'
 
 window.vm = new Vue({
 	el: '#writing-board',
@@ -18,6 +19,16 @@ window.vm = new Vue({
 	}
 })
 
+const dialog = new Vue({
+	el: '#dialog',
+	template: '<Dialog/>',
+	components: {
+		'Dialog':Dialog
+	}
+})
+
+window.dialog = dialog.$children[0]
+
 window.currentNote = null
 window.offsets = [0,0]
 window.isEdit = false
@@ -26,8 +37,6 @@ window.editLesson = (e) => {
 	window.isEdit = !window.isEdit
 	e.innerText = window.isEdit ? "present" : "edit"
 }
-window.saveSession = save.saveSession
-window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept
 window.jumpToTag = globals.jumpToTag
 window.clearBoard = drawing.clearBoard

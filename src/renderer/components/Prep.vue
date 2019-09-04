@@ -22,7 +22,7 @@
 
     <div v-else-if="data.type == 'vid'" class="prep written " :concept="index" :tag="data.tag">
       <video max-width="800px", max-height="600px" controls>
-        <source :name="data.name" :src="`assets/${course.name}/lessons/${name}/media/${data.name}`"/>
+        <source :name="data.name" :src="`assets/${subject.name}/lessons/${name}/media/${data.name}`"/>
       </video>
     </div>
 
@@ -87,9 +87,9 @@ export default {
       type: Object,
       default: {}
     },
-    course: {
+    subject: {
       type: Object,
-      default: {}
+      default: () => {}
     },
     index: {
       type: Number,

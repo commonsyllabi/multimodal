@@ -5,7 +5,7 @@
         <input type="text" name="" v-model:value="data.name">
       </div>
       <span v-for="(concept, index) in data.concepts">
-        <Concept class="concept-group" :data="concept" :course="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
+        <Concept class="concept-group" :data="concept" :subject="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
@@ -60,7 +60,8 @@
 	bottom: 0px;
 	left: 0px;
 	padding-left: 10px;
-	height: 5vh;
+	height: 50px;
+  line-height: 50px;
 	width: 100%;
 
 	background-color: $main-bg-color;
@@ -139,7 +140,8 @@ export default {
       isDrawing: false,
       currentPage: 0,
       previousPage: 0,
-      position: { x: 0, y: 0}
+      position: { x: 0, y: 0},
+      lessonSaved: false
     }
   },
   methods: {
@@ -200,11 +202,27 @@ export default {
       this.isEdit = !this.isEdit
     },
     exitLesson() {
-      window.exitLesson()
+      if(!this.lessonSaved)
+        dialog.setMessage("it seems you haven\'t saved this session. would you still like quit?", () => {ipc.send('exit-home', {'coming':'back'})}, null, true)
+      else
+        ipc.send('exit-home', {'coming':'back'})
     },
     saveSession() {
       utils.setMessage('saving...', 'info')
+      for(let i = 0; i < this.data.concepts.length; i++){
+    		for(let j = 0; j < this.data.concepts[i].pages.length; j++){
+    			let cleaned_notes = []
+    			for(let k = 0; k < this.data.concepts[i].pages[j].notes.length; k++){
+    				if(this.data.concepts[i].pages[j].notes[k].text != "")
+    					cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+    			}
+
+    			this.data.concepts[i].pages[j].notes = cleaned_notes
+    		}
+    	}
+
 			ipc.send('save-topic', this.data)
+      this.lessonSaved = true
     },
     addPage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page+1, 0, {
