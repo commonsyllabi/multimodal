@@ -60,12 +60,17 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 68);
+/******/ 	return __webpack_require__(__webpack_require__.s = 77);
 /******/ })
 /************************************************************************/
-/******/ ({
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
 
-/***/ 0:
+module.exports = require("electron");
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 /*
@@ -147,14 +152,13 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-
-/***/ 1:
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(12);
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
   Author Tobias Koppers @sokra
@@ -380,15 +384,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-module.exports = require("electron");
-
-/***/ }),
-
-/***/ 3:
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -489,8 +485,71 @@ function normalizeComponent (
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports) {
 
-/***/ 36:
+module.exports = function escape(url) {
+    if (typeof url !== 'string') {
+        return url
+    }
+    // If url is already wrapped in quotes, remove them
+    if (/^['"].*['"]$/.test(url)) {
+        url = url.slice(1, -1);
+    }
+    // Should url be wrapped?
+    // See https://drafts.csswg.org/css-values-3/#urls
+    if (/["'() \t\n]/.test(url)) {
+        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
+    }
+
+    return url
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "fonts/Inter-UI-Regular.woff";
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "fonts/Inter-UI-Bold.woff";
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "fonts/Inter-UI-Italic.woff";
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports = module.exports = {}
+
+module.exports.setMessage = (_msg, _type) => {
+	let el = document.getElementById('msg-log')
+	el.innerText = _msg
+	el.setAttribute('class', 'msg-log '+_type)
+	el.style.opacity = 1
+
+	setTimeout(() => {
+		el.style.opacity = 0
+		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
+	}, 2000)
+}
+
+
+/***/ }),
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -12440,48 +12499,239 @@ function normalizeComponent (
 
 
 /***/ }),
-
-/***/ 4:
-/***/ (function(module, exports, __webpack_require__) {
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-exports = module.exports = {}
-
-module.exports.setMessage = (_msg, _type) => {
-	let el = document.getElementById('msg-log')
-	el.innerText = _msg
-	el.setAttribute('class', 'msg-log '+_type)
-	el.style.opacity = 1
-
-	setTimeout(() => {
-		el.style.opacity = 0
-		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
-	}, 2000)
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
 }
 
 
 /***/ }),
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 5:
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___ = __webpack_require__(37);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+const ipc = __webpack_require__(0).ipcRenderer
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  components: {
+
+  },
+  props: {
+
+  },
+  data: function () {
+    return {
+      data: {},
+      current: {
+      	'course':'',
+      	'name':'',
+      	'path': ''
+      }
+    }
+  },
+  methods: {
+    setTopic(_e, _c, _l, _p) {
+      this.current.course = _c
+      this.current.name = _l
+      this.current.path = _p
+
+      let all_lessons = document.getElementsByClassName('welcome-lesson')
+      for(let l of all_lessons)
+        l.setAttribute('class', 'welcome-lesson')
+
+
+      _e.target.setAttribute('class', 'welcome-lesson selected')
+
+      let btns = document.getElementsByClassName('inter-btn-main')
+      for(let btn of btns)
+        btn.disabled = false
+    },
+    openTopic(_c, _l, _p){
+    	ipc.send('open-lesson', this.current)
+    },
+    create() {
+
+    },
+    exportTo() {
+
+    },
+    remove(){
+
+    }
+  },
+  beforeMount(){
+    this.data = window.data
+  },
+  mounted(){
+
+  }
+});
+
+
+/***/ }),
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(6);
+var content = __webpack_require__(90);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(1).default
-var update = add("6c410b08", content, false, {});
+var add = __webpack_require__(2).default
+var update = add("f84f881e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss");
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Board.vue?vue&type=style&index=0&id=40ee3f60&scoped=true&lang=scss&", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Board.vue?vue&type=style&index=0&id=40ee3f60&scoped=true&lang=scss&");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -12491,41 +12741,63 @@ if(false) {
 }
 
 /***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)(false);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 68:
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Board_vue__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Board_vue__ = __webpack_require__(86);
 
 
-const ipc = __webpack_require__(2).ipcRenderer
+const ipc = __webpack_require__(0).ipcRenderer
 
-__webpack_require__(5)
-__webpack_require__(69)
-__webpack_require__(71)
+__webpack_require__(78)
+__webpack_require__(80)
+__webpack_require__(82)
 
 
 
@@ -12593,18 +12865,59 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 
 
 /***/ }),
-
-/***/ 69:
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(70);
+var content = __webpack_require__(79);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(1).default
+var add = __webpack_require__(2).default
+var update = add("6c410b08", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(81);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(2).default
 var update = add("79de8870", content, false, {});
 // Hot Module Replacement
 if(false) {
@@ -12621,69 +12934,32 @@ if(false) {
 }
 
 /***/ }),
-
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-
-/***/ }),
-
-/***/ 70:
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(false);
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.subjects-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.subjects-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.subjects {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.subject-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.welcome-subject,\n.inter-btn-main {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n\n.welcome-subject {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n\n.welcome-subject:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.selected {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: #202020;\n  color: #202020;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.subjects-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.subjects-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.subjects {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.subject-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.welcome-subject,\n.inter-btn-main {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n\n.welcome-subject {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n\n.welcome-subject:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.selected {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: #202020;\n  color: #202020;\n}", ""]);
 
 // exports
 
 
 /***/ }),
-
-/***/ 71:
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(72);
+var content = __webpack_require__(83);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var add = __webpack_require__(1).default
+var add = __webpack_require__(2).default
 var update = add("5a3adc70", content, false, {});
 // Hot Module Replacement
 if(false) {
@@ -12700,23 +12976,22 @@ if(false) {
 }
 
 /***/ }),
-
-/***/ 72:
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(false);
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.create-container {\n  width: 90%;\n  margin-left: 5%;\n  margin-bottom: 100px;\n  overflow: auto;\n}\n\n.create-course {\n  width: 95%;\n  height: auto;\n  overflow: auto;\n  margin-top: 2%;\n  padding: 2%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n}\n\n.create-course h1 {\n  margin-left: 3%;\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.course-name,\n.course-year,\n.course-path {\n  width: 94%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin: 3%;\n}\n\n.course-path {\n  width: 70%;\n  margin: 10px;\n  float: left;\n}\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n.create-local-path {\n  display: inline;\n  border: none;\n  font-size: 24px;\n  height: 48px;\n  padding: 5px;\n  margin-left: 5px;\n  margin-top: 3%;\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: #202020;\n  color: #eeeeee;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: #202020;\n  color: #eeeeee;\n  border: 2px solid #eeeeee;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid #eeeeee;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n}\n\ninput:disabled {\n  float: left;\n  background-color: #202020;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid #eeeeee;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: #eeeeee;\n  color: #202020;\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.create-container {\n  width: 90%;\n  margin-left: 5%;\n  margin-bottom: 100px;\n  overflow: auto;\n}\n\n.create-course {\n  width: 95%;\n  height: auto;\n  overflow: auto;\n  margin-top: 2%;\n  padding: 2%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n}\n\n.create-course h1 {\n  margin-left: 3%;\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.course-name,\n.course-year,\n.course-path {\n  width: 94%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin: 3%;\n}\n\n.course-path {\n  width: 70%;\n  margin: 10px;\n  float: left;\n}\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n.create-local-path {\n  display: inline;\n  border: none;\n  font-size: 24px;\n  height: 48px;\n  padding: 5px;\n  margin-left: 5px;\n  margin-top: 3%;\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: #202020;\n  color: #eeeeee;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: #202020;\n  color: #eeeeee;\n  border: 2px solid #eeeeee;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid #eeeeee;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n}\n\ninput:disabled {\n  float: left;\n  background-color: #202020;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid #eeeeee;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: #eeeeee;\n  color: #202020;\n  cursor: pointer;\n}", ""]);
 
 // exports
 
 
 /***/ }),
-
-/***/ 73:
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12729,9 +13004,9 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
-const ipc = __webpack_require__(2).ipcRenderer
-const {dialog} = __webpack_require__(2).remote
-const utils = __webpack_require__(4)
+const ipc = __webpack_require__(0).ipcRenderer
+const {dialog} = __webpack_require__(0).remote
+const utils = __webpack_require__(8)
 
 let current = {
 	'course':'',
@@ -12801,8 +13076,7 @@ let exportLesson = () => {
 
 
 /***/ }),
-
-/***/ 74:
+/* 85 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12824,10 +13098,10 @@ let exportLesson = () => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return exitLesson; });
 
 
-const {dialog} = __webpack_require__(2).remote
-const remote = __webpack_require__(2).remote
-const ipc = __webpack_require__(2).ipcRenderer
-const utils = __webpack_require__(4)
+const {dialog} = __webpack_require__(0).remote
+const remote = __webpack_require__(0).remote
+const ipc = __webpack_require__(0).ipcRenderer
+const utils = __webpack_require__(8)
 
 let lessonSaved = false
 let lesson = {
@@ -13337,174 +13611,14 @@ let exitLesson = () => {
 
 
 /***/ }),
-
-/***/ 86:
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Board_vue_vue_type_script_lang_js___ = __webpack_require__(36);
 /* unused harmony namespace reexport */
- /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___["a" /* default */]); 
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-const ipc = __webpack_require__(2).ipcRenderer
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  components: {
-
-  },
-  props: {
-
-  },
-  data: function () {
-    return {
-      data: {},
-      current: {
-      	'course':'',
-      	'name':'',
-      	'path': ''
-      }
-    }
-  },
-  methods: {
-    setTopic(_e, _c, _l, _p) {
-      this.current.course = _c
-      this.current.name = _l
-      this.current.path = _p
-
-      let all_lessons = document.getElementsByClassName('welcome-lesson')
-      for(let l of all_lessons)
-        l.setAttribute('class', 'welcome-lesson')
-
-
-      _e.target.setAttribute('class', 'welcome-lesson selected')
-
-      let btns = document.getElementsByClassName('inter-btn-main')
-      for(let btn of btns)
-        btn.disabled = false
-    },
-    openTopic(_c, _l, _p){
-    	ipc.send('open-lesson', this.current)
-    },
-    create() {
-
-    },
-    exportTo() {
-
-    },
-    remove(){
-
-    }
-  },
-  beforeMount(){
-    this.data = window.data
-  },
-  mounted(){
-
-  }
-});
-
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Board_vue_vue_type_script_lang_js___ = __webpack_require__(86);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(3);
 
 
@@ -13548,19 +13662,17 @@ component.options.__file = "src/renderer/components/Board.vue"
 /* harmony default export */ __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-
-/***/ 91:
+/* 87 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(88);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___["b"]; });
 
 
 /***/ }),
-
-/***/ 92:
+/* 88 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13685,59 +13797,29 @@ render._withStripped = true
 
 
 /***/ }),
-
-/***/ 93:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(95);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(1).default
-var update = add("f84f881e", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Board.vue?vue&type=style&index=0&id=40ee3f60&scoped=true&lang=scss&", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Board.vue?vue&type=style&index=0&id=40ee3f60&scoped=true&lang=scss&");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 94:
+/* 89 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___);
 /* unused harmony reexport namespace */
  /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss____default.a); 
 
 /***/ }),
-
-/***/ 95:
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(false);
+var escape = __webpack_require__(4);
+exports = module.exports = __webpack_require__(1)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 5vh;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 5vh;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
 
 // exports
 
 
 /***/ })
-
-/******/ });
+/******/ ]);

@@ -20,10 +20,11 @@ module.exports = {
               use: ['vue-style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
           },
           {
-            test: /\.(woff2?|ttf|otf|eot|svg)$/,
+            test: /\.(woff|ttf|otf|eot|svg)$/,
             exclude: /node_modules/,
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
+              limit: 50000,
               name: 'fonts/[name].[ext]'
             },
           },
