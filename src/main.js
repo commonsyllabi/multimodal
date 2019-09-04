@@ -129,23 +129,36 @@ ipc.on('create-topic', (event, data) => {
 		"subject": t.subject.name,
 		"name": t.name
 	}
-	
+
 	generateHTML(d, 'topic')
 	replaceWindow('topic')
 })
 
-ipc.on('remove-lesson', (event, data) => {
-	if(board.remove(data)){
-		mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
+ipc.on('remove-topic', (event, data) => {
+
+	Topic.remove(data).then((result) => {
+		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 
 		setTimeout(() => {
 			board.list()
 			replaceWindow('welcome')
 		}, 1000)
+	}).catch((err) => {
+		console.log(err);
+		mainWindow.webContents.send('msg-log', {msg: 'error deleting topic!', type: 'error'})
+	})
 
-	}else{
-		mainWindow.webContents.send('msg-log', {msg: 'error deleting course!', type: 'error'})
-	}
+	// if(board.remove(data)){
+	// 	mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
+  //
+	// 	setTimeout(() => {
+	// 		board.list()
+	// 		replaceWindow('welcome')
+	// 	}, 1000)
+  //
+	// }else{
+  //
+	// }
 })
 
 // exports a lesson

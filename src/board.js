@@ -48,28 +48,6 @@ module.exports.list = () => {
 	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
 }
 
-// creates a `new lesson` screen with a list of existing courses
-module.exports.create = () => {
-	let courses = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
-	let data = {
-		'courses': courses
-	}
-
-	let compiled = pug.renderFile(__dirname+'/views/create.pug', data)
-	fs.writeFileSync(__dirname+'/app/create.html', compiled)
-}
-
-module.exports.remove = (_l) => {
-	if(fs.existsSync(`${__dirname}/topics/${_l.course}/topic.json`)){
-		fs.unlinkSync(`${__dirname}/topics/${_l.course}/topic.json`)
-		console.log(`[DELETED] ${_l.name}`)
-		return true
-	}else{
-		console.log('problem deleting');
-		return false
-	}
-}
-
 module.exports.init = (w) => {
 	win = w
 }

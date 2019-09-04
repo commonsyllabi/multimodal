@@ -61,12 +61,6 @@ class Subject {
   }
 }
 
-Subject.prototype.find = (_id) => {
-  //open the json file
-  //find the specific course
-  //return a Course instance
-}
-
 let generateId = (n) => {
   let id = `${n.substring(0, Math.max(4, n.length))}-`
   for(let i = 0; i < 10; i++)

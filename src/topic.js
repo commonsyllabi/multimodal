@@ -136,6 +136,53 @@ class Topic {
     })
   }
 
+  static remove(topic){
+    console.log(`[TOPIC] deleting ${topic.name}...`);
+    return new Promise((resolve, reject) => {
+
+      console.log('[TOPIC] first locally');
+      let foundTopic = false
+      let foundSubject = false
+      let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
+      for(let i = 0; i < subjects.length; i++){
+        if(subjects[i].id == topic.subject.id){
+          foundSubject = true
+          for(let j = 0; j < subjects[i].topics; j++){
+            if(subjects[i].topics[j].id == topic.id){
+              foundTopic = true
+              console.log('[TOPIC] found the topic to be deleted...');
+              subjects[i].topics.splice(j, 1)
+              console.log('[TOPIC] deleted from local list...');
+            }
+          }
+        }
+      }
+
+      if(!foundSubject)
+        reject({
+          err: 404,
+          info: "could not find the subject"
+        })
+
+      if(!foundTopic)
+        reject({
+          err: 404,
+          info: "could not find the topic"
+        })
+
+      console.log('[TOPIC] then remotely..');
+      try{
+        deleteFolderRecursive(`${topic.subject.path}/${topic.subject.name}/topics/${topic.name}/`)
+        resolve()
+      }catch (e){
+        console.log(e);
+        reject(e)
+      }
+    })
+  }
+
+
+
   static export(_info, _type, _path = undefined, resolve, reject){
 
     let topic = JSON.parse(fs.readFileSync(`${_info.path}/${_info.subject}/topics/${_info.name}/topic.json`))
@@ -203,6 +250,20 @@ let generateId = (n) => {
     id += Math.floor(Math.random()*10).toString()
 
   return id
+}
+
+let deleteFolderRecursive = (path) => {
+  if (fs.existsSync(path)) {
+    fs.readdirSync(path).forEach(function(file, index){
+      let curPath = path + "/" + file;
+      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
 }
 
 Topic.prototype.find = (id) => {

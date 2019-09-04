@@ -7,11 +7,14 @@
           {{single.subject.name}}
         </div>
         <ul>
-          <li v-for="topic in single.topics" class="welcome-subject"
+          <li v-for="topic in single.topics" class="topic"
           @click="setTopic($event, single.subject.name, topic.name, single.subject.path)"
           @dblclick="openTopic(single.subject.name, topic.name, single.subject.path)">
             {{topic.name}}
+
+            <button class="right" @click="removeTopic(topic)">-</button>
           </li>
+
         </ul>
         <button class="btn" @click="createTopic(single.subject)">+</button>
       </div>
@@ -45,6 +48,25 @@
 
 .inter-class{
   margin-bottom: 50px;
+}
+
+.topic, .inter-btn-main {
+	border: none;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
+	font-family: 'Inter UI';
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.topic {
+	border: 2px solid $main-bg-color;
+	padding: 5px;
+}
+
+.topic:hover{
+	border-color: $main-fg-color;
+	font-weight: bold;
 }
 
 //---------------- BUTTONS
@@ -87,6 +109,15 @@
 
 .btn:active{
 	border: none;
+}
+
+li button{
+  font-size: 1em;
+  font-weight: bold;
+  color: $main-bg-color;
+  background-color: $main-fg-color;
+  border-radius: 60px;
+  z-index: 5;
 }
 </style>
 
@@ -144,6 +175,9 @@ export default {
     },
     createTopic(subject){
       ipc.send('create-topic', {subject: subject})
+    },
+    removeTopic(topic){
+      ipc.send('remove-topic', topic)
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
