@@ -172,7 +172,7 @@ class Topic {
 
       console.log('[TOPIC] then remotely..');
       try{
-        deleteFolderRecursive(`${topic.subject.path}/${topic.subject.name}/topics/${topic.name}/`)
+        utils.deleteFolderRecursive(`${topic.subject.path}/${topic.subject.name}/topics/${topic.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -250,20 +250,6 @@ let generateId = (n) => {
     id += Math.floor(Math.random()*10).toString()
 
   return id
-}
-
-let deleteFolderRecursive = (path) => {
-  if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index){
-      let curPath = path + "/" + file;
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
 }
 
 Topic.prototype.find = (id) => {

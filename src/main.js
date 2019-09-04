@@ -138,7 +138,6 @@ ipc.on('remove-topic', (event, data) => {
 
 	Topic.remove(data).then((result) => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
-
 		setTimeout(() => {
 			board.list()
 			replaceWindow('welcome')
@@ -147,18 +146,20 @@ ipc.on('remove-topic', (event, data) => {
 		console.log(err);
 		mainWindow.webContents.send('msg-log', {msg: 'error deleting topic!', type: 'error'})
 	})
+})
 
-	// if(board.remove(data)){
-	// 	mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
-  //
-	// 	setTimeout(() => {
-	// 		board.list()
-	// 		replaceWindow('welcome')
-	// 	}, 1000)
-  //
-	// }else{
-  //
-	// }
+ipc.on('remove-subject', (event, data) => {
+
+	Subject.remove(data).then((result) => {
+		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
+		setTimeout(() => {
+			board.list()
+			replaceWindow('welcome')
+		}, 1000)
+	}).catch((err) => {
+		console.log(err);
+		mainWindow.webContents.send('msg-log', {msg: 'error deleting subject!', type: 'error'})
+	})
 })
 
 // exports a lesson
