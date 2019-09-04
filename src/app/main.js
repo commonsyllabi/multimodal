@@ -12658,6 +12658,11 @@ function listToStyles (parentId, list) {
 //
 //
 //
+//
+//
+//
+//
+//
 
 const ipc = __webpack_require__(0).ipcRenderer
 
@@ -12709,6 +12714,9 @@ const ipc = __webpack_require__(0).ipcRenderer
     },
     remove(){
 
+    },
+    createTopic(subject){
+      ipc.send('create-topic', {subject: subject})
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
@@ -13042,19 +13050,19 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 // window.removeLesson = welcome.removeLesson
 // window.exportLesson = welcome.exportLesson
 
-window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* createNewCourse */]
+// window.createNewCourse = create.createNewCourse
 // window.saveCourse = create.saveCourse
 // window.exitCourse = create.exitCourse
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]
+// window.saveLesson = create.saveLesson
+// window.exitLesson = create.exitLesson
 
 ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
 ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
 ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
 ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
 ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* exitLesson */]()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
@@ -13070,17 +13078,8 @@ ipc.on('update-dropdown', (event, data) => {
 	document.getElementById('course-list').appendChild(new_course)
 })
 
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* selectCourse */]
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* selectCourse */]
 // window.selectSubjectPath = create.selectSubjectPath
-window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* selectMediaPath */]
-window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
-window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removePrep */]
-window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* removeConcept */]
-window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeNote */]
-window.addWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* addWriteup */]
-window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* removeWriteup */]
 
 
 /***/ }),
@@ -13275,22 +13274,22 @@ let exportLesson = () => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return createNewCourse; });
+/* unused harmony export createNewCourse */
 /* unused harmony export saveCourse */
 /* unused harmony export exitCourse */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return selectCourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return selectCourse; });
 /* unused harmony export selectCoursePath */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return selectMediaPath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addPrep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return removePrep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return addNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return removeNote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return addWriteup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return removeWriteup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return removeConcept; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return saveLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return exitLesson; });
+/* unused harmony export selectMediaPath */
+/* unused harmony export addPrep */
+/* unused harmony export removePrep */
+/* unused harmony export addNote */
+/* unused harmony export removeNote */
+/* unused harmony export addWriteup */
+/* unused harmony export removeWriteup */
+/* unused harmony export addConcept */
+/* unused harmony export removeConcept */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return saveLesson; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return exitLesson; });
 
 
 const {dialog} = __webpack_require__(0).remote
@@ -13888,6 +13887,19 @@ var render = function() {
                     )
                   }),
                   0
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn",
+                    on: {
+                      click: function($event) {
+                        return _vm.createTopic(single.subject)
+                      }
+                    }
+                  },
+                  [_vm._v("+")]
                 )
               ])
             }),
@@ -14189,7 +14201,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(5)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(6)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(7)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.inter-class[data-v-40ee3f60] {\n  margin-bottom: 50px;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}", ""]);
 
 // exports
 

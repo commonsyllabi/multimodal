@@ -13,6 +13,7 @@
             {{topic.name}}
           </li>
         </ul>
+        <button class="btn" @click="createTopic(single.subject)">+</button>
       </div>
       <div v-if="data.subjects.length == 0" class="welcome-message">
         <h2> Welcome to Multimodal! </h2>
@@ -41,6 +42,10 @@
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
+
+.inter-class{
+  margin-bottom: 50px;
+}
 
 //---------------- BUTTONS
 .buttons-container {
@@ -136,6 +141,9 @@ export default {
     },
     remove(){
 
+    },
+    createTopic(subject){
+      ipc.send('create-topic', {subject: subject})
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
