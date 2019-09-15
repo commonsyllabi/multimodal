@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add archiver -d
+  /usr/bin/node /usr/share/yarn/bin/yarn.js remove pug
 
 PATH: 
-  /home/pierre/.mozbuild/arcanist/bin:/home/pierre/.mozbuild/moz-phab:/home/pierre/.cargo/bin:/home/pierre/.cargo/bin:/home/pierre/.mozbuild/git-cinnabar:/home/pierre/.mozbuild/arcanist/bin:/home/pierre/.mozbuild/moz-phab:/home/pierre/.cargo/bin:/home/pierre/.cargo/bin:/home/pierre/.mozbuild/git-cinnabar:/home/pierre/.local/share/umake/bin:/home/pierre/.cargo/bin:/home/pierre/bin:/home/pierre/.local/bin:/home/pierre/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/pierre/.fzf/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin
+  /home/pierre/.mozbuild/arcanist/bin:/home/pierre/.mozbuild/moz-phab:/home/pierre/.cargo/bin:/home/pierre/.cargo/bin:/home/pierre/.mozbuild/git-cinnabar:/home/pierre/.local/share/umake/bin:/home/pierre/.cargo/bin:/home/pierre/bin:/home/pierre/.local/bin:/home/pierre/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/home/pierre/.fzf/bin
 
 Yarn version: 
   1.17.3
@@ -101,7 +101,6 @@ npm manifest:
       "lodash": "^4.17.13",
       "lodash.mergewith": "^4.6.2",
       "mem": "^4.0.0",
-      "pug": "^2.0.3",
       "url-loader": "^2.1.0",
       "vue": "^2.6.10",
       "vue-electron": "^1.0.6",
