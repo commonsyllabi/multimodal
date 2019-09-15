@@ -148,7 +148,7 @@ export default {
   },
   mounted(){
     this.$el.ondblclick = (e) => {
-      if(window.currentNote == null)
+      if(window.currentNote == null && e.target.localName != 'input')
             this.data.notes.push({text: null, tag: "", type: "text"})
     }
   }
