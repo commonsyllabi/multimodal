@@ -1,4 +1,5 @@
 const fs = require('fs')
+const pug = require('pug')
 const path = require('path')
 const utils = require('./utils.js')
 
@@ -26,7 +27,8 @@ class Subject {
   	utils.touchDirectory(`${this.path}/${this.name}/topics`)
     utils.touchDirectory(`${this.path}/${this.name}/exports`)
     utils.touchDirectory(`${this.path}/${this.name}/exports/assets`)
-    fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
+    //-- css is now embedded in pug rendering
+    //fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
 
     //write the course file
     fs.writeFileSync(`${this.path}/${this.name}/subject.json`, JSON.stringify(data))
@@ -65,17 +67,38 @@ class Subject {
     })
   }
 
-  export(type, path){
+  static export(data, type, path){
+    console.log(`[SUBJECT] exporting - ${data.subject}`);
+    return new Promise((resolve, reject) => {
+      if(type == 'html'){
+        console.log('[SUBJECT] first topic');
+        let content
+        content = JSON.parse(fs.readFileSync(`${data.path}/${data.subject}/topics/${data.name}/topic.json`))
 
-    if(type == 'web'){
-      //copy over the style.css
-      utils.touchDirectory(`${path}/${this.name}-web/`)
-      fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${path}/style.css`))
-    }else if(type == 'pdf'){
+        //copy all assets over to new folder
+        utils.touchDirectory(`${path}/${content.subject.name}_assets/`)
+        for(let concept of content.concepts)
+          for(let page of concept.pages)
+            for(let prep of page.preps)
+              if(prep.type == 'img' || prep.type == 'vid')
+                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${path}/${content.subject.name}_assets/${prep.name}`))
 
-    }else{
-      console.log('error');
-    }
+        let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
+        fs.writeFileSync(`${path}/${data.name}.html`, topic)
+
+        console.log('[SUBJECT] then index');
+        content = JSON.parse(fs.readFileSync(`${data.path}/${data.subject}/subject.json`))
+        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, content)
+        fs.writeFileSync(`${path}/index.html`, index)
+        resolve()
+      }else if(type == 'pdf'){
+        console.log('pdf');
+        reject()
+      }else{
+        console.log('[SUBJECT] got wrong type');
+        reject()
+      }
+    })
   }
 
   toJSON(){

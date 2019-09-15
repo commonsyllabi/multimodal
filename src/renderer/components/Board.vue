@@ -35,8 +35,8 @@
   <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
 
   <div class="buttons-container">
-    <button class="btn" @click="create"> create </button>
-    <button class="btn" @click="exportTo"> export </button>
+    <button class="btn" @click="create">create</button>
+    <button class="btn" @click="exportTo" :disabled="!selectedTopic">export</button>
 
     <div class="msg-log" id="msg-log"></div>
   </div>
@@ -111,6 +111,10 @@
 	border: none;
 }
 
+.btn:disabled{
+  color: $main-bg-color;
+}
+
 li button{
   font-size: 1em;
   font-weight: bold;
@@ -123,6 +127,7 @@ li button{
 
 <script>
 const ipc = require('electron').ipcRenderer
+const {dialog} = require('electron').remote
 
 import Create from './Create.vue'
 
@@ -136,12 +141,9 @@ export default {
   data: function () {
     return {
       data: {},
-      current: {
-      	'subject':'',
-      	'name':'',
-      	'path': ''
-      },
-      showCreate: false
+      current: {},
+      showCreate: false,
+      selectedTopic: false
     }
   },
   methods: {
@@ -160,6 +162,8 @@ export default {
       let btns = document.getElementsByClassName('inter-btn-main')
       for(let btn of btns)
         btn.disabled = false
+
+      this.selectedTopic = true
     },
     openTopic(_c, _l, _p){
     	ipc.send('open-topic', this.current)
@@ -168,6 +172,15 @@ export default {
       this.showCreate = true
     },
     exportTo() {
+      let options = {
+    		'title':'Select export path',
+    		'defaultPath':'~/',
+    		'properties':['openDirectory', 'createDirectory']
+    	}
+
+    	dialog.showOpenDialog(options, (p) => {
+    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: 'html'}))
+    	})
 
     },
     createTopic(subject){

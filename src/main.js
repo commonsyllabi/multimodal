@@ -1,6 +1,7 @@
 const electron = require('electron')
 const ipc = electron.ipcMain
 const app = electron.app
+const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
 
 //const path = require('path')
@@ -81,12 +82,6 @@ ipc.on('open-topic', (event, data) => {
 	replaceWindow('topic')
 })
 
-// creates a window with the ability to edit notes
-ipc.on('edit-lesson', (event, data) => {
-		generateHTML(data, 'edit')
-		replaceWindow('edit')
-})
-
 // adds a new course by appending to the courses list, and creating the directory structure
 ipc.on('save-subject', (event, data) => {
 	let s = new Subject(data)
@@ -149,7 +144,6 @@ ipc.on('remove-topic', (event, data) => {
 })
 
 ipc.on('remove-subject', (event, data) => {
-
 	Subject.remove(data).then((result) => {
 		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
 		setTimeout(() => {
@@ -162,11 +156,18 @@ ipc.on('remove-subject', (event, data) => {
 	})
 })
 
-// exports a lesson
-ipc.on('export-lesson', (event, data, type, path) => {
-	Lesson.export(data, 'html', path).then((url) => {
+// exports a subject
+ipc.on('export-subject', (event, d) => {
+	d = JSON.parse(d)
+	Subject.export(d.subject, d.type, d.path).then(() => {
+		console.log(`[EXPORT] exported ${d.subject.name}, opening...`);
+		shell.showItemInFolder(d.path+'/index.html')
+
 		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-		win.loadURL('file://'+url)
+		win.loadURL(`file://${d.path}/index.html`)
+
+	}).catch((err) => {
+		console.log(err);
 	})
 })
 
