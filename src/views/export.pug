@@ -2,40 +2,41 @@ doctype
 html
 	head
 		meta(charset="utf8")
-		title= course.name + ' | '+ name
-		link(rel='stylesheet', href='style.css')
+		title= subject.name + ' | '+ name
+		style
+			include includes/export.css
 	body
 		header
 			h2
-				a(href="index.html")= course.name
+				a(href="index.html")= subject.name
 			h3= name
 		main
 			div.main-container#writing-board
 				div.concept-buttons
-					//- each val, index in contents
-						//button.lesson-btn.concept(concept= index, onclick='switchConcept(' + index + ')')= index + '. '+ val[0]
-				each content, index in concepts
-					div.page-group
-						h3.concept-name= content.concept
-						div.page-group
-							each prep in content.prep
-								if prep.type == "txt"
-									div.prep.note(concept= index)= prep.text
-								if prep.type == "url"
-									div.prep.note(concept= index)
-										a(href= prep.url)= prep.text
-								if prep.type == "img"
-									div.prep.note(concept= index)
-										img(src= 'assets/'+prep.name)
-								if prep.type == "vid"
-									div.prep.note(concept= index)
-										video(width="auto", height="auto", controls)
-											source(src= 'assets/'+prep.name)
-						div.note-group
-							each note in content.notes
-								div.prep.note(concept= index)= note
-								
-						div.writeup-group
-							each writeup in content.writeups
-								div.prep.writeup(concept= index)= writeup
+				each concept, index in concepts
+					div.concept-group
+						h3.concept-name= concept.name
+						div.concept-context= concept.context
+						each page in concept.pages
+							div.page-group
+								h3.page-name= page.name
+								each prep in page.preps
+									if prep.type == "txt"
+										div.prep.note(concept= index)= prep.text
+									if prep.type == "url"
+										div.prep.note(concept= index)
+											a(href= prep.url)= prep.text
+									if prep.type == "img"
+										div.prep.note(concept= index)
+											img(src= subject.name+'_assets/'+prep.name, alt= prep.name)
+									if prep.type == "vid"
+										div.prep.note(concept= index)
+											video(width="auto", height="auto", controls)
+												source(src= 'assets/'+prep.name)
+							div.note-group
+								each note in page.notes
+									div.prep.note(concept= index)= note
+									
+							div.writeup-group
+								div.prep.writeup(concept= index)= page.writeup
 					hr
