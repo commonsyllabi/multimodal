@@ -8,7 +8,7 @@
         {{message}}
       </div>
       <button v-show="choice" class="btn" @click="close();">cancel</button>
-      <button class="btn right" @click="close(); if(cb) cb()">ok</button>
+      <button v-for="cb in callbacks" class="btn right" @click="close(); if(cb.fn) cb.fn()">{{cb.name}}</button>
     </div>
   </div>
 
@@ -47,6 +47,10 @@
     font-size: 0.9em;
   }
 
+  .right{
+    margin-left: 10px;
+  }
+
 </style>
 
 <script>
@@ -56,15 +60,15 @@ export default {
       message: '',
       visible: false,
       choice: false,
-      cb: null
+      callbacks: null
     }
   },
   methods: {
-    setMessage(msg, cb = null, err = null, choice = false){
+    setMessage(msg, cbs = null, err = null, choice = false){
       this.visible = true
       this.message = msg
 
-      this.cb = cb
+      this.callbacks = cbs
       this.choice = choice
 
       if(err)

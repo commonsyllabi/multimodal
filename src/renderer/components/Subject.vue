@@ -209,7 +209,7 @@ export default {
     },
     exitLesson() {
       if(!this.lessonSaved)
-        dialog.setMessage("it seems you haven\'t saved this session. would you still like quit?", () => {ipc.send('exit-home', {'coming':'back'})}, null, true)
+        msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.send('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
       else
         ipc.send('exit-home', {'coming':'back'})
     },
