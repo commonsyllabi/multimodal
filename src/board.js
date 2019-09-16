@@ -17,7 +17,7 @@ module.exports.list = () => {
 		'subjects':[]
 	}
 
-	//first we get all the courses
+	//first we get all the subjects
 	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
 
 	//then for each course we look for all the related lessons
@@ -28,7 +28,7 @@ module.exports.list = () => {
 		}
 
 		for(let t of s.topics){
-			let p = `${s.path}/${s.name}/topics/${t.name}/topic.json`
+			let p = `${__dirname}/app/imports/${s.name}/topics/${t.name}/topic.json`
 			let l = null
 			try {
 				l = fs.readFileSync(p)
@@ -51,3 +51,28 @@ module.exports.list = () => {
 module.exports.init = (w) => {
 	win = w
 }
+
+//-- removes all unfound subjects and topics
+let cleanup = () => {
+	let cleaned = []
+	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
+
+	for(let s of subjects){
+		for(let t of s.topics){
+			let p = `${s.path}/${s.name}/topics/${t.name}/topic.json`
+			let l = null
+			try {
+				l = fs.readFileSync(p)
+				cleaned.push(JSON.parse(l))
+			} catch (e) {
+				console.log(`[BOARD] Couldn't find topic at ${t.name}`);
+			}
+		}
+
+		s.topics = cleaned
+	}
+
+	fs.writeFileSync(__dirname+'/data/subjects2.json', JSON.stringify(subjects))
+}
+
+cleanup()

@@ -44,9 +44,15 @@ module.exports.compress = (name, target) => {
     for(let m of media){
       zipper.addLocalFile(`${__dirname}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
     }
+
+    let other = fs.readdirSync(`${__dirname}/app/imports/${name}/topics/${t}/other/`)
+
+    for(let o of other){
+      zipper.addLocalFile(`${__dirname}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+    }
   }
 
-  zipper.writeZip(`${target}/${name}2.mmd`)
+  zipper.writeZip(`${target}/${name}.mmd`)
   console.log('[FILE] ...done');
 }
 
