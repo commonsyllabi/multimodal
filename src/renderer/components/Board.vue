@@ -187,24 +187,33 @@ export default {
       ipc.send('create-topic', {subject: subject})
     },
     removeTopic(topic){
-      dialog.setMessage("are you sure you want to remove this topic?", ()=>{
+      msgbox.setMessage("are you sure you want to remove this topic?", [{fn: () => {
         ipc.send('remove-topic', topic)
-      }, null, true)
+      }, name: "remove"}], null, true)
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
     },
     removeSubject(subject){
-      dialog.setMessage("are you sure you want to remove this subject?", ()=>{
+      msgbox.setMessage("are you sure you want to remove this subject?", [{fn: () => {
         ipc.send('remove-subject', subject)
-      }, null, true)
+      }, name: "remove"}], null, true)
     }
   },
   beforeMount(){
     this.data = window.data
   },
   mounted(){
-
+    ipc.on('export-success', (event, d) => {
+      msgbox.setMessage("export successful!", [{fn: () => {
+        d.type = "folder"
+        ipc.send('open-export', JSON.stringify(d))
+      }, name: "show in folder"},
+      {fn: () => {
+        d.type = "show"
+        ipc.send('open-export', JSON.stringify(d))
+      }, name: "open file"}], null, true)
+    })
   }
 }
 </script>

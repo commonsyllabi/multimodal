@@ -611,6 +611,10 @@ module.exports.setMessage = (_msg, _type) => {
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data () {
@@ -618,15 +622,15 @@ module.exports.setMessage = (_msg, _type) => {
       message: '',
       visible: false,
       choice: false,
-      cb: null
+      callbacks: null
     }
   },
   methods: {
-    setMessage(msg, cb = null, err = null, choice = false){
+    setMessage(msg, cbs = null, err = null, choice = false){
       this.visible = true
       this.message = msg
 
-      this.cb = cb
+      this.callbacks = cbs
       this.choice = choice
 
       if(err)
@@ -12740,48 +12744,55 @@ var render = function() {
     [
       _c("div", { staticClass: "dialog-overlay" }),
       _vm._v(" "),
-      _c("div", { staticClass: "dialog" }, [
-        _c("div", { staticClass: "message" }, [
-          _vm._v("\n      " + _vm._s(_vm.message) + "\n    ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.choice,
-                expression: "choice"
-              }
-            ],
-            staticClass: "btn",
-            on: {
-              click: function($event) {
-                return _vm.close()
-              }
-            }
-          },
-          [_vm._v("cancel")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn right",
-            on: {
-              click: function($event) {
-                _vm.close()
-                if (_vm.cb) {
-                  _vm.cb()
+      _c(
+        "div",
+        { staticClass: "dialog" },
+        [
+          _c("div", { staticClass: "message" }, [
+            _vm._v("\n      " + _vm._s(_vm.message) + "\n    ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.choice,
+                  expression: "choice"
+                }
+              ],
+              staticClass: "btn",
+              on: {
+                click: function($event) {
+                  return _vm.close()
                 }
               }
-            }
-          },
-          [_vm._v("ok")]
-        )
-      ])
+            },
+            [_vm._v("cancel")]
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.callbacks, function(cb) {
+            return _c(
+              "button",
+              {
+                staticClass: "btn right",
+                on: {
+                  click: function($event) {
+                    _vm.close()
+                    if (cb.fn) {
+                      cb.fn()
+                    }
+                  }
+                }
+              },
+              [_vm._v(_vm._s(cb.name))]
+            )
+          })
+        ],
+        2
+      )
     ]
   )
 }
@@ -12810,7 +12821,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: relative;\n  top: 100px;\n  width: 50vw;\n  margin: auto;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 3%;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: relative;\n  top: 100px;\n  width: 50vw;\n  margin: auto;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 3%;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
 
 // exports
 
@@ -13043,24 +13054,33 @@ const {dialog} = __webpack_require__(7).remote
       ipc.send('create-topic', {subject: subject})
     },
     removeTopic(topic){
-      dialog.setMessage("are you sure you want to remove this topic?", ()=>{
+      msgbox.setMessage("are you sure you want to remove this topic?", [{fn: () => {
         ipc.send('remove-topic', topic)
-      }, null, true)
+      }, name: "remove"}], null, true)
     },
     createSubject(subject){
       ipc.send('save-subject', subject)
     },
     removeSubject(subject){
-      dialog.setMessage("are you sure you want to remove this subject?", ()=>{
+      msgbox.setMessage("are you sure you want to remove this subject?", [{fn: () => {
         ipc.send('remove-subject', subject)
-      }, null, true)
+      }, name: "remove"}], null, true)
     }
   },
   beforeMount(){
     this.data = window.data
   },
   mounted(){
-
+    ipc.on('export-success', (event, d) => {
+      msgbox.setMessage("export successful!", [{fn: () => {
+        d.type = "folder"
+        ipc.send('open-export', JSON.stringify(d))
+      }, name: "show in folder"},
+      {fn: () => {
+        d.type = "show"
+        ipc.send('open-export', JSON.stringify(d))
+      }, name: "open file"}], null, true)
+    })
   }
 });
 
@@ -13376,7 +13396,7 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
 	}
 })
 
-const dialog = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
+const msgbox = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
 	el: '#dialog',
 	template: '<Dialog/>',
 	components: {
@@ -13384,7 +13404,7 @@ const dialog = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
 	}
 })
 
-window.dialog = dialog.$children[0]
+window.msgbox = msgbox.$children[0]
 
 // TODO: deal later with shortcuts
 

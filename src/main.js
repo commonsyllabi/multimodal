@@ -160,15 +160,24 @@ ipc.on('remove-subject', (event, data) => {
 ipc.on('export-subject', (event, d) => {
 	d = JSON.parse(d)
 	Subject.export(d.subject, d.type, d.path).then(() => {
-		console.log(`[EXPORT] exported ${d.subject.name}, opening...`);
-		shell.showItemInFolder(d.path+'/index.html')
-
-		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-		win.loadURL(`file://${d.path}/index.html`)
-
+		mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
+		mainWindow.webContents.send('export-success', {data: JSON.stringify(d)})
 	}).catch((err) => {
 		console.log(err);
 	})
+})
+
+ipc.on('open-export', (event, d) => {
+	d = JSON.parse(d)
+	let path = JSON.parse(d.data).subject.path
+	if(d.type == "folder"){
+		shell.showItemInFolder(`${path}/index.html`)
+	}	else if(d.type == 'show'){
+		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
+		win.loadURL(`file://${path}/index.html`)
+	} else {
+		console.log('[MAIN] error on opening export');
+	}
 })
 
 //-- save lesson
