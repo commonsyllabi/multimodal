@@ -18,7 +18,7 @@ const Topic = require('./topic.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = fs.readFileSync(`${data.path}/${data.subject}/topics/${data.name}/topic.json`)
+	let c = fs.readFileSync(`${__dirname}/app/imports/${data.subject}/topics/${data.name}/topic.json`)
 
 	//-- TODO cleanup
 	let compiled
@@ -82,13 +82,13 @@ ipc.on('open-topic', (event, data) => {
 	replaceWindow('topic')
 })
 
-// adds a new course by appending to the courses list, and creating the directory structure
+// adds a new subject by appending to the subjects list, and creating the directory structure
 ipc.on('save-subject', (event, data) => {
 	let s = new Subject(data)
 
 	//send a confirmation message
-	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
-	console.log(`[COURSE] saved ${data.name} successfully`)
+	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
+	console.log(`[COURSE] created ${data.name} successfully`)
 
 	let t = new Topic({
 		subject: s,

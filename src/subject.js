@@ -2,6 +2,7 @@ const fs = require('fs')
 const pug = require('pug')
 const path = require('path')
 const utils = require('./utils.js')
+const file_mgmt = require('./file-mgmt.js')
 
 class Subject {
   constructor(data){
@@ -23,18 +24,21 @@ class Subject {
     subjects.push(data)
   	fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
 
-    //create subject folder
-  	utils.touchDirectory(`${this.path}/${this.name}/topics`)
+    //create subject folder locally
+    utils.touchDirectory(`${__dirname}/app/imports/${this.name}/topics`)
 
-    //write the course file
-    fs.writeFileSync(`${this.path}/${this.name}/subject.json`, JSON.stringify(data))
+    //write the subject file locally
+    fs.writeFileSync(`${__dirname}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
+
+    //-- this is handled by the topic class
+    // file_mgmt.compress(this.name, this.path)
   }
 
   static remove(subject){
     console.log(`[SUBJECT] deleting ${subject.name}...`);
     return new Promise((resolve, reject) => {
 
-      console.log('[SUBJECT] first locally');
+      console.log('[SUBJECT] first from the subjects list');
       let foundSubject = false
       let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
@@ -52,9 +56,9 @@ class Subject {
           info: "could not find the subject"
         })
 
-      console.log('[SUBJECT] then remotely..');
+      console.log('[SUBJECT] then the local folder..');
       try{
-        utils.deleteFolderRecursive(`${subject.path}/${subject.name}/`)
+        utils.deleteFolderRecursive(`${__dirname}/app/imports/${subject.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -69,7 +73,7 @@ class Subject {
       if(type == 'html'){
         console.log('[SUBJECT] first topic');
         let content
-        content = JSON.parse(fs.readFileSync(`${data.path}/${data.subject}/topics/${data.name}/topic.json`))
+        content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
 
         //copy all assets over to new folder
         utils.touchDirectory(`${path}/${content.subject.name}_assets/`)

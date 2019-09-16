@@ -14440,7 +14440,7 @@ window.vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	}
 })
 
-const dialog = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
+const msgbox = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	el: '#dialog',
 	template: '<Dialog/>',
 	components: {
@@ -14448,7 +14448,7 @@ const dialog = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	}
 })
 
-window.dialog = dialog.$children[0]
+window.msgbox = msgbox.$children[0]
 
 window.currentNote = null
 window.offsets = [0,0]

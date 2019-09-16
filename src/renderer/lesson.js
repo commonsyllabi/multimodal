@@ -18,7 +18,7 @@ window.vm = new Vue({
 	}
 })
 
-const dialog = new Vue({
+const msgbox = new Vue({
 	el: '#dialog',
 	template: '<Dialog/>',
 	components: {
@@ -26,7 +26,7 @@ const dialog = new Vue({
 	}
 })
 
-window.dialog = dialog.$children[0]
+window.msgbox = msgbox.$children[0]
 
 window.currentNote = null
 window.offsets = [0,0]

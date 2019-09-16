@@ -2,6 +2,7 @@ const fs = require('fs')
 const pug = require('pug')
 const path = require('path')
 const utils = require('./utils.js')
+const file_mgmt = require('./file-mgmt.js')
 
 class Topic {
 
@@ -34,8 +35,11 @@ class Topic {
 
   init(){
     //-- create the appropriate folders
-    utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media`)
-    utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/other`)
+    //-- now we only create folders in the local imports directory. they get compressed afterwards
+    utils.touchDirectory(`${__dirname}/app/imports/${this.subject.name}/topics/${this.name}/media`)
+    utils.touchDirectory(`${__dirname}/app/imports/${this.subject.name}/topics/${this.name}/other`)
+    // utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media`)
+    // utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/other`)
 
     //-- find the appropriate course and update it locally
     let subject_list = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
@@ -44,13 +48,15 @@ class Topic {
         s.topics.push(this.toJSON())
     fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subject_list))
 
-    //-- as well as remotely
-    let remote_subject = JSON.parse(fs.readFileSync(`${this.subject.path}/${this.subject.name}/subject.json`))
+    //-- as well as in the imports folder
+    let remote_subject = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${this.subject.name}/subject.json`))
     remote_subject.topics.push(this.toJSON())
-    fs.writeFileSync(`${this.subject.path}/${this.subject.name}/subject.json`, JSON.stringify(remote_subject))
+    fs.writeFileSync(`${__dirname}/app/imports/${this.subject.name}/subject.json`, JSON.stringify(remote_subject))
 
     //-- finally write the actual topic file
-    fs.writeFileSync(`${this.subject.path}/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
+    fs.writeFileSync(`${__dirname}/app/imports/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
+
+    file_mgmt.compress(this.subject.name, this.subject.path)
   }
 
   static save(data){
@@ -77,7 +83,7 @@ class Topic {
             if(t.id == data.id){
               if(t.name != data.name){ //--this is where I check for the name change
                 console.log('[TOPIC] found different name, renaming folder...');
-                fs.renameSync(`${t.subject.path}/${t.subject.name}/topics/${t.name}`, `${data.subject.path}/${data.subject.name}/topics/${data.name}`)
+                fs.renameSync(`${__dirname}/app/imports/${t.subject.name}/topics/${t.name}`, `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}`)
               }
 
               console.log(`[TOPIC] found existing topic...`);
@@ -108,16 +114,16 @@ class Topic {
               p.name = re[0]
 
               //-- check for existing assets
-              let existing = fs.readdirSync(`${data.subject.path}/${data.subject.name}/topics/${data.name}/media`)
+              let existing = fs.readdirSync(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media`)
               let isReplacing = false
               for(let e of existing)
                 if(e == p.name)
                   isReplacing = true
 
               if(!isReplacing){
-                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${data.subject.path}/${data.subject.name}/topics/${data.name}/media/${p.name}`))
+                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
                 // now we redirect the source to the local folder
-                p.src = `${data.subject.path}/${data.subject.name}/topics/${data.name}/media/${p.name}`
+                p.src = `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
               }
             }
@@ -130,7 +136,9 @@ class Topic {
 
       //-- update the remote file
       console.log(`[TOPIC] Writing to remote file topic.json...`);
-      fs.writeFileSync(`${data.subject.path}/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
+      fs.writeFileSync(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
+
+      file_mgmt.compress(data.subject.name, data.subject.path)
 
       resolve(data)
     })
@@ -172,7 +180,7 @@ class Topic {
 
       console.log('[TOPIC] then remotely..');
       try{
-        utils.deleteFolderRecursive(`${topic.subject.path}/${topic.subject.name}/topics/${topic.name}/`)
+        utils.deleteFolderRecursive(`${__dirname}/app/imports/${topic.subject.name}/topics/${topic.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -185,45 +193,49 @@ class Topic {
 
   static export(_info, _type, _path = undefined, resolve, reject){
 
-    let topic = JSON.parse(fs.readFileSync(`${_info.path}/${_info.subject}/topics/${_info.name}/topic.json`))
+    let topic = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${_info.subject}/topics/${_info.name}/topic.json`))
 
     if(_type == 'html'){
       let compiled = pug.renderFile(__dirname+'/views/export.pug', topic)
 
       // we copy all the existing assets from the multimodal to the html exports
-      let media_path = `${topic.subject.path}/${topic.subject.name}/topics/${topic.name}/media/`
+      let media_path = `${__dirname}/app/imports/${topic.subject.name}/topics/${topic.name}/media/`
 
-      fs.readdirSync(media_path).forEach((file) => {
-        if(file != '.DS_Store')
-          fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${topic.subject.path}/${topic.subject.name}/exports/assets/`, file)))
-      })
+      console.log('aborted');
 
-      // generating the HTML
-      fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/${topic.name}.html`, compiled)
-      console.log(`[EXPORTED] ${topic.subject.path}/exports/${topic.name}.html`)
+      //TODO this very weird, it should copy the export function in Subject.js
 
-      //-- rebuild the index with all the already exported topics
-      //-- find the topic
-      let exportedtopics = []
-      let local_files = fs.readdirSync(`${topic.subject.path}/${topic.subject.name}/exports`)
-      for(let f of local_files)
-        if(f != 'index.html' && f.indexOf('.html') > -1)
-          exportedtopics.push(f.replace('.html', ''))
-
-      let c = {
-        'subject': topic.subject.name,
-        'topics': exportedtopics
-      }
-
-      //-- render the template
-      compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
-      fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/index.html`, compiled)
-
-      console.log('[REBUILT]', 'index.html')
-
-      //-- return the url to open the window
-      let url = `${topic.subject.path}/${topic.subject.name}/exports/index.html`
-      return new Promise((resolve, reject) => {resolve(url)})
+      // fs.readdirSync(media_path).forEach((file) => {
+      //   if(file != '.DS_Store')
+      //     fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${topic.subject.path}/${topic.subject.name}/exports/assets/`, file)))
+      // })
+      //
+      // // generating the HTML
+      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/${topic.name}.html`, compiled)
+      // console.log(`[EXPORTED] ${topic.subject.path}/exports/${topic.name}.html`)
+      //
+      // //-- rebuild the index with all the already exported topics
+      // //-- find the topic
+      // let exportedtopics = []
+      // let local_files = fs.readdirSync(`${topic.subject.path}/${topic.subject.name}/exports`)
+      // for(let f of local_files)
+      //   if(f != 'index.html' && f.indexOf('.html') > -1)
+      //     exportedtopics.push(f.replace('.html', ''))
+      //
+      // let c = {
+      //   'subject': topic.subject.name,
+      //   'topics': exportedtopics
+      // }
+      //
+      // //-- render the template
+      // compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
+      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/index.html`, compiled)
+      //
+      // console.log('[REBUILT]', 'index.html')
+      //
+      // //-- return the url to open the window
+      // let url = `${topic.subject.path}/${topic.subject.name}/exports/index.html`
+      // return new Promise((resolve, reject) => {resolve(url)})
     }
   }
 
@@ -250,18 +262,6 @@ let generateId = (n) => {
     id += Math.floor(Math.random()*10).toString()
 
   return id
-}
-
-Topic.prototype.find = (id) => {
-  //open the json file
-  let subjects = JSON.parse(fs.readFileSync(`${__dirname}/topics/subjects.json`))
-
-  for(let subject of subjects)
-    for(let topic of subject.topics)
-      if(topic.id == id) //if the id matches
-        return true //return the lesson
-
-  return false
 }
 
 module.exports = Topic
