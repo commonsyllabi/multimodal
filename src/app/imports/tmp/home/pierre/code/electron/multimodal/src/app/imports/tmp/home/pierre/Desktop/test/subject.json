@@ -1,0 +1,50 @@
+{
+  "id": "test-5354137776",
+  "name": "test",
+  "path": "/home/pierre/Desktop",
+  "created": "2019-08-20T15:42:21.671Z",
+  "topics": [
+    {
+      "id": "test-8393672026",
+      "course": {
+        "created": "2019-08-20T15:42:21.671Z",
+        "id": null,
+        "name": "test",
+        "path": "/home/pierre/Desktop"
+      },
+      "name": "test lesson",
+      "created": "2019-08-20T15:42:42.103Z",
+      "updated": null,
+      "concepts": [
+        {
+          "concept": "test concept",
+          "notes": [
+            null
+          ],
+          "prep": [
+            {
+              "tag": "",
+              "text": "test text",
+              "type": "txt"
+            }
+          ],
+          "tag": "",
+          "writeups": []
+        },
+        {
+          "concept": "whiteboard",
+          "notes": [],
+          "prep": [
+            {
+              "tag": "",
+              "text": "",
+              "type": "wbd"
+            }
+          ],
+          "tag": "whiteboard",
+          "writeups": []
+        }
+      ]
+    }
+  ]
+}

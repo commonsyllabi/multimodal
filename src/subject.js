@@ -25,10 +25,6 @@ class Subject {
 
     //create subject folder
   	utils.touchDirectory(`${this.path}/${this.name}/topics`)
-    utils.touchDirectory(`${this.path}/${this.name}/exports`)
-    utils.touchDirectory(`${this.path}/${this.name}/exports/assets`)
-    //-- css is now embedded in pug rendering
-    //fs.createReadStream(`${__dirname}/data/style.css`).pipe(fs.createWriteStream(`${this.path}/${this.name}/exports/style.css`))
 
     //write the course file
     fs.writeFileSync(`${this.path}/${this.name}/subject.json`, JSON.stringify(data))
