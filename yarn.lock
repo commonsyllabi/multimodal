@@ -105,10 +105,10 @@ adjust-sourcemap-loader@^1.1.0:
     object-path "^0.9.2"
     regex-parser "^2.2.9"
 
-adm-zip@^0.4.11:
-  version "0.4.11"
-  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.11.tgz#2aa54c84c4b01a9d0fb89bb11982a51f13e3d62a"
-  integrity sha512-L8vcjDTCOIJk7wFvmlEUN7AsSb8T+2JrdP7KINBjzr24TJ5Mwj590sLu3BC7zNZowvJWa/JtPmD8eJCzdtDWjA==
+adm-zip@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.4.10.tgz#6efb1090e78a12db377f3ba5f27b363f21988ac1"
+  integrity sha512-075E4f1zFxHbsnn6C4OI4jVzUT1zV+M68QdBxcVxmO/Yqk35CFnFFYLaepvth68gzlIlyQ/hkaI2JY99Nh3C5Q==
 
 ajv-errors@^1.0.0:
   version "1.0.0"

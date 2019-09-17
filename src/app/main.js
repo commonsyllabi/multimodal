@@ -12992,6 +12992,7 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 //
 //
 //
+//
 
 const ipc = __webpack_require__(7).ipcRenderer
 const {dialog} = __webpack_require__(7).remote
@@ -13038,6 +13039,18 @@ const {dialog} = __webpack_require__(7).remote
     create() {
       this.showCreate = true
     },
+    importFrom() {
+      let options = {
+        'title':'Select file to import',
+        'defaultPath':'~/',
+        'properties':['openFile']
+      }
+
+      dialog.showOpenDialog(options, (p) => {
+        console.log(p);
+    		ipc.send('import-subject', JSON.stringify({path: p[0]}))
+    	})
+    },
     exportTo() {
       let options = {
     		'title':'Select export path',
@@ -13048,7 +13061,6 @@ const {dialog} = __webpack_require__(7).remote
     	dialog.showOpenDialog(options, (p) => {
     		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: 'html'}))
     	})
-
     },
     createTopic(subject){
       ipc.send('create-topic', {subject: subject})
@@ -13809,18 +13821,24 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "buttons-container" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.create } }, [
+        _c("button", { staticClass: "btn left", on: { click: _vm.create } }, [
           _vm._v("create")
         ]),
         _vm._v(" "),
         _c(
           "button",
           {
-            staticClass: "btn",
+            staticClass: "btn left",
             attrs: { disabled: !_vm.selectedTopic },
             on: { click: _vm.exportTo }
           },
           [_vm._v("export")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn right", on: { click: _vm.importFrom } },
+          [_vm._v("import")]
         ),
         _vm._v(" "),
         _c("div", { staticClass: "msg-log", attrs: { id: "msg-log" } })
