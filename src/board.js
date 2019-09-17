@@ -52,12 +52,18 @@ module.exports.init = (w) => {
 	win = w
 }
 
+//-- TODO cross check with the current data in the imports folder as well
 //-- removes all unfound subjects and topics
 let cleanup = () => {
-	let cleaned = []
+	console.log('[BOARD] cleaning up subjects.json...');
 	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
 
+	//--backup
+	fs.writeFileSync(`${__dirname}/data/subjects.json.bakup`, JSON.stringify(subjects))
+
+	//-- first cleaning up topics
 	for(let s of subjects){
+		let cleaned = []
 		for(let t of s.topics){
 			let p = `${s.path}/${s.name}/topics/${t.name}/topic.json`
 			let l = null
@@ -72,7 +78,9 @@ let cleanup = () => {
 		s.topics = cleaned
 	}
 
+	//-- then cleaning up subjects without topics
+
 	fs.writeFileSync(__dirname+'/data/subjects2.json', JSON.stringify(subjects))
 }
 
-cleanup()
+//cleanup()

@@ -7,9 +7,9 @@ const file_mgmt = require('./file-mgmt.js')
 class Topic {
 
   constructor(data){
+    this.id = data.id ? data.id : generateId(this.name)
     this.subject = data.subject
     this.name = data.name ? data.name : "new-topic"
-    this.id = generateId(this.name)
     this.created = new Date()
     this.updated = null
     this.concepts = data.concepts ? data.concepts : [{
@@ -38,8 +38,6 @@ class Topic {
     //-- now we only create folders in the local imports directory. they get compressed afterwards
     utils.touchDirectory(`${__dirname}/app/imports/${this.subject.name}/topics/${this.name}/media`)
     utils.touchDirectory(`${__dirname}/app/imports/${this.subject.name}/topics/${this.name}/other`)
-    // utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/media`)
-    // utils.touchDirectory(`${this.subject.path}/${this.subject.name}/topics/${this.name}/other`)
 
     //-- find the appropriate course and update it locally
     let subject_list = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))

@@ -6,7 +6,7 @@ const file_mgmt = require('./file-mgmt.js')
 
 class Subject {
   constructor(data){
-    this.id = generateId(data.name)
+    this.id = data.id ? data.id : generateId(data.name)
     this.name = data.name.trim()
     this.path = data.path
     this.description = data.description
@@ -29,9 +29,6 @@ class Subject {
 
     //write the subject file locally
     fs.writeFileSync(`${__dirname}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
-
-    //-- this is handled by the topic class
-    // file_mgmt.compress(this.name, this.path)
   }
 
   static remove(subject){
@@ -62,6 +59,19 @@ class Subject {
         resolve()
       }catch (e){
         console.log(e);
+        reject(e)
+      }
+    })
+  }
+
+  static importFrom(path){
+    console.log(`[SUBJECT] importing from ${path}...`)
+    return new Promise((resolve, reject) => {
+      try {
+        let file = file_mgmt.extract(path)
+        console.log('subject',file);
+        resolve(file)
+      } catch (e) {
         reject(e)
       }
     })

@@ -79,7 +79,7 @@
     "webpack-cli": "^2.1.4"
   },
   "dependencies": {
-    "adm-zip": "^0.4.11",
+    "adm-zip": "^0.4.10",
     "lodash": "^4.17.13",
     "lodash.mergewith": "^4.6.2",
     "mem": "^4.0.0",

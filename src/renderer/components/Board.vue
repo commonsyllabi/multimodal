@@ -35,8 +35,9 @@
   <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
 
   <div class="buttons-container">
-    <button class="btn" @click="create">create</button>
-    <button class="btn" @click="exportTo" :disabled="!selectedTopic">export</button>
+    <button class="btn left" @click="create">create</button>
+    <button class="btn left" @click="exportTo" :disabled="!selectedTopic">export</button>
+    <button class="btn right" @click="importFrom">import</button>
 
     <div class="msg-log" id="msg-log"></div>
   </div>
@@ -171,6 +172,18 @@ export default {
     create() {
       this.showCreate = true
     },
+    importFrom() {
+      let options = {
+        'title':'Select file to import',
+        'defaultPath':'~/',
+        'properties':['openFile']
+      }
+
+      dialog.showOpenDialog(options, (p) => {
+        console.log(p);
+    		ipc.send('import-subject', JSON.stringify({path: p[0]}))
+    	})
+    },
     exportTo() {
       let options = {
     		'title':'Select export path',
@@ -181,7 +194,6 @@ export default {
     	dialog.showOpenDialog(options, (p) => {
     		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: 'html'}))
     	})
-
     },
     createTopic(subject){
       ipc.send('create-topic', {subject: subject})

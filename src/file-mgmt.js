@@ -8,23 +8,28 @@ module.exports.extract = (path) => {
   console.log(`[FILE] extracting ${path}...`);
   let zip = new admzip(path)
   let entries = zip.getEntries()
+  let subject = undefined
 
+  //-- extract to temp
   entries.forEach(function(entry) {
-    utils.touchDirectory(`${__dirname}/app/imports/tmp/`)
+    if(entry.entryName === 'subject.json')
+      subject = JSON.parse(entry.getData().toString()).name
+  })
 
-    console.log(entry.entryName.substring(entry.entryName.indexOf('test')));
-    zip.extractEntryTo(entry.entryName, `${__dirname}/app/imports/tmp`, true, true)
+  if(!subject)
+    throw "no subject.json found in imported file!"
+
+  utils.touchDirectory(`${__dirname}/app/imports/${subject}/topics`)
+  entries.forEach(function(entry) {
     try {
-      fs.renameSync(`${__dirname}/app/imports/tmp/${entry.entryName}`, `${__dirname}/app/imports/${entry.entryName.substring(entry.entryName.indexOf('test'))}`)
+      zip.extractEntryTo(entry.entryName, `src/app/imports/${subject}`, true, true)
     } catch (e) {
-      if(e.errno != -2)
-        console.log(e)
+      console.log(e)
     }
   })
 
-  utils.deleteFolderRecursive(`${__dirname}/app/imports/tmp/`)
-
   console.log('[FILE] ...done');
+  return subject
 }
 
 
@@ -56,5 +61,5 @@ module.exports.compress = (name, target) => {
   console.log('[FILE] ...done');
 }
 
-// module.exports.extract('/home/pierre/Desktop/test.mmd')
+// module.exports.extract('/home/pierre/teaching/pierre lesson.mmd')
 // module.exports.compress('test', '/home/pierre/Documents')

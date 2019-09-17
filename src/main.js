@@ -115,7 +115,7 @@ ipc.on('save-subject', (event, data) => {
 	replaceWindow('topic')
 })
 
-// creates the 'new lesson' window
+//-- creates a new board
 ipc.on('create-topic', (event, data) => {
 	let t = new Topic(data)
 
@@ -156,6 +156,24 @@ ipc.on('remove-subject', (event, data) => {
 	})
 })
 
+ipc.on('import-subject', (event, d) => {
+	d = JSON.parse(d)
+	Subject.importFrom(d.path).then((name) => {
+		//-- once we have extracted all the folders in the local directory, we update the subjects list by creating a new subject
+		let sdata = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${name}/subject.json`))
+		let s = new Subject(sdata)
+
+		let topics = fs.readdirSync(`${__dirname}/app/imports/${name}/topics`)
+		for(let topic of topics){
+			let tdata = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${name}/topics/${topic}/topic.json`))
+			let t = new Topic(tdata)
+		}
+		mainWindow.webContents.send('msg-log', {msg: 'import!', type: 'msg'})
+	}).catch((err) => {
+		console.log(err);
+	})
+})
+
 // exports a subject
 ipc.on('export-subject', (event, d) => {
 	d = JSON.parse(d)
@@ -167,9 +185,10 @@ ipc.on('export-subject', (event, d) => {
 	})
 })
 
+//-- show the exports results
 ipc.on('open-export', (event, d) => {
 	d = JSON.parse(d)
-	let path = JSON.parse(d.data).subject.path
+	let path = JSON.parse(d.data).path
 	if(d.type == "folder"){
 		shell.showItemInFolder(`${path}/index.html`)
 	}	else if(d.type == 'show'){
