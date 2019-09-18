@@ -79,18 +79,21 @@ let replaceWindow = (_target) => {
 // -----------------------------
 
 ipc.on('open-url', (event, url) => {
- let bwin = new BrowserWindow({ width: 700, height: 700})
- bwin.on('closed', () => {
-	 bwin = null
- })
-fs.writeFileSync(`${__dirname}/views/navigation.html`, pug.renderFile(`${__dirname}/views/navigation.pug`))
- bwin.loadURL(`${__dirname}/app/navigation.html`)
-
- let view = new BrowserView()
- bwin.setBrowserView(view)
- view.setBounds({ x: 30, y: 30, width: 700, height: 700})
- view.setAutoResize({width: true, height: true})
-	view.webContents.loadURL(url)
+	shell.openExternal(url)
+	
+	//TODO one day
+//  let bwin = new BrowserWindow({ width: 700, height: 750})
+//  bwin.on('closed', () => {
+// 	 bwin = null
+//  })
+// fs.writeFileSync(`${__dirname}/views/navigation.html`, pug.renderFile(`${__dirname}/views/navigation.pug`))
+//  bwin.loadURL(`${__dirname}/app/navigation.html`)
+//
+//  let view = new BrowserView()
+//  bwin.setBrowserView(view)
+//  view.setBounds({ x: 0, y: 50, width: 700, height: 700})
+//  view.setAutoResize({width: true, height: true})
+// 	view.webContents.loadURL(url)
 })
 
 ipc.on('open-topic', (event, data) => {
