@@ -13,6 +13,9 @@ exports = module.exports = {}
 
 // lists all the lessons from subjects.json and displays them on the welcome screen
 module.exports.list = () => {
+	if(!fs.existsSync(`${__dirname}/data/subjects.json`))
+		fs.writeFileSync(`${__dirname}/data/subjects.json`, '[]')
+
 	let data = {
 		'subjects':[]
 	}
@@ -79,8 +82,13 @@ let cleanup = () => {
 	}
 
 	//-- then cleaning up subjects without topics
+	let subjects_with_topics = []
+	for(let s of subjects)
+		if(s.topics.length > 0)
+			subjects_with_topics.push(s)
 
-	fs.writeFileSync(__dirname+'/data/subjects2.json', JSON.stringify(subjects))
+
+	fs.writeFileSync(__dirname+'/data/subjects.json', JSON.stringify(subjects_with_topics))
 }
 
-//cleanup()
+// cleanup()
