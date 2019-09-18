@@ -3,8 +3,7 @@
     <div class="context-toggle-inner" @click="toggleView">
 
     </div>
-    explain what the concept is about, add links etc.<br/>
-    <textarea v-if="this.visible" rows="12" class="context">{{data}}</textarea>
+    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="12" class="context">{{data}}</textarea>
   </div>
 </template>
 
@@ -13,6 +12,7 @@
 
 .context-container{
   position: absolute;
+  z-index: 2;
   right: -5px;
   top: 30px;
   width: 0;
@@ -20,7 +20,7 @@
   padding: 5px;
   background-color: $main-fg-color;
   color: $main-bg-color;
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
 }
 .context-toggle-inner{
 	position:absolute;
@@ -37,7 +37,8 @@
 
 .context{
   width: 90%;
-  margin: 5px;
+  margin: 10px;
+  font-size: 1.2em;
 }
 </style>
 

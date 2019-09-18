@@ -31,23 +31,28 @@ canvas {
 }
 
 .active {
+  visibility: visible;
 	pointer-events: auto;
 	cursor: crosshair;
 }
 
+.inactive{
+  visibility: hidden;
+}
+
 .page-group{
   position: relative;
-  padding-top: 5%;
-  padding-left: 10%;
-  width: 100vw;
-  height: 100vh;
+  width: 90vw;
+  height: 105vh;
   overflow: hidden;
-  border: 2px solid $main-fg-color;
+  background-color: $main-bg-color;
 }
 
 .title, .edit-input {
   font-size: 2.3em;
   font-weight: bold;
+  margin-top: 10vh;
+  margin-left: 10vw;
 }
 
 .edit-input{

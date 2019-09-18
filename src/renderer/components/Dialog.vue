@@ -28,6 +28,8 @@
 
   .dialog{
     background-color: $main-bg-color;
+    color: $main-fg-color;
+    font-family: "Inter UI", serif;
     position: fixed;
     top: 20vh;
     width: 50vw;
@@ -39,7 +41,8 @@
   }
 
   .message{
-    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 50px;
   }
 
   .dialog .btn{

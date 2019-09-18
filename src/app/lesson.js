@@ -593,6 +593,9 @@ module.exports = require("electron");
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data () {
@@ -823,12 +826,11 @@ let setupCanvas = (i) => {
 	contexts[i].lineCap = 'round'
 	contexts[i].strokeStyle = '#ff9933'
 
-
-	contexts[i].beginPath()
+	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
+	// contexts[i].beginPath()
 }
 
 let selectCanvas = (_page, _concept) => {
-
 	for(let i in canvases){
 		if(i == 'length') break
 		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
@@ -836,7 +838,7 @@ let selectCanvas = (_page, _concept) => {
 			cnv = canvases[i]
 			ctx = contexts[i]
 		}else{
-			canvases[i].setAttribute('class', 'drawing-board inactive')
+			canvases[i].setAttribute('class', 'drawing-board')
 		}
 	}
 }
@@ -845,26 +847,38 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	prevx = e.pageX - cnv.offsetParent.offsetLeft
-	prevy = e.pageY - cnv.offsetParent.offsetTop
+	prevx = e.pageX - cnv.offsetLeft
+	prevy = e.pageY - cnv.offsetTop
 
 	ctx.moveTo(prevx, prevy)
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
-	let nextx, nexty
+	// let nextx, nexty
+  //
+	// nextx = e.pageX - cnv.offsetLeft
+	// nexty = e.pageY - cnv.offsetTop
+	// let x = (prevx + nextx)/2
+	// let y = (prevy + nexty)/2
+  //
+	// ctx.lineTo(nextx, nexty)
+  //
+	// prevx = e.pageX - cnv.offsetLeft
+	// prevy = e.pageY - cnv.offsetTop
+	// ctx.stroke()
 
-	nextx = e.pageX-cnv.offsetParent.offsetLeft
-	nexty = e.pageY-cnv.offsetParent.offsetTop
-	let x = (prevx + nextx)/2
-	let y = (prevy + nexty)/2
+	let x = e.pageX - cnv.offsetLeft
+	let y = e.pageY - cnv.offsetTop
 
-	ctx.quadraticCurveTo(prevx, prevy, x, y)
+	ctx.beginPath();
+  ctx.moveTo(prevx, prevy);
+  ctx.lineTo(x, y);
+  ctx.closePath();
+  ctx.stroke();
 
-	prevx = e.pageX - cnv.offsetParent.offsetLeft
-	prevy = e.pageY - cnv.offsetParent.offsetTop
-	ctx.stroke()
+	prevx = x
+	prevy = y
 }
 
 let endDraw = () => {
@@ -13042,7 +13056,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: fixed;\n  top: 20vh;\n  width: 50vw;\n  margin-left: 20vw;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 5vw;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  font-family: \"Inter UI\", serif;\n  position: fixed;\n  top: 20vh;\n  width: 50vw;\n  margin-left: 20vw;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 5vw;\n}\n.message[data-v-58ede44e] {\n  text-align: center;\n  margin-bottom: 50px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
 
 // exports
 
@@ -13063,6 +13077,11 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Concept_vue__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Navigation_vue__ = __webpack_require__(82);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13217,6 +13236,7 @@ const ipc = __webpack_require__(7).ipcRenderer
   },
   methods: {
     isScrolledIntoView() {
+
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
@@ -13225,6 +13245,7 @@ const ipc = __webpack_require__(7).ipcRenderer
 
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
+          console.log('visible', comp);
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
@@ -13236,7 +13257,7 @@ const ipc = __webpack_require__(7).ipcRenderer
 
     },
     handleMousePosition(evt) {
-      evt.preventDefault()
+//      evt.preventDefault()
 
       this.position = {x: evt.clientX, y: evt.clientY}
 
@@ -13267,7 +13288,7 @@ const ipc = __webpack_require__(7).ipcRenderer
       drawing.toggleDraw(this.isDrawing)
     },
     clearBoard() {
-
+      drawing.clearBoard()
     },
     editLesson() {
       this.isEdit = !this.isEdit
@@ -13345,7 +13366,8 @@ const ipc = __webpack_require__(7).ipcRenderer
     globals.setCurrentPage(0, 0)
     globals.initTags()
 
-    document.addEventListener('scroll', (e) => {
+
+    document.addEventListener('wheel', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
     })
@@ -13563,6 +13585,7 @@ component.options.__file = "src/renderer/components/Context.vue"
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -13634,6 +13657,11 @@ if(false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Prep_vue__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Note_vue__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Writeup_vue__ = __webpack_require__(75);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13805,6 +13833,7 @@ if(false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
 //
 //
 //
@@ -14155,6 +14184,9 @@ if(false) {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
@@ -14175,7 +14207,7 @@ if(false) {
   methods: {
     toggleView(e) {
       this.visible = !this.visible
-      e.target.parentNode.style.width = this.visible ? '70vw' : '0px'
+      e.target.parentNode.style.width = this.visible ? '65vw' : '0px'
     }
   },
   mounted(){
@@ -14776,13 +14808,16 @@ var render = function() {
       staticClass: "context-toggle-inner",
       on: { click: _vm.toggleView }
     }),
-    _vm._v("\n  explain what the concept is about, add links etc."),
-    _c("br"),
     _vm._v(" "),
     this.visible
-      ? _c("textarea", { staticClass: "context", attrs: { rows: "12" } }, [
-          _vm._v(_vm._s(_vm.data))
-        ])
+      ? _c(
+          "textarea",
+          {
+            staticClass: "context",
+            attrs: { disabled: !this.isEdit, rows: "12" }
+          },
+          [_vm._v(_vm._s(_vm.data))]
+        )
       : _vm._e()
   ])
 }
@@ -14811,7 +14846,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-803923ce]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-803923ce] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-803923ce] {\n  color: #e77607;\n}\na[data-v-803923ce]:hover {\n  color: #b25900;\n}\nbutton[data-v-803923ce] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-803923ce] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-803923ce] {\n  background-color: darkseagreen;\n}\n.error[data-v-803923ce] {\n  background-color: crimson;\n}\n.metadata[data-v-803923ce] {\n  visibility: hidden;\n}\n.right[data-v-803923ce] {\n  float: right;\n}\n.left[data-v-803923ce] {\n  float: left;\n}\ndiv[data-v-803923ce],\nimg[data-v-803923ce] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-803923ce] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.context-container[data-v-803923ce] {\n  position: absolute;\n  right: -5px;\n  top: 30px;\n  width: 0;\n  height: 90%;\n  padding: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  transition: all 0.3s linear;\n}\n.context-toggle-inner[data-v-803923ce] {\n  position: absolute;\n  width: 10px;\n  top: 20px;\n  left: -20px;\n  height: 10vh;\n  background-color: #eeeeee;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  border: 5px solid #202020;\n}\n.context[data-v-803923ce] {\n  width: 90%;\n  margin: 5px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-803923ce]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-803923ce] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-803923ce] {\n  color: #e77607;\n}\na[data-v-803923ce]:hover {\n  color: #b25900;\n}\nbutton[data-v-803923ce] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-803923ce] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-803923ce] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-803923ce] {\n  background-color: darkseagreen;\n}\n.error[data-v-803923ce] {\n  background-color: crimson;\n}\n.metadata[data-v-803923ce] {\n  visibility: hidden;\n}\n.right[data-v-803923ce] {\n  float: right;\n}\n.left[data-v-803923ce] {\n  float: left;\n}\ndiv[data-v-803923ce],\nimg[data-v-803923ce] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-803923ce] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.context-container[data-v-803923ce] {\n  position: absolute;\n  z-index: 2;\n  right: -5px;\n  top: 30px;\n  width: 0;\n  height: 90%;\n  padding: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  transition: all 0.2s linear;\n}\n.context-toggle-inner[data-v-803923ce] {\n  position: absolute;\n  width: 10px;\n  top: 20px;\n  left: -20px;\n  height: 10vh;\n  background-color: #eeeeee;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  border: 5px solid #202020;\n}\n.context[data-v-803923ce] {\n  width: 90%;\n  margin: 10px;\n  font-size: 1.2em;\n}", ""]);
 
 // exports
 
@@ -15271,7 +15306,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-5ad8d233]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-5ad8d233] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-5ad8d233] {\n  color: #e77607;\n}\na[data-v-5ad8d233]:hover {\n  color: #b25900;\n}\nbutton[data-v-5ad8d233] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-5ad8d233] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-5ad8d233] {\n  background-color: darkseagreen;\n}\n.error[data-v-5ad8d233] {\n  background-color: crimson;\n}\n.metadata[data-v-5ad8d233] {\n  visibility: hidden;\n}\n.right[data-v-5ad8d233] {\n  float: right;\n}\n.left[data-v-5ad8d233] {\n  float: left;\n}\ndiv[data-v-5ad8d233],\nimg[data-v-5ad8d233] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-5ad8d233] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.prep[data-v-5ad8d233],\n.edit-input[data-v-5ad8d233] {\n  position: relative;\n  z-index: 2;\n  opacity: 1;\n  font-family: 'Inter UI';\n  font-style: italic;\n  font-size: 2em;\n  color: #eeeeee;\n  margin-top: 5%;\n  text-align: left;\n}\n@media (max-width: 1300px) {\n.prep[data-v-5ad8d233],\n  .edit-input[data-v-5ad8d233] {\n    font-size: 2.5em;\n}\n}\n.edit-input[data-v-5ad8d233] {\n  margin: 0;\n  font-size: 1em;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.prep-tag-anchor[data-v-5ad8d233] {\n  margin-left: 10px;\n  font-size: 0.5em;\n  cursor: pointer;\n}\nimg[data-v-5ad8d233] {\n  max-width: 800px !important;\n  max-height: 600px;\n}\n.preview[data-v-5ad8d233] {\n  max-width: 400px !important;\n  max-height: 300px;\n  float: left;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-5ad8d233]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-5ad8d233] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-5ad8d233] {\n  color: #e77607;\n}\na[data-v-5ad8d233]:hover {\n  color: #b25900;\n}\nbutton[data-v-5ad8d233] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-5ad8d233] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-5ad8d233] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-5ad8d233] {\n  background-color: darkseagreen;\n}\n.error[data-v-5ad8d233] {\n  background-color: crimson;\n}\n.metadata[data-v-5ad8d233] {\n  visibility: hidden;\n}\n.right[data-v-5ad8d233] {\n  float: right;\n}\n.left[data-v-5ad8d233] {\n  float: left;\n}\ndiv[data-v-5ad8d233],\nimg[data-v-5ad8d233] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-5ad8d233] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.prep[data-v-5ad8d233],\n.edit-input[data-v-5ad8d233] {\n  position: relative;\n  z-index: 2;\n  opacity: 1;\n  font-family: 'Inter UI';\n  font-style: italic;\n  font-size: 2em;\n  color: #eeeeee;\n  margin-top: 5vh;\n  margin-left: 10vw;\n  text-align: left;\n}\n@media (max-width: 1300px) {\n.prep[data-v-5ad8d233],\n  .edit-input[data-v-5ad8d233] {\n    font-size: 2.5em;\n}\n}\n.edit-input[data-v-5ad8d233] {\n  margin: 0;\n  font-size: 1em;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.prep-tag-anchor[data-v-5ad8d233] {\n  margin-left: 10px;\n  font-size: 0.5em;\n  cursor: pointer;\n}\nimg[data-v-5ad8d233] {\n  max-width: 800px !important;\n  max-height: 600px;\n}\n.preview[data-v-5ad8d233] {\n  max-width: 400px !important;\n  max-height: 300px;\n  float: left;\n}", ""]);
 
 // exports
 
@@ -15396,7 +15431,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-05617578]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-05617578] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-05617578] {\n  color: #e77607;\n}\na[data-v-05617578]:hover {\n  color: #b25900;\n}\nbutton[data-v-05617578] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-05617578] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-05617578] {\n  background-color: darkseagreen;\n}\n.error[data-v-05617578] {\n  background-color: crimson;\n}\n.metadata[data-v-05617578] {\n  visibility: hidden;\n}\n.right[data-v-05617578] {\n  float: right;\n}\n.left[data-v-05617578] {\n  float: left;\n}\ndiv[data-v-05617578],\nimg[data-v-05617578] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-05617578] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ntextarea[data-v-05617578] {\n  font-family: 'Inter UI';\n  background-color: rgba(1, 0, 0, 0);\n  border: none;\n  outline: none;\n  height: auto;\n}\n.note[data-v-05617578] {\n  position: absolute;\n  z-index: 5;\n  width: 40%;\n  color: #eeeeee;\n  font-size: 2.5em;\n  transition: opacity 0.5s ease-in;\n}\n@media (max-width: 1300px) {\n.note[data-v-05617578] {\n    font-size: 2em;\n}\n}\n.written[data-v-05617578] {\n  width: 100%;\n}\n.moveable[data-v-05617578] {\n  z-index: 4;\n  width: initial;\n}\n#current[data-v-05617578] {\n  position: absolute;\n  font-weight: bold;\n  overflow-y: visible;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-05617578]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-05617578] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-05617578] {\n  color: #e77607;\n}\na[data-v-05617578]:hover {\n  color: #b25900;\n}\nbutton[data-v-05617578] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-05617578] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-05617578] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-05617578] {\n  background-color: darkseagreen;\n}\n.error[data-v-05617578] {\n  background-color: crimson;\n}\n.metadata[data-v-05617578] {\n  visibility: hidden;\n}\n.right[data-v-05617578] {\n  float: right;\n}\n.left[data-v-05617578] {\n  float: left;\n}\ndiv[data-v-05617578],\nimg[data-v-05617578] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-05617578] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ntextarea[data-v-05617578] {\n  font-family: 'Inter UI';\n  background-color: rgba(1, 0, 0, 0);\n  border: none;\n  outline: none;\n  height: auto;\n}\n.note[data-v-05617578] {\n  position: absolute;\n  z-index: 5;\n  width: 40%;\n  color: #eeeeee;\n  font-size: 2.5em;\n  transition: opacity 0.5s ease-in;\n}\n@media (max-width: 1300px) {\n.note[data-v-05617578] {\n    font-size: 2em;\n}\n}\n.written[data-v-05617578] {\n  width: 100%;\n}\n.moveable[data-v-05617578] {\n  z-index: 4;\n  width: initial;\n}\n#current[data-v-05617578] {\n  position: absolute;\n  font-weight: bold;\n  overflow-y: visible;\n}", ""]);
 
 // exports
 
@@ -15480,9 +15515,14 @@ var render = function() {
     }),
     _vm._v(" "),
     this.visible
-      ? _c("textarea", { staticClass: "writeup", attrs: { rows: "12" } }, [
-          _vm._v(_vm._s(_vm.data))
-        ])
+      ? _c(
+          "textarea",
+          {
+            staticClass: "writeup",
+            attrs: { disabled: !this.isEdit, rows: "6" }
+          },
+          [_vm._v(_vm._s(_vm.data))]
+        )
       : _vm._e()
   ])
 }
@@ -15511,7 +15551,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-53f0a5a4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-53f0a5a4] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-53f0a5a4] {\n  color: #e77607;\n}\na[data-v-53f0a5a4]:hover {\n  color: #b25900;\n}\nbutton[data-v-53f0a5a4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-53f0a5a4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-53f0a5a4] {\n  background-color: darkseagreen;\n}\n.error[data-v-53f0a5a4] {\n  background-color: crimson;\n}\n.metadata[data-v-53f0a5a4] {\n  visibility: hidden;\n}\n.right[data-v-53f0a5a4] {\n  float: right;\n}\n.left[data-v-53f0a5a4] {\n  float: left;\n}\ndiv[data-v-53f0a5a4],\nimg[data-v-53f0a5a4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-53f0a5a4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.writeup-toggle-outer[data-v-53f0a5a4] {\n  position: absolute;\n  bottom: 100px;\n  left: 0px;\n  width: 0;\n  height: 20vh;\n  z-index: 4;\n  background-color: #eeeeee;\n  transition: all 0.3s linear;\n}\n.writeup-toggle-inner[data-v-53f0a5a4] {\n  position: absolute;\n  width: 10px;\n  top: 20px;\n  right: -20px;\n  height: 10vh;\n  background-color: #eeeeee;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  margin-left: 40%;\n  border: 5px solid #202020;\n}\n.writeup[data-v-53f0a5a4] {\n  width: 90%;\n  margin: 5px;\n  font-family: 'Inter UI';\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-53f0a5a4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-53f0a5a4] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-53f0a5a4] {\n  color: #e77607;\n}\na[data-v-53f0a5a4]:hover {\n  color: #b25900;\n}\nbutton[data-v-53f0a5a4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-53f0a5a4] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-53f0a5a4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-53f0a5a4] {\n  background-color: darkseagreen;\n}\n.error[data-v-53f0a5a4] {\n  background-color: crimson;\n}\n.metadata[data-v-53f0a5a4] {\n  visibility: hidden;\n}\n.right[data-v-53f0a5a4] {\n  float: right;\n}\n.left[data-v-53f0a5a4] {\n  float: left;\n}\ndiv[data-v-53f0a5a4],\nimg[data-v-53f0a5a4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-53f0a5a4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.writeup-toggle-outer[data-v-53f0a5a4] {\n  position: absolute;\n  bottom: 100px;\n  left: 0px;\n  width: 0;\n  height: 25vh;\n  z-index: 4;\n  background-color: #eeeeee;\n  transition: all 0.2s linear;\n}\n.writeup-toggle-inner[data-v-53f0a5a4] {\n  position: absolute;\n  width: 10px;\n  top: 20px;\n  right: -20px;\n  height: 15vh;\n  background-color: #eeeeee;\n  margin: auto;\n  cursor: pointer;\n  z-index: 3;\n  margin-left: 40%;\n  border: 5px solid #202020;\n}\n.writeup[data-v-53f0a5a4] {\n  width: 90%;\n  height: 90%;\n  margin: 10px;\n  font-size: 1.2em;\n  font-family: 'Inter UI';\n  border: none;\n}", ""]);
 
 // exports
 
@@ -15536,7 +15576,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-4b44dcd6] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.right[data-v-4b44dcd6] {\n  float: right;\n}\n.left[data-v-4b44dcd6] {\n  float: left;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-4b44dcd6] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  padding-top: 5%;\n  padding-left: 10%;\n  width: 100vw;\n  height: 100vh;\n  overflow: hidden;\n  border: 2px solid #eeeeee;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n}\n.edit-input[data-v-4b44dcd6] {\n  color: #eeeeee;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.add-buttons[data-v-4b44dcd6] {\n  width: 100%;\n  float: left;\n  margin-top: 50px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-4b44dcd6] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.right[data-v-4b44dcd6] {\n  float: right;\n}\n.left[data-v-4b44dcd6] {\n  float: left;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-4b44dcd6] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  visibility: visible;\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.inactive[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  width: 90vw;\n  height: 105vh;\n  overflow: hidden;\n  background-color: #202020;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n  margin-top: 10vh;\n  margin-left: 10vw;\n}\n.edit-input[data-v-4b44dcd6] {\n  color: #eeeeee;\n  background-color: #202020;\n  border-bottom: 2px solid #eeeeee;\n}\n.add-buttons[data-v-4b44dcd6] {\n  width: 100%;\n  float: left;\n  margin-top: 50px;\n}", ""]);
 
 // exports
 
@@ -15720,7 +15760,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-7f70c41a]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-7f70c41a] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-7f70c41a] {\n  color: #e77607;\n}\na[data-v-7f70c41a]:hover {\n  color: #b25900;\n}\nbutton[data-v-7f70c41a] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-7f70c41a] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-7f70c41a] {\n  background-color: darkseagreen;\n}\n.error[data-v-7f70c41a] {\n  background-color: crimson;\n}\n.metadata[data-v-7f70c41a] {\n  visibility: hidden;\n}\n.right[data-v-7f70c41a] {\n  float: right;\n}\n.left[data-v-7f70c41a] {\n  float: left;\n}\ndiv[data-v-7f70c41a],\nimg[data-v-7f70c41a] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-7f70c41a] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.nav[data-v-7f70c41a],\n.edit-input[data-v-7f70c41a] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n.edit-input[data-v-7f70c41a] {\n  border-bottom: 1px solid #eeeeee;\n  text-align: right;\n}\n.concept[data-v-7f70c41a],\n.page[data-v-7f70c41a] {\n  width: 100%;\n  margin: 0%;\n  padding-right: 10px;\n  text-align: right;\n}\n.concept[data-v-7f70c41a] {\n  font-size: 1.1em;\n  font-weight: bold;\n  border-bottom: 2px solid #eeeeee;\n  margin-top: 10px;\n  margin-bottom: 5px;\n}\n.page[data-v-7f70c41a] {\n  padding-right: 20px;\n}\n.concept[data-v-7f70c41a]:hover,\n.page[data-v-7f70c41a]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.current-page[data-v-7f70c41a] {\n  background-color: #202020;\n  border-left: 10px solid #eeeeee;\n  color: #eeeeee;\n  font-weight: bold;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-7f70c41a]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-7f70c41a] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-7f70c41a] {\n  color: #e77607;\n}\na[data-v-7f70c41a]:hover {\n  color: #b25900;\n}\nbutton[data-v-7f70c41a] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-7f70c41a] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-7f70c41a] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-7f70c41a] {\n  background-color: darkseagreen;\n}\n.error[data-v-7f70c41a] {\n  background-color: crimson;\n}\n.metadata[data-v-7f70c41a] {\n  visibility: hidden;\n}\n.right[data-v-7f70c41a] {\n  float: right;\n}\n.left[data-v-7f70c41a] {\n  float: left;\n}\ndiv[data-v-7f70c41a],\nimg[data-v-7f70c41a] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-7f70c41a] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.nav[data-v-7f70c41a],\n.edit-input[data-v-7f70c41a] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n.edit-input[data-v-7f70c41a] {\n  border-bottom: 1px solid #eeeeee;\n  text-align: right;\n}\n.concept[data-v-7f70c41a],\n.page[data-v-7f70c41a] {\n  width: 100%;\n  margin: 0%;\n  padding-right: 10px;\n  text-align: right;\n}\n.concept[data-v-7f70c41a] {\n  font-size: 1.1em;\n  font-weight: bold;\n  border-bottom: 2px solid #eeeeee;\n  margin-top: 10px;\n  margin-bottom: 5px;\n}\n.page[data-v-7f70c41a] {\n  padding-right: 20px;\n}\n.concept[data-v-7f70c41a]:hover,\n.page[data-v-7f70c41a]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.current-page[data-v-7f70c41a] {\n  background-color: #202020;\n  border-left: 10px solid #eeeeee;\n  color: #eeeeee;\n  font-weight: bold;\n}", ""]);
 
 // exports
 
@@ -15862,7 +15902,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-bbdef1d4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-bbdef1d4] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-bbdef1d4] {\n  color: #e77607;\n}\na[data-v-bbdef1d4]:hover {\n  color: #b25900;\n}\nbutton[data-v-bbdef1d4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-bbdef1d4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-bbdef1d4] {\n  background-color: darkseagreen;\n}\n.error[data-v-bbdef1d4] {\n  background-color: crimson;\n}\n.metadata[data-v-bbdef1d4] {\n  visibility: hidden;\n}\n.right[data-v-bbdef1d4] {\n  float: right;\n}\n.left[data-v-bbdef1d4] {\n  float: left;\n}\ndiv[data-v-bbdef1d4],\nimg[data-v-bbdef1d4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-bbdef1d4] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n}\n.subject-name[data-v-bbdef1d4] {\n  z-index: 5;\n  position: absolute;\n  right: 0;\n  width: 30vw;\n  margin: 10px;\n}\n.subject-name input[data-v-bbdef1d4] {\n  font-size: 48px;\n  padding: 5px;\n}\n.concept-group[data-v-bbdef1d4] {\n  height: auto;\n  overflow: visible;\n  position: relative;\n}\n.buttons-container[data-v-bbdef1d4] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-bbdef1d4] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-bbdef1d4] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-bbdef1d4] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-bbdef1d4]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-bbdef1d4]:active {\n  border: none;\n}\n.exit-lesson[data-v-bbdef1d4],\n.save-session[data-v-bbdef1d4] {\n  float: right;\n}\n.nav-container[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 100%;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-bbdef1d4]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-bbdef1d4] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-bbdef1d4] {\n  color: #e77607;\n}\na[data-v-bbdef1d4]:hover {\n  color: #b25900;\n}\nbutton[data-v-bbdef1d4] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-bbdef1d4] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-bbdef1d4] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-bbdef1d4] {\n  background-color: darkseagreen;\n}\n.error[data-v-bbdef1d4] {\n  background-color: crimson;\n}\n.metadata[data-v-bbdef1d4] {\n  visibility: hidden;\n}\n.right[data-v-bbdef1d4] {\n  float: right;\n}\n.left[data-v-bbdef1d4] {\n  float: left;\n}\ndiv[data-v-bbdef1d4],\nimg[data-v-bbdef1d4] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-bbdef1d4] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n  background-color: #202020;\n  font-family: \"Inter UI\", serif;\n  overflow-x: hidden;\n}\n.subject-name[data-v-bbdef1d4] {\n  z-index: 5;\n  position: absolute;\n  right: 0;\n  width: 30vw;\n  margin: 10px;\n  color: #eeeeee;\n}\n.subject-name input[data-v-bbdef1d4] {\n  font-size: 48px;\n  padding: 5px;\n}\n.concept-group[data-v-bbdef1d4] {\n  height: auto;\n  overflow: visible;\n  position: relative;\n  color: #eeeeee;\n}\n.buttons-container[data-v-bbdef1d4] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-bbdef1d4] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-bbdef1d4] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-bbdef1d4] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-bbdef1d4]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-bbdef1d4]:active {\n  border: none;\n}\n.exit-lesson[data-v-bbdef1d4],\n.save-session[data-v-bbdef1d4] {\n  float: right;\n}\n.nav-container[data-v-bbdef1d4] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 100%;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
 
 // exports
 
