@@ -3,6 +3,7 @@ const ipc = electron.ipcMain
 const app = electron.app
 const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
+const BrowserView = electron.BrowserView
 
 //const path = require('path')
 //const url = require('url')
@@ -76,6 +77,21 @@ let replaceWindow = (_target) => {
 // ------------------------------
 // ------------------------------ IPC MESSAGES
 // -----------------------------
+
+ipc.on('open-url', (event, url) => {
+ let bwin = new BrowserWindow({ width: 700, height: 700})
+ bwin.on('closed', () => {
+	 bwin = null
+ })
+fs.writeFileSync(`${__dirname}/views/navigation.html`, pug.renderFile(`${__dirname}/views/navigation.pug`))
+ bwin.loadURL(`${__dirname}/app/navigation.html`)
+
+ let view = new BrowserView()
+ bwin.setBrowserView(view)
+ view.setBounds({ x: 30, y: 30, width: 700, height: 700})
+ view.setAutoResize({width: true, height: true})
+	view.webContents.loadURL(url)
+})
 
 ipc.on('open-topic', (event, data) => {
 	generateHTML(data, 'topic')

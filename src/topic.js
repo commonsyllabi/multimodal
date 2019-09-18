@@ -117,12 +117,12 @@ class Topic {
               //   if(e == p.name)
               //     isReplacing = true
 
-              if(!isReplacing){
+              // if(!isReplacing){
                 fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
                 // now we redirect the source to the local folder
                 p.src = `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-              }
+              // }
             }
           }
         }

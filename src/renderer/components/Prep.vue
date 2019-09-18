@@ -7,9 +7,9 @@
     </div>
 
     <div v-else-if="data.type == 'url'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input"type="text" v-if="isEdit" placeholder="resource text" v-model:value="data.text">
-      <input class="edit-input"type="text" v-if="isEdit" placeholder="resource link" v-model:value="data.url">
-      <a v-else :href="data.url" target="_blank">{{data.text}}</a>
+      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource text" v-model:value="data.text">
+      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource link" v-model:value="data.url">
+      <a v-else :href="data.url" @click="openLink" target="_blank">{{data.text}}</a>
     </div>
 
     <div v-else-if="data.type == 'img'" class="prep moveable" :concept="index" :tag="data.tag">
@@ -36,6 +36,7 @@
 
 .prep, .edit-input{
   position: relative;
+  z-index: 2;
   opacity:1;
 
   font-family: 'Inter UI';
@@ -77,6 +78,8 @@ img{
 </style>
 
 <script>
+const ipc = require('electron').ipcRenderer
+
 export default {
   props: {
     _id: {
@@ -108,6 +111,10 @@ export default {
   methods: {
     removePrep() {
       this.$emit('remove-prep', this)
+    },
+    openLink(evt, el){
+      evt.preventDefault()
+      ipc.send('open-url', evt.target.href)
     },
     handleFileInput(e) {
       e.preventDefault()

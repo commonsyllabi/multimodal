@@ -3,10 +3,7 @@
 const ipc = require('electron').ipcRenderer
 
 require('./sass/globals.scss')
-require('./sass/welcome.scss')
-require('./sass/create.scss')
 
-import * as welcome from './main/welcome.js'
 import * as utils from './utils.js'
 
 import Vue from 'vue'

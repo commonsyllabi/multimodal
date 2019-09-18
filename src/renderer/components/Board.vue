@@ -47,11 +47,36 @@
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
+.buttons-container, .subjects-container{
+	position: absolute;
+	width: 50%;
+	height: 100%;
+	float: left;
+}
+
+.subjects{
+	padding: 5%;
+	margin-bottom: 5%;
+}
+
+.subject-title {
+	width: 100%;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+.selected {
+	background-color: $main-fg-color;
+	color: $main-bg-color;
+	border-color: $main-fg-color;
+	font-weight: bold;
+}
+
 .inter-class{
   margin-bottom: 50px;
 }
 
-.topic, .inter-btn-main {
+.topic {
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
