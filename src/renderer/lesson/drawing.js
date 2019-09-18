@@ -6,7 +6,7 @@ let prevx, prevy
 
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
-	ctn = document.getElementsByClassName('lessons-container')[0]
+	ctn = document.getElementsByClassName('main-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
 
 	for(let i in canvases){

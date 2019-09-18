@@ -10,6 +10,10 @@ import Vue from 'vue'
 import Subject from './components/Subject.vue'
 import Dialog from './components/Dialog.vue'
 
+window.currentNote = null
+window.offsets = [0,0]
+window.isEdit = false
+
 window.vm = new Vue({
 	el: '#writing-board',
 	template: '<Subject/>',
@@ -27,10 +31,6 @@ const msgbox = new Vue({
 })
 
 window.msgbox = msgbox.$children[0]
-
-window.currentNote = null
-window.offsets = [0,0]
-window.isEdit = false
 
 window.editLesson = (e) => {
 	window.isEdit = !window.isEdit

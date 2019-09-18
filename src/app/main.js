@@ -12821,7 +12821,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: relative;\n  top: 100px;\n  width: 50vw;\n  margin: auto;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 3%;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-58ede44e] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  position: fixed;\n  top: 20vh;\n  width: 50vw;\n  margin-left: 20vw;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 5vw;\n}\n.message[data-v-58ede44e] {\n  margin-bottom: 20px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
 
 // exports
 
@@ -12865,6 +12865,31 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue__ = __webpack_require__(101);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13378,20 +13403,17 @@ if(false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Board_vue__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Dialog_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__utils_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Board_vue__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Dialog_vue__ = __webpack_require__(16);
 
 
 const ipc = __webpack_require__(7).ipcRenderer
 
 __webpack_require__(91)
-__webpack_require__(93)
-__webpack_require__(95)
 
 
 
@@ -13399,20 +13421,19 @@ __webpack_require__(95)
 
 
 
-
-window.vm = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
+window.vm = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 	el: '#notice-board',
 	template: '<Board/>',
 	components: {
-		Board: __WEBPACK_IMPORTED_MODULE_3__components_Board_vue__["a" /* default */]
+		Board: __WEBPACK_IMPORTED_MODULE_2__components_Board_vue__["a" /* default */]
 	}
 })
 
-const msgbox = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
+const msgbox = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 	el: '#dialog',
 	template: '<Dialog/>',
 	components: {
-		'Dialog':__WEBPACK_IMPORTED_MODULE_4__components_Dialog_vue__["a" /* default */]
+		'Dialog':__WEBPACK_IMPORTED_MODULE_3__components_Dialog_vue__["a" /* default */]
 	}
 })
 
@@ -13421,15 +13442,15 @@ window.msgbox = msgbox.$children[0]
 // TODO: deal later with shortcuts
 
 
-ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
-ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
-ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
-ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
-ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
+ipc.on('menu-create', () => { welcome.createLesson()})
+ipc.on('menu-open', () => { welcome.openLesson()})
+ipc.on('menu-edit', () => { welcome.editLesson()})
+ipc.on('menu-remove', () => { welcome.removeLesson()})
+ipc.on('menu-export', () => { welcome.exportLesson()})
 ipc.on('menu-save', () => { create.saveLesson()})
 ipc.on('menu-exit', () => { create.exitLesson()})
 
-ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_1__utils_js__["setMessage"](data.msg, data.type)})
+ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_0__utils_js__["setMessage"](data.msg, data.type)})
 
 ipc.on('update-dropdown', (event, data) => {
 	console.log('got updated dropdown course', data)
@@ -13487,151 +13508,11 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 
 
 /***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(94);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(5).default
-var update = add("79de8870", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./welcome.scss", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./welcome.scss");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__(0);
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\n.right {\n  float: right;\n}\n\n.left {\n  float: left;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n\n.subjects-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.subjects-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.subjects {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.subject-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.selected {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: #202020;\n  color: #202020;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(96);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__(5).default
-var update = add("5a3adc70", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./create.scss", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./create.scss");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var escape = __webpack_require__(0);
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\n.right {\n  float: right;\n}\n\n.left {\n  float: left;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: #eeeeee;\n  color: #202020;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: #202020;\n  color: #eeeeee;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: #202020;\n  color: #eeeeee;\n  border: 2px solid #eeeeee;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid #eeeeee;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n}\n\ninput:disabled {\n  float: left;\n  background-color: #202020;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid #eeeeee;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid #eeeeee;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: #eeeeee;\n  background-color: #202020;\n  border: 2px solid #eeeeee;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: #eeeeee;\n  color: #202020;\n  cursor: pointer;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 97 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return openLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeLesson; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return editLesson; });
-/* unused harmony export editNotesLesson */
-/* unused harmony export setLesson */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
-
-
-const ipc = __webpack_require__(7).ipcRenderer
-const {dialog} = __webpack_require__(7).remote
-const utils = __webpack_require__(8)
-
-let current = {
-	'course':'',
-	'name':'',
-	'path': ''
-}
-
-let createLesson = () => {
-	ipc.send('create-lesson')
-}
-
-let removeLesson = (_c, _l) => {
-	let course = _c ? _c : current.course
-	let name = _l ? _l : current.name
-
-	let options = {	'type':'info',
-		'buttons':['Yes!', 'Nope.'],
-		'title':'Are you sure?',
-		'message':'You\'re about to delete this lesson, and all data associated with it. Are you certain?'
-	}
-
-	if(dialog.showMessageBox(options) == 0)
-		ipc.send('remove-lesson', current)
-}
-
-let editLesson = () => {
-	if(current.course == ''){
-		utils.setMessage('no course selected!', 'error')
-		return
-	}
-	ipc.send('edit-lesson', current)
-}
-
-let exportLesson = () => {
-	if(current.course == ''){
-		utils.setMessage('no course selected!', 'error')
-		return
-	}
-	ipc.send('export-lesson', current)
-}
-
-
-
-
-/***/ }),
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */,
 /* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -14102,7 +13983,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\n.right[data-v-40ee3f60] {\n  float: right;\n}\n.left[data-v-40ee3f60] {\n  float: left;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.inter-class[data-v-40ee3f60] {\n  margin-bottom: 50px;\n}\n.topic[data-v-40ee3f60],\n.inter-btn-main[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n.topic[data-v-40ee3f60] {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n.topic[data-v-40ee3f60]:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}\n.btn[data-v-40ee3f60]:disabled {\n  color: #202020;\n}\nli button[data-v-40ee3f60] {\n  font-size: 1em;\n  font-weight: bold;\n  color: #202020;\n  background-color: #eeeeee;\n  border-radius: 60px;\n  z-index: 5;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: 'Inter UI', 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n.msg-log[data-v-40ee3f60] {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\n.right[data-v-40ee3f60] {\n  float: right;\n}\n.left[data-v-40ee3f60] {\n  float: left;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.buttons-container[data-v-40ee3f60],\n.subjects-container[data-v-40ee3f60] {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n.subjects[data-v-40ee3f60] {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n.subject-title[data-v-40ee3f60] {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n.selected[data-v-40ee3f60] {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.inter-class[data-v-40ee3f60] {\n  margin-bottom: 50px;\n}\n.topic[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n.topic[data-v-40ee3f60] {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n.topic[data-v-40ee3f60]:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}\n.btn[data-v-40ee3f60]:disabled {\n  color: #202020;\n}\nli button[data-v-40ee3f60] {\n  font-size: 1em;\n  font-weight: bold;\n  color: #202020;\n  background-color: #eeeeee;\n  border-radius: 60px;\n  z-index: 5;\n}", ""]);
 
 // exports
 

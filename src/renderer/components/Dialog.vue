@@ -28,14 +28,14 @@
 
   .dialog{
     background-color: $main-bg-color;
-    position: relative;
-    top: 100px;
+    position: fixed;
+    top: 20vh;
     width: 50vw;
-    margin: auto;
+    margin-left: 20vw;
     display: block;
     font-size: 2.2em;
     border: 2px solid white;
-    padding: 3%;
+    padding: 5vw;
   }
 
   .message{
