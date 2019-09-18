@@ -3,7 +3,7 @@
     <div class="writeup-toggle-inner" @click="toggleView">
 
     </div>
-    <textarea v-if="this.visible" rows="12" class="writeup">{{data}}</textarea>
+    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="6" class="writeup">{{data}}</textarea>
   </div>
 
 </template>
@@ -16,10 +16,10 @@
 	bottom: 100px;
   left: 0px;
 	width: 0;
-	height: 20vh;
+	height: 25vh;
 	z-index: 4;
 	background-color: $main-fg-color;
-	transition: all 0.3s linear;
+	transition: all 0.2s linear;
 }
 
 .writeup-toggle-inner{
@@ -27,7 +27,7 @@
 	width: 10px;
   top: 20px;
 	right: -20px;
-	height: 10vh;
+	height: 15vh;
 	background-color: $main-fg-color;
 	margin: auto;
 	cursor: pointer;
@@ -38,8 +38,11 @@
 
 .writeup{
   width: 90%;
-  margin: 5px;
-  font-family: 'Inter UI'
+  height: 90%;
+  margin: 10px;
+  font-size: 1.2em;
+  font-family: 'Inter UI';
+  border: none;
 }
 </style>
 
@@ -63,7 +66,7 @@ export default {
   methods: {
     toggleView(e) {
       this.visible = !this.visible
-      e.target.parentNode.style.width = this.visible ? '70vw' : '0px'
+      e.target.parentNode.style.width = this.visible ? '65vw' : '0px'
     }
   },
   mounted(){

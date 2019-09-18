@@ -48,7 +48,8 @@
   }
 
   color: $main-fg-color;
-  margin-top: 5%;
+  margin-top: 5vh;
+  margin-left: 10vw;
   text-align: left;
 }
 

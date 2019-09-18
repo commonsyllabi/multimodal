@@ -27,12 +27,11 @@ let setupCanvas = (i) => {
 	contexts[i].lineCap = 'round'
 	contexts[i].strokeStyle = '#ff9933'
 
-
-	contexts[i].beginPath()
+	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
+	// contexts[i].beginPath()
 }
 
 let selectCanvas = (_page, _concept) => {
-
 	for(let i in canvases){
 		if(i == 'length') break
 		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
@@ -40,7 +39,7 @@ let selectCanvas = (_page, _concept) => {
 			cnv = canvases[i]
 			ctx = contexts[i]
 		}else{
-			canvases[i].setAttribute('class', 'drawing-board inactive')
+			canvases[i].setAttribute('class', 'drawing-board')
 		}
 	}
 }
@@ -49,26 +48,38 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	prevx = e.pageX - cnv.offsetParent.offsetLeft
-	prevy = e.pageY - cnv.offsetParent.offsetTop
+	prevx = e.pageX - cnv.offsetLeft
+	prevy = e.pageY - cnv.offsetTop
 
 	ctx.moveTo(prevx, prevy)
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
-	let nextx, nexty
+	// let nextx, nexty
+  //
+	// nextx = e.pageX - cnv.offsetLeft
+	// nexty = e.pageY - cnv.offsetTop
+	// let x = (prevx + nextx)/2
+	// let y = (prevy + nexty)/2
+  //
+	// ctx.lineTo(nextx, nexty)
+  //
+	// prevx = e.pageX - cnv.offsetLeft
+	// prevy = e.pageY - cnv.offsetTop
+	// ctx.stroke()
 
-	nextx = e.pageX-cnv.offsetParent.offsetLeft
-	nexty = e.pageY-cnv.offsetParent.offsetTop
-	let x = (prevx + nextx)/2
-	let y = (prevy + nexty)/2
+	let x = e.pageX - cnv.offsetLeft
+	let y = e.pageY - cnv.offsetTop
 
-	ctx.quadraticCurveTo(prevx, prevy, x, y)
+	ctx.beginPath();
+  ctx.moveTo(prevx, prevy);
+  ctx.lineTo(x, y);
+  ctx.closePath();
+  ctx.stroke();
 
-	prevx = e.pageX - cnv.offsetParent.offsetLeft
-	prevy = e.pageY - cnv.offsetParent.offsetTop
-	ctx.stroke()
+	prevx = x
+	prevy = y
 }
 
 let endDraw = () => {

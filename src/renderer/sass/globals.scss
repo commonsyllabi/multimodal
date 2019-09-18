@@ -6,6 +6,7 @@ $mid-orange: #e77607;
 $dark-orange: #b25900;
 
 $main-bg-color: #202020;
+$sub-bg-color: #808080;
 $main-fg-color: #eeeeee;
 
 
@@ -40,7 +41,7 @@ $break-medium: 1300px;
 }
 
 body {
-	font-family: 'Inter UI', 'Trebuchet MS';
+	font-family: "Inter UI", serif, 'Trebuchet MS';
   background-color: $main-bg-color;
   color: $main-fg-color;
   overflow-x: hidden;
@@ -61,6 +62,11 @@ button {
   color: $main-fg-color;
   border: 1px solid $main-fg-color;
   cursor: pointer;
+}
+
+textarea{
+  font-family: "Inter UI", serif;
+  border: none;
 }
 
 .msg-log {

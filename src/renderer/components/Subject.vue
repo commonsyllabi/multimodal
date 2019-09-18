@@ -37,6 +37,9 @@
 	width: 90vw;
 	height: 100%;
 	z-index: 0;
+  background-color: $main-bg-color;
+  font-family: "Inter UI", serif;
+  overflow-x: hidden;
 }
 
 .subject-name{
@@ -45,6 +48,7 @@
   right: 0;
   width: 30vw;
   margin: 10px;
+  color: $main-fg-color;
 }
 
 .subject-name input{
@@ -56,6 +60,7 @@
   height: auto;
   overflow: visible;
   position: relative;
+  color: $main-fg-color;
 }
 
 
@@ -152,6 +157,7 @@ export default {
   },
   methods: {
     isScrolledIntoView() {
+
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
@@ -160,6 +166,7 @@ export default {
 
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
+          console.log('visible', comp);
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
@@ -171,7 +178,7 @@ export default {
 
     },
     handleMousePosition(evt) {
-      evt.preventDefault()
+//      evt.preventDefault()
 
       this.position = {x: evt.clientX, y: evt.clientY}
 
@@ -202,7 +209,7 @@ export default {
       drawing.toggleDraw(this.isDrawing)
     },
     clearBoard() {
-
+      drawing.clearBoard()
     },
     editLesson() {
       this.isEdit = !this.isEdit
@@ -280,7 +287,8 @@ export default {
     globals.setCurrentPage(0, 0)
     globals.initTags()
 
-    document.addEventListener('scroll', (e) => {
+
+    document.addEventListener('wheel', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
     })
