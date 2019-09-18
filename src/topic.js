@@ -58,7 +58,6 @@ class Topic {
   }
 
   static save(data){
-    //TODO check for name change!
     data.updated = new Date()
 
     return new Promise((resolve, reject) => {
@@ -111,12 +110,12 @@ class Topic {
               let re = (/[^/]*$/gi).exec(p.src)
               p.name = re[0]
 
-              //-- check for existing assets
-              let existing = fs.readdirSync(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media`)
-              let isReplacing = false
-              for(let e of existing)
-                if(e == p.name)
-                  isReplacing = true
+              // //-- check for existing assets
+              // let existing = fs.readdirSync(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media`)
+              // let isReplacing = false
+              // for(let e of existing)
+              //   if(e == p.name)
+              //     isReplacing = true
 
               if(!isReplacing){
                 fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
