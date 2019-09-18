@@ -7,7 +7,7 @@ const file_mgmt = require('./file-mgmt.js')
 class Topic {
 
   constructor(data){
-    this.id = data.id ? data.id : generateId(this.name)
+    this.id = data.id ? data.id : generateId(data.name)
     this.subject = data.subject
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()

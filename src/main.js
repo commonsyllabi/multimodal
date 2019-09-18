@@ -80,7 +80,7 @@ let replaceWindow = (_target) => {
 
 ipc.on('open-url', (event, url) => {
 	shell.openExternal(url)
-	
+
 	//TODO one day
 //  let bwin = new BrowserWindow({ width: 700, height: 750})
 //  bwin.on('closed', () => {
@@ -105,10 +105,6 @@ ipc.on('open-topic', (event, data) => {
 ipc.on('save-subject', (event, data) => {
 	let s = new Subject(data)
 
-	//send a confirmation message
-	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
-	console.log(`[COURSE] created ${data.name} successfully`)
-
 	let t = new Topic({
 		subject: s,
 		name: 'new-topic',
@@ -129,6 +125,10 @@ ipc.on('save-subject', (event, data) => {
 		"subject": s.name,
 		"name": t.name
 	}
+
+	//send a confirmation message
+	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
+	console.log(`[COURSE] created ${data.name} successfully`)
 
 	generateHTML(d, 'topic')
 	replaceWindow('topic')
