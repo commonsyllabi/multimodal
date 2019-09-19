@@ -13245,7 +13245,6 @@ const ipc = __webpack_require__(7).ipcRenderer
 
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
-          console.log('visible', comp);
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
@@ -13590,8 +13589,10 @@ component.options.__file = "src/renderer/components/Context.vue"
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
-      type: String,
-      default: {}
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,
@@ -14191,8 +14192,10 @@ if(false) {
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: {
     data: {
-      type: String,
-      default: 'no current writeup bro'
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,
@@ -14810,14 +14813,28 @@ var render = function() {
     }),
     _vm._v(" "),
     this.visible
-      ? _c(
-          "textarea",
-          {
-            staticClass: "context",
-            attrs: { disabled: !this.isEdit, rows: "12" }
-          },
-          [_vm._v(_vm._s(_vm.data))]
-        )
+      ? _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model:value",
+              value: _vm.data.text,
+              expression: "data.text",
+              arg: "value"
+            }
+          ],
+          staticClass: "context",
+          attrs: { disabled: !this.isEdit, rows: "12" },
+          domProps: { value: _vm.data.text },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.data, "text", $event.target.value)
+            }
+          }
+        })
       : _vm._e()
   ])
 }
@@ -15515,14 +15532,28 @@ var render = function() {
     }),
     _vm._v(" "),
     this.visible
-      ? _c(
-          "textarea",
-          {
-            staticClass: "writeup",
-            attrs: { disabled: !this.isEdit, rows: "6" }
-          },
-          [_vm._v(_vm._s(_vm.data))]
-        )
+      ? _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model:value",
+              value: _vm.data.text,
+              expression: "data.text",
+              arg: "value"
+            }
+          ],
+          staticClass: "writeup",
+          attrs: { type: "text", disabled: !this.isEdit },
+          domProps: { value: _vm.data.text },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.data, "text", $event.target.value)
+            }
+          }
+        })
       : _vm._e()
   ])
 }

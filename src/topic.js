@@ -14,7 +14,7 @@ class Topic {
     this.updated = null
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
-      context: "",
+      context: {"text":""},
       pages: [
         {
           name: "new page",
@@ -25,7 +25,7 @@ class Topic {
             "type": "txt"
           }],
           notes: [],
-          writeups: ""
+          writeup: {"text":""}
         }
       ]
     }]

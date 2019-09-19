@@ -110,12 +110,12 @@ ipc.on('save-subject', (event, data) => {
 		name: 'new-topic',
 		concepts: [{
 			name: "new concept",
-			context: "",
+			context: {text: ""},
 			pages: [{
 				name: "new page",
 				preps: [],
 				notes: [],
-				writeup: ""
+				writeup: {text: ""}
 			}]
 		}]
 	})
