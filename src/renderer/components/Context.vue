@@ -3,7 +3,7 @@
     <div class="context-toggle-inner" @click="toggleView">
 
     </div>
-    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="12" class="context">{{data}}</textarea>
+    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="12" class="context" v-model:value="data.text"></textarea>
   </div>
 </template>
 
@@ -46,8 +46,10 @@
 export default {
   props: {
     data: {
-      type: String,
-      default: {}
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,

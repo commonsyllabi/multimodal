@@ -3,7 +3,7 @@
     <div class="writeup-toggle-inner" @click="toggleView">
 
     </div>
-    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="6" class="writeup">{{data}}</textarea>
+    <textarea type="text" v-if="this.visible" :disabled="!this.isEdit" class="writeup" v-model:value="data.text"></textarea>
   </div>
 
 </template>
@@ -50,8 +50,10 @@
 export default {
   props: {
     data: {
-      type: String,
-      default: 'no current writeup bro'
+      type: Object,
+      default: {
+        text: ""
+      }
     },
     isEdit: {
       type: Boolean,

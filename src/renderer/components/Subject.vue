@@ -166,7 +166,6 @@ export default {
 
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
-          console.log('visible', comp);
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
