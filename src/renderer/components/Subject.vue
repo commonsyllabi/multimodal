@@ -177,7 +177,6 @@ export default {
 
     },
     handleMousePosition(evt) {
-//      evt.preventDefault()
 
       this.position = {x: evt.clientX, y: evt.clientY}
 
@@ -189,6 +188,7 @@ export default {
     	}
     },
     handleNewNote(el) {
+      console.log('new');
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -225,8 +225,10 @@ export default {
     		for(let j = 0; j < this.data.concepts[i].pages.length; j++){
     			let cleaned_notes = []
     			for(let k = 0; k < this.data.concepts[i].pages[j].notes.length; k++){
-    				if(this.data.concepts[i].pages[j].notes[k].text != "")
-    					cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+    				if(this.data.concepts[i].pages[j].notes[k].text != "" || this.data.concepts[i].pages[j].notes[k].text != null){
+              cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+              this.data.concepts[i].pages[j].notes[k].saved = true
+            }
     			}
 
     			this.data.concepts[i].pages[j].notes = cleaned_notes
@@ -311,6 +313,9 @@ export default {
   },
   beforeMount() {
     this.data = window.data
+  },
+  afterMount(){
+    setTimeout(() => {this.currentNote = null}, 100)
   }
 }
 

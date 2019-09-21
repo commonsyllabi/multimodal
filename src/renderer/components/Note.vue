@@ -49,7 +49,8 @@ export default {
     data: {
       type: Object,
       default: {
-        text: ""
+        text: "",
+        saved: false
       }
     },
     isEdit: {
@@ -83,7 +84,9 @@ export default {
       e.style.height = (e.scrollHeight) + 'px'
     })
 
-    this.$emit('new-note', el)
+    //-- this prevents existing notes from being set as current notes on subject mount
+    if(!this.data.saved)
+      this.$emit('new-note', el)
   },
   afterMount(){
     // this.$emit('new-note', el)
