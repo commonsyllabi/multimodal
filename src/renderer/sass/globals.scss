@@ -5,9 +5,9 @@ $light-orange: #ff9933;
 $mid-orange: #e77607;
 $dark-orange: #b25900;
 
-$main-bg-color: #202020;
+$main-fg-color: #202020;
 $sub-bg-color: #808080;
-$main-fg-color: #eeeeee;
+$main-bg-color: #eeeeee;
 
 
 $btn-size: 2.2em;
@@ -70,6 +70,7 @@ textarea{
 }
 
 .msg-log {
+  font-family: "Inter UI", serif;
 	float: right;
 	height:100%;
 	margin-right: 3%;
