@@ -1,6 +1,7 @@
 const fs = require('fs')
 const pug = require('pug')
 const path = require('path')
+const pdf = require('html-pdf')
 const utils = require('./utils.js')
 const file_mgmt = require('./file-mgmt.js')
 
@@ -78,13 +79,13 @@ class Subject {
   }
 
   static export(data, type, path){
-    console.log(`[SUBJECT] exporting - ${data.subject}`);
-    return new Promise((resolve, reject) => {
-      if(type == 'html'){
-        console.log('[SUBJECT] first topic');
-        let content
-        content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+    console.log(`[SUBJECT] exporting - ${data.subject} - ${type}`);
 
+    return new Promise((resolve, reject) => {
+
+      let content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+
+      if(type == 'html'){
         //copy all assets over to new folder
         utils.touchDirectory(`${path}/${content.subject.name}_assets/`)
         for(let concept of content.concepts)
@@ -96,14 +97,42 @@ class Subject {
         let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
         fs.writeFileSync(`${path}/${data.name}.html`, topic)
 
-        console.log('[SUBJECT] then index');
         content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/subject.json`))
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, content)
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()
       }else if(type == 'pdf'){
-        console.log('pdf');
-        reject()
+        //-- first copy all the media assets and html to a temp folder
+        utils.touchDirectory(`${__dirname}/app/imports/temp/${content.subject.name}_assets/`)
+        for(let concept of content.concepts)
+          for(let page of concept.pages)
+            for(let prep of page.preps)
+              if(prep.type == 'img' || prep.type == 'vid')
+                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${__dirname}/app/imports/temp/${content.subject.name}_assets/${prep.name}`))
+
+        //-- create the html stream
+        let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
+
+        //-- generate the pdf
+        let options = {
+          border: {
+            top: "0.2in",
+            right: "0.125in",
+            bottom: "0.2in",
+            left: "0.125in"
+          },
+          format: 'A4'
+        }
+        pdf.create(topic, options).toFile(`${path}/${data.name}.pdf`, (err, res) => {
+          if(err){
+            console.log(err);
+            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            reject(err)
+          }else{
+            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            resolve()
+          }
+        })
       }else{
         console.log('[SUBJECT] got wrong type');
         reject()

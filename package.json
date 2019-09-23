@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.10",
+    "html-pdf": "^2.2.0",
     "lodash": "4.17.13",
     "lodash.mergewith": "^4.6.2",
     "mem": "^4.0.0",

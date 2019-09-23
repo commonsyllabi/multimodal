@@ -36,7 +36,8 @@
 
   <div class="buttons-container">
     <button class="btn left" @click="create">create</button>
-    <button class="btn left" @click="exportTo" :disabled="!selectedTopic">export</button>
+    <button class="btn left" @click="exportTo('html')" :disabled="!selectedTopic">to html</button>
+    <button class="btn left" @click="exportTo('pdf')" :disabled="!selectedTopic">to pdf</button>
     <button class="btn right" @click="importFrom">import</button>
 
     <div class="msg-log" id="msg-log"></div>
@@ -102,8 +103,8 @@
 	bottom: 0px;
 	left: 0px;
 	padding-left: 10px;
-	height: 50px;
-  line-height: 50px;
+	height: 35px;
+  line-height: 35px;
 	width: 100%;
 
 	background-color: $main-bg-color;
@@ -122,6 +123,7 @@
   font-size: $btn-size;
 	font-family: 'Inter UI';
 	cursor: pointer;
+  font-size: 1.5em;
 
   @media (max-width: $break-medium){
 		font-size: 1.5em;
@@ -209,7 +211,7 @@ export default {
     		ipc.send('import-subject', JSON.stringify({path: p[0]}))
     	})
     },
-    exportTo() {
+    exportTo(type) {
       let options = {
     		'title':'Select export path',
     		'defaultPath':'~/',
@@ -217,7 +219,7 @@ export default {
     	}
 
     	dialog.showOpenDialog(options, (p) => {
-    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: 'html'}))
+    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: type}))
     	})
     },
     createTopic(subject){

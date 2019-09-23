@@ -81,7 +81,7 @@ let replaceWindow = (_target) => {
 ipc.on('open-url', (event, url) => {
 	shell.openExternal(url)
 
-	//TODO one day
+	//TODO one day have a URL open in a multimodal sub-window
 //  let bwin = new BrowserWindow({ width: 700, height: 750})
 //  bwin.on('closed', () => {
 // 	 bwin = null
@@ -149,7 +149,6 @@ ipc.on('create-topic', (event, data) => {
 })
 
 ipc.on('remove-topic', (event, data) => {
-
 	Topic.remove(data).then((result) => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 		setTimeout(() => {
@@ -197,6 +196,7 @@ ipc.on('import-subject', (event, d) => {
 ipc.on('export-subject', (event, d) => {
 	d = JSON.parse(d)
 	Subject.export(d.subject, d.type, d.path).then(() => {
+		console.log('[MAIN] export done');
 		mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
 		mainWindow.webContents.send('export-success', {data: JSON.stringify(d)})
 	}).catch((err) => {
@@ -207,15 +207,29 @@ ipc.on('export-subject', (event, d) => {
 //-- show the exports results
 ipc.on('open-export', (event, d) => {
 	d = JSON.parse(d)
-	let path = JSON.parse(d.data).path
-	if(d.type == "folder"){
-		shell.showItemInFolder(`${path}/index.html`)
-	}	else if(d.type == 'show'){
-		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-		win.loadURL(`file://${path}/index.html`)
-	} else {
-		console.log('[MAIN] error on opening export');
+	let data = JSON.parse(d.data)
+
+	if(data.type == 'html'){
+		if(d.type == "folder"){
+			shell.showItemInFolder(`${data.path}/index.html`)
+		}	else if(d.type == 'show'){
+			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
+			win.loadURL(`file://${data.path}/index.html`)
+		} else {
+			console.log('[MAIN] error on opening html export');
+		}
+	}else if(data.type == 'pdf'){
+		//TODO there might be a weird thing about the fact that i access the subject.name even though it should be topic.name......
+		if(d.type == "folder"){
+			shell.showItemInFolder(`${data.path}/${data.subject.name}.pdf`)
+		}	else if(d.type == 'show'){
+			console.log(`file://${data.path}/${data.name}.pdf`);
+			shell.openExternal(`file://${data.path}/${data.subject.name}.pdf`)
+		} else {
+			console.log('[MAIN] error on opening pdf export');
+		}
 	}
+
 })
 
 //-- save lesson
