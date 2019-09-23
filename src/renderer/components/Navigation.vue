@@ -1,13 +1,14 @@
 <template>
   <span>
+    <button v-if="isEdit" class="add-input" @click="addConcept">C+</button>
+    <button v-if="isEdit" class="add-input" @click="removeConcept">C-</button>
     <input class="edit-input" v-if="isEdit" type="text" v-model:value="data.name" placeholder="new concept">
     <button v-else class="nav concept"> {{data.name}} </button>
-    <button v-if="isEdit" @click="addConcept">C+</button>
-    <button v-if="isEdit" @click="removeConcept">C-</button>
+
     <div v-for="(page, index) in data.pages">
       <button class="nav page" :page="`${concept}-${index}`">{{page.name}}</button>
-      <button v-if="isEdit" @click="addPage(index)">P+</button>
-      <button v-if="isEdit" @click="removePage(index)">P-</button>
+      <button v-if="isEdit" class="add-input" @click="addPage(index)">P+</button>
+      <button v-if="isEdit" class="add-input" @click="removePage(index)">P-</button>
     </div>
   </span>
 </template>
@@ -30,24 +31,30 @@
   text-align: right;
 }
 
+.add-input{
+  float: left;
+}
+
 .concept, .page {
-	width: 100%;
+	width: 60%;
 	margin: 0%;
 
 	padding-right: 10px;
 	text-align: right;
 }
 
-.concept{
+.concept, .edit-input{
   font-size: 1.1em;
   font-weight: bold;
   border-bottom: 2px solid $main-fg-color;
   margin-top: 10px;
   margin-bottom: 5px;
+  float: right;
 }
 
 .page{
   padding-right: 20px;
+  float: right;
 }
 
 .concept:hover, .page:hover{

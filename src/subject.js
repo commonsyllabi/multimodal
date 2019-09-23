@@ -97,7 +97,7 @@ class Subject {
         fs.writeFileSync(`${path}/${data.name}.html`, topic)
 
         console.log('[SUBJECT] then index');
-        content = JSON.parse(fs.readFileSync(`${data.path}/${data.subject}/subject.json`))
+        content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/subject.json`))
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, content)
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()

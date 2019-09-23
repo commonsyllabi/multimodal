@@ -96,4 +96,5 @@ img {
 	float: left;
 	margin-bottom: 10px;
 	font-style: italic;
+	white-space: pre-line;
 }

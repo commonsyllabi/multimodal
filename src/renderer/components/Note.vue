@@ -18,12 +18,12 @@ textarea {
   z-index: 5;
   width: 40%;
   color: $main-fg-color;
-  font-size: 2.5em;
+  font-size: 1.9em;
 
   transition: opacity 0.5s ease-in;
 
   @media (max-width: 1300px){
-    font-size: 2em;
+    font-size: 1.7em;
   }
 }
 

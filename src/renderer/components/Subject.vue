@@ -45,7 +45,7 @@
 .subject-name{
   z-index: 5;
   position: absolute;
-  right: 0;
+  left: 0;
   width: 30vw;
   margin: 10px;
   color: $main-fg-color;

@@ -58,6 +58,7 @@ canvas {
 .edit-input{
   color: $main-fg-color;
   background-color: $main-bg-color;
+  border: none;
   border-bottom: 2px solid $main-fg-color;
 }
 
