@@ -16,7 +16,7 @@ html
 				each concept, index in concepts
 					div.concept-group
 						h3.concept-name= concept.name
-						div.concept-context= concept.context
+						div.concept-context= concept.context.text
 						each page in concept.pages
 							div.page-group
 								h3.page-name= page.name
@@ -35,8 +35,8 @@ html
 												source(src= 'assets/'+prep.name)
 							div.note-group
 								each note in page.notes
-									div.prep.note(concept= index)= note
+									div.prep.note(concept= index)= note.text
 									
 							div.writeup-group
-								div.prep.writeup(concept= index)= page.writeup
+								div.prep.writeup(concept= index)= page.writeup.text
 					hr

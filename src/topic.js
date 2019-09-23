@@ -81,6 +81,10 @@ class Topic {
               if(t.name != data.name){ //--this is where I check for the name change
                 console.log('[TOPIC] found different name, renaming folder...');
                 fs.renameSync(`${__dirname}/app/imports/${t.subject.name}/topics/${t.name}`, `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}`)
+
+                //-- also rename the field in subject.json
+                data.name = t.name
+                fs.writeFileSync(`${__dirname}/app/imports/${t.subject.name}/subjects.json`, JSON.stringify(subjects))
               }
 
               console.log(`[TOPIC] found existing topic...`);
