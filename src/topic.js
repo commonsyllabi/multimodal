@@ -83,7 +83,7 @@ class Topic {
                 fs.renameSync(`${__dirname}/app/imports/${t.subject.name}/topics/${t.name}`, `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}`)
 
                 //-- also rename the field in subject.json
-                data.name = t.name
+                t.name = data.name
                 fs.writeFileSync(`${__dirname}/app/imports/${t.subject.name}/subjects.json`, JSON.stringify(subjects))
               }
 

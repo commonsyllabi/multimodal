@@ -248,7 +248,7 @@ export default {
           "type": "txt"
         }],
         notes: [],
-        writeups: ""
+        writeup: {"text":""}
       })
 
       globals.setCurrentConcept(_i.concept)
@@ -260,7 +260,7 @@ export default {
     addConcept(_i) {
       this.data.concepts.splice(_i+1, 0, {
         name: "new concept",
-        context: "",
+        context: {"text":""},
         pages: [
           {
             name: "new page",
@@ -271,7 +271,7 @@ export default {
               "type": "txt"
             }],
             notes: [],
-            writeups: ""
+            writeups: {"text":""}
           }
         ]
       })
