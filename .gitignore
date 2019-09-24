@@ -2,8 +2,12 @@
 node_modules/
 src/app/*.html
 dist/
+src/app/imports/*
 
 # builds
 build/
 *.app
 [Mm]ultimodal-darwin-x64/
+
+documentation.md
+todo.md

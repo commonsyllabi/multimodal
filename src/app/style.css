@@ -1,26 +1,35 @@
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  color: #eeeeee;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -29,6 +38,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -62,108 +77,38 @@ img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-}body {
-  margin: 0px;
-  padding: 0px;
-  font-family: 'Inter UI';
-}
-
-body .note {
-  position: absolute;
-  z-index: 5;
-  width: 40%;
-  color: black;
-  font-size: 2.5em;
-  transition: opacity 0.5s ease-in;
-}
-
-@media (max-width: 1300px) {
-  body .note {
-    font-size: 2em;
-  }
-}
-
-body .title {
-  font-size: 2.3em;
-  font-weight: bold;
-}
-
-body textarea {
-  font-family: 'Inter UI';
-  background-color: rgba(1, 0, 0, 0);
-  border: none;
-  outline: none;
-  height: auto;
-}
-
-body .written {
-  width: 30%;
-}
-
-body #current {
-  position: absolute;
-  font-weight: bold;
-  overflow-y: visible;
-}
-
-body .prep-group {
-  position: absolute;
-  top: 5%;
-  left: 10%;
-  width: 60%;
-  z-index: 0;
-}
-
-body .prep {
-  position: relative;
-  opacity: 0;
-  font-family: 'Inter UI';
-  font-style: italic;
-  font-size: 2em;
-  color: black;
-  width: 100%;
-  margin-top: 5%;
-  text-align: left;
-}
-
-@media (max-width: 1300px) {
-  body .prep {
-    font-size: 2.5em;
-  }
-}
-
-body .prep-tag-anchor {
-  margin-left: 10px;
-  font-size: 0.5em;
-  cursor: pointer;
-}
-
-body img {
-  max-height: 450px;
-  max-width: 900px;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  color: #eeeeee;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -172,6 +117,178 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
+}
+
+.msg-log {
+  float: right;
+  height: 100%;
+  margin-right: 3%;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 2.2em;
+  opacity: 0;
+  background-color: #333333;
+  color: #f0f0f0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.info {
+  background-color: darkseagreen;
+}
+
+.error {
+  background-color: crimson;
+}
+
+.metadata {
+  visibility: hidden;
+}
+
+div,
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.note {
+  position: absolute;
+  z-index: 5;
+  width: 40%;
+  color: #eeeeee;
+  font-size: 2.5em;
+  transition: opacity 0.5s ease-in;
+}
+
+@media (max-width: 1300px) {
+  .note {
+    font-size: 2em;
+  }
+}
+
+.title {
+  font-size: 2.3em;
+  font-weight: bold;
+}
+
+textarea {
+  font-family: 'Inter UI';
+  background-color: rgba(1, 0, 0, 0);
+  border: none;
+  outline: none;
+  height: auto;
+}
+
+.written {
+  width: 100%;
+}
+
+.moveable {
+  z-index: 4;
+  width: initial;
+}
+
+#current {
+  position: absolute;
+  font-weight: bold;
+  overflow-y: visible;
+}
+
+.page-group {
+  position: relative;
+  padding-top: 5%;
+  padding-left: 10%;
+  width: 75vw;
+  height: 100vh;
+  overflow: hidden;
+  border: 2px solid #eeeeee;
+}
+
+.prep {
+  position: relative;
+  opacity: 1;
+  font-family: 'Inter UI';
+  font-style: italic;
+  font-size: 2em;
+  color: #eeeeee;
+  margin-top: 5%;
+  text-align: left;
+}
+
+@media (max-width: 1300px) {
+  .prep {
+    font-size: 2.5em;
+  }
+}
+
+.prep-tag-anchor {
+  margin-left: 10px;
+  font-size: 0.5em;
+  cursor: pointer;
+}
+
+img {
+  max-width: 800px !important;
+  max-height: 600px;
+}
+
+.writeup {
+  width: 100%;
+  margin: 5px;
+  font-family: 'Inter UI';
+}@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter UI';
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  color: #eeeeee;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+a {
+  color: #e77607;
+}
+
+a:hover {
+  color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -212,7 +329,12 @@ canvas {
   position: absolute;
   top: 0px;
   left: 0px;
-  overflow: hidden;
+}
+
+.lessons-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
 }
 
 canvas {
@@ -225,22 +347,10 @@ canvas {
   cursor: crosshair;
 }
 
-.inactive {
-  visibility: hidden;
-  pointer-events: none;
-}
-
-.lessons-container {
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.lesson-btn,
-.concept-btn {
+.lesson-btn {
   border: none;
-  color: black;
-  background-color: white;
+  color: #eeeeee;
+  background-color: #202020;
   font-family: 'Inter UI';
   cursor: pointer;
 }
@@ -255,23 +365,12 @@ canvas {
   }
 }
 
-.concept-btn {
-  font-size: 1.3em;
-}
-
-@media (max-width: 1300px) {
-  .concept-btn {
-    font-size: 1em;
-  }
-}
-
 .lesson-btn:hover,
 .concept-btn:hover {
-  background-color: white;
-  color: black;
+  background-color: #202020;
+  color: #eeeeee;
 }
 
-.lesson-btn:active,
 .lesson-btn:active {
   border: none;
 }
@@ -281,76 +380,74 @@ canvas {
   float: right;
 }
 
-.concept-buttons,
-.interface-buttons {
-  z-index: 2;
-}
-
-.concept-buttons {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  min-width: 10%;
-  max-width: 15%;
-  height: 100%;
-  background-color: white;
-  border-left: 2px solid black;
-  color: white;
-  overflow-y: scroll;
-}
-
-.concept {
-  width: 100%;
-  margin: 0%;
-  display: block;
-  float: left;
-  padding-right: 20px;
-  text-align: right;
-}
-
-.current-concept {
-  background-color: white;
-  border-left: 10px solid black;
-  color: black;
-  font-weight: bold;
-}
-
 .interface-buttons {
   position: fixed;
   z-index: 3;
   bottom: 0px;
   left: 0px;
   padding-left: 10px;
+  height: 5vh;
   width: 100%;
-  background-color: white;
-  border-top: 2px solid black;
+  background-color: #202020;
+  border-top: 2px solid #eeeeee;
 }
 
 .interface-buttons button {
   margin-right: 2%;
+}
+
+.writeup-toggle-outer {
+  position: absolute;
+  bottom: 0px;
+  width: 90%;
+  height: 0vh;
+  z-index: 4;
+  background-color: white;
+  transition: all 0.1s linear;
+}
+
+.writeup-toggle-inner {
+  position: absolute;
+  width: 20%;
+  top: -10px;
+  height: 10px;
+  background-color: white;
+  margin: auto;
+  cursor: pointer;
+  z-index: 3;
+  margin-left: 40%;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  color: #eeeeee;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -359,6 +456,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -424,35 +527,34 @@ img {
 .welcome-lesson,
 .inter-btn-main {
   border: none;
-  color: black;
-  background-color: white;
+  color: #eeeeee;
+  background-color: #202020;
   font-family: 'Inter UI';
   font-size: 1.2em;
   cursor: pointer;
 }
 
 .welcome-lesson {
-  border: 2px solid white;
+  border: 2px solid #202020;
   padding: 5px;
-  color: black;
 }
 
 .welcome-lesson:hover {
-  border-color: black;
+  border-color: #eeeeee;
   font-weight: bold;
 }
 
 .selected {
-  background-color: black;
-  color: white;
-  border-color: black;
+  background-color: #eeeeee;
+  color: #202020;
+  border-color: #eeeeee;
   font-weight: bold;
 }
 
 .inter-btn:hover,
 .inter-btn-main:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
 }
 
 .inter-btn-main {
@@ -470,31 +572,40 @@ img {
 
 .inter-btn-main:disabled {
   cursor: default;
-  background-color: white;
-  color: white;
+  background-color: #202020;
+  color: #202020;
 }@font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Regular.woff) format("woff");
+  src: url("/fonts/Inter-UI-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Bold.woff) format("woff");
+  src: url("/fonts/Inter-UI-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter UI';
-  src: url(fonts/Inter-UI-Italic.woff) format("woff");
+  src: url("/fonts/Inter-UI-Italic.woff") format("woff");
   font-weight: normal;
   font-style: italic;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Inter UI', 'Trebuchet MS';
+  background-color: #202020;
+  color: #eeeeee;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -503,6 +614,12 @@ a {
 
 a:hover {
   color: #b25900;
+}
+
+button {
+  background-color: #202020;
+  color: #eeeeee;
+  border: 1px solid #eeeeee;
 }
 
 .msg-log {
@@ -539,8 +656,8 @@ img {
 }
 
 .create-container {
-  width: 80%;
-  margin-left: 10%;
+  width: 90%;
+  margin-left: 5%;
   margin-bottom: 100px;
   overflow: auto;
 }
@@ -552,7 +669,7 @@ img {
   margin-top: 2%;
   padding: 2%;
   text-align: left;
-  border: 3px solid black;
+  border: 3px solid #eeeeee;
 }
 
 .create-course h1 {
@@ -581,8 +698,8 @@ img {
 
 .create-lesson-save:hover,
 .create-lesson-exit:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
 }
 
 .create-new-course {
@@ -590,8 +707,8 @@ img {
   padding: 0px 15px 5px 15px;
   float: right;
   margin-left: 5px;
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
   border: none;
   cursor: pointer;
 }
@@ -601,7 +718,7 @@ img {
 .course-name,
 .course-year,
 .course-path {
-  width: 94%;
+  width: 100%;
   font-size: 24px;
   height: 48px;
   display: block;
@@ -629,11 +746,9 @@ img {
   border: none;
   font-size: 24px;
   height: 48px;
-  padding: 5px;
-  margin-left: 5px;
-  margin-top: 3%;
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
+  float: left;
 }
 
 /* ---------------------------- */
@@ -643,8 +758,8 @@ img {
   text-align: right;
   font-size: 48px;
   font-weight: bold;
-  background-color: white;
-  color: black;
+  background-color: #202020;
+  color: #eeeeee;
 }
 
 .create-btn {
@@ -655,9 +770,9 @@ img {
 
 .create-courses-list {
   font-size: 36px;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
+  background-color: #202020;
+  color: #eeeeee;
+  border: 2px solid #eeeeee;
   width: 50%;
   cursor: pointer;
 }
@@ -673,7 +788,7 @@ img {
 }
 
 .prep-holder {
-  width: 65%;
+  width: 50%;
   float: left;
 }
 
@@ -685,27 +800,31 @@ img {
   margin-left: 5%;
 }
 
-.notes-holder {
-  width: 30%;
-  float: right;
-  border-left: 2px solid black;
+.notes-holder,
+.writeups-holder {
+  width: 20%;
+  float: left;
+  border-left: 2px solid #eeeeee;
 }
 
-.notes-holder textarea {
+.notes-holder textarea,
+.writeups-holder textarea {
   width: 90%;
   margin-left: 5%;
   background-color: #eeeeee;
+  font-size: 0.8em;
+  font-style: italic;
 }
 
 input[type=text],
 textarea {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #eeeeee;
 }
 
 input:disabled {
   float: left;
-  background-color: white;
+  background-color: #202020;
 }
 
 .create-concept {
@@ -713,7 +832,8 @@ input:disabled {
   margin: 1% 0 1% 0;
   padding: 10px;
   padding-bottom: 5px;
-  border: 2px solid black;
+  border: 2px solid #eeeeee;
+  width: 90%;
 }
 
 .create-concept-prep {
@@ -726,11 +846,13 @@ input:disabled {
   width: 40%;
 }
 
-.create-concept-note {
+.create-concept-note,
+.create-concept-writeup {
   font-size: 24px;
   width: 100%;
 }
 
+.create-concept-note textarea,
 .create-concept-note textarea {
   font-size: 24px;
 }
@@ -738,7 +860,7 @@ input:disabled {
 .create-concept-name {
   color: #333333;
   border: none;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #eeeeee;
   width: 60%;
   float: left;
   font-size: 48px;
@@ -748,7 +870,7 @@ input:disabled {
 .create-concept-tag {
   color: #333333;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #eeeeee;
   width: 50%;
   float: left;
   font-size: 24px;
@@ -787,14 +909,15 @@ input:disabled {
 .create-add-prep,
 .create-remove-prep,
 .create-add-note,
-.create-remove-note {
-  float: left;
+.create-remove-note,
+.create-add-writeup,
+.create-remove-writeup {
   border: none;
   margin-right: 5px;
   font-size: 18px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: #eeeeee;
+  background-color: #202020;
+  border: 2px solid #eeeeee;
   cursor: pointer;
 }
 
@@ -815,9 +938,9 @@ input:disabled {
   text-align: center;
   margin-bottom: 5px;
   margin-right: 5px;
-  color: black;
-  background-color: white;
-  border: 2px solid black;
+  color: #eeeeee;
+  background-color: #202020;
+  border: 2px solid #eeeeee;
   cursor: pointer;
 }
 
@@ -827,7 +950,7 @@ input:disabled {
 .create-remove-note:hover,
 .create-add-prep:hover,
 .create-remove-prep:hover {
-  background-color: black;
-  color: white;
+  background-color: #eeeeee;
+  color: #202020;
   cursor: pointer;
 }

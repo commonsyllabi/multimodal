@@ -1,58 +1,41 @@
-'ust strict'
+'use strict'
 
 const ipc = require('electron').ipcRenderer
 
-require('./sass/globals.scss')
-require('./sass/notes.scss')
-require('./sass/interface.scss')
-
-import * as mouse from './lesson/mouse.js'
-import * as typing from './lesson/typing.js'
-import * as save from './lesson/save.js'
 import * as globals from './lesson/globals.js'
 import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'
 
-let init = () => {
+import Vue from 'vue'
+import Subject from './components/Subject.vue'
+import Dialog from './components/Dialog.vue'
 
-	drawing.init()
+window.currentNote = null
+window.offsets = [0,0]
+window.isEdit = false
 
-	window.ondblclick = () => {
-
-		let els = document.getElementsByClassName('written')
-		for(let el of els)
-			el.removeAttribute('id')
-
-		if(globals.currentNote == null)
-			typing.newNote()
-		else
-			typing.endNote()
+window.vm = new Vue({
+	el: '#writing-board',
+	template: '<Subject/>',
+	components: {
+		Subject
 	}
+})
 
-	window.addEventListener('keydown', (e) => {
-		typing.handle(e)
-	})
+const msgbox = new Vue({
+	el: '#dialog',
+	template: '<Dialog/>',
+	components: {
+		'Dialog':Dialog
+	}
+})
 
-	window.addEventListener('mousemove', (e) =>{
-		mouse.handle(e)
-		drawing.draw(e)
-	})
+window.msgbox = msgbox.$children[0]
 
-	window.addEventListener('mousedown', (e) => {
-		drawing.beginDraw(e)
-	})
-
-	window.addEventListener('mouseup', () => {
-		drawing.endDraw()
-	})
-
-	globals.setCurrentConcept()
-	globals.initTags()
+window.editLesson = (e) => {
+	window.isEdit = !window.isEdit
+	e.innerText = window.isEdit ? "present" : "edit"
 }
-
-window.init = init
-window.saveSession = save.saveSession
-window.exitLesson = save.exitLesson
 window.switchConcept = globals.setCurrentConcept
 window.jumpToTag = globals.jumpToTag
 window.clearBoard = drawing.clearBoard
