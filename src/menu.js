@@ -12,12 +12,12 @@ const template = [
 		label: 'File',
 		submenu: [
 			{
-				label: 'Create Lesson...',
+				label: 'Create Topic...',
 				click() { win.webContents.send('menu-create') },
 				accelerator: 'CmdOrCtrl+N'
 			},
 			{
-				label: 'Open Lesson...',
+				label: 'Open Topic...',
 				click() { win.webContents.send('menu-open') },
 				accelerator: 'CmdOrCtrl+O'
 			},
@@ -63,7 +63,7 @@ const template = [
 		]
 	},
 	{
-		label: 'Lesson',
+		label: 'Topic',
 		submenu: [
 			{label: 'Toggle whiteboard',
 				click() { win.webContents.send('menu-toggle') },
@@ -77,6 +77,12 @@ const template = [
 	{
 		label: 'View',
 		submenu: [
+			{label: "Back",
+				click() { win.history.back() }
+			},
+			{label: "Forward",
+				click() { win.history.forward() }
+			},
 			{role: 'reload',
 				accelerator: 'CmdOrCtrl+Shift+R'},
 			{role: 'forcereload'},

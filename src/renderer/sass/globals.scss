@@ -5,6 +5,10 @@ $light-orange: #ff9933;
 $mid-orange: #e77607;
 $dark-orange: #b25900;
 
+$main-bg-color: #202020;
+$sub-bg-color: #808080;
+$main-fg-color: #eeeeee;
+
 
 $btn-size: 2.2em;
 $btn-concept-size: 1.3em;
@@ -32,8 +36,17 @@ $break-medium: 1300px;
     font-style: italic;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 body {
-	font-family: 'Inter UI', 'Trebuchet MS'
+	font-family: "Inter UI", serif, 'Trebuchet MS';
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  overflow-x: hidden;
+  margin: 0px;
+  padding: 0px;
 }
 
 a {
@@ -44,7 +57,20 @@ a:hover{
 	color: $dark-orange;
 }
 
+button {
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  border: 1px solid $main-fg-color;
+  cursor: pointer;
+}
+
+textarea{
+  font-family: "Inter UI", serif;
+  border: none;
+}
+
 .msg-log {
+  font-family: "Inter UI", serif;
 	float: right;
 	height:100%;
 	margin-right: 3%;
@@ -72,8 +98,25 @@ a:hover{
 	visibility: hidden;
 }
 
+.right{
+  float: right;
+}
+
+.left{
+  float: left;
+}
+
 div, img {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+}
+
+.cover{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
 }
