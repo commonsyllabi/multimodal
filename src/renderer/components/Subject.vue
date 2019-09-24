@@ -10,7 +10,7 @@
     </div>
 
     <div class="nav-container">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit"
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :currentConcept="currentConcept" :key="index" :isEdit="isEdit"
         @add-page="addPage" @remove-page="removePage"
         @add-concept="addConcept" @remove-concept="removeConcept"/>
     </div>
@@ -151,6 +151,7 @@ export default {
       isDrawing: false,
       currentPage: 0,
       previousPage: 0,
+      currentConcept: 0,
       position: { x: 0, y: 0},
       lessonSaved: false
     }
@@ -188,7 +189,6 @@ export default {
     	}
     },
     handleNewNote(el) {
-      console.log('new');
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -267,7 +267,7 @@ export default {
             tag: "",
             preps: [{
               "tag": "",
-              "text": "type here",
+              "text": "",
               "type": "txt"
             }],
             notes: [],
@@ -292,6 +292,8 @@ export default {
     document.addEventListener('wheel', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
+
+      this.currentConcept = window.currentConcept
     })
 
     window.addEventListener('mousedown', (e) => {
@@ -309,10 +311,12 @@ export default {
 
     window.addEventListener('keydown', (e) => {
   		typing.handle(e, this.data)
+      this.currentConcept = window.currentConcept
   	})
   },
   beforeMount() {
     this.data = window.data
+    this.currentConcept = window.currentConcept
   },
   afterMount(){
     setTimeout(() => {this.currentNote = null}, 100)

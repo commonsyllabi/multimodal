@@ -1,16 +1,20 @@
 <template>
-  <span>
-    <button v-if="isEdit" class="add-input" @click="addConcept">C+</button>
-    <button v-if="isEdit" class="add-input" @click="removeConcept">C-</button>
+  <div class="nav-concept">
     <input class="edit-input" v-if="isEdit" type="text" v-model:value="data.name" placeholder="new concept">
     <button v-else class="nav concept"> {{data.name}} </button>
-
-    <div v-for="(page, index) in data.pages">
-      <button class="nav page" :page="`${concept}-${index}`">{{page.name}}</button>
-      <button v-if="isEdit" class="add-input" @click="addPage(index)">P+</button>
-      <button v-if="isEdit" class="add-input" @click="removePage(index)">P-</button>
+    <div class="input-holder">
+      <button v-if="isEdit" class="add-input add-concept" @click="addConcept">+</button>
+      <button v-if="isEdit" class="add-input add-concept" @click="removeConcept">-</button>
     </div>
-  </span>
+
+    <span v-show="concept == currentConcept">
+      <div v-for="(page, index) in data.pages">
+        <button class="nav page" :page="`${concept}-${index}`">{{page.name}}</button>
+        <button v-if="isEdit" class="add-input" @click="addPage(index)">+</button>
+        <button v-if="isEdit" class="add-input" @click="removePage(index)">-</button>
+      </div>
+    </span>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -20,6 +24,7 @@
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
+  padding-right: 5px;
 
 	font-family: 'Inter UI';
 
@@ -27,16 +32,33 @@
 }
 
 .edit-input{
-  border-bottom: 1px solid $main-fg-color;
   text-align: right;
 }
 
+.input-holder{
+  width: 100%;
+  float: right;
+}
+
 .add-input{
-  float: left;
+  float: right;
+  border: none;
+}
+
+.add-concept{
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.nav-concept{
+  border-bottom: 2px solid $main-fg-color;
+  padding-bottom: 5px;
+  height: auto;
+  overflow: auto;
 }
 
 .concept, .page {
-	width: 60%;
+	width: 100%;
 	margin: 0%;
 
 	padding-right: 10px;
@@ -46,7 +68,6 @@
 .concept, .edit-input{
   font-size: 1.1em;
   font-weight: bold;
-  border-bottom: 2px solid $main-fg-color;
   margin-top: 10px;
   margin-bottom: 5px;
   float: right;
@@ -82,6 +103,10 @@ export default {
       default: false
     },
     concept: {
+      type: Number,
+      default: 0
+    },
+    currentConcept: {
       type: Number,
       default: 0
     }

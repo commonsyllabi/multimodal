@@ -72,6 +72,8 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 	}
 
 	drawing.selectCanvas(currentPage, currentConcept)
+
+	window.currentConcept = currentConcept
 }
 
 let getCurrentPage = () => {
