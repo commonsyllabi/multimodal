@@ -12,6 +12,7 @@ class Topic {
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
     this.updated = null
+    this.overview = data.overview ? data.overview : {text:""}
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
       context: {"text":""},
@@ -21,7 +22,7 @@ class Topic {
           tag: "",
           preps: [{
             "tag": "",
-            "text": "type here",
+            "text": "",
             "type": "txt"
           }],
           notes: [],

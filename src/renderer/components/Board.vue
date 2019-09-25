@@ -184,9 +184,6 @@ export default {
   components: {
     Create
   },
-  props: {
-
-  },
   data: function () {
     return {
       data: {},

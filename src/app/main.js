@@ -13054,9 +13054,6 @@ const {dialog} = __webpack_require__(7).remote
   components: {
     Create: __WEBPACK_IMPORTED_MODULE_0__Create_vue__["a" /* default */]
   },
-  props: {
-
-  },
   data: function () {
     return {
       data: {},
