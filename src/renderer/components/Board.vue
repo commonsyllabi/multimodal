@@ -32,6 +32,18 @@
     </div>
   </div>
 
+  <div class="topics-container">
+    <div class="topics">
+      <ul>
+        <li class="topic" v-for="instances in current.sessions"
+          @click="setTopic($event, current.subject, current.name, current.path)"
+          @dblclick="openTopic(current.subject, current.name, current.path)">
+            {{instances}}
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
 
   <div class="buttons-container">
@@ -48,14 +60,23 @@
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
-.buttons-container, .subjects-container{
+.buttons-container, .subjects-container, .topics-container{
 	position: absolute;
 	width: 50%;
 	height: 100%;
-	float: left;
 }
 
-.subjects{
+.buttons-container, .subjects-container{
+  	float: left;
+    left: 0;
+}
+
+.topics-container{
+  float: right;
+  right: 0;
+}
+
+.subjects, .topics{
 	padding: 5%;
 	margin-bottom: 5%;
 }
@@ -66,18 +87,11 @@
 	font-size: 2em;
 }
 
-.selected {
-	background-color: $main-fg-color;
-	color: $main-bg-color;
-	border-color: $main-fg-color;
-	font-weight: bold;
-}
-
 .inter-class{
   margin-bottom: 50px;
 }
 
-.topic {
+.topic, .topic-instance {
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
@@ -92,6 +106,13 @@
 }
 
 .topic:hover{
+	border-color: $main-fg-color;
+	font-weight: bold;
+}
+
+.selected {
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 	border-color: $main-fg-color;
 	font-weight: bold;
 }
@@ -175,17 +196,18 @@ export default {
     }
   },
   methods: {
-    setTopic(_e, _c, _l, _p) {
-      this.current.subject = _c
-      this.current.name = _l
+    setTopic(_e, _s, _n, _p) {
+      this.current.subject = _s
+      this.current.name = _n
       this.current.path = _p
+      this.current.sessions = ["session one", "session two"]
 
-      let all_lessons = document.getElementsByClassName('welcome-lesson')
+      let all_lessons = document.getElementsByClassName('topic')
       for(let l of all_lessons)
-        l.setAttribute('class', 'welcome-lesson')
+        l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
 
-
-      _e.target.setAttribute('class', 'welcome-lesson selected')
+      let _class = _e.target.getAttribute('class')
+      _e.target.setAttribute('class', `${_class} selected`)
 
       let btns = document.getElementsByClassName('inter-btn-main')
       for(let btn of btns)
