@@ -13,7 +13,7 @@
 .context-container{
   position: absolute;
   z-index: 2;
-  right: -5px;
+  right: -10px;
   top: 30px;
   width: 0;
   height: 90%;
@@ -27,7 +27,7 @@
 	width: 10px;
   top: 20px;
 	left: -20px;
-	height: 10vh;
+	height: 90%;
 	background-color: $main-fg-color;
 	margin: auto;
 	cursor: pointer;
@@ -37,6 +37,7 @@
 
 .context{
   width: 90%;
+  height: 90%;
   margin: 10px;
   font-size: 1.2em;
 }
