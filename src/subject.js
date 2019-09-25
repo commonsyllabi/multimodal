@@ -153,8 +153,8 @@ class Subject {
 }
 
 let generateId = (n) => {
-  let id = `${n.substring(0, Math.max(4, n.length))}-`
-  for(let i = 0; i < 10; i++)
+  let id = ''
+  for(let i = 0; i < 15; i++)
     id += Math.floor(Math.random()*10).toString()
 
   return id

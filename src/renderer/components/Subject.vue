@@ -133,7 +133,7 @@
 	right: 0px;
 	min-width: 10%;
 	width: 10vw;
-	height: 100%;
+	height: 95vh;
 
 	background-color: $main-bg-color;
 	border-left: 2px solid $main-fg-color;
@@ -259,7 +259,7 @@ export default {
         tag: "",
         preps: [{
           "tag": "",
-          "text": "type here",
+          "text": "",
           "type": "txt"
         }],
         notes: [],
@@ -295,8 +295,10 @@ export default {
         ]
       })
 
-      globals.setCurrentConcept(_i+1)
-      globals.setCurrentPage(0, true)
+      setTimeout(() => {
+        globals.setCurrentConcept(_i+1)
+        globals.setCurrentPage(0, true)
+      }, 200)
     },
     removeConcept(_i) {
       this.data.concepts.splice(_i, 1)
