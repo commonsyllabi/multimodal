@@ -14104,7 +14104,9 @@ if(false) {
       type: Object,
       default: {
         text: "",
-        saved: false
+          x: 0,
+          y: 0,
+          saved: false
       }
     },
     isEdit: {
@@ -14114,7 +14116,8 @@ if(false) {
   },
   data: function () {
     return {
-
+      x: 0,
+      y: 0
     }
   },
   methods: {
@@ -14138,9 +14141,28 @@ if(false) {
       e.style.height = (e.scrollHeight) + 'px'
     })
 
+    //-- listen for x and y attribute changes
+    let that = this
+    let observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type == "attributes") {
+          that.data.y = el.style.top.substring(0, el.style.top.length-2)
+          that.data.x = el.style.left.substring(0, el.style.left.length-2)
+        }
+      })
+    })
+
+    observer.observe(el, {attributes: true})
+
     //-- this prevents existing notes from being set as current notes on subject mount
     if(!this.data.saved)
       this.$emit('new-note', el)
+
+    if(this.data.x){
+      el.style.left = this.data.x + 'px'
+      el.style.top = this.data.y + 'px'
+    }
+
   },
   afterMount(){
     // this.$emit('new-note', el)
