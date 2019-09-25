@@ -1,7 +1,7 @@
 <template>
   <div class="nav-concept">
     <input class="edit-input" v-if="isEdit" type="text" v-model:value="data.name" placeholder="new concept">
-    <button v-else class="nav concept"> {{data.name}} </button>
+    <button v-else class="nav concept" @click="goToConcept"> {{data.name}} </button>
     <div class="input-holder">
       <button v-if="isEdit" class="add-input add-concept" @click="addConcept">+</button>
       <button v-if="isEdit" class="add-input add-concept" @click="removeConcept">-</button>
@@ -9,7 +9,7 @@
 
     <span v-show="concept == currentConcept">
       <div v-for="(page, index) in data.pages">
-        <button class="nav page" :page="`${concept}-${index}`">{{page.name}}</button>
+        <button class="nav page" :page="`${concept}-${index}`" @click="goToPage(index)">{{page.name}}</button>
         <button v-if="isEdit" class="add-input" @click="addPage(index)">+</button>
         <button v-if="isEdit" class="add-input" @click="removePage(index)">-</button>
       </div>
@@ -116,6 +116,12 @@ export default {
     }
   },
   methods: {
+    goToConcept() {
+      this.$emit('go-to-concept', this.concept)
+    },
+    goToPage(i) {
+      this.$emit('go-to-page', {concept: this.concept, page: i})
+    },
     addPage (i) {
       this.$emit('add-page', {concept: this.concept, page:i})
     },
