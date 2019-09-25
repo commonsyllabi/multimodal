@@ -7,7 +7,7 @@ const file_mgmt = require('./file-mgmt.js')
 class Topic {
 
   constructor(data){
-    this.id = data.id ? data.id : generateId(data.name)
+    this.id = data.id ? data.id : generateId()
     this.subject = data.subject
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
@@ -258,8 +258,8 @@ class Topic {
 }
 
 let generateId = (n) => {
-  let id = `${n.substring(0, Math.max(4, n.length))}-`
-  for(let i = 0; i < 10; i++)
+  let id = ''
+  for(let i = 0; i < 15; i++)
     id += Math.floor(Math.random()*10).toString()
 
   return id
