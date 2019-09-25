@@ -1,9 +1,8 @@
 <template>
   <div>
     <div class="main-container">
-      <div v-if="isEdit" class="subject-name">
-        <input type="text" name="" v-model:value="data.name">
-      </div>
+      <input type="text" v-if="isEdit" class="topic-name" v-model:value="data.name"/>
+      <Overview :overview="data.overview" :topic="data.name" :isEdit="isEdit"/>
       <!-- <div v-if="!isEdit" class="concept-name">
         {{data.concepts[currentConcept].name}}
       </div> -->
@@ -46,17 +45,17 @@
   overflow-x: hidden;
 }
 
-.subject-name{
+.topic-name{
   z-index: 5;
   position: absolute;
-  left: 0;
-  width: 30vw;
+  left: 35vw;
+  width: 50vw;
+  text-align: center;
   margin: 10px;
-  color: $main-fg-color;
-}
-
-.subject-name input{
+  color: $main-bg-color;
+  min-height: 49px;
   font-size: 48px;
+  text-align: center;
   padding: 5px;
 }
 
@@ -146,6 +145,7 @@
 <script>
 import Concept from './Concept.vue'
 import Navigation from './Navigation.vue'
+import Overview from './Overview.vue'
 
 const typing = require('../lesson/typing.js')
 const drawing = require('../lesson/drawing.js')
@@ -157,7 +157,8 @@ const ipc = require('electron').ipcRenderer
 export default {
   components: {
     Concept,
-    Navigation
+    Navigation,
+    Overview
   },
   data: function () {
     return {
@@ -347,6 +348,7 @@ export default {
   },
   beforeMount() {
     this.data = window.data
+    this.data.overview = {text:"lorem"}
     this.currentConcept = window.currentConcept
   },
   afterMount(){
