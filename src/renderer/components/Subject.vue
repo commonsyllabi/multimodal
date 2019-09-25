@@ -4,6 +4,9 @@
       <div v-if="isEdit" class="subject-name">
         <input type="text" name="" v-model:value="data.name">
       </div>
+      <!-- <div v-if="!isEdit" class="concept-name">
+        {{data.concepts[currentConcept].name}}
+      </div> -->
       <span v-for="(concept, index) in data.concepts">
         <Concept class="concept-group" :data="concept" :subject="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
@@ -12,7 +15,8 @@
     <div class="nav-container">
       <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :currentConcept="currentConcept" :key="index" :isEdit="isEdit"
         @add-page="addPage" @remove-page="removePage"
-        @add-concept="addConcept" @remove-concept="removeConcept"/>
+        @add-concept="addConcept" @remove-concept="removeConcept"
+        @go-to-concept="goToConcept" @go-to-page="goToPage"/>
     </div>
 
     <div class="buttons-container">
@@ -54,6 +58,17 @@
 .subject-name input{
   font-size: 48px;
   padding: 5px;
+}
+
+.concept-name{
+  position: fixed;
+  color: $main-fg-color;
+  background-color: $main-bg-color;
+  border-bottom: 2px solid $main-fg-color;
+  z-index: 3;
+  font-size: 1.6em;
+  width: 100vw;
+  text-align: center;
 }
 
 .concept-group{
@@ -281,6 +296,14 @@ export default {
     },
     removeConcept(_i) {
       this.data.concepts.splice(_i, 1)
+    },
+    goToConcept(c){
+      globals.setCurrentConcept(c)
+      globals.setCurrentPage(0, true)
+      this.currentConcept = c
+    },
+    goToPage(d){
+      globals.setCurrentPage(d.page, true)
     }
   },
   mounted(){
@@ -313,6 +336,8 @@ export default {
   		typing.handle(e, this.data)
       this.currentConcept = window.currentConcept
   	})
+
+    document.title = `Multimodal | ${data.name}`
   },
   beforeMount() {
     this.data = window.data
