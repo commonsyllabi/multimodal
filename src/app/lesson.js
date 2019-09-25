@@ -13347,8 +13347,12 @@ const ipc = __webpack_require__(7).ipcRenderer
         writeup: {"text":""}
       })
 
-      globals.setCurrentConcept(_i.concept)
-      globals.setCurrentPage(_i.page+1, true)
+
+      setTimeout(() => {
+        globals.setCurrentConcept(_i.concept)
+        globals.setCurrentPage(_i.page+1, true)
+      }, 200)
+
     },
     removePage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page, 1)
@@ -15835,8 +15839,8 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.concept == _vm.currentConcept,
-            expression: "concept == currentConcept"
+            value: _vm.concept == _vm.currentConcept || _vm.isEdit,
+            expression: "concept == currentConcept || isEdit"
           }
         ]
       },

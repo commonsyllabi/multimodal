@@ -7,7 +7,7 @@
       <button v-if="isEdit" class="add-input add-concept" @click="removeConcept">-</button>
     </div>
 
-    <span v-show="concept == currentConcept">
+    <span v-show="concept == currentConcept || isEdit">
       <div v-for="(page, index) in data.pages">
         <button class="nav page" :page="`${concept}-${index}`" @click="goToPage(index)">{{page.name}}</button>
         <button v-if="isEdit" class="add-input" @click="addPage(index)">+</button>

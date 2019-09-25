@@ -266,8 +266,12 @@ export default {
         writeup: {"text":""}
       })
 
-      globals.setCurrentConcept(_i.concept)
-      globals.setCurrentPage(_i.page+1, true)
+
+      setTimeout(() => {
+        globals.setCurrentConcept(_i.concept)
+        globals.setCurrentPage(_i.page+1, true)
+      }, 200)
+
     },
     removePage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page, 1)
