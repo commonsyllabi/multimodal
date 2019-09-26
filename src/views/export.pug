@@ -10,6 +10,9 @@ html
 			h1.topic-name= name
 			h1.subject-name
 				a(href="index.html")= subject.name
+		div.overview-holder
+			h1 overview
+			p= overview.text
 		div.concept-nav
 			h1 summary
 			each concept in concepts
@@ -17,7 +20,7 @@ html
 					a.web-only(href= '\#'+concept.name)= concept.name
 					li.print-only= concept.name
 			br
-			div.break-after(style="page-break-after:always;")
+		div.break-after(style="page-break-after:always;")
 		each concept, index in concepts
 			div.concept-group
 				h3.concept-name(id= concept.name)= concept.name

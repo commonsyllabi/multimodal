@@ -83,11 +83,23 @@ img {
 	max-width: 90%;
 }
 
-.concept-group, .concept-nav{
+.concept-group{
 	width: 80%;
 	margin-left: 10%;
 	display: block;
 	float: left;
+}
+
+.concept-nav{
+	width: 30%;
+	float: right;
+	margin-right: 10%;
+}
+
+.overview-holder{
+	float: left;
+	width: 38%;
+	margin-left: 10%;
 }
 
 @media print{
