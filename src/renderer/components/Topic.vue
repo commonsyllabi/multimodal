@@ -195,15 +195,14 @@ export default {
 
     },
     handleMousePosition(evt) {
-
+      if(!window.currentNote)
+        return
       this.position = {x: evt.clientX, y: evt.clientY}
+  		let pos = getGridPosition(this.position)
 
-    	if(window.currentNote != null){
-    		let pos = getGridPosition(this.position)
+    	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
+      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
 
-      	window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-        window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
-    	}
     },
     handleNewNote(el) {
       window.currentNote = el
@@ -242,16 +241,15 @@ export default {
     		for(let j = 0; j < this.data.concepts[i].pages.length; j++){
     			let cleaned_notes = []
     			for(let k = 0; k < this.data.concepts[i].pages[j].notes.length; k++){
-            console.log(`found note on concept ${i}, page ${j}, number ${k} with content: ${this.data.concepts[i].pages[j].notes[k].text.length}`);
-    				if(this.data.concepts[i].pages[j].notes[k].text.length > 0){
-              console.log('found empty note');
-              cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
-              this.data.concepts[i].pages[j].notes[k].saved = true
+            if(this.data.concepts[i].pages[j].notes[k].text != null){
+              if(this.data.concepts[i].pages[j].notes[k].text.length > 0){
+                cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+                this.data.concepts[i].pages[j].notes[k].saved = true
+              }
             }
     			}
 
     			this.data.concepts[i].pages[j].notes = cleaned_notes
-          console.log('cleaned version:',this.data.concepts[i].pages[j].notes);
     		}
     	}
 
@@ -352,7 +350,6 @@ export default {
   },
   beforeMount() {
     this.data = window.data
-    this.data.overview = {text:"lorem"}
     this.currentConcept = window.currentConcept
   },
   afterMount(){
