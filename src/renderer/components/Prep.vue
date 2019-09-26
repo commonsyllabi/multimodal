@@ -1,8 +1,8 @@
 <template>
 
-  <span>
+  <div class="prep-holder">
     <div v-if="data.type == 'txt'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="your prep here" v-model:value="data.text">
+      <input class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
       <span v-else>{{data.text}}</span>
     </div>
 
@@ -26,13 +26,24 @@
       </video>
     </div>
 
-    <button v-if="isEdit" @click="removePrep">-</button>
-  </span>
+
+    <div v-if="isEdit"class="add-buttons">
+      <button @click="addPrep('txt')">txt</button>
+      <button @click="addPrep('url')">url</button>
+      <button @click="addPrep('img')">img</button>
+      <button v-if="isEdit" @click="removePrep">-</button>
+    </div>
+  </div>
 
 </template>
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
+
+.prep-holder{
+  width: 50vw;
+  margin-left: 10vw;
+}
 
 .prep, .edit-input{
   position: relative;
@@ -49,11 +60,14 @@
 
   color: $main-fg-color;
   margin-top: 5vh;
-  margin-left: 10vw;
   text-align: left;
 
-  width: 50vw;
+  max-width: 50vw;
   line-height: 2em;
+}
+
+.text{
+  width: 100%;
 }
 
 .edit-input{
@@ -75,10 +89,26 @@ img{
   max-height: 600px;
 }
 
+.prep-moveable{
+  max-width: 10%;
+}
+
 .preview{
   max-width: 400px !important;
   max-height: 300px;
   float: left;
+}
+
+.add-buttons{
+  width: auto;
+  float: right;
+  margin-top: 5px;
+
+  button{
+    font-weight: bold;
+    color: $main-bg-color;
+    background-color: $main-fg-color;
+  }
 }
 </style>
 
@@ -117,6 +147,9 @@ export default {
     removePrep() {
       this.$emit('remove-prep', this)
     },
+    addPrep(t){
+      this.$emit('add-prep', t)
+    },
     openLink(evt, el){
       evt.preventDefault()
       ipc.send('open-url', evt.target.href)
@@ -128,7 +161,18 @@ export default {
     }
   },
   mounted(){
+    let el = this.$el.children[0]
 
+    if(el == undefined || el.getAttribute('class').indexOf('moveable') == -1)
+      return
+
+    //-- make them reactive to a click (for notes that have been loaded from previous sessions)
+    this.$el.onclick = (evt) => {
+			if(evt.target.getAttribute('id') == 'current') return
+			evt.target.setAttribute('id', 'current')
+			evt.target.setAttribute('class', 'prep moveable')
+			window.currentNote = evt.target
+		}
   }
 }
 </script>

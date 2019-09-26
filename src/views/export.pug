@@ -21,7 +21,7 @@ html
 		each concept, index in concepts
 			div.concept-group
 				h3.concept-name(id= concept.name)= concept.name
-				div.concept-context= concept.context.text
+				div.context= concept.context.text
 				each page in concept.pages
 					div.page-group
 						h3.page-name= page.name
