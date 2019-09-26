@@ -2,7 +2,7 @@
 
   <div class="prep-holder">
     <div v-if="data.type == 'txt'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
+      <input class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
       <span v-else>{{data.text}}</span>
     </div>
 
@@ -64,6 +64,10 @@
 
   max-width: 50vw;
   line-height: 2em;
+}
+
+.text{
+  width: 100%;
 }
 
 .edit-input{
