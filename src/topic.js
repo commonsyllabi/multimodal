@@ -7,11 +7,12 @@ const file_mgmt = require('./file-mgmt.js')
 class Topic {
 
   constructor(data){
-    this.id = data.id ? data.id : generateId(data.name)
+    this.id = data.id ? data.id : generateId()
     this.subject = data.subject
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
     this.updated = null
+    this.overview = data.overview ? data.overview : {text:""}
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
       context: {"text":""},
@@ -21,7 +22,7 @@ class Topic {
           tag: "",
           preps: [{
             "tag": "",
-            "text": "type here",
+            "text": "",
             "type": "txt"
           }],
           notes: [],
@@ -84,7 +85,7 @@ class Topic {
 
                 //-- also rename the field in subject.json
                 t.name = data.name
-                fs.writeFileSync(`${__dirname}/app/imports/${t.subject.name}/subjects.json`, JSON.stringify(subjects))
+                fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
               }
 
               console.log(`[TOPIC] found existing topic...`);
@@ -121,12 +122,13 @@ class Topic {
               //   if(e == p.name)
               //     isReplacing = true
 
-              // if(!isReplacing){
+              //-- here we check that we're not copying from an image that is already copied
+              if(p.src.indexOf('/app/imports') == -1){
                 fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
                 // now we redirect the source to the local folder
                 p.src = `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-              // }
+              }
             }
           }
         }
@@ -258,8 +260,8 @@ class Topic {
 }
 
 let generateId = (n) => {
-  let id = `${n.substring(0, Math.max(4, n.length))}-`
-  for(let i = 0; i < 10; i++)
+  let id = ''
+  for(let i = 0; i < 15; i++)
     id += Math.floor(Math.random()*10).toString()
 
   return id

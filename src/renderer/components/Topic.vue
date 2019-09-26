@@ -1,26 +1,30 @@
 <template>
   <div>
     <div class="main-container">
-      <div v-if="isEdit" class="subject-name">
-        <input type="text" name="" v-model:value="data.name">
-      </div>
+      <input type="text" v-if="isEdit" class="topic-name" v-model:value="data.name"/>
+      <Overview :overview="data.overview" :topic="data.name" :isEdit="isEdit"/>
+      <!-- <div v-if="!isEdit" class="concept-name">
+        {{data.concepts[currentConcept].name}}
+      </div> -->
       <span v-for="(concept, index) in data.concepts">
         <Concept class="concept-group" :data="concept" :subject="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
 
     <div class="nav-container">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :key="index" :isEdit="isEdit"
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :currentConcept="parseInt(currentConcept)" :key="index" :isEdit="isEdit"
         @add-page="addPage" @remove-page="removePage"
-        @add-concept="addConcept" @remove-concept="removeConcept"/>
+        @add-concept="addConcept" @remove-concept="removeConcept"
+        @go-to-concept="goToConcept" @go-to-page="goToPage"/>
     </div>
 
     <div class="buttons-container">
       <button class="btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
       <button class="btn" @click="clearBoard"> clear </button>
       <button class="btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
-      <button class="btn" @click="exitLesson"> exit </button>
       <button class="btn" @click="saveSession"> save </button>
+      <button class="btn right" @click="exitLesson"> exit </button>
+
 
       <div class="msg-log" id="msg-log"></div>
     </div>
@@ -42,18 +46,29 @@
   overflow-x: hidden;
 }
 
-.subject-name{
+.topic-name{
   z-index: 5;
   position: absolute;
-  left: 0;
-  width: 30vw;
+  left: 35vw;
+  width: 50vw;
+  text-align: center;
   margin: 10px;
-  color: $main-fg-color;
+  color: $main-bg-color;
+  min-height: 49px;
+  font-size: 48px;
+  text-align: center;
+  padding: 5px;
 }
 
-.subject-name input{
-  font-size: 48px;
-  padding: 5px;
+.concept-name{
+  position: fixed;
+  color: $main-fg-color;
+  background-color: $main-bg-color;
+  border-bottom: 2px solid $main-fg-color;
+  z-index: 3;
+  font-size: 1.6em;
+  width: 100vw;
+  text-align: center;
 }
 
 .concept-group{
@@ -118,7 +133,7 @@
 	right: 0px;
 	min-width: 10%;
 	width: 10vw;
-	height: 100%;
+	height: 96vh;
 
 	background-color: $main-bg-color;
 	border-left: 2px solid $main-fg-color;
@@ -131,6 +146,7 @@
 <script>
 import Concept from './Concept.vue'
 import Navigation from './Navigation.vue'
+import Overview from './Overview.vue'
 
 const typing = require('../lesson/typing.js')
 const drawing = require('../lesson/drawing.js')
@@ -142,7 +158,8 @@ const ipc = require('electron').ipcRenderer
 export default {
   components: {
     Concept,
-    Navigation
+    Navigation,
+    Overview
   },
   data: function () {
     return {
@@ -151,6 +168,7 @@ export default {
       isDrawing: false,
       currentPage: 0,
       previousPage: 0,
+      currentConcept: 0,
       position: { x: 0, y: 0},
       lessonSaved: false
     }
@@ -177,18 +195,16 @@ export default {
 
     },
     handleMousePosition(evt) {
-
+      if(!window.currentNote)
+        return
       this.position = {x: evt.clientX, y: evt.clientY}
+  		let pos = getGridPosition(this.position)
 
-    	if(window.currentNote != null){
-    		let pos = getGridPosition(this.position)
+    	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
+      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
 
-      	window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-        window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
-    	}
     },
     handleNewNote(el) {
-      console.log('new');
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -225,9 +241,11 @@ export default {
     		for(let j = 0; j < this.data.concepts[i].pages.length; j++){
     			let cleaned_notes = []
     			for(let k = 0; k < this.data.concepts[i].pages[j].notes.length; k++){
-    				if(this.data.concepts[i].pages[j].notes[k].text != "" || this.data.concepts[i].pages[j].notes[k].text != null){
-              cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
-              this.data.concepts[i].pages[j].notes[k].saved = true
+            if(this.data.concepts[i].pages[j].notes[k].text != null){
+              if(this.data.concepts[i].pages[j].notes[k].text.length > 0){
+                cleaned_notes.push(this.data.concepts[i].pages[j].notes[k])
+                this.data.concepts[i].pages[j].notes[k].saved = true
+              }
             }
     			}
 
@@ -244,15 +262,19 @@ export default {
         tag: "",
         preps: [{
           "tag": "",
-          "text": "type here",
+          "text": "",
           "type": "txt"
         }],
         notes: [],
         writeup: {"text":""}
       })
 
-      globals.setCurrentConcept(_i.concept)
-      globals.setCurrentPage(_i.page+1, true)
+
+      setTimeout(() => {
+        globals.setCurrentConcept(_i.concept)
+        globals.setCurrentPage(_i.page+1, true)
+      }, 200)
+
     },
     removePage(_i) {
       this.data.concepts[_i.concept].pages.splice(_i.page, 1)
@@ -267,7 +289,7 @@ export default {
             tag: "",
             preps: [{
               "tag": "",
-              "text": "type here",
+              "text": "",
               "type": "txt"
             }],
             notes: [],
@@ -276,11 +298,21 @@ export default {
         ]
       })
 
-      globals.setCurrentConcept(_i+1)
-      globals.setCurrentPage(0, true)
+      setTimeout(() => {
+        globals.setCurrentConcept(_i+1)
+        globals.setCurrentPage(0, true)
+      }, 200)
     },
     removeConcept(_i) {
       this.data.concepts.splice(_i, 1)
+    },
+    goToConcept(c){
+      globals.setCurrentConcept(c)
+      globals.setCurrentPage(0, true)
+      this.currentConcept = c
+    },
+    goToPage(d){
+      globals.setCurrentPage(d.page, true)
     }
   },
   mounted(){
@@ -292,6 +324,8 @@ export default {
     document.addEventListener('wheel', (e) => {
       this.isScrolledIntoView()
       this.handleMousePosition(e)
+
+      this.currentConcept = window.currentConcept
     })
 
     window.addEventListener('mousedown', (e) => {
@@ -309,10 +343,14 @@ export default {
 
     window.addEventListener('keydown', (e) => {
   		typing.handle(e, this.data)
+      this.currentConcept = window.currentConcept
   	})
+
+    document.title = `Multimodal | ${data.name}`
   },
   beforeMount() {
     this.data = window.data
+    this.currentConcept = window.currentConcept
   },
   afterMount(){
     setTimeout(() => {this.currentNote = null}, 100)

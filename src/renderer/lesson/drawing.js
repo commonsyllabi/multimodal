@@ -48,29 +48,17 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.clientX - cnv.offsetLeft
+	prevy = e.clientY - cnv.offsetTop
 
 	ctx.moveTo(prevx, prevy)
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
-	// let nextx, nexty
-  //
-	// nextx = e.pageX - cnv.offsetLeft
-	// nexty = e.pageY - cnv.offsetTop
-	// let x = (prevx + nextx)/2
-	// let y = (prevy + nexty)/2
-  //
-	// ctx.lineTo(nextx, nexty)
-  //
-	// prevx = e.pageX - cnv.offsetLeft
-	// prevy = e.pageY - cnv.offsetTop
-	// ctx.stroke()
 
-	let x = e.pageX - cnv.offsetLeft
-	let y = e.pageY - cnv.offsetTop
+	let x = e.clientX - cnv.offsetLeft
+	let y = e.clientY - cnv.offsetTop
 
 	ctx.beginPath();
   ctx.moveTo(prevx, prevy);

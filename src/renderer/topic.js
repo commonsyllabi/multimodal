@@ -7,18 +7,19 @@ import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'
 
 import Vue from 'vue'
-import Subject from './components/Subject.vue'
+import Topic from './components/Topic.vue'
 import Dialog from './components/Dialog.vue'
 
 window.currentNote = null
+window.currentConcept = 0
 window.offsets = [0,0]
 window.isEdit = false
 
 window.vm = new Vue({
 	el: '#writing-board',
-	template: '<Subject/>',
+	template: '<Topic/>',
 	components: {
-		Subject
+		Topic
 	}
 })
 

@@ -6,15 +6,11 @@
       {{data.name}}
     </div>
 
-    <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" @remove-prep="removePrep(index)" :isEdit="isEdit"/>
+    <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject"
+      @remove-prep="removePrep(index)"
+      @add-prep="addPrep" :isEdit="isEdit"/>
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
     <Writeup :data="data.writeup" :isEdit="isEdit"/>
-
-    <div v-if="isEdit"class="add-buttons">
-      <button @click="addPrep('txt')">add text</button>
-      <button @click="addPrep('url')">add link</button>
-      <button @click="addPrep('img')">add image</button>
-    </div>
   </div>
 </template>
 
@@ -61,13 +57,6 @@ canvas {
   border: none;
   border-bottom: 2px solid $main-fg-color;
 }
-
-.add-buttons{
-  width: 100%;
-  float: left;
-  margin-top: 50px;
-}
-
 </style>
 
 <script>
@@ -115,6 +104,7 @@ export default {
       this.$emit('new-note', el)
     },
     addPrep(_type) {
+      console.log(_type);
       let p = {}
       switch (_type) {
         case 'txt':

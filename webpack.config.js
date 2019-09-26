@@ -6,7 +6,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: {
-	  lesson:'./src/renderer/lesson.js',
+	  topic:'./src/renderer/topic.js',
 	  main:'./src/renderer/main.js'
   },
   output: {
