@@ -12,7 +12,7 @@
     </div>
 
     <div class="nav-container">
-      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :currentConcept="currentConcept" :key="index" :isEdit="isEdit"
+      <Navigation v-for="(concept, index) in data.concepts" :data="concept" :concept="index" :currentConcept="parseInt(currentConcept)" :key="index" :isEdit="isEdit"
         @add-page="addPage" @remove-page="removePage"
         @add-concept="addConcept" @remove-concept="removeConcept"
         @go-to-concept="goToConcept" @go-to-page="goToPage"/>

@@ -9,6 +9,7 @@
 
     <span v-show="concept == currentConcept || isEdit">
       <div v-for="(page, index) in data.pages" class="nav page" :page="`${concept}-${index}`">
+
         <button v-if="isEdit" class="add-page" @click="addPage(index)">+</button>
         <button v-if="isEdit" class="add-page" @click="removePage(index)">-</button>
         <button class="nav" @click="goToPage(index)">{{page.name}}</button>
@@ -38,8 +39,11 @@
 	cursor: pointer;
 }
 
+
 .nav{
   font-size: 1em;
+  max-width: 80%;
+  margin-left: 0;
 }
 
 .input-holder{
@@ -58,8 +62,12 @@
   text-align: left;
 }
 
+.add-page{
+  float: left;
+}
+
 .concept, .page {
-	width: 85%;
+	max-width: 95%;
 	margin: 0%;
   padding-right: 10px;
   float: right;
@@ -85,6 +93,11 @@
 
 .current-page .nav{
   font-weight: bold;
+}
+
+.edit-input{
+  font-style: italic;
+  border-bottom: 1px solid $main-fg-color;
 }
 </style>
 
