@@ -15,7 +15,7 @@
   position: absolute;
   z-index: 3;
   left: 10px;
-  top: 0px;
+  top: -10px;
   width: 30vw;
   height: -20vh;
   padding: 5px;

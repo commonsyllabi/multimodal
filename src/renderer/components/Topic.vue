@@ -22,8 +22,9 @@
       <button class="btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
       <button class="btn" @click="clearBoard"> clear </button>
       <button class="btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
-      <button class="btn" @click="exitLesson"> exit </button>
       <button class="btn" @click="saveSession"> save </button>
+      <button class="btn right" @click="exitLesson"> exit </button>
+
 
       <div class="msg-log" id="msg-log"></div>
     </div>
@@ -132,7 +133,7 @@
 	right: 0px;
 	min-width: 10%;
 	width: 10vw;
-	height: 95vh;
+	height: 96vh;
 
 	background-color: $main-bg-color;
 	border-left: 2px solid $main-fg-color;
