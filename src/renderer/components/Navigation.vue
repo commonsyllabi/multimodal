@@ -3,15 +3,15 @@
     <input class="edit-input" v-if="isEdit" type="text" v-model:value="data.name" placeholder="new concept">
     <button v-else class="nav concept" @click="goToConcept"> {{data.name}} </button>
     <div class="input-holder">
-      <button v-if="isEdit" class="add-input add-concept" @click="addConcept">+</button>
-      <button v-if="isEdit" class="add-input add-concept" @click="removeConcept">-</button>
+      <button v-if="isEdit" class="add-concept" @click="addConcept">+</button>
+      <button v-if="isEdit" class="add-concept" @click="removeConcept">-</button>
     </div>
 
     <span v-show="concept == currentConcept || isEdit">
-      <div v-for="(page, index) in data.pages">
-        <button class="nav page" :page="`${concept}-${index}`" @click="goToPage(index)">{{page.name}}</button>
-        <button v-if="isEdit" class="add-input" @click="addPage(index)">+</button>
-        <button v-if="isEdit" class="add-input" @click="removePage(index)">-</button>
+      <div v-for="(page, index) in data.pages" class="nav page" :page="`${concept}-${index}`">
+        <button v-if="isEdit" class="add-page" @click="addPage(index)">+</button>
+        <button v-if="isEdit" class="add-page" @click="removePage(index)">-</button>
+        <button class="nav" @click="goToPage(index)">{{page.name}}</button>
       </div>
     </span>
   </div>
@@ -20,74 +20,71 @@
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
+.nav-concept{
+  border-bottom: 2px solid $main-fg-color;
+  padding-bottom: 5px;
+  height: auto;
+  overflow: auto;
+  font-family: 'Inter UI';
+}
+
 .nav, .edit-input {
 	border: none;
 	color: $main-fg-color;
 	background-color: $main-bg-color;
   padding-right: 5px;
-
-	font-family: 'Inter UI';
-
+  text-align: right;
+  float: right;
 	cursor: pointer;
 }
 
-.edit-input{
-  text-align: right;
+.nav{
+  font-size: 1em;
 }
 
 .input-holder{
-  width: 100%;
-  float: right;
+  width: auto;
+  float: left;
 }
 
-.add-input{
-  float: right;
+.add-concept, .add-page{
   border: none;
 }
 
 .add-concept{
   font-weight: bold;
   font-size: 1.2em;
-}
-
-.nav-concept{
-  border-bottom: 2px solid $main-fg-color;
-  padding-bottom: 5px;
-  height: auto;
-  overflow: auto;
+  float: left;
+  text-align: left;
 }
 
 .concept, .page {
-	width: 100%;
+	width: 85%;
 	margin: 0%;
-
-	padding-right: 10px;
+  padding-right: 10px;
+  float: right;
 	text-align: right;
 }
 
-.concept, .edit-input{
-  font-size: 1.1em;
+.concept, .edit-input, .input-holder{
+  font-size:1.2em;
   font-weight: bold;
   margin-top: 10px;
   margin-bottom: 5px;
-  float: right;
-}
-
-.page{
-  padding-right: 20px;
-  float: right;
+  max-width: 70%;
 }
 
 .concept:hover, .page:hover{
-	background-color: $main-bg-color;
-	color: $main-fg-color;
+	background-color: $main-fg-color;
+	color: $main-bg-color;
 }
 
 .current-page {
-	background-color: $main-bg-color;
 	border-left: 10px solid $main-fg-color;
-	color: $main-fg-color;
-	font-weight: bold;
+}
+
+.current-page .nav{
+  font-weight: bold;
 }
 </style>
 
