@@ -122,12 +122,13 @@ class Topic {
               //   if(e == p.name)
               //     isReplacing = true
 
-              // if(!isReplacing){
+              //-- here we check that we're not copying from an image that is already copied
+              if(p.src.indexOf('/app/imports') == -1){
                 fs.createReadStream(p.src).pipe(fs.createWriteStream(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
                 // now we redirect the source to the local folder
                 p.src = `${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
-              // }
+              }
             }
           }
         }
