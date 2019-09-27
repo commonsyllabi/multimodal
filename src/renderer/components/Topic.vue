@@ -2,10 +2,10 @@
   <div>
     <div class="main-container">
       <input type="text" v-if="isEdit" class="topic-name" v-model:value="data.name"/>
-      <Overview :overview="data.overview" :topic="data.name" :isEdit="isEdit"/>
-      <!-- <div v-if="!isEdit" class="concept-name">
-        {{data.concepts[currentConcept].name}}
-      </div> -->
+      <Overview :overview="data.overview" :isEdit="isEdit"/>
+      <div >
+        <input class="concept-name" type="text" :disabled="!isEdit" v-model:value="data.concepts[currentConcept].name"/>
+      </div>
       <span v-for="(concept, index) in data.concepts">
         <Concept class="concept-group" :data="concept" :subject="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
@@ -46,29 +46,33 @@
   overflow-x: hidden;
 }
 
+.topic-name, .concept-name{
+  width: 25vw;
+  text-align: center;
+  right: 10vw;
+  height: 45px;
+  font-size: 36px;
+  padding: 5px;
+  background-color: $main-fg-color;
+  color: $main-bg-color;
+  border: none;
+}
+
 .topic-name{
   z-index: 5;
   position: absolute;
-  left: 35vw;
-  width: 50vw;
-  text-align: center;
-  margin: 10px;
-  color: $main-bg-color;
-  min-height: 49px;
-  font-size: 48px;
-  text-align: center;
-  padding: 5px;
+  top: 0px;
+  right: 0px;
 }
 
 .concept-name{
   position: fixed;
-  color: $main-fg-color;
-  background-color: $main-bg-color;
-  border-bottom: 2px solid $main-fg-color;
+  top: 60px;
+  width: 15vw;
+  height: 30px;
   z-index: 3;
   font-size: 1.6em;
-  width: 100vw;
-  text-align: center;
+  font-weight: bold;
 }
 
 .concept-group{
@@ -293,7 +297,7 @@ export default {
               "type": "txt"
             }],
             notes: [],
-            writeups: {"text":""}
+            writeup: {"text":""}
           }
         ]
       })
@@ -347,6 +351,7 @@ export default {
   	})
 
     document.title = `Multimodal | ${data.name}`
+
   },
   beforeMount() {
     this.data = window.data
@@ -354,6 +359,7 @@ export default {
   },
   afterMount(){
     setTimeout(() => {this.currentNote = null}, 100)
+
   }
 }
 

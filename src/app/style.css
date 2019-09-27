@@ -801,14 +801,14 @@ img {
 }
 
 .notes-holder,
-.writeups-holder {
+.writeup-holder {
   width: 20%;
   float: left;
   border-left: 2px solid #eeeeee;
 }
 
 .notes-holder textarea,
-.writeups-holder textarea {
+.writeup-holder textarea {
   width: 90%;
   margin-left: 5%;
   background-color: #eeeeee;

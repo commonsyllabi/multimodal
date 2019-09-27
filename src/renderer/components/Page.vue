@@ -39,7 +39,7 @@ canvas {
 .page-group{
   position: relative;
   width: 90vw;
-  height: 105vh;
+  min-height: 105vh;
   overflow: hidden;
   background-color: $main-bg-color;
 }
