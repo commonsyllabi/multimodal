@@ -1,7 +1,6 @@
 <template>
   <div class="overview-container">
     <div class="overview-toggle-inner" @click="toggleView">
-
     </div>
     <!-- <input v-if="this.visible" :disabled="!this.isEdit" class="subject-name" type="text" v-model:value="topic"> -->
     <textarea v-if="this.visible" :disabled="!this.isEdit" class="overview" v-model:value="overview.text"></textarea>
@@ -51,10 +50,6 @@ export default {
       type: Object,
       default: () => {text:""}
     },
-    topic: {
-      type: String,
-      default: ""
-    },
     isEdit: {
       type: Boolean,
       default: false
@@ -68,22 +63,11 @@ export default {
       }
     }
   },
-  watch: {
-    subject: function(updated) {
-      this.name.text = updated
-    },
-    name: function(updated){
-      this.subject = updated.text
-    }
-  },
   methods: {
     toggleView(e) {
       this.visible = !this.visible
       e.target.parentNode.style.height = this.visible ? '20vh' : '0px'
     }
-  },
-  afterMount(){
-    this.name.text = this.subject
   }
 }
 </script>

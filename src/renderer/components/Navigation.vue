@@ -42,6 +42,7 @@
 
 .nav{
   font-size: 1em;
+  min-width: 50%;
   max-width: 80%;
   margin-left: 0;
 }
