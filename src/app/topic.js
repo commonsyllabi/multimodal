@@ -829,7 +829,6 @@ let setupCanvas = (i) => {
 	contexts[i].strokeStyle = '#ff9933'
 
 	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
-	// contexts[i].beginPath()
 }
 
 let selectCanvas = (_page, _concept) => {
@@ -13222,12 +13221,19 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 
 
 
-const typing = __webpack_require__(95)
 const drawing = __webpack_require__(13)
 const globals = __webpack_require__(12)
 const utils = __webpack_require__(11)
 
 const ipc = __webpack_require__(7).ipcRenderer
+
+const ESC = 27
+const UP = 38
+const LEFT = 37
+const RIGHT = 39
+const DOWN = 40
+const ACTIVATE_EDIT = 69 //-- E
+const TOGGLE_DRAW = 68 //-- D
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
@@ -13248,37 +13254,155 @@ const ipc = __webpack_require__(7).ipcRenderer
     }
   },
   methods: {
+    //-----------------------------------
+    //-- checks whether an element has been scrolled into view,
+    //-- which is used for higlighting the current page and the current concept
+    //-----------------------------------
     isScrolledIntoView() {
-
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
         let rect = page.getBoundingClientRect();
         let isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
 
+        //-- this extracts the concept and page of any element in view
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
 
+      //-- if there is only one element in view, set its concept and page as the current ones
       if(visibleElements.length == 1){
         globals.setCurrentConcept(visibleElements[0].concept)
         globals.setCurrentPage(visibleElements[0].page)
       }
-
     },
+    //-----------------------------------
+    //-- handles the keyinputs, mostly used for one-key shortcuts
+    //-----------------------------------
+    handle(e){
+    	let cn = window.currentNote
+
+    	let page, concept
+    	switch(e.keyCode){
+    	case UP: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page > 0){
+    				page--
+    			}else{
+    				//-- check for concept overflow
+    				if(concept > 0)
+    					concept--
+    				else
+    					concept = 0
+
+    				page = data.concepts[concept].pages.length - 1
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case DOWN: //-- go to following page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page < data.concepts[concept].pages.length-1){
+    				page++
+    			}else{
+    				page = 0
+    				//-- check for concept overflow
+    				if(concept < data.concepts.length-1)
+    					concept++
+    				else
+    					concept = 0
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case LEFT: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			concept = globals.getPreviousConcept()
+    			page = globals.getPreviousPage()
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case RIGHT: //-- jump to the scrapboard
+    		if(!cn && !this.isEdit){
+    			concept = document.getElementsByClassName('concept-group').length-1
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(0, true)
+    		}
+    		break
+      case ACTIVATE_EDIT: //-- turn edit on, turn off with ESC
+        if(!cn)
+        this.isEdit = true
+        break
+      case TOGGLE_DRAW: //-- toggle draw on
+        if(!this.isEdit)
+          this.toggleDraw()
+        break
+    	case ESC: //-- stop editing the current note
+    		if(cn)
+    			this.endNote(cn)
+        else if(this.isEdit) //-- stop editing the current topic
+          this.isEdit = false
+    		break
+    	default:
+    		break
+    	}
+    },
+    //---------------------
+    //-- takes care of removing the current status of the note
+    //-- and setting it as regular note
+    //---------------------
+    endNote(el){
+    	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
+    	if(el.value == ''){
+    		el.style.display = 'none'
+    		el.parentNode.removeChild(el)
+    	}else{ //-- else position it correctly
+    		el.style.height = (el.scrollHeight)+'px'
+    	}
+
+    	el.blur()
+    	el.removeAttribute('id')
+
+      //-- attach the listener to make it interactable again as the current note
+    	el.onclick = (evt) => {
+    		if(evt.target.getAttribute('id') == 'current') return
+    		evt.target.setAttribute('id', 'current')
+    		window.currentNote = evt.target
+    	}
+
+    	window.currentNote = null
+    },
+    //---------------------
+    //-- handles the mouse position and stores it
+    //-- if necessary, sets the current mouse position as the current note position
+    //--------------------
     handleMousePosition(evt) {
+      //-- always save the mouse position
+      this.position = {x: evt.clientX, y: evt.clientY}
+
       if(!window.currentNote)
         return
-      this.position = {x: evt.clientX, y: evt.clientY}
-  		let pos = getGridPosition(this.position)
 
+  		let pos = getGridPosition(this.position)
     	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
       window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
-
     },
-    handleNewNote(el) {
+    handleNewNote(el, evt) {
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -13288,10 +13412,9 @@ const ipc = __webpack_require__(7).ipcRenderer
       el.setAttribute('id', 'current')
       el.focus()
 
-
       let pos = getGridPosition(this.position)
-      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+      window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
+      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
     },
     toggleDraw() {
       this.isDrawing = !this.isDrawing
@@ -13342,7 +13465,6 @@ const ipc = __webpack_require__(7).ipcRenderer
         notes: [],
         writeup: {"text":""}
       })
-
 
       setTimeout(() => {
         globals.setCurrentConcept(_i.concept)
@@ -13416,7 +13538,7 @@ const ipc = __webpack_require__(7).ipcRenderer
     })
 
     window.addEventListener('keydown', (e) => {
-  		typing.handle(e, this.data)
+  		this.handle(e, this.data)
       this.currentConcept = window.currentConcept
   	})
 
@@ -13804,15 +13926,14 @@ if(false) {
     handleNewNote(el) {
       this.$emit('new-note', el)
     },
-    addPrep(_type) {
-      console.log(_type);
+    addPrep(d) {
       let p = {}
-      switch (_type) {
+      switch (d.type) {
         case 'txt':
           p = {
             "tag": "",
             "text": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'url':
@@ -13820,7 +13941,7 @@ if(false) {
             "tag": "",
             "text": "",
             "url": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'img':
@@ -13828,13 +13949,13 @@ if(false) {
             "tag": "",
             "name": "",
             "src": "",
-            "type": _type
+            "type": d.type
           }
           break;
         default:
           break
       }
-      this.data.preps.push(p)
+      this.data.preps.splice(d.index+1, 0, p)
     },
     removePrep(i) {
       let a = this.data.preps.slice(0, i)
@@ -14016,7 +14137,7 @@ const ipc = __webpack_require__(7).ipcRenderer
       this.$emit('remove-prep', this)
     },
     addPrep(t){
-      this.$emit('add-prep', t)
+      this.$emit('add-prep', {type:t, index:this.index})
     },
     openLink(evt, el){
       evt.preventDefault()
@@ -14197,9 +14318,6 @@ if(false) {
       el.style.top = this.data.y + 'px'
     }
 
-  },
-  afterMount(){
-    // this.$emit('new-note', el)
   }
 });
 
@@ -15303,6 +15421,7 @@ var render = function() {
             data: prep,
             _id: "prep-" + index,
             subject: _vm.subject,
+            index: index,
             isEdit: _vm.isEdit
           },
           on: {
@@ -16278,123 +16397,7 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 
 
 /***/ }),
-/* 95 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handle", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endNote", function() { return endNote; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(12);
-
-
-
-
-const ESC = 27
-const UP = 38
-const LEFT = 37
-const RIGHT = 39
-const DOWN = 40
-
-let cn = null
-
-let handle = (e, data) => {
-	cn = window.currentNote
-
-	let page, concept
-	switch(e.keyCode){
-	case UP: //page right before
-		if(cn == null){
-			e.preventDefault()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			if(page > 0){
-				page--
-			}else{
-				//-- check for concept overflow
-				if(concept > 0)
-					concept--
-				else
-					concept = 0
-
-				page = data.concepts[concept].pages.length - 1
-			}
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case DOWN: //page right after
-		if(cn == null){
-			e.preventDefault()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			if(page < data.concepts[concept].pages.length-1){
-				page++
-			}else{
-				page = 0
-				//-- check for concept overflow
-				if(concept < data.concepts.length-1)
-					concept++
-				else
-					concept = 0
-			}
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case LEFT: // previous page
-		if(cn == null){
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousPage"])()
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case RIGHT: // jump to the whiteboard
-		if(cn == null){
-			concept = document.getElementsByClassName('concept-group').length-1
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(0, true)
-		}
-		break
-	case ESC:
-		if(cn != null)
-			endNote(cn)
-		break
-	default:
-		break
-	}
-}
-
-
-let endNote = (el) => {
-	//if note is blank
-	if(el.value == ''){
-		el.style.display = 'none'
-		el.parentNode.removeChild(el)
-	}else{ //-- else position it correctly
-		el.style.height = (el.scrollHeight)+'px'
-	}
-
-	el.blur()
-	el.removeAttribute('id')
-	el.onclick = (evt) => {
-		if(evt.target.getAttribute('id') == 'current') return
-		evt.target.setAttribute('id', 'current')
-		window.currentNote = evt.target
-	}
-
-	window.currentNote = null
-}
-
-
-
-
-/***/ }),
+/* 95 */,
 /* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

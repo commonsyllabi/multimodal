@@ -152,12 +152,19 @@ import Concept from './Concept.vue'
 import Navigation from './Navigation.vue'
 import Overview from './Overview.vue'
 
-const typing = require('../lesson/typing.js')
 const drawing = require('../lesson/drawing.js')
 const globals = require('../lesson/globals.js')
 const utils = require('../utils.js')
 
 const ipc = require('electron').ipcRenderer
+
+const ESC = 27
+const UP = 38
+const LEFT = 37
+const RIGHT = 39
+const DOWN = 40
+const ACTIVATE_EDIT = 69 //-- E
+const TOGGLE_DRAW = 68 //-- D
 
 export default {
   components: {
@@ -178,37 +185,155 @@ export default {
     }
   },
   methods: {
+    //-----------------------------------
+    //-- checks whether an element has been scrolled into view,
+    //-- which is used for higlighting the current page and the current concept
+    //-----------------------------------
     isScrolledIntoView() {
-
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
         let rect = page.getBoundingClientRect();
         let isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
 
+        //-- this extracts the concept and page of any element in view
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
 
+      //-- if there is only one element in view, set its concept and page as the current ones
       if(visibleElements.length == 1){
         globals.setCurrentConcept(visibleElements[0].concept)
         globals.setCurrentPage(visibleElements[0].page)
       }
-
     },
+    //-----------------------------------
+    //-- handles the keyinputs, mostly used for one-key shortcuts
+    //-----------------------------------
+    handle(e){
+    	let cn = window.currentNote
+
+    	let page, concept
+    	switch(e.keyCode){
+    	case UP: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page > 0){
+    				page--
+    			}else{
+    				//-- check for concept overflow
+    				if(concept > 0)
+    					concept--
+    				else
+    					concept = 0
+
+    				page = data.concepts[concept].pages.length - 1
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case DOWN: //-- go to following page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page < data.concepts[concept].pages.length-1){
+    				page++
+    			}else{
+    				page = 0
+    				//-- check for concept overflow
+    				if(concept < data.concepts.length-1)
+    					concept++
+    				else
+    					concept = 0
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case LEFT: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			concept = globals.getPreviousConcept()
+    			page = globals.getPreviousPage()
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case RIGHT: //-- jump to the scrapboard
+    		if(!cn && !this.isEdit){
+    			concept = document.getElementsByClassName('concept-group').length-1
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(0, true)
+    		}
+    		break
+      case ACTIVATE_EDIT: //-- turn edit on, turn off with ESC
+        if(!cn)
+        this.isEdit = true
+        break
+      case TOGGLE_DRAW: //-- toggle draw on
+        if(!this.isEdit)
+          this.toggleDraw()
+        break
+    	case ESC: //-- stop editing the current note
+    		if(cn)
+    			this.endNote(cn)
+        else if(this.isEdit) //-- stop editing the current topic
+          this.isEdit = false
+    		break
+    	default:
+    		break
+    	}
+    },
+    //---------------------
+    //-- takes care of removing the current status of the note
+    //-- and setting it as regular note
+    //---------------------
+    endNote(el){
+    	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
+    	if(el.value == ''){
+    		el.style.display = 'none'
+    		el.parentNode.removeChild(el)
+    	}else{ //-- else position it correctly
+    		el.style.height = (el.scrollHeight)+'px'
+    	}
+
+    	el.blur()
+    	el.removeAttribute('id')
+
+      //-- attach the listener to make it interactable again as the current note
+    	el.onclick = (evt) => {
+    		if(evt.target.getAttribute('id') == 'current') return
+    		evt.target.setAttribute('id', 'current')
+    		window.currentNote = evt.target
+    	}
+
+    	window.currentNote = null
+    },
+    //---------------------
+    //-- handles the mouse position and stores it
+    //-- if necessary, sets the current mouse position as the current note position
+    //--------------------
     handleMousePosition(evt) {
+      //-- always save the mouse position
+      this.position = {x: evt.clientX, y: evt.clientY}
+
       if(!window.currentNote)
         return
-      this.position = {x: evt.clientX, y: evt.clientY}
-  		let pos = getGridPosition(this.position)
 
+  		let pos = getGridPosition(this.position)
     	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
       window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
-
     },
-    handleNewNote(el) {
+    handleNewNote(el, evt) {
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -218,10 +343,9 @@ export default {
       el.setAttribute('id', 'current')
       el.focus()
 
-
       let pos = getGridPosition(this.position)
-      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+      window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
+      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
     },
     toggleDraw() {
       this.isDrawing = !this.isDrawing
@@ -272,7 +396,6 @@ export default {
         notes: [],
         writeup: {"text":""}
       })
-
 
       setTimeout(() => {
         globals.setCurrentConcept(_i.concept)
@@ -346,7 +469,7 @@ export default {
     })
 
     window.addEventListener('keydown', (e) => {
-  		typing.handle(e, this.data)
+  		this.handle(e, this.data)
       this.currentConcept = window.currentConcept
   	})
 

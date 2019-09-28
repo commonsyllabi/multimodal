@@ -103,9 +103,10 @@ ipc.on('open-topic', (event, data) => {
 
 // adds a new subject by appending to the subjects list, and creating the directory structure
 ipc.on('save-subject', (event, data) => {
-	let s = new Subject(data)
+	let subject = new Subject(data)
 
-	let t = new Topic({
+	//-- by creating a new topic with a subject, it automatically gets associated with it
+	let topic = new Topic({
 		subject: s,
 		name: 'new-topic',
 		concepts: [{
@@ -117,9 +118,20 @@ ipc.on('save-subject', (event, data) => {
 				notes: [],
 				writeup: {text: ""}
 			}]
+		},
+		{
+			name: "scrapboard",
+			context: {text: ""},
+			pages: [{
+				name: "first",
+				preps: [],
+				notes: [],
+				writeup: {text: ""}
+			}]
 		}]
 	})
 
+	//-- this is all we need to open the new topic lesson
 	let d = {
 		"path": s.path,
 		"subject": s.name,
