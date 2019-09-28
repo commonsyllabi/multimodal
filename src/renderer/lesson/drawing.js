@@ -28,7 +28,6 @@ let setupCanvas = (i) => {
 	contexts[i].strokeStyle = '#ff9933'
 
 	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
-	// contexts[i].beginPath()
 }
 
 let selectCanvas = (_page, _concept) => {

@@ -109,9 +109,6 @@ export default {
       el.style.top = this.data.y + 'px'
     }
 
-  },
-  afterMount(){
-    // this.$emit('new-note', el)
   }
 }
 </script>
