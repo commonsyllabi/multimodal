@@ -52,6 +52,7 @@ canvas {
 }
 
 .edit-input{
+  pointer-events: all;
   color: $main-fg-color;
   background-color: $main-bg-color;
   border: none;
