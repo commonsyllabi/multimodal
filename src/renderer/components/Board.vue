@@ -3,7 +3,7 @@
   <div class="subjects-container">
     <div class="subjects">
       <div v-for="single in data.subjects" class="inter-class">
-        <div class="subject-title">
+        <div class="subject" @click="setSubject($event, single.subject.name, single.subject.path)">
           {{single.subject.name}}
           <button class="right" @click="removeSubject(single.subject)">-</button>
         </div>
@@ -48,8 +48,8 @@
 
   <div class="buttons-container">
     <button class="btn left" @click="create">create</button>
-    <button class="btn left" @click="exportTo('html')" :disabled="!selectedTopic">to html</button>
-    <button class="btn left" @click="exportTo('pdf')" :disabled="!selectedTopic">to pdf</button>
+    <button class="btn left" @click="exportTo('html')" :disabled="!(selectedSubject || selectedTopic)">to html</button>
+    <button class="btn left" @click="exportTo('pdf')" :disabled="!(selectedSubject || selectedTopic)">to pdf</button>
     <button class="btn right" @click="importFrom">import</button>
 
     <div class="msg-log" id="msg-log"></div>
@@ -81,10 +81,11 @@
 	margin-bottom: 5%;
 }
 
-.subject-title {
+.subject {
 	width: 100%;
 	font-weight: bold;
 	font-size: 2em;
+  cursor: pointer;
 }
 
 .inter-class{
@@ -189,18 +190,42 @@ export default {
       data: {},
       current: {},
       showCreate: false,
-      selectedTopic: false
+      selectedTopic: false,
+      selectedSubject: false
     }
   },
   methods: {
+    setSubject(_e, _s, _p){
+      this.current.subject = _s
+      this.current.path = _p
+      this.current.name = null
+
+      let all_subjects = document.getElementsByClassName('subject')
+      for(let s of all_subjects)
+        s.setAttribute('class', s.getAttribute('class').replace('selected', ''))
+
+      let all_topics = document.getElementsByClassName('topic')
+      for(let l of all_topics)
+        l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
+
+      let _class = _e.target.getAttribute('class')
+      _e.target.setAttribute('class', `${_class} selected`)
+
+      this.selectedSubject = true
+    },
     setTopic(_e, _s, _n, _p) {
       this.current.subject = _s
       this.current.name = _n
       this.current.path = _p
       this.current.sessions = ["session one", "session two"]
 
-      let all_lessons = document.getElementsByClassName('topic')
-      for(let l of all_lessons)
+      // TODO: this can be streamlined
+      let all_subjects = document.getElementsByClassName('subject')
+      for(let s of all_subjects)
+        s.setAttribute('class', s.getAttribute('class').replace('selected', ''))
+
+      let all_topics = document.getElementsByClassName('topic')
+      for(let l of all_topics)
         l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
 
       let _class = _e.target.getAttribute('class')

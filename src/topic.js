@@ -8,9 +8,11 @@ class Topic {
 
   constructor(data){
     this.id = data.id != undefined ? data.id : generateId()
+    console.log(data.subject);
     this.subject = {
       name: data.subject.name,
-      id: data.subject.id
+      id: data.subject.id,
+      path: data.subject.path
     },
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
