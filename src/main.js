@@ -109,6 +109,7 @@ ipc.on('save-subject', (event, data) => {
 	let topic = new Topic({
 		subject: s,
 		name: 'new-topic',
+		overview: {text:""},
 		concepts: [{
 			name: "new concept",
 			context: {text: ""},
@@ -149,7 +150,6 @@ ipc.on('save-subject', (event, data) => {
 //-- creates a new board
 ipc.on('create-topic', (event, data) => {
 	let t = new Topic(data)
-
 	let d = {
 		"path": t.subject.path,
 		"subject": t.subject.name,

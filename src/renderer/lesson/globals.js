@@ -36,6 +36,7 @@ let getCurrentNote = () => {
 let setCurrentConcept = (el) => {
 	previousConcept = currentConcept
 	currentConcept = el
+	window.currentConcept = currentConcept
 }
 
 let getCurrentConcept = () => {

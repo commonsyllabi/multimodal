@@ -242,6 +242,7 @@ export default {
     	})
     },
     createTopic(subject){
+      console.log('here');
       ipc.send('create-topic', {subject: subject})
     },
     removeTopic(topic){

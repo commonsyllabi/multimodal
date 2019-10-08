@@ -12994,6 +12994,7 @@ let getCurrentNote = () => {
 let setCurrentConcept = (el) => {
 	previousConcept = currentConcept
 	currentConcept = el
+	window.currentConcept = currentConcept
 }
 
 let getCurrentConcept = () => {
@@ -13283,7 +13284,6 @@ const CLEAR_DRAW = 67 //-- C
     //-----------------------------------
     handle(e){
     	let cn = window.currentNote
-      console.log(e.keyCode);
     	let page, concept
     	switch(e.keyCode){
     	case UP: //-- go to previous page
@@ -13500,6 +13500,7 @@ const CLEAR_DRAW = 67 //-- C
 
       setTimeout(() => {
         globals.setCurrentConcept(_i+1)
+        this.currentConcept = window.currentConcept
         globals.setCurrentPage(0, true)
       }, 200)
     },

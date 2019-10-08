@@ -214,7 +214,6 @@ export default {
     //-----------------------------------
     handle(e){
     	let cn = window.currentNote
-      console.log(e.keyCode);
     	let page, concept
     	switch(e.keyCode){
     	case UP: //-- go to previous page
@@ -431,6 +430,7 @@ export default {
 
       setTimeout(() => {
         globals.setCurrentConcept(_i+1)
+        this.currentConcept = window.currentConcept
         globals.setCurrentPage(0, true)
       }, 200)
     },
