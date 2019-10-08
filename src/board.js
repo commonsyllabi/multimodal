@@ -55,7 +55,7 @@ module.exports.init = (w) => {
 	win = w
 }
 
-//-- TODO cross check with the current data in the imports folder as well
+//-- cross check with the current data in the imports folder as well
 //-- removes all unfound subjects and topics
 let cleanup = () => {
 	console.log('[BOARD] cleaning up subjects.json...');
@@ -67,16 +67,18 @@ let cleanup = () => {
 	//-- first cleaning up topics
 	for(let s of subjects){
 		let cleaned = []
-		for(let t of s.topics){
-			let p = `${s.path}/${s.name}.mmd`
-			let l = null
-			try {
-				l = fs.readFileSync(p)
-				cleaned.push(JSON.parse(l))
-			} catch (e) {
-				console.log(`[BOARD] Couldn't find topic at ${t.name}`);
-			}
-		}
+		let current_topics = fs.readdirSync(`${__dirname}/app/imports/${s.name}/topics`)
+
+		let topic_ids = [] //-- we get all the ids of the current topics
+		for (let current_topic of current_topics)
+			topic_ids.push(JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${s.name}/topics/${current_topic}/topic.json`)).id)
+
+		//-- now we cross-check
+		for(let t of s.topics)
+			for(let topic_id of topic_ids)
+				if(topic_id == t.id)
+					cleaned.push(t)
+
 
 		s.topics = cleaned
 	}
