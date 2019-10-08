@@ -62,13 +62,13 @@ let cleanup = () => {
 	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
 
 	//--backup
-	fs.writeFileSync(`${__dirname}/data/subjects.json.bakup`, JSON.stringify(subjects))
+	fs.writeFileSync(`${__dirname}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
 
 	//-- first cleaning up topics
 	for(let s of subjects){
 		let cleaned = []
 		for(let t of s.topics){
-			let p = `${s.path}/${s.name}/topics/${t.name}/topic.json`
+			let p = `${s.path}/${s.name}.mmd`
 			let l = null
 			try {
 				l = fs.readFileSync(p)
