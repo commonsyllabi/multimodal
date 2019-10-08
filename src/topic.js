@@ -7,12 +7,12 @@ const file_mgmt = require('./file-mgmt.js')
 class Topic {
 
   constructor(data){
-    this.id = data.id ? data.id : generateId()
+    this.id = data.id != undefined ? data.id : generateId()
     this.subject = data.subject
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
     this.updated = null
-    this.overview = data.overview ? data.overview : {text:""}
+    this.overview = data.overview != undefined ? data.overview : {text:""}
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
       context: {"text":""},
@@ -86,6 +86,14 @@ class Topic {
                 //-- also rename the field in subject.json
                 t.name = data.name
                 fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
+
+                //-- find the subject.json of the subject and update the name
+                let subj = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${t.subject.name}/subject.json`));
+                for(let top of subj.topics)
+                  if(top.id == data.id)
+                    top.name = data.name
+                fs.writeFileSync(`${__dirname}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subj));
+
               }
 
               console.log(`[TOPIC] found existing topic...`);
@@ -158,7 +166,7 @@ class Topic {
       for(let i = 0; i < subjects.length; i++){
         if(subjects[i].id == topic.subject.id){
           foundSubject = true
-          for(let j = 0; j < subjects[i].topics; j++){
+          for(let j = 0; j < subjects[i].topics.length; j++){
             if(subjects[i].topics[j].id == topic.id){
               foundTopic = true
               console.log('[TOPIC] found the topic to be deleted...');
@@ -254,7 +262,8 @@ class Topic {
       "created": this.created,
       "updated": this.updated,
       "concepts": this.concepts,
-      "context": this.context
+      "context": this.context,
+      "overview": this.overview
     }
   }
 }

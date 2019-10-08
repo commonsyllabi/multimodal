@@ -13115,6 +13115,7 @@ const {dialog} = __webpack_require__(7).remote
     	})
     },
     createTopic(subject){
+      console.log('here');
       ipc.send('create-topic', {subject: subject})
     },
     removeTopic(topic){
