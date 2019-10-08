@@ -8,7 +8,10 @@ class Topic {
 
   constructor(data){
     this.id = data.id != undefined ? data.id : generateId()
-    this.subject = data.subject
+    this.subject = {
+      name: data.subject.name,
+      id: data.subject.id
+    },
     this.name = data.name ? data.name : "new-topic"
     this.created = new Date()
     this.updated = null
