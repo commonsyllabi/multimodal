@@ -1,6 +1,8 @@
 **/*.swp
 node_modules/
 src/app/*.html
+src/app/*.js
+src/data/subject.json*
 dist/
 src/app/imports/*
 
