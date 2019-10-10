@@ -78,6 +78,7 @@
   overflow: visible;
   position: relative;
   color: $main-fg-color;
+  border-bottom: thick double $main-fg-color;
 }
 
 
