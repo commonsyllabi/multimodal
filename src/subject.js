@@ -99,9 +99,9 @@ class Subject {
 
           if(c != null)
             topics_to_export.push(c)
-
-          console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
         }
+
+        console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
       }
 
       if(type == 'html'){
@@ -125,37 +125,44 @@ class Subject {
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()
       }else if(type == 'pdf'){
+        let counter = 0 //-- to keep track of how many renders we've finished
+
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${__dirname}/app/imports/temp/${content.subject.name}_assets/`)
-        for(let concept of content.concepts)
-          for(let page of concept.pages)
-            for(let prep of page.preps)
-              if(prep.type == 'img' || prep.type == 'vid')
-                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${__dirname}/app/imports/temp/${content.subject.name}_assets/${prep.name}`))
+        utils.touchDirectory(`${__dirname}/app/imports/temp/${data.subject}_assets/`)
+        for(let topic of topics_to_export){
+          for(let concept of topic.concepts)
+            for(let page of concept.pages)
+              for(let prep of page.preps)
+                if(prep.type == 'img' || prep.type == 'vid')
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${__dirname}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
 
-        //-- create the html stream
-        let render = pug.renderFile(`${__dirname}/views/export.pug`, content)
+          //-- create the html stream
+          let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
 
-        //-- generate the pdf
-        let options = {
-          border: {
-            top: "0.2in",
-            right: "0.125in",
-            bottom: "0.2in",
-            left: "0.125in"
-          },
-          format: 'A4'
-        }
-        pdf.create(render, options).toFile(`${path}/${data.name}.pdf`, (err, res) => {
-          if(err){
-            console.log(err);
-            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
-            reject(err)
-          }else{
-            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
-            resolve()
+          //-- generate the pdf
+          let options = {
+            border: {
+              top: "0.2in",
+              right: "0.125in",
+              bottom: "0.2in",
+              left: "0.125in"
+            },
+            format: 'A4'
           }
-        })
+          pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+            if(err){
+              console.log(err);
+              utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+              reject(err)
+            }else{
+              if(++counter == topics_to_export.length){
+                utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+                resolve()
+              }
+            }
+          })
+        }
+
       }else{
         console.log('[SUBJECT] got wrong type');
         reject()
