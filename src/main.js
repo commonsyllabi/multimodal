@@ -165,7 +165,7 @@ ipc.on('remove-topic', (event, data) => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 		setTimeout(() => {
 			board.list()
-			replaceWindow('welcome')
+			replaceWindow('board')
 		}, 1000)
 	}).catch((err) => {
 		console.log(err);
@@ -178,7 +178,7 @@ ipc.on('remove-subject', (event, data) => {
 		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
 		setTimeout(() => {
 			board.list()
-			replaceWindow('welcome')
+			replaceWindow('board')
 		}, 1000)
 	}).catch((err) => {
 		console.log(err);
@@ -256,12 +256,12 @@ ipc.on('save-topic', (event, data) => {
 
 ipc.on('exit-home', () => {
 	board.list()
-	replaceWindow('welcome')
+	replaceWindow('board')
 })
 
 app.on('ready', () => {
 	board.list()
-	createWindow('welcome', 0.8, 0.8)
+	createWindow('board', 0.8, 0.8)
 })
 
 app.on('window-all-closed', () => { app.quit() })

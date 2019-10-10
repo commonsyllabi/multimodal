@@ -11,7 +11,7 @@ let win
 
 exports = module.exports = {}
 
-// lists all the lessons from subjects.json and displays them on the welcome screen
+// lists all the lessons from subjects.json and displays them on the board screen
 module.exports.list = () => {
 	if(!fs.existsSync(`${__dirname}/data/subjects.json`))
 		fs.writeFileSync(`${__dirname}/data/subjects.json`, '[]')
@@ -47,8 +47,8 @@ module.exports.list = () => {
 			data.subjects.push(obj)
 	}
 
-	let compiled = pug.renderFile(__dirname+'/views/welcome.pug', {'data': JSON.stringify(data)})
-	fs.writeFileSync(__dirname+'/app/welcome.html', compiled)
+	let compiled = pug.renderFile(__dirname+'/views/board.pug', {'data': JSON.stringify(data)})
+	fs.writeFileSync(__dirname+'/app/board.html', compiled)
 }
 
 module.exports.init = (w) => {
