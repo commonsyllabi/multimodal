@@ -730,6 +730,7 @@ let getCurrentNote = () => {
 let setCurrentConcept = (el) => {
 	previousConcept = currentConcept
 	currentConcept = el
+	window.currentConcept = currentConcept
 }
 
 let getCurrentConcept = () => {
@@ -829,7 +830,6 @@ let setupCanvas = (i) => {
 	contexts[i].strokeStyle = '#ff9933'
 
 	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
-	// contexts[i].beginPath()
 }
 
 let selectCanvas = (_page, _concept) => {
@@ -13216,18 +13216,25 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 //
 //
 //
-//
 
 
 
 
 
-const typing = __webpack_require__(95)
 const drawing = __webpack_require__(13)
 const globals = __webpack_require__(12)
 const utils = __webpack_require__(11)
 
 const ipc = __webpack_require__(7).ipcRenderer
+
+const ESC = 27
+const UP = 38
+const LEFT = 37
+const RIGHT = 39
+const DOWN = 40
+const ACTIVATE_EDIT = 69 //-- E
+const TOGGLE_DRAW = 68 //-- D
+const CLEAR_DRAW = 67 //-- C
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
@@ -13248,37 +13255,158 @@ const ipc = __webpack_require__(7).ipcRenderer
     }
   },
   methods: {
+    //-----------------------------------
+    //-- checks whether an element has been scrolled into view,
+    //-- which is used for higlighting the current page and the current concept
+    //-----------------------------------
     isScrolledIntoView() {
-
       let visibleElements = []
       let pages = document.getElementsByClassName('page-group')
       for(let page of pages){
         let rect = page.getBoundingClientRect();
         let isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
 
+        //-- this extracts the concept and page of any element in view
         if(isVisible){
           let comp = page.getAttribute('page').split('-')
           visibleElements.push({"page": comp[1], "concept": comp[0]})
         }
       }
 
+      //-- if there is only one element in view, set its concept and page as the current ones
       if(visibleElements.length == 1){
         globals.setCurrentConcept(visibleElements[0].concept)
         globals.setCurrentPage(visibleElements[0].page)
       }
-
     },
+    //-----------------------------------
+    //-- handles the keyinputs, mostly used for one-key shortcuts
+    //-----------------------------------
+    handle(e){
+    	let cn = window.currentNote
+    	let page, concept
+    	switch(e.keyCode){
+    	case UP: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page > 0){
+    				page--
+    			}else{
+    				//-- check for concept overflow
+    				if(concept > 0)
+    					concept--
+    				else
+    					concept = 0
+
+    				page = data.concepts[concept].pages.length - 1
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case DOWN: //-- go to following page
+    		if(!cn && !this.isEdit){
+    			e.preventDefault()
+    			page = globals.getCurrentPage()
+    			concept = globals.getCurrentConcept()
+    			if(page < data.concepts[concept].pages.length-1){
+    				page++
+    			}else{
+    				page = 0
+    				//-- check for concept overflow
+    				if(concept < data.concepts.length-1)
+    					concept++
+    				else
+    					concept = 0
+    			}
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case LEFT: //-- go to previous page
+    		if(!cn && !this.isEdit){
+    			concept = globals.getPreviousConcept()
+    			page = globals.getPreviousPage()
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(page, true)
+    		}
+    		break
+    	case RIGHT: //-- jump to the scrapboard
+    		if(!cn && !this.isEdit){
+    			concept = document.getElementsByClassName('concept-group').length-1
+
+    			globals.setCurrentConcept(concept)
+    			globals.setCurrentPage(0, true)
+    		}
+    		break
+      case ACTIVATE_EDIT: //-- turn edit on, turn off with ESC
+        if(!cn)
+        this.isEdit = true
+        break
+      case TOGGLE_DRAW: //-- toggle draw on
+        if(!this.isEdit)
+          this.toggleDraw()
+        break
+      case CLEAR_DRAW:
+        if(!this.isEdit)
+          drawing.clearBoard()
+        break
+    	case ESC: //-- stop editing the current note
+    		if(cn)
+    			this.endNote(cn)
+        else if(this.isEdit) //-- stop editing the current topic
+          this.isEdit = false
+    		break
+    	default:
+    		break
+    	}
+    },
+    //---------------------
+    //-- takes care of removing the current status of the note
+    //-- and setting it as regular note
+    //---------------------
+    endNote(el){
+    	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
+    	if(el.value == ''){
+    		el.style.display = 'none'
+    		el.parentNode.removeChild(el)
+    	}else{ //-- else position it correctly
+    		el.style.height = (el.scrollHeight)+'px'
+    	}
+
+    	el.blur()
+    	el.removeAttribute('id')
+
+      //-- attach the listener to make it interactable again as the current note
+    	el.onclick = (evt) => {
+    		if(evt.target.getAttribute('id') == 'current') return
+    		evt.target.setAttribute('id', 'current')
+    		window.currentNote = evt.target
+    	}
+
+    	window.currentNote = null
+    },
+    //---------------------
+    //-- handles the mouse position and stores it
+    //-- if necessary, sets the current mouse position as the current note position
+    //--------------------
     handleMousePosition(evt) {
+      //-- always save the mouse position
+      this.position = {x: evt.clientX, y: evt.clientY}
+
       if(!window.currentNote)
         return
-      this.position = {x: evt.clientX, y: evt.clientY}
-  		let pos = getGridPosition(this.position)
 
+  		let pos = getGridPosition(this.position)
     	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
       window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
-
     },
-    handleNewNote(el) {
+    handleNewNote(el, evt) {
       window.currentNote = el
 
       let els = document.getElementsByClassName('written')
@@ -13288,10 +13416,9 @@ const ipc = __webpack_require__(7).ipcRenderer
       el.setAttribute('id', 'current')
       el.focus()
 
-
       let pos = getGridPosition(this.position)
-      window.currentNote.style.left = (pos.x + window.offsets[0])+'px'
-      window.currentNote.style.top = (pos.y + window.offsets[1])+'px'
+      window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
+      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
     },
     toggleDraw() {
       this.isDrawing = !this.isDrawing
@@ -13303,7 +13430,7 @@ const ipc = __webpack_require__(7).ipcRenderer
     editLesson() {
       this.isEdit = !this.isEdit
     },
-    exitLesson() {
+    exitSession() {
       if(!this.lessonSaved)
         msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.send('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
       else
@@ -13343,7 +13470,6 @@ const ipc = __webpack_require__(7).ipcRenderer
         writeup: {"text":""}
       })
 
-
       setTimeout(() => {
         globals.setCurrentConcept(_i.concept)
         globals.setCurrentPage(_i.page+1, true)
@@ -13374,6 +13500,7 @@ const ipc = __webpack_require__(7).ipcRenderer
 
       setTimeout(() => {
         globals.setCurrentConcept(_i+1)
+        this.currentConcept = window.currentConcept
         globals.setCurrentPage(0, true)
       }, 200)
     },
@@ -13416,7 +13543,7 @@ const ipc = __webpack_require__(7).ipcRenderer
     })
 
     window.addEventListener('keydown', (e) => {
-  		typing.handle(e, this.data)
+  		this.handle(e, this.data)
       this.currentConcept = window.currentConcept
   	})
 
@@ -13760,6 +13887,7 @@ if(false) {
 //
 //
 //
+//
 
 
 
@@ -13804,15 +13932,14 @@ if(false) {
     handleNewNote(el) {
       this.$emit('new-note', el)
     },
-    addPrep(_type) {
-      console.log(_type);
+    addPrep(d) {
       let p = {}
-      switch (_type) {
+      switch (d.type) {
         case 'txt':
           p = {
             "tag": "",
             "text": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'url':
@@ -13820,7 +13947,7 @@ if(false) {
             "tag": "",
             "text": "",
             "url": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'img':
@@ -13828,13 +13955,13 @@ if(false) {
             "tag": "",
             "name": "",
             "src": "",
-            "type": _type
+            "type": d.type
           }
           break;
         default:
           break
       }
-      this.data.preps.push(p)
+      this.data.preps.splice(d.index+1, 0, p)
     },
     removePrep(i) {
       let a = this.data.preps.slice(0, i)
@@ -14016,7 +14143,7 @@ const ipc = __webpack_require__(7).ipcRenderer
       this.$emit('remove-prep', this)
     },
     addPrep(t){
-      this.$emit('add-prep', t)
+      this.$emit('add-prep', {type:t, index:this.index})
     },
     openLink(evt, el){
       evt.preventDefault()
@@ -14197,9 +14324,6 @@ if(false) {
       el.style.top = this.data.y + 'px'
     }
 
-  },
-  afterMount(){
-    // this.$emit('new-note', el)
   }
 });
 
@@ -14748,13 +14872,15 @@ window.currentConcept = 0
 window.offsets = [0,0]
 window.isEdit = false
 
-window.vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
+const vm = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	el: '#writing-board',
 	template: '<Topic/>',
 	components: {
 		Topic: __WEBPACK_IMPORTED_MODULE_4__components_Topic_vue__["a" /* default */]
 	}
 })
+
+window.vm = vm.$children[0]
 
 const msgbox = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 	el: '#dialog',
@@ -14766,20 +14892,17 @@ const msgbox = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
 
 window.msgbox = msgbox.$children[0]
 
-window.editLesson = (e) => {
-	window.isEdit = !window.isEdit
-	e.innerText = window.isEdit ? "present" : "edit"
-}
-window.switchConcept = __WEBPACK_IMPORTED_MODULE_0__lesson_globals_js__["setCurrentConcept"]
 window.jumpToTag = __WEBPACK_IMPORTED_MODULE_0__lesson_globals_js__["jumpToTag"]
-window.clearBoard = __WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["clearBoard"]
-window.toggleDraw = __WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["toggleDraw"]
 
-ipc.on('menu-save', () => {window.saveSession()})
-ipc.on('menu-exit', () => {window.exitLesson()})
-ipc.on('menu-toggle', () => {__WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["toggleDraw"]()})
-ipc.on('menu-clear-board', () => {__WEBPACK_IMPORTED_MODULE_1__lesson_drawing_js__["clearBoard"]()})
-
+//------------
+//-- shortcuts
+//------------
+ipc.on('menu-save', () => {
+	window.vm.saveSession()
+})
+ipc.on('menu-exit', () => {
+	window.vm.exitSession()
+})
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
 
 
@@ -14985,7 +15108,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn right", on: { click: _vm.exitLesson } },
+        { staticClass: "btn right", on: { click: _vm.exitSession } },
         [_vm._v(" exit ")]
       ),
       _vm._v(" "),
@@ -15303,6 +15426,7 @@ var render = function() {
             data: prep,
             _id: "prep-" + index,
             subject: _vm.subject,
+            index: index,
             isEdit: _vm.isEdit
           },
           on: {
@@ -15919,7 +16043,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.right[data-v-4b44dcd6] {\n  float: right;\n}\n.left[data-v-4b44dcd6] {\n  float: left;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-4b44dcd6] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  visibility: visible;\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.inactive[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  width: 90vw;\n  min-height: 105vh;\n  overflow: hidden;\n  background-color: #202020;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n  margin-top: 10vh;\n  margin-left: 10vw;\n}\n.edit-input[data-v-4b44dcd6] {\n  color: #eeeeee;\n  background-color: #202020;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-4b44dcd6]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-4b44dcd6] {\n  color: #e77607;\n}\na[data-v-4b44dcd6]:hover {\n  color: #b25900;\n}\nbutton[data-v-4b44dcd6] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-4b44dcd6] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-4b44dcd6] {\n  background-color: darkseagreen;\n}\n.error[data-v-4b44dcd6] {\n  background-color: crimson;\n}\n.metadata[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.right[data-v-4b44dcd6] {\n  float: right;\n}\n.left[data-v-4b44dcd6] {\n  float: left;\n}\ndiv[data-v-4b44dcd6],\nimg[data-v-4b44dcd6] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-4b44dcd6] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ncanvas[data-v-4b44dcd6] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  z-index: 1;\n  width: 100%;\n  height: 100%;\n}\n.active[data-v-4b44dcd6] {\n  visibility: visible;\n  pointer-events: auto;\n  cursor: crosshair;\n}\n.inactive[data-v-4b44dcd6] {\n  visibility: hidden;\n}\n.page-group[data-v-4b44dcd6] {\n  position: relative;\n  width: 90vw;\n  min-height: 105vh;\n  overflow: hidden;\n  background-color: #202020;\n}\n.title[data-v-4b44dcd6],\n.edit-input[data-v-4b44dcd6] {\n  font-size: 2.3em;\n  font-weight: bold;\n  margin-top: 10vh;\n  margin-left: 10vw;\n}\n.edit-input[data-v-4b44dcd6] {\n  pointer-events: all;\n  color: #eeeeee;\n  background-color: #202020;\n  border: none;\n  border-bottom: 2px solid #eeeeee;\n}", ""]);
 
 // exports
 
@@ -16278,123 +16402,7 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 
 
 /***/ }),
-/* 95 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "handle", function() { return handle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endNote", function() { return endNote; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__globals_js__ = __webpack_require__(12);
-
-
-
-
-const ESC = 27
-const UP = 38
-const LEFT = 37
-const RIGHT = 39
-const DOWN = 40
-
-let cn = null
-
-let handle = (e, data) => {
-	cn = window.currentNote
-
-	let page, concept
-	switch(e.keyCode){
-	case UP: //page right before
-		if(cn == null){
-			e.preventDefault()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			if(page > 0){
-				page--
-			}else{
-				//-- check for concept overflow
-				if(concept > 0)
-					concept--
-				else
-					concept = 0
-
-				page = data.concepts[concept].pages.length - 1
-			}
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case DOWN: //page right after
-		if(cn == null){
-			e.preventDefault()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentPage"])()
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getCurrentConcept"])()
-			if(page < data.concepts[concept].pages.length-1){
-				page++
-			}else{
-				page = 0
-				//-- check for concept overflow
-				if(concept < data.concepts.length-1)
-					concept++
-				else
-					concept = 0
-			}
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case LEFT: // previous page
-		if(cn == null){
-			concept = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousConcept"])()
-			page = Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["getPreviousPage"])()
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(page, true)
-		}
-		break
-	case RIGHT: // jump to the whiteboard
-		if(cn == null){
-			concept = document.getElementsByClassName('concept-group').length-1
-
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentConcept"])(concept)
-			Object(__WEBPACK_IMPORTED_MODULE_0__globals_js__["setCurrentPage"])(0, true)
-		}
-		break
-	case ESC:
-		if(cn != null)
-			endNote(cn)
-		break
-	default:
-		break
-	}
-}
-
-
-let endNote = (el) => {
-	//if note is blank
-	if(el.value == ''){
-		el.style.display = 'none'
-		el.parentNode.removeChild(el)
-	}else{ //-- else position it correctly
-		el.style.height = (el.scrollHeight)+'px'
-	}
-
-	el.blur()
-	el.removeAttribute('id')
-	el.onclick = (evt) => {
-		if(evt.target.getAttribute('id') == 'current') return
-		evt.target.setAttribute('id', 'current')
-		window.currentNote = evt.target
-	}
-
-	window.currentNote = null
-}
-
-
-
-
-/***/ }),
+/* 95 */,
 /* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -16414,7 +16422,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-566c7219]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-566c7219] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-566c7219] {\n  color: #e77607;\n}\na[data-v-566c7219]:hover {\n  color: #b25900;\n}\nbutton[data-v-566c7219] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-566c7219] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-566c7219] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-566c7219] {\n  background-color: darkseagreen;\n}\n.error[data-v-566c7219] {\n  background-color: crimson;\n}\n.metadata[data-v-566c7219] {\n  visibility: hidden;\n}\n.right[data-v-566c7219] {\n  float: right;\n}\n.left[data-v-566c7219] {\n  float: left;\n}\ndiv[data-v-566c7219],\nimg[data-v-566c7219] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-566c7219] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-566c7219] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n  background-color: #202020;\n  font-family: \"Inter UI\", serif;\n  overflow-x: hidden;\n}\n.topic-name[data-v-566c7219],\n.concept-name[data-v-566c7219] {\n  width: 25vw;\n  text-align: center;\n  right: 10vw;\n  height: 45px;\n  font-size: 36px;\n  padding: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n}\n.topic-name[data-v-566c7219] {\n  z-index: 5;\n  position: absolute;\n  top: 0px;\n  right: 0px;\n}\n.concept-name[data-v-566c7219] {\n  position: fixed;\n  top: 60px;\n  width: 15vw;\n  height: 30px;\n  z-index: 3;\n  font-size: 1.6em;\n  font-weight: bold;\n}\n.concept-group[data-v-566c7219] {\n  height: auto;\n  overflow: visible;\n  position: relative;\n  color: #eeeeee;\n}\n.buttons-container[data-v-566c7219] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-566c7219] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-566c7219] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-566c7219] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-566c7219]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-566c7219]:active {\n  border: none;\n}\n.exit-lesson[data-v-566c7219],\n.save-session[data-v-566c7219] {\n  float: right;\n}\n.nav-container[data-v-566c7219] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 96vh;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-566c7219]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-566c7219] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-566c7219] {\n  color: #e77607;\n}\na[data-v-566c7219]:hover {\n  color: #b25900;\n}\nbutton[data-v-566c7219] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-566c7219] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-566c7219] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-566c7219] {\n  background-color: darkseagreen;\n}\n.error[data-v-566c7219] {\n  background-color: crimson;\n}\n.metadata[data-v-566c7219] {\n  visibility: hidden;\n}\n.right[data-v-566c7219] {\n  float: right;\n}\n.left[data-v-566c7219] {\n  float: left;\n}\ndiv[data-v-566c7219],\nimg[data-v-566c7219] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-566c7219] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.main-container[data-v-566c7219] {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  width: 90vw;\n  height: 100%;\n  z-index: 0;\n  background-color: #202020;\n  font-family: \"Inter UI\", serif;\n  overflow-x: hidden;\n}\n.topic-name[data-v-566c7219],\n.concept-name[data-v-566c7219] {\n  width: 25vw;\n  text-align: center;\n  right: 10vw;\n  height: 45px;\n  font-size: 36px;\n  padding: 5px;\n  background-color: #eeeeee;\n  color: #202020;\n  border: none;\n}\n.topic-name[data-v-566c7219] {\n  z-index: 5;\n  position: absolute;\n  top: 0px;\n  right: 0px;\n}\n.concept-name[data-v-566c7219] {\n  position: fixed;\n  top: 60px;\n  width: 15vw;\n  height: 30px;\n  z-index: 3;\n  font-size: 1.6em;\n  font-weight: bold;\n}\n.concept-group[data-v-566c7219] {\n  height: auto;\n  overflow: visible;\n  position: relative;\n  color: #eeeeee;\n}\n.buttons-container[data-v-566c7219] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 35px;\n  line-height: 35px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-566c7219] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-566c7219] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n  font-size: 1.5em;\n}\n@media (max-width: 1300px) {\n.btn[data-v-566c7219] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-566c7219]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-566c7219]:active {\n  border: none;\n}\n.exit-lesson[data-v-566c7219],\n.save-session[data-v-566c7219] {\n  float: right;\n}\n.nav-container[data-v-566c7219] {\n  position: fixed;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  width: 10vw;\n  height: 97vh;\n  background-color: #202020;\n  border-left: 2px solid #eeeeee;\n  color: #202020;\n  overflow-y: scroll;\n}", ""]);
 
 // exports
 

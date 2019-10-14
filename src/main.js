@@ -104,11 +104,13 @@ ipc.on('open-topic', (event, data) => {
 
 // adds a new subject by appending to the subjects list, and creating the directory structure
 ipc.on('save-subject', (event, data) => {
-	let s = new Subject(data)
+	let subject = new Subject(data)
 
-	let t = new Topic({
+	//-- by creating a new topic with a subject, it automatically gets associated with it
+	let topic = new Topic({
 		subject: s,
 		name: 'new-topic',
+		overview: {text:""},
 		concepts: [{
 			name: "new concept",
 			context: {text: ""},
@@ -122,9 +124,20 @@ ipc.on('save-subject', (event, data) => {
 				notes: [],
 				writeup: {text: ""}
 			}]
+		},
+		{
+			name: "scrapboard",
+			context: {text: ""},
+			pages: [{
+				name: "first",
+				preps: [],
+				notes: [],
+				writeup: {text: ""}
+			}]
 		}]
 	})
 
+	//-- this is all we need to open the new topic lesson
 	let d = {
 		"path": s.path,
 		"subject": s.name,
@@ -142,7 +155,6 @@ ipc.on('save-subject', (event, data) => {
 //-- creates a new board
 ipc.on('create-topic', (event, data) => {
 	let t = new Topic(data)
-
 	let d = {
 		"path": t.subject.path,
 		"subject": t.subject.name,
@@ -158,7 +170,7 @@ ipc.on('remove-topic', (event, data) => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 		setTimeout(() => {
 			board.list()
-			replaceWindow('welcome')
+			replaceWindow('board')
 		}, 1000)
 	}).catch((err) => {
 		console.log(err);
@@ -171,7 +183,7 @@ ipc.on('remove-subject', (event, data) => {
 		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
 		setTimeout(() => {
 			board.list()
-			replaceWindow('welcome')
+			replaceWindow('board')
 		}, 1000)
 	}).catch((err) => {
 		console.log(err);
@@ -249,7 +261,7 @@ ipc.on('save-topic', (event, data) => {
 
 ipc.on('exit-home', () => {
 	board.list()
-	replaceWindow('welcome')
+	replaceWindow('board')
 })
 
 app.on('ready', () => {
@@ -264,8 +276,7 @@ app.on('ready', () => {
 	fs.createReadStream(`${__dirname}/app/style.css`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/style.css`))
 
 	board.list()
-
-	createWindow('welcome', 0.8, 0.8)
+	createWindow('board', 0.8, 0.8)
 })
 
 app.on('window-all-closed', () => { app.quit() })
