@@ -60,17 +60,110 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 98);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 1:
 /***/ (function(module, exports) {
 
-module.exports = require("electron");
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
 
 /***/ }),
-/* 1 */
+
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92,117 +185,180 @@ module.exports.setMessage = (_msg, _type) => {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+/***/ 111:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(112);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(5).default
+var update = add("79de8870", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./welcome.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./welcome.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+/***/ 112:
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
+exports = module.exports = __webpack_require__(1)(false);
+// imports
 
 
-const ipc = __webpack_require__(0).ipcRenderer
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.courses-container {\n  overflow-y: auto;\n}\n\n.buttons-container,\n.courses-container {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n  float: left;\n}\n\n.buttons-container {\n  right: 0px;\n}\n\n.lessons {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n\n.inter-class-title {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n}\n\n.welcome-lesson,\n.inter-btn-main {\n  border: none;\n  color: black;\n  background-color: white;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n\n.welcome-lesson {\n  border: 2px solid white;\n  padding: 5px;\n  color: black;\n}\n\n.welcome-lesson:hover {\n  border-color: black;\n  font-weight: bold;\n}\n\n.selected {\n  background-color: black;\n  color: white;\n  border-color: black;\n  font-weight: bold;\n}\n\n.inter-btn:hover,\n.inter-btn-main:hover {\n  background-color: black;\n  color: white;\n}\n\n.inter-btn-main {\n  position: relative;\n  display: inline;\n  width: auto;\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .inter-btn-main {\n    font-size: 1.5em;\n  }\n}\n\n.inter-btn-main:disabled {\n  cursor: default;\n  background-color: white;\n  color: white;\n}", ""]);
 
-__webpack_require__(2)
-__webpack_require__(12)
-__webpack_require__(13)
-__webpack_require__(3)
-__webpack_require__(4)
-
-
-
-
-
-
-window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLesson */]
-window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]
-window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
-
-window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
-window.removeLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]
-window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
-
-window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* createNewCourse */]
-window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* saveCourse */]
-window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitCourse */]
-window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]
-window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]
-
-ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
-ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
-ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
-ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
-ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
-ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]()})
-ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]()})
-
-ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
-
-ipc.on('update-dropdown', (event, data) => {
-	console.log('got updated dropdown course', data)
-	let new_course = document.createElement('option')
-	new_course.setAttribute('value', data.name)
-	new_course.setAttribute('created', data.created)
-	new_course.setAttribute('path', data.path)
-	new_course.setAttribute('id', data.id)
-	new_course.innerText = data.name
-	new_course.setAttribute('selected', true)
-	document.getElementById('course-list').appendChild(new_course)
-})
-
-window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["n" /* selectCourse */]
-window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["o" /* selectCoursePath */]
-window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["p" /* selectMediaPath */]
-window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
-window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* removePrep */]
-window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
-window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeConcept */]
-window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
-window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removeNote */]
-window.addWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* addWriteup */]
-window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* removeWriteup */]
+// exports
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+/***/ 113:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(114);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(5).default
+var update = add("5a3adc70", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./create.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./create.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+/***/ 114:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.create-container {\n  width: 90%;\n  margin-left: 5%;\n  margin-bottom: 100px;\n  overflow: auto;\n}\n\n.create-course {\n  width: 95%;\n  height: auto;\n  overflow: auto;\n  margin-top: 2%;\n  padding: 2%;\n  text-align: left;\n  border: 3px solid black;\n}\n\n.create-course h1 {\n  margin-left: 3%;\n}\n\n.create-lesson {\n  margin: 10px;\n  font-size: 20px;\n}\n\n.create-lesson-title {\n  font-size: 64px;\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid #333333;\n  padding: 2px;\n  width: 70%;\n}\n\n@media (max-width: 1300px) {\n  .create-lesson-title {\n    font-size: 48px;\n  }\n}\n\n.create-lesson-save:hover,\n.create-lesson-exit:hover {\n  background-color: black;\n  color: white;\n}\n\n.create-new-course {\n  font-size: 36px;\n  padding: 0px 15px 5px 15px;\n  float: right;\n  margin-left: 5px;\n  background-color: black;\n  color: white;\n  border: none;\n  cursor: pointer;\n}\n\n/* COURSE WINDOW */\n\n.course-name,\n.course-year,\n.course-path {\n  width: 94%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin: 3%;\n}\n\n.course-path {\n  width: 70%;\n  margin: 10px;\n  float: left;\n}\n\n.create-course-save {\n  float: left;\n}\n\n.show-local-path {\n  width: 85%;\n  font-size: 36px;\n}\n\n.create-local-path {\n  display: inline;\n  border: none;\n  font-size: 24px;\n  height: 48px;\n  padding: 5px;\n  margin-left: 5px;\n  margin-top: 3%;\n  background-color: black;\n  color: white;\n}\n\n/* ---------------------------- */\n\n.edit-existing-course {\n  width: 100%;\n  text-align: right;\n  font-size: 48px;\n  font-weight: bold;\n  background-color: white;\n  color: black;\n}\n\n.create-btn {\n  float: right;\n  height: 32px;\n  cursor: pointer;\n}\n\n.create-courses-list {\n  font-size: 36px;\n  background-color: white;\n  color: black;\n  border: 2px solid black;\n  width: 50%;\n  cursor: pointer;\n}\n\n.create-path {\n  padding: 10px;\n}\n\n.content-holder {\n  width: 100%;\n  height: auto;\n  overflow: auto;\n}\n\n.prep-holder {\n  width: 50%;\n  float: left;\n}\n\n.prep-holder-create {\n  width: 100%;\n}\n\n.create-add-note-holder {\n  margin-left: 5%;\n}\n\n.notes-holder,\n.writeups-holder {\n  width: 20%;\n  float: left;\n  border-left: 2px solid black;\n}\n\n.notes-holder textarea,\n.writeups-holder textarea {\n  width: 90%;\n  margin-left: 5%;\n  background-color: #eeeeee;\n  font-size: 0.8em;\n  font-style: italic;\n}\n\ninput[type=text],\ntextarea {\n  border: none;\n  border-bottom: 1px solid black;\n}\n\ninput:disabled {\n  float: left;\n  background-color: white;\n}\n\n.create-concept {\n  float: left;\n  margin: 1% 0 1% 0;\n  padding: 10px;\n  padding-bottom: 5px;\n  border: 2px solid black;\n  width: 90%;\n}\n\n.create-concept-prep {\n  font-size: 24px;\n  margin-right: 10px;\n  width: 100%;\n}\n\n.create-concept-tag {\n  width: 40%;\n}\n\n.create-concept-note,\n.create-concept-writeup {\n  font-size: 24px;\n  width: 100%;\n}\n\n.create-concept-note textarea,\n.create-concept-note textarea {\n  font-size: 24px;\n}\n\n.create-concept-name {\n  color: #333333;\n  border: none;\n  border-bottom: 2px solid black;\n  width: 60%;\n  float: left;\n  font-size: 48px;\n  margin-bottom: 10px;\n}\n\n.create-concept-tag {\n  color: #333333;\n  border: none;\n  border-bottom: 1px solid black;\n  width: 50%;\n  float: left;\n  font-size: 24px;\n  margin-bottom: 20px;\n}\n\n.create-prep {\n  margin-bottom: 10px;\n  width: 95%;\n  margin-left: 20px;\n}\n\n.url {\n  font-style: italic;\n}\n\n.create-add-holder {\n  float: left;\n  margin-bottom: 2%;\n  width: 100%;\n}\n\n.create-add-remove-holder {\n  float: right;\n}\n\n.create-add-prep,\n.create-remove-prep,\n.create-add-note,\n.create-remove-note,\n.create-add-writeup,\n.create-remove-writeup {\n  border: none;\n  margin: 5px;\n  font-size: 18px;\n  color: black;\n  background-color: white;\n  border: 2px solid black;\n  cursor: pointer;\n}\n\n.create-concept-buttons {\n  width: 100%;\n  height: 20px;\n}\n\n.create-add-concept,\n.create-remove-concept,\n.create-btn {\n  float: right;\n  border: none;\n  width: 30px;\n  height: 30px;\n  font-size: 15px;\n  font-weight: bold;\n  text-align: center;\n  margin-bottom: 5px;\n  margin-right: 5px;\n  color: black;\n  background-color: white;\n  border: 2px solid black;\n  cursor: pointer;\n}\n\n.create-add-concept:hover,\n.create-remove-concept:hover,\n.create-add-note:hover,\n.create-remove-note:hover,\n.create-add-prep:hover,\n.create-remove-prep:hover {\n  background-color: black;\n  color: white;\n  cursor: pointer;\n}", ""]);
+
+// exports
+
 
 /***/ }),
-/* 14 */
+
+/***/ 115:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(116);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(5).default
+var update = add("497edeb0", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./notes.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./notes.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 116:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "body {\n  margin: 0px;\n  padding: 0px;\n  font-family: 'Inter UI';\n}\n\nbody .note {\n  position: absolute;\n  z-index: 5;\n  width: 40%;\n  color: black;\n  font-size: 2.5em;\n  transition: opacity 0.5s ease-in;\n}\n\n@media (max-width: 1300px) {\n  body .note {\n    font-size: 2em;\n  }\n}\n\nbody .saved {\n  position: relative;\n  float: right;\n}\n\nbody .title {\n  font-size: 2.3em;\n  font-weight: bold;\n}\n\nbody textarea {\n  font-family: 'Inter UI';\n  background-color: rgba(1, 0, 0, 0);\n  border: none;\n  outline: none;\n  height: auto;\n}\n\nbody .written {\n  width: 100%;\n}\n\nbody .moveable {\n  position: fixed;\n  z-index: 4;\n  width: initial;\n}\n\nbody #current {\n  position: fixed;\n  font-weight: bold;\n  overflow-y: visible;\n}\n\nbody .prep-group {\n  position: absolute;\n  padding-top: 5%;\n  padding-left: 10%;\n  width: 60%;\n}\n\nbody .prep {\n  position: relative;\n  opacity: 0;\n  font-family: 'Inter UI';\n  font-style: italic;\n  font-size: 2em;\n  color: black;\n  margin-top: 5%;\n  text-align: left;\n}\n\n@media (max-width: 1300px) {\n  body .prep {\n    font-size: 2.5em;\n  }\n}\n\nbody .prep-tag-anchor {\n  margin-left: 10px;\n  font-size: 0.5em;\n  cursor: pointer;\n}\n\nbody img {\n  max-width: 800px !important;\n  max-height: 600px;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 117:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(118);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(5).default
+var update = add("43866728", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./interface.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./interface.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 118:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Regular.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Bold.woff\") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(\"/fonts/Inter-UI-Italic.woff\") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\nbody {\n  font-family: 'Inter UI', 'Trebuchet MS';\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\n.msg-log {\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.lessons-container,\ncanvas {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  overflow: hidden;\n}\n\ncanvas {\n  z-index: 1;\n}\n\n.active {\n  visibility: visible;\n  pointer-events: auto;\n  cursor: crosshair;\n}\n\n.inactive {\n  visibility: hidden;\n  pointer-events: none;\n}\n\n.lessons-container {\n  width: 100%;\n  height: 100%;\n  z-index: 0;\n}\n\n.lesson-btn,\n.concept-btn {\n  border: none;\n  color: black;\n  background-color: white;\n  font-family: 'Inter UI';\n  cursor: pointer;\n}\n\n.lesson-btn {\n  font-size: 2.2em;\n}\n\n@media (max-width: 1300px) {\n  .lesson-btn {\n    font-size: 1.5em;\n  }\n}\n\n.concept-btn {\n  font-size: 1.3em;\n}\n\n@media (max-width: 1300px) {\n  .concept-btn {\n    font-size: 1em;\n  }\n}\n\n.lesson-btn:hover,\n.concept-btn:hover {\n  background-color: white;\n  color: black;\n}\n\n.lesson-btn:active,\n.lesson-btn:active {\n  border: none;\n}\n\n.exit-lesson,\n.save-session {\n  float: right;\n}\n\n.concept-buttons,\n.interface-buttons {\n  z-index: 2;\n}\n\n.concept-buttons {\n  position: absolute;\n  top: 0px;\n  right: 0px;\n  min-width: 10%;\n  max-width: 15%;\n  height: 100%;\n  background-color: white;\n  border-left: 2px solid black;\n  color: white;\n  overflow-y: scroll;\n}\n\n.concept {\n  width: 100%;\n  margin: 0%;\n  display: block;\n  float: left;\n  padding-right: 20px;\n  text-align: right;\n}\n\n.current-concept {\n  background-color: white;\n  border-left: 10px solid black;\n  color: black;\n  font-weight: bold;\n}\n\n.interface-buttons {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  width: 100%;\n  background-color: white;\n  border-top: 2px solid black;\n}\n\n.interface-buttons button {\n  margin-right: 2%;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 119:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -215,9 +371,9 @@ window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* remo
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return exportLesson; });
 
 
-const ipc = __webpack_require__(0).ipcRenderer
-const {dialog} = __webpack_require__(0).remote
-const utils = __webpack_require__(1)
+const ipc = __webpack_require__(7).ipcRenderer
+const {dialog} = __webpack_require__(7).remote
+const utils = __webpack_require__(11)
 
 let current = {
 	'course':'',
@@ -287,7 +443,8 @@ let exportLesson = () => {
 
 
 /***/ }),
-/* 15 */
+
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,10 +466,10 @@ let exportLesson = () => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return exitLesson; });
 
 
-const {dialog} = __webpack_require__(0).remote
-const remote = __webpack_require__(0).remote
-const ipc = __webpack_require__(0).ipcRenderer
-const utils = __webpack_require__(1)
+const {dialog} = __webpack_require__(7).remote
+const remote = __webpack_require__(7).remote
+const ipc = __webpack_require__(7).ipcRenderer
+const utils = __webpack_require__(11)
 
 let lessonSaved = false
 let lesson = {
@@ -821,5 +978,385 @@ let exitLesson = () => {
 
 
 
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = listToStyles;
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["default"] = addStylesClient;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__listToStyles__ = __webpack_require__(15);
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+function addStylesClient (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = Object(__WEBPACK_IMPORTED_MODULE_0__listToStyles__["a" /* default */])(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports) {
+
+module.exports = require("electron");
+
+/***/ }),
+
+/***/ 98:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_create_js__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__utils_js__);
+
+
+const ipc = __webpack_require__(7).ipcRenderer
+
+__webpack_require__(99)
+__webpack_require__(111)
+__webpack_require__(113)
+__webpack_require__(115)
+__webpack_require__(117)
+
+
+
+
+
+
+window.setLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["f" /* setLesson */]
+window.openLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]
+window.editLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]
+
+window.createLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]
+window.removeLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]
+window.exportLesson = __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]
+
+window.createNewCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["e" /* createNewCourse */]
+window.saveCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["l" /* saveCourse */]
+window.exitCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["f" /* exitCourse */]
+window.saveLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]
+window.exitLesson = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]
+
+ipc.on('menu-create', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["a" /* createLesson */]()})
+ipc.on('menu-open', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["d" /* openLesson */]()})
+ipc.on('menu-edit', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["b" /* editLesson */]()})
+ipc.on('menu-remove', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["e" /* removeLesson */]()})
+ipc.on('menu-export', () => { __WEBPACK_IMPORTED_MODULE_0__main_welcome_js__["c" /* exportLesson */]()})
+ipc.on('menu-save', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["m" /* saveLesson */]()})
+ipc.on('menu-exit', () => { __WEBPACK_IMPORTED_MODULE_1__main_create_js__["g" /* exitLesson */]()})
+
+ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_2__utils_js__["setMessage"](data.msg, data.type)})
+
+ipc.on('update-dropdown', (event, data) => {
+	console.log('got updated dropdown course', data)
+	let new_course = document.createElement('option')
+	new_course.setAttribute('value', data.name)
+	new_course.setAttribute('created', data.created)
+	new_course.setAttribute('path', data.path)
+	new_course.setAttribute('id', data.id)
+	new_course.innerText = data.name
+	new_course.setAttribute('selected', true)
+	document.getElementById('course-list').appendChild(new_course)
+})
+
+window.selectCourse = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["n" /* selectCourse */]
+window.selectCoursePath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["o" /* selectCoursePath */]
+window.selectMediaPath = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["p" /* selectMediaPath */]
+window.addPrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["c" /* addPrep */]
+window.removePrep = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["j" /* removePrep */]
+window.addConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["a" /* addConcept */]
+window.removeConcept = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["h" /* removeConcept */]
+window.addNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["b" /* addNote */]
+window.removeNote = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["i" /* removeNote */]
+window.addWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["d" /* addWriteup */]
+window.removeWriteup = __WEBPACK_IMPORTED_MODULE_1__main_create_js__["k" /* removeWriteup */]
+
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(100);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(5).default
+var update = add("6c410b08", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/resolve-url-loader/index.js!../../../node_modules/sass-loader/lib/loader.js?sourceMap!./globals.scss");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
 /***/ })
-/******/ ]);
+
+/******/ });
