@@ -81,7 +81,7 @@ let cleanup = () => {
 				l = fs.readFileSync(p)
 				cleaned.push(JSON.parse(l))
 			} catch (e) {
-				console.log(`[BOARD] Couldn't find topic at ${t.name}`);
+				console.log(`[BOARD] Couldn't find topic at ${t.name}, cleaning up...`);
 			}
 		}
 
