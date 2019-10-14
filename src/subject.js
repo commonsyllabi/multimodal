@@ -1,4 +1,5 @@
 const fs = require('fs')
+const os = require('os')
 const pug = require('pug')
 const path = require('path')
 const pdf = require('html-pdf')
@@ -20,16 +21,16 @@ class Subject {
 
   init(){
     //add to the internal data
-    let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
+    let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
     let data = this.toJSON()
     subjects.push(data)
-  	fs.writeFileSync(`${__dirname}/data/subjects.json`, JSON.stringify(subjects))
+  	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects))
 
     //create subject folder locally
-    utils.touchDirectory(`${__dirname}/app/imports/${this.name}/topics`)
+    utils.touchDirectory(`${os.tmpdir()}/app/imports/${this.name}/topics`)
 
     //write the subject file locally
-    fs.writeFileSync(`${__dirname}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
+    fs.writeFileSync(`${os.tmpdir()}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
   }
 
   static remove(subject){
@@ -38,7 +39,7 @@ class Subject {
 
       console.log('[SUBJECT] first from the subjects list');
       let foundSubject = false
-      let subjects = JSON.parse(fs.readFileSync(`${__dirname}/data/subjects.json`))
+      let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
         if(subjects[i].id == subject.id){
           foundSubject = true
@@ -56,7 +57,7 @@ class Subject {
 
       console.log('[SUBJECT] then the local folder..');
       try{
-        utils.deleteFolderRecursive(`${__dirname}/app/imports/${subject.name}/`)
+        utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/${subject.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -83,7 +84,7 @@ class Subject {
 
     return new Promise((resolve, reject) => {
 
-      let content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+      let content = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
 
       if(type == 'html'){
         //copy all assets over to new folder
@@ -97,18 +98,18 @@ class Subject {
         let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
         fs.writeFileSync(`${path}/${data.name}.html`, topic)
 
-        content = JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${data.subject}/subject.json`))
+        content = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, content)
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()
       }else if(type == 'pdf'){
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${__dirname}/app/imports/temp/${content.subject.name}_assets/`)
+        utils.touchDirectory(`${os.tmpdir()}/app/imports/temp/${content.subject.name}_assets/`)
         for(let concept of content.concepts)
           for(let page of concept.pages)
             for(let prep of page.preps)
               if(prep.type == 'img' || prep.type == 'vid')
-                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${__dirname}/app/imports/temp/${content.subject.name}_assets/${prep.name}`))
+                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/imports/temp/${content.subject.name}_assets/${prep.name}`))
 
         //-- create the html stream
         let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
@@ -126,10 +127,10 @@ class Subject {
         pdf.create(topic, options).toFile(`${path}/${data.name}.pdf`, (err, res) => {
           if(err){
             console.log(err);
-            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/temp/`)
             reject(err)
           }else{
-            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/temp/`)
             resolve()
           }
         })
