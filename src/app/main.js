@@ -12691,7 +12691,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
@@ -13070,7 +13070,7 @@ const {dialog} = __webpack_require__(7).remote
       this.current.subject = _s
       this.current.name = _n
       this.current.path = _p
-      this.current.sessions = ["session one", "session two"]
+      // this.current.sessions = ["session one", "session two"]
 
       let all_lessons = document.getElementsByClassName('topic')
       for(let l of all_lessons)
@@ -13570,7 +13570,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
@@ -13717,41 +13717,6 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "topics-container" }, [
-        _c("div", { staticClass: "topics" }, [
-          _c(
-            "ul",
-            _vm._l(_vm.current.sessions, function(instances) {
-              return _c(
-                "li",
-                {
-                  staticClass: "topic",
-                  on: {
-                    click: function($event) {
-                      return _vm.setTopic(
-                        $event,
-                        _vm.current.subject,
-                        _vm.current.name,
-                        _vm.current.path
-                      )
-                    },
-                    dblclick: function($event) {
-                      return _vm.openTopic(
-                        _vm.current.subject,
-                        _vm.current.name,
-                        _vm.current.path
-                      )
-                    }
-                  }
-                },
-                [_vm._v("\n            " + _vm._s(instances) + "\n        ")]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _vm.showCreate
         ? _c("Create", {
             on: {
@@ -13873,7 +13838,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
