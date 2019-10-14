@@ -1,27 +1,35 @@
 const electron = require('electron')
 const ipc = electron.ipcMain
 const app = electron.app
+const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
+const BrowserView = electron.BrowserView
 
 //const path = require('path')
 //const url = require('url')
 const fs = require('fs')
+const os = require('os')
 const pug = require('pug')
 
 const utils = require('./utils.js')
 const board = require('./board.js')
 
-const Course = require('./course.js')
-const Lesson = require('./lesson.js')
+const Subject = require('./subject.js')
+const Topic = require('./topic.js')
 
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = JSON.parse(fs.readFileSync(`${data.path}/${data.course}/lessons/${data.name}/${data.name}.json`))
+	let c = fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`)
 
-	let compiled = pug.renderFile(__dirname+'/views/'+template+'.pug', c)
+	//-- TODO cleanup
+	let compiled
+	if(template == 'topic')
+		compiled = pug.renderFile(`${__dirname}/views/${template}.pug`, {'data':c})
+	else
+		compiled = pug.renderFile(`${__dirname}/views/${template}.pug`, JSON.parse(c))
 
-	fs.writeFileSync(__dirname+'/app/'+template+'.html', compiled)
+	fs.writeFileSync(`${os.tmpdir()}/app/${template}.html`, compiled)
 }
 
 // ------------------------------
@@ -47,7 +55,7 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
     	}
 		})
 
-	mainWindow.loadURL('file:///'+__dirname+'/app/'+current+'.html')
+	mainWindow.loadURL(`file:///${os.tmpdir()}/app/${current}.html`)
 
 	mainWindow.on('closed', () => {
 		mainWindow = null
@@ -63,7 +71,7 @@ let replaceWindow = (_target) => {
 	if(mainWindow == null)
 		createWindow(_target)
 	else
-		mainWindow.loadURL('file:///'+__dirname+'/app/'+_target+'.html')
+		mainWindow.loadURL(`file:///${os.tmpdir()}/app/${_target}.html`)
 }
 
 
@@ -71,81 +79,172 @@ let replaceWindow = (_target) => {
 // ------------------------------ IPC MESSAGES
 // -----------------------------
 
-ipc.on('open-lesson', (event, data) => {
-	generateHTML(data, 'lesson')
-	replaceWindow('lesson')
+ipc.on('open-url', (event, url) => {
+	shell.openExternal(url)
+
+	//TODO one day have a URL open in a multimodal sub-window
+//  let bwin = new BrowserWindow({ width: 700, height: 750})
+//  bwin.on('closed', () => {
+// 	 bwin = null
+//  })
+// fs.writeFileSync(`${__dirname}/views/navigation.html`, pug.renderFile(`${__dirname}/views/navigation.pug`))
+//  bwin.loadURL(`${__dirname}/app/navigation.html`)
+//
+//  let view = new BrowserView()
+//  bwin.setBrowserView(view)
+//  view.setBounds({ x: 0, y: 50, width: 700, height: 700})
+//  view.setAutoResize({width: true, height: true})
+// 	view.webContents.loadURL(url)
 })
 
-// creates a window with the ability to edit notes
-ipc.on('edit-lesson', (event, data) => {
-		generateHTML(data, 'edit')
-		replaceWindow('edit')
+ipc.on('open-topic', (event, data) => {
+	generateHTML(data, 'topic')
+	replaceWindow('topic')
 })
 
-ipc.on('create-new-course', () => {
-	if(!fs.existsSync(`${__dirname}/app/course.html`))
-		fs.writeFileSync(`${__dirname}/app/course.html`, pug.renderFile(`${__dirname}/views/course.pug`))
-	createWindow('course', 0.4, 0.4)
-})
+// adds a new subject by appending to the subjects list, and creating the directory structure
+ipc.on('save-subject', (event, data) => {
+	let s = new Subject(data)
 
-// adds a new course by appending to the courses list, and creating the directory structure
-ipc.on('save-course', (event, data) => {
-	let c = new Course(data)
+	let t = new Topic({
+		subject: s,
+		name: 'new-topic',
+		concepts: [{
+			name: "new concept",
+			context: {text: ""},
+			pages: [{
+				name: "new page",
+				preps: [{
+					text: "this is your first note",
+					tag: "",
+					type: "txt"
+				}],
+				notes: [],
+				writeup: {text: ""}
+			}]
+		}]
+	})
+
+	let d = {
+		"path": s.path,
+		"subject": s.name,
+		"name": t.name
+	}
 
 	//send a confirmation message
-	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'course saved!', type: 'info'})
-	console.log(`[COURSE] saved ${data.name} successfully`)
-	BrowserWindow.getFocusedWindow().close()
-	mainWindow = BrowserWindow.getAllWindows()[0]
-	mainWindow.webContents.send('update-dropdown', c.toJSON())
+	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
+	console.log(`[COURSE] created ${data.name} successfully`)
+
+	generateHTML(d, 'topic')
+	replaceWindow('topic')
 })
 
-// creates the 'new lesson' window
-ipc.on('create-lesson', () => {
-	board.create()
-	replaceWindow('create')
+//-- creates a new board
+ipc.on('create-topic', (event, data) => {
+	let t = new Topic(data)
+
+	let d = {
+		"path": t.subject.path,
+		"subject": t.subject.name,
+		"name": t.name
+	}
+
+	generateHTML(d, 'topic')
+	replaceWindow('topic')
 })
 
-ipc.on('remove-lesson', (event, data) => {
-	if(board.remove(data)){
-		mainWindow.webContents.send('msg-log', {msg: 'course deleted!', type: 'info'})
-
+ipc.on('remove-topic', (event, data) => {
+	Topic.remove(data).then((result) => {
+		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 		setTimeout(() => {
 			board.list()
 			replaceWindow('welcome')
 		}, 1000)
-
-	}else{
-		mainWindow.webContents.send('msg-log', {msg: 'error deleting course!', type: 'error'})
-	}
-})
-
-// exports a lesson
-ipc.on('export-lesson', (event, data, type, path) => {
-	Lesson.export(data, 'html', path).then((url) => {
-		let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
-		win.loadURL('file://'+url)
+	}).catch((err) => {
+		console.log(err);
+		mainWindow.webContents.send('msg-log', {msg: 'error deleting topic!', type: 'error'})
 	})
 })
 
-//-- save lesson
-ipc.on('save-lesson', (event, data) => {
-	let lesson
+ipc.on('remove-subject', (event, data) => {
+	Subject.remove(data).then((result) => {
+		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
+		setTimeout(() => {
+			board.list()
+			replaceWindow('welcome')
+		}, 1000)
+	}).catch((err) => {
+		console.log(err);
+		mainWindow.webContents.send('msg-log', {msg: 'error deleting subject!', type: 'error'})
+	})
+})
 
-	//-- check if you're editing a lesson or creating a new one FIX
-	// if(data.id != null && Lesson.find(data.id)) // if you're editing
-	// 	Lesson.update(data)
-	// else
-		lesson = new Lesson(data)
+ipc.on('import-subject', (event, d) => {
+	d = JSON.parse(d)
+	Subject.importFrom(d.path).then((name) => {
+		//-- once we have extracted all the folders in the local directory, we update the subjects list by creating a new subject
+		let sdata = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${name}/subject.json`))
+		let s = new Subject(sdata)
 
-//doesnt' this save twice? TODO TODO TODO TODOTODO TODOTODO TODOTODO TODOTODO TODOTODO TODOTODO TODO
-	if(lesson.save(data)){
-		console.log(`[SAVE LESSON] ${lesson.name} to ${lesson.course.path} at ${utils.time()}`)
-		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'}) //-- confirm that the lesson is saved
-		mainWindow.webContents.send('lesson-info', {id: lesson.id}) //-- update the id
-	}else{
-		console.error('NO LESSON FOUND', data);
+		let topics = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics`)
+		for(let topic of topics){
+			let tdata = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${name}/topics/${topic}/topic.json`))
+			let t = new Topic(tdata)
+		}
+		mainWindow.webContents.send('msg-log', {msg: 'imported', type: 'msg'})
+	}).catch((err) => {
+		console.log(err);
+	})
+})
+
+// exports a subject
+ipc.on('export-subject', (event, d) => {
+	d = JSON.parse(d)
+	Subject.export(d.subject, d.type, d.path).then(() => {
+		console.log('[MAIN] export done');
+		mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
+		mainWindow.webContents.send('export-success', {data: JSON.stringify(d)})
+	}).catch((err) => {
+		console.log(err);
+	})
+})
+
+//-- show the exports results
+ipc.on('open-export', (event, d) => {
+	d = JSON.parse(d)
+	let data = JSON.parse(d.data)
+
+	if(data.type == 'html'){
+		if(d.type == "folder"){
+			shell.showItemInFolder(`${data.path}/index.html`)
+		}	else if(d.type == 'show'){
+			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
+			win.loadURL(`file://${data.path}/index.html`)
+		} else {
+			console.log('[MAIN] error on opening html export');
+		}
+	}else if(data.type == 'pdf'){
+		//TODO there might be a weird thing about the fact that i access the subject.name even though it should be topic.name......
+		if(d.type == "folder"){
+			shell.showItemInFolder(`${data.path}/${data.subject.name}.pdf`)
+		}	else if(d.type == 'show'){
+			console.log(`file://${data.path}/${data.name}.pdf`);
+			shell.openExternal(`file://${data.path}/${data.subject.name}.pdf`)
+		} else {
+			console.log('[MAIN] error on opening pdf export');
+		}
 	}
+
+})
+
+//-- save lesson
+ipc.on('save-topic', (event, data) => {
+	Topic.save(data).then((result) => {
+		console.log(`[SAVE TOPIC] ${data.name} to ${data.subject.path} at ${utils.time()}`)
+		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'}) //-- confirm that the lesson is saved
+	}).catch((err) => {
+		console.error('NO TOPIC FOUND', err);
+	})
 })
 
 ipc.on('exit-home', () => {
@@ -154,7 +253,18 @@ ipc.on('exit-home', () => {
 })
 
 app.on('ready', () => {
+	//-- we need to create the temp directories
+	utils.touchDirectory(`${os.tmpdir()}/data`)
+	utils.touchDirectory(`${os.tmpdir()}/app`)
+	utils.touchDirectory(`${os.tmpdir()}/app/imports`)
+
+	//-- and to copy the js and css files there
+	fs.createReadStream(`${__dirname}/app/main.js`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/main.js`))
+	fs.createReadStream(`${__dirname}/app/topic.js`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/topic.js`))
+	fs.createReadStream(`${__dirname}/app/style.css`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/style.css`))
+
 	board.list()
+
 	createWindow('welcome', 0.8, 0.8)
 })
 

@@ -1,8 +1,8 @@
 @import 'globals';
 
 .create-container {
-	width: 90%;
-	margin-left: 5%;
+	width: 80%;
+	margin-left: 10%;
 	margin-bottom: 100px;
 	overflow: auto;
 }
@@ -133,7 +133,7 @@
 }
 
 .prep-holder {
-	width: 50%;
+	width: 65%;
 	float: left;
 }
 
@@ -145,18 +145,16 @@
 	margin-left: 5%;
 }
 
-.notes-holder, .writeups-holder{
-	width: 20%;
-	float: left;
+.notes-holder{
+	width: 30%;
+	float: right;
 	border-left: 2px solid black;
 }
 
-.notes-holder textarea, .writeups-holder textarea {
+.notes-holder textarea {
 	width: 90%;
 	margin-left: 5%;
 	background-color: #eeeeee;
-	font-size: 0.8em;
-	font-style: italic;
 }
 
 input[type=text], textarea{
@@ -176,7 +174,7 @@ input:disabled{
 	padding: 10px;
 	padding-bottom: 5px;
 	border: 2px solid black;
-	width: 90%;
+
 }
 
 .create-concept-prep {
@@ -189,12 +187,12 @@ input:disabled{
 	width: 40%;
 }
 
-.create-concept-note, .create-concept-writeup {
+.create-concept-note {
 	font-size: 24px;
 	width: 100%;
 }
 
-.create-concept-note textarea, .create-concept-note textarea {
+.create-concept-note textarea {
 	font-size: 24px;
 }
 
@@ -222,10 +220,17 @@ input:disabled{
 	margin-bottom: 10px;
 	width: 95%;
 	margin-left: 20px;
+	overflow: auto;
 }
 
 .url {
 	font-style: italic;
+}
+
+.img-preview{
+	max-width: 200px;
+	max-height: 200px;
+	float: left;
 }
 
 .create-add-holder{
@@ -236,11 +241,14 @@ input:disabled{
 
 .create-add-remove-holder{
 	float: right;
+	width: 100%;
+	padding-top: 10px;
 }
 
-.create-add-prep, .create-remove-prep, .create-add-note, .create-remove-note, .create-add-writeup, .create-remove-writeup {
+.create-add-prep, .create-remove-prep, .create-add-note, .create-remove-note {
+	float: left;
 	border: none;
-	margin: 5px;
+	margin-right: 5px;
 	font-size: 18px;
 	color: black;
 	background-color: white;

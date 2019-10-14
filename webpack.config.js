@@ -6,7 +6,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: {
-	  lesson:'./src/renderer/lesson.js',
+	  topic:'./src/renderer/topic.js',
 	  main:'./src/renderer/main.js'
   },
   output: {
@@ -17,16 +17,14 @@ module.exports = {
       rules: [
           {
               test: /\.scss$/,
-              use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: ['css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
-              })
+              use: ['vue-style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader?sourceMap']
           },
           {
-            test: /\.(woff2?|ttf|otf|eot|svg)$/,
+            test: /\.(woff|ttf|otf|eot|svg)$/,
             exclude: /node_modules/,
-            loader: 'file-loader',
+            loader: 'url-loader',
             options: {
+              limit: 50000,
               name: 'fonts/[name].[ext]'
             },
           },

@@ -6,7 +6,7 @@ let prevx, prevy
 
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
-	ctn = document.getElementsByClassName('lessons-container')[0]
+	ctn = document.getElementsByClassName('main-container')[0]
 	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
 
 	for(let i in canvases){
@@ -27,20 +27,19 @@ let setupCanvas = (i) => {
 	contexts[i].lineCap = 'round'
 	contexts[i].strokeStyle = '#ff9933'
 
-
-	contexts[i].beginPath()
+	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
+	// contexts[i].beginPath()
 }
 
-let selectCanvas = (_currentConcept) => {
-
+let selectCanvas = (_page, _concept) => {
 	for(let i in canvases){
 		if(i == 'length') break
-		if(canvases[i].getAttribute('concept') == _currentConcept){
+		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
 		}else{
-			canvases[i].setAttribute('class', 'drawing-board inactive')
+			canvases[i].setAttribute('class', 'drawing-board')
 		}
 	}
 }
@@ -49,22 +48,26 @@ let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	ctx.moveTo(e.pageX - cnv.offsetLeft, e.pageY - cnv.offsetTop)
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
+	prevx = e.clientX - cnv.offsetLeft
+	prevy = e.clientY - cnv.offsetTop
+
+	ctx.moveTo(prevx, prevy)
 }
 
 let draw = (e) => {
 	if(!isDrawing || !isDrawMode) return
 
-	let x = (prevx + e.pageX-cnv.offsetLeft)/2
-	let y = (prevy + e.pageY-cnv.offsetTop)/2
+	let x = e.clientX - cnv.offsetLeft
+	let y = e.clientY - cnv.offsetTop
 
-	ctx.quadraticCurveTo(e.pageX-cnv.offsetLeft, e.pageY-cnv.offsetTop, x, y)
+	ctx.beginPath();
+  ctx.moveTo(prevx, prevy);
+  ctx.lineTo(x, y);
+  ctx.closePath();
+  ctx.stroke();
 
-	prevx = e.pageX - cnv.offsetLeft
-	prevy = e.pageY - cnv.offsetTop
-	ctx.stroke()
+	prevx = x
+	prevy = y
 }
 
 let endDraw = () => {
@@ -77,16 +80,14 @@ let clearBoard = () => {
 	ctx.clearRect(0, 0, cnv.width, cnv.height)
 }
 
-let toggleDraw = () => {
-	isDrawMode = !isDrawMode
+let toggleDraw = (mode) => {
+	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
-		toggle_btn.innerText = 'draw'
 		cnv.style.zIndex = 1
 		ctn.style.zIndex = 0
 	}else{
 		cnv.setAttribute('class', 'drawing-board')
-		toggle_btn.innerText = 'write'
 		cnv.style.zIndex = 0
 		ctn.style.zIndex = 1
 	}

@@ -8,59 +8,47 @@ html
 	body
 		div.create-container
 			div.create-course
-				div.edit-existing-course#existing-course(created= course.created course-id= course.id)= course.name
+				div.edit-existing-course#existing-course(year= course.year)= course.name
 			div.create-lesson
-				input.create-lesson-title#name(type='text', value= name, lesson-id= id)
+				input.create-lesson-title#title(type='text', value= title)
 			div.create-path
 				input.course-path#local-path(type='text', placeholder='course folder', value= course.path, disabled)
 
 			each concept in concepts
 				div.create-concept
 					input.create-concept-name(type='text', value= concept.concept)
-					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag", width="100%")
-					
-					div.prep-holder
-						include includes/add-prep.pug
-						each prep in concept.prep
-							div.create-prep
+					input.create-concept-tag(type='text', value= concept.tag, placeholder="concept tag")
+					include includes/add-prep.pug
+					div.content-holder
+						div.prep-holder
+							each prep in concept.prep
 								if prep.type == 'txt'
-									input.create-concept-prep(type='text', kind='txt', value= prep.text)
-									input.create-concept-prep(type='text', kind='tag', value= prep.tag, placeholder="tag")
-									include includes/add-remove-prep.pug
-									
+									div.create-prep
+										input.create-concept-prep(type='text', kind='txt', value= prep.text)
+										input.create-concept-tag(type='text', kind='tag', value= prep.tag, placeholder="tag")
+										include includes/add-remove-prep.pug
+
 								else if prep.type == 'url'
-									input.create-concept-prep.url(type='text', kind='url', value= prep.url)
-									input.create-concept-prep(type='text', kind='url', value= prep.text)
-									include includes/add-remove-prep.pug
-									
+									div.create-prep
+										input.create-concept-prep.url(type='text', kind='url', value= prep.url)
+										input.create-concept-prep(type='text', kind='url', value= prep.text)
+										include includes/add-remove-prep.pug
+
 								else if prep.type == 'img'
-									input.create-concept-prep.url(type='text', kind='img', filename= prep.name, value= prep.name, src= prep.src)
-									include includes/add-remove-prep.pug
-									
+									div.create-prep
+										img.img-preview(src= prep.src, kind='img', value= prep.name)
+										button.create-add-prep(kind="path", onclick="selectMediaPath(this)") select
+										include includes/add-remove-prep.pug
+
 								else if prep.type == 'vid'
-									input.create-concept-prep.url(type='text', kind='vid', filename= prep.name, value= prep.name, src= prep.src)
-									include includes/add-remove-prep.pug
-										
-					div.notes-holder
-						div
-							include includes/add-note.pug
-						each note in concept.notes
-							div.create-concept-note
-								textarea= note
-								include includes/add-note.pug
-								
-					div.writeups-holder
-						div
-							include includes/add-writeup.pug
-						each writeup in concept.writeups
-							div.create-concept-writeup
-								textarea= writeup
-								include includes/add-writeup.pug
+									div.create-prep
+										input.create-concept-prep.url(type='text', kind='vid', value= prep.name, src= prep.src)
+										include includes/add-remove-prep.pug
 
 					button.create-add-concept(onclick='addConcept(this)') +
 					button.create-remove-concept(onclick='removeConcept(this)') -
 
 			div.interface-buttons
-				button.lesson-btn.create-lesson-save(onclick='saveLesson("in-class")') save
+				button.lesson-btn.create-lesson-save(onclick='saveLesson("prep")') save
 				button.lesson-btn.create-lesson-exit(onclick='exitLesson()') exit
 				div.msg-log#msg-log
