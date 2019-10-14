@@ -104,10 +104,10 @@ ipc.on('open-topic', (event, data) => {
 
 // adds a new subject by appending to the subjects list, and creating the directory structure
 ipc.on('save-subject', (event, data) => {
-	let subject = new Subject(data)
+	let s = new Subject(data)
 
 	//-- by creating a new topic with a subject, it automatically gets associated with it
-	let topic = new Topic({
+	let t = new Topic({
 		subject: s,
 		name: 'new-topic',
 		overview: {text:""},
