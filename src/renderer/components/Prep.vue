@@ -148,7 +148,7 @@ export default {
       this.$emit('remove-prep', this)
     },
     addPrep(t){
-      this.$emit('add-prep', t)
+      this.$emit('add-prep', {type:t, index:this.index})
     },
     openLink(evt, el){
       evt.preventDefault()

@@ -6,7 +6,7 @@
       {{data.name}}
     </div>
 
-    <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject"
+    <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" :index="index"
       @remove-prep="removePrep(index)"
       @add-prep="addPrep" :isEdit="isEdit"/>
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
@@ -52,6 +52,7 @@ canvas {
 }
 
 .edit-input{
+  pointer-events: all;
   color: $main-fg-color;
   background-color: $main-bg-color;
   border: none;
@@ -103,15 +104,14 @@ export default {
     handleNewNote(el) {
       this.$emit('new-note', el)
     },
-    addPrep(_type) {
-      console.log(_type);
+    addPrep(d) {
       let p = {}
-      switch (_type) {
+      switch (d.type) {
         case 'txt':
           p = {
             "tag": "",
             "text": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'url':
@@ -119,7 +119,7 @@ export default {
             "tag": "",
             "text": "",
             "url": "",
-            "type": _type
+            "type": d.type
           }
           break;
         case 'img':
@@ -127,13 +127,13 @@ export default {
             "tag": "",
             "name": "",
             "src": "",
-            "type": _type
+            "type": d.type
           }
           break;
         default:
           break
       }
-      this.data.preps.push(p)
+      this.data.preps.splice(d.index+1, 0, p)
     },
     removePrep(i) {
       let a = this.data.preps.slice(0, i)

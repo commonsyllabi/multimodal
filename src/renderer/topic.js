@@ -15,13 +15,15 @@ window.currentConcept = 0
 window.offsets = [0,0]
 window.isEdit = false
 
-window.vm = new Vue({
+const vm = new Vue({
 	el: '#writing-board',
 	template: '<Topic/>',
 	components: {
 		Topic
 	}
 })
+
+window.vm = vm.$children[0]
 
 const msgbox = new Vue({
 	el: '#dialog',
@@ -33,18 +35,15 @@ const msgbox = new Vue({
 
 window.msgbox = msgbox.$children[0]
 
-window.editLesson = (e) => {
-	window.isEdit = !window.isEdit
-	e.innerText = window.isEdit ? "present" : "edit"
-}
-window.switchConcept = globals.setCurrentConcept
 window.jumpToTag = globals.jumpToTag
-window.clearBoard = drawing.clearBoard
-window.toggleDraw = drawing.toggleDraw
 
-ipc.on('menu-save', () => {window.saveSession()})
-ipc.on('menu-exit', () => {window.exitLesson()})
-ipc.on('menu-toggle', () => {drawing.toggleDraw()})
-ipc.on('menu-clear-board', () => {drawing.clearBoard()})
-
+//------------
+//-- shortcuts
+//------------
+ipc.on('menu-save', () => {
+	window.vm.saveSession()
+})
+ipc.on('menu-exit', () => {
+	window.vm.exitSession()
+})
 ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})

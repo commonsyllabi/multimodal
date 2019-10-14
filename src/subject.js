@@ -81,59 +81,89 @@ class Subject {
 
   static export(data, type, path){
     console.log(`[SUBJECT] exporting - ${data.subject} - ${type}`);
-
+    let topics_to_export = []
     return new Promise((resolve, reject) => {
 
-      let content = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+      if(data.name){ //-- we are exporting one specific topic
+        let c = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+        topics_to_export.push(c)
+      }else{ //-- we are exporting all of them
+        let s = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
+
+        for(let t of s.topics){
+          let c = null
+          try{
+            c = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${t.name}/topic.json`))
+          }catch(e){
+            console.log(`[SUBJECT] couldn't open ${t.name} for export`);
+          }
+
+          if(c != null)
+            topics_to_export.push(c)
+        }
+
+        console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
+      }
 
       if(type == 'html'){
         //copy all assets over to new folder
-        utils.touchDirectory(`${path}/${content.subject.name}_assets/`)
-        for(let concept of content.concepts)
-          for(let page of concept.pages)
-            for(let prep of page.preps)
-              if(prep.type == 'img' || prep.type == 'vid')
-                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${path}/${content.subject.name}_assets/${prep.name}`))
+        utils.touchDirectory(`${path}/${data.subject}_assets/`)
 
-        let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
-        fs.writeFileSync(`${path}/${data.name}.html`, topic)
+        for(let topic of topics_to_export){
+          for(let concept of topic.concepts)
+            for(let page of concept.pages)
+              for(let prep of page.preps)
+                if(prep.type == 'img' || prep.type == 'vid')
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${path}/${topic.subject.name}_assets/${prep.name}`))
 
-        content = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
-        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, content)
+          let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+          fs.writeFileSync(`${path}/${topic.name}.html`, render)
+        }
+
+        let subject = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
+        subject.topics = topics_to_export
+        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()
       }else if(type == 'pdf'){
+        let counter = 0 //-- to keep track of how many renders we've finished
+
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${os.tmpdir()}/app/imports/temp/${content.subject.name}_assets/`)
-        for(let concept of content.concepts)
-          for(let page of concept.pages)
-            for(let prep of page.preps)
-              if(prep.type == 'img' || prep.type == 'vid')
-                fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/imports/temp/${content.subject.name}_assets/${prep.name}`))
+        utils.touchDirectory(`${os.tmpdir()}/app/imports/temp/${data.subject}_assets/`)
+        for(let topic of topics_to_export){
+          for(let concept of topic.concepts)
+            for(let page of concept.pages)
+              for(let prep of page.preps)
+                if(prep.type == 'img' || prep.type == 'vid')
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
 
-        //-- create the html stream
-        let topic = pug.renderFile(`${__dirname}/views/export.pug`, content)
+          //-- create the html stream
+          let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
 
-        //-- generate the pdf
-        let options = {
-          border: {
-            top: "0.2in",
-            right: "0.125in",
-            bottom: "0.2in",
-            left: "0.125in"
-          },
-          format: 'A4'
-        }
-        pdf.create(topic, options).toFile(`${path}/${data.name}.pdf`, (err, res) => {
-          if(err){
-            console.log(err);
-            utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/temp/`)
-            reject(err)
-          }else{
-            utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/temp/`)
-            resolve()
+          //-- generate the pdf
+          let options = {
+            border: {
+              top: "0.2in",
+              right: "0.125in",
+              bottom: "0.2in",
+              left: "0.125in"
+            },
+            format: 'A4'
           }
-        })
+          pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+            if(err){
+              console.log(err);
+              utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+              reject(err)
+            }else{
+              if(++counter == topics_to_export.length){
+                utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+                resolve()
+              }
+            }
+          })
+        }
+
       }else{
         console.log('[SUBJECT] got wrong type');
         reject()
