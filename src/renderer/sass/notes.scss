@@ -21,11 +21,6 @@ body{
     }
   }
 
-  .saved{
-    position: relative;
-    float: right;
-  }
-
   .title {
     font-size: 2.3em;
     font-weight: bold;
@@ -40,26 +35,21 @@ body{
   }
 
   .written {
-	   width: 100%;
-  }
-
-  .moveable{
-    position: fixed;
-    z-index: 4;
-    width: initial;
+	   width: 30%;
   }
 
   #current{
-	   position: fixed;
+	   position: absolute;
      font-weight: bold;
      overflow-y: visible;
   }
 
   .prep-group{
 	  position: absolute;
-	  padding-top: 5%;
-	  padding-left: 10%;
+	  top: 5%;
+	  left: 10%;
 	  width: 60%;
+    z-index: 0;
   }
 
   .prep{
@@ -76,9 +66,9 @@ body{
 
 	  color: black;
 
+	  width: 100%;
 	  margin-top: 5%;
 	  text-align: left;
-
   }
 
   .prep-tag-anchor {
@@ -88,7 +78,7 @@ body{
   }
 
   img{
-	  max-width: 800px !important;
-	  max-height: 600px;
+	  max-height: 450px;
+    max-width: 900px;
   }
 }

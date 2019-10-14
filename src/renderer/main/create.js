@@ -8,14 +8,14 @@ const utils = require('../utils.js')
 let lessonSaved = false
 let lesson = {
 	'course' : {},
-	'name' : '',
+	'title' : '',
 	'concepts': []
 }
 
 let course = {
 	'name': '',
 	'path': '',
-	'date':''
+	'year':''
 }
 
 let selectCourse = (_el) => {
@@ -32,9 +32,10 @@ let createNewCourse = () => {
 let saveCourse = () => {
 	let _course = {}
 	_course.name = document.getElementById('course-name').value
+	_course.year = document.getElementById('course-year').value
 	_course.path = document.getElementById('course-path').value
 
-	if(_course.name == null || _course.path == null){
+	if(_course.name == null || _course.year == null || _course.path == null){
 		alert('Some fields are missing!')
 		console.log(_course)
 	}else{
@@ -106,12 +107,18 @@ let createPrep = (kind) => {
 		text.setAttribute('class', 'create-concept-prep url')
 		prep.appendChild(text)
 	}else if(kind == 'img'){
-		let src = document.createElement('input')
-		src.setAttribute('type', 'text')
+		// let src = document.createElement('input')
+		// src.setAttribute('type', 'text')
+		// src.setAttribute('kind', 'img')
+		// src.setAttribute('placeholder', 'src')
+		// src.setAttribute('class', 'create-concept-prep img')
+		// prep.appendChild(src)
+		let src = document.createElement('img')
+		// src.setAttribute('type', 'text')
 		src.setAttribute('kind', 'img')
-		src.setAttribute('placeholder', 'src')
-		src.setAttribute('filename', '')
-		src.setAttribute('class', 'create-concept-prep img')
+		src.setAttribute('src', '')
+		// src.setAttribute('placeholder', 'src')
+		src.setAttribute('class', 'create-concept-prep img img-preview')
 		prep.appendChild(src)
 
 		let expl = document.createElement('button')
@@ -169,9 +176,9 @@ let addPrep = (el) => {
 
 	if(el.parentNode.getAttribute('class') == 'create-add-holder'){ //if we're creating the first prep
 
-		// for(let _el of el.parentNode.parentNode.children) // we find the content-holder
-		// 	if(_el.getAttribute('class') == 'content-holder')
-				el.parentNode.parentNode.appendChild(prep) //and we append to its first child, the content-holder
+		for(let _el of el.parentNode.parentNode.children) // we find the content-holder
+			if(_el.getAttribute('class') == 'content-holder')
+				_el.children[0].appendChild(prep) //and we append to its first child, the content-holder
 
 	}else if(el.parentNode.getAttribute('class') == 'create-add-remove-holder'){ //otherwise there's already a prep
 		el.parentNode.parentNode.insertAdjacentElement('afterend', prep)
@@ -182,51 +189,8 @@ let removePrep = (el) => {
 	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
 }
 
-let addWriteup = (el) => {
-	let writeup = createWriteup()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', writeup)
-}
-
-let createWriteup = () => {
-	let writeup = document.createElement('div')
-	writeup.setAttribute('class', 'create-concept-writeup')
-	writeup.setAttribute('type', 'text')
-
-	let content = document.createElement('textarea')
-	content.setAttribute('placeholder', 'empty writeup')
-	writeup.appendChild(content)
-
-	let b_holder = document.createElement('div')
-	b_holder.setAttribute('class', 'create-add-writeup-holder')
-
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-writeup')
-	rem.setAttribute('onclick', 'removeWriteup(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
-	let add = document.createElement('button')
-	add.setAttribute('class', 'create-add-writeup')
-	add.setAttribute('onclick', 'addWriteup(this)')
-	add.innerText = '+'
-	b_holder.appendChild(add)
-
-	writeup.appendChild(b_holder)
-
-	return writeup
-}
-
-let removeWriteup = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
-}
-
 
 let addNote = (el) => {
-	let note = createNote()
-	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
-}
-
-let createNote = () => {
 	let note = document.createElement('div')
 	note.setAttribute('class', 'create-concept-note')
 	note.setAttribute('type', 'text')
@@ -238,25 +202,24 @@ let createNote = () => {
 	let b_holder = document.createElement('div')
 	b_holder.setAttribute('class', 'create-add-note-holder')
 
-	let rem = document.createElement('button')
-	rem.setAttribute('class', 'create-remove-note')
-	rem.setAttribute('onclick', 'removeNote(this)')
-	rem.innerText = '-'
-	b_holder.appendChild(rem)
-
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-note')
 	add.setAttribute('onclick', 'addNote(this)')
 	add.innerText = '+'
 	b_holder.appendChild(add)
 
-	note.appendChild(b_holder)
+	let rem = document.createElement('button')
+	rem.setAttribute('class', 'create-remove-note')
+	rem.setAttribute('onclick', 'removeNote(this)')
+	rem.innerText = '-'
+	b_holder.appendChild(rem)
 
-	return note
+	note.appendChild(b_holder)
+	el.parentNode.parentNode.insertAdjacentElement('afterend', note)
 }
 
 let removeNote = (el) => {
-	el.parentNode.parentNode.parentNode.removeChild(el.parentNode.parentNode)
+	el.parentNode.parentNode.removeChild(el.parentNode)
 }
 
 let addConcept = (el) => {
@@ -264,8 +227,8 @@ let addConcept = (el) => {
 	let concept = document.createElement('div')
 	concept.setAttribute('class', 'create-concept')
 
-	let prep_holder = document.createElement('div')
-	prep_holder.setAttribute('class', 'prep-holder')
+	let content_holder = document.createElement('div')
+	content_holder.setAttribute('class', 'content-holder')
 
 	let name = document.createElement('input')
 	name.setAttribute('class', 'create-concept-name')
@@ -307,29 +270,18 @@ let addConcept = (el) => {
 
 	b_holder.appendChild(b_img)
 
-	prep_holder.appendChild(b_holder)
+	concept.appendChild(b_holder)
 
-	concept.append(prep_holder)
-
-	//-- add one note
-	let notes_holder = document.createElement('div')
-	notes_holder.setAttribute('class', 'notes-holder')
 	let dummy = document.createElement('div')
-	let note = createNote()
-	dummy.append(note)
-	notes_holder.append(dummy)
-	concept.append(notes_holder)
+	concept.append(dummy)
 
-	//-- add one writeup
-	let writeups_holder = document.createElement('div')
-	writeups_holder.setAttribute('class', 'writeups-holder')
-	dummy = document.createElement('div')
-	let writeup = createWriteup()
-	dummy.append(writeup)
-	writeups_holder.append(dummy)
-	concept.append(writeups_holder)
+	let prep_holder = document.createElement('div')
+	prep_holder.setAttribute('class', 'prep-holder')
+	content_holder.appendChild(prep_holder)
+	concept.append(content_holder)
 
 	// add the two buttons at the bottom
+
 	let add = document.createElement('button')
 	add.setAttribute('class', 'create-add-concept')
 	add.setAttribute('onclick', 'addConcept(this)')
@@ -358,24 +310,21 @@ let parseLesson = () => {
 	if(document.getElementById('existing-course') != null){
 		lesson.course = {
 			'name': document.getElementById('existing-course').innerText,
-			'created': document.getElementById('existing-course').getAttribute('created'),
-			'path': document.getElementById('local-path').value,
-			'id': document.getElementById('existing-course').getAttribute('course-id')
+			'year': document.getElementById('existing-course').getAttribute('year'),
+			'path': document.getElementById('local-path').value
 		}
 	}else{ // or creating the new one
 		let dropdown = document.getElementById('course-list').selectedOptions[0]
 
 		lesson.course = {
 			'name': dropdown.value,
-			'created': dropdown.getAttribute('created'),
-			'path': dropdown.getAttribute('path'),
-			'id': dropdown.getAttribute('course-id')
+			'year': dropdown.getAttribute('year'),
+			'path': dropdown.getAttribute('path')
 		}
 	}
 
 	// --  GET LESSON INFORMATION
-	lesson.name = document.getElementById('name').value
-	lesson.id = document.getElementById('name').getAttribute('lesson-id')
+	lesson.title = document.getElementById('title').value
 
 	let concepts = document.getElementsByClassName('create-concept')
 	for(let _co of concepts){ // for each concepts
@@ -383,77 +332,53 @@ let parseLesson = () => {
 			'concept': _co.childNodes[0].value,
 			'tag':_co.childNodes[1].value,
 			'prep': [],
-			'notes': [],
-			'writeups':[]
+			'notes': []
 		}
 
 		// get the correct prep-notes container
-		let prepHolder
+		let contentHolder
 		for(let child of _co.childNodes)
-			if(child.getAttribute('class') == 'prep-holder')
-				prepHolder = child
+			if(child.getAttribute('class') == 'content-holder')
+				contentHolder = child
 
 		// then start going through the prep notes
-		for(let prep of prepHolder.childNodes){
-			if(prep.hasChildNodes() && prep.getAttribute('class') == 'create-prep'){
+		for(let note of contentHolder.childNodes[0].childNodes){ //go through all notes, first finding the 'content-holder' and then finding the 'prep-holder'
+			if(note.hasChildNodes() && note.getAttribute('class') == 'create-prep'){
 
-				let _pn = prep.childNodes
+				let _cn = note.childNodes
 
-				if(_pn[0].value == '' || _pn[0] == null) break //do not save empty fields
+				if(_cn[0].value == '' || _cn[0] == null) break //do not save empty fields
 
-				if(_pn[0].getAttribute('kind') == 'txt'){
-					concept.prep.push({'type':'txt', 'text': _pn[0].value, 'tag': _pn[1].value ? _pn[1].value : ''})
-				}else if(_pn[0].getAttribute('kind') == 'url'){
-					concept.prep.push({'type':'url', 'url': _pn[0].value, 'text': _pn[1].value})
-				}else if(_pn[0].getAttribute('kind') == 'img'){
+				if(_cn[0].getAttribute('kind') == 'txt'){
+					concept.prep.push({'type':'txt', 'text': _cn[0].value, 'tag': _cn[1].value ? _cn[1].value : ''})
+				}else if(_cn[0].getAttribute('kind') == 'url'){
+					concept.prep.push({'type':'url', 'url': _cn[0].value, 'text': _cn[1].value})
+				}else if(_cn[0].getAttribute('kind') == 'img'){
 
-					let p = _pn[0].value
+					let p = _cn[0].value
 					if((/\.(gif|jpg|jpeg|tiff|png|svg|bmp)$/i).test(p)){			//checking if it's an image file
-						concept.prep.push({'type':'img', 'src': _pn[0].getAttribute('src'), 'name': _pn[0].getAttribute('filename')})
+						concept.prep.push({'type':'img', 'src': _cn[0].getAttribute('src')})
 					}else if((/\.(mp4|mov|avi|wmv|flv|mpg|m4a)$/i).test(p)){	//checking it it's a video file
-						concept.prep.push({'type':'vid', 'src': _pn[0].getAttribute('src'), 'name': _pn[0].getAttribute('filename')})
+						concept.prep.push({'type':'vid', 'src': _cn[0].getAttribute('src')})
 					}else{ // unsupported file
 						alert(`One of the image or videos files specified on concept: ${_co.childNodes[0].value} is invalid!`)
 						return false
 					}
 
-				}else if(_pn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
-					console.log('got tag:'+_pn[0])
-					concept.prep.push({'type':'tag', 'tag':_pn[0].value})
+				}else if(_cn[0].getAttribute('kind') == 'tag'){ //TODO what is this?
+					console.log('got tag:'+_cn[0])
+					concept.prep.push({'type':'tag', 'tag':_cn[0].value})
 				}
+
 			}
 		}
 
-		// --- FIND NOTES
-		let notesHolder
-		for(let child of _co.childNodes)
-			if(child.getAttribute('class') == 'notes-holder')
-				notesHolder = child
-		for(let note of notesHolder.childNodes)
-			if(note.getAttribute('class') == 'create-concept-note' && (note.childNodes[0].value != '' || note.childNodes[0].value != null))
+		// then go through the in-class notes
+		// if we are creating a new lesson, we don't need to look for notes
+		if(document.getElementsByClassName('notes-holder').length != 0){
+			for(let note of contentHolder.childNodes[1].childNodes)
 				concept.notes.push(note.childNodes[0].value)
-
-
-
-
-		// --- FIND WRITEUPS
-		let writeupsHolder
-		for(let child of _co.childNodes)
-			if(child.getAttribute('class') == 'writeups-holder')
-				writeupsHolder = child
-
-
-				// the problem is that the initial write up holder doesnt have an empty <div> child and the subsequent ones have
-		for(let child of writeupsHolder.childNodes)
-			if(child.getAttribute('class') == 'create-concept-writeup' && child.childNodes[0].value != '' && child.childNodes[0].value != null) //first case
-				concept.writeups.push(child.childNodes[0].value)
-			else
-				for(let subchild of child.childNodes)
-					if(subchild.getAttribute('class') == 'create-concept-writeup' && subchild.childNodes[0].value != '' && subchild.childNodes[0].value != null) //second case
-						concept.writeups.push(subchild.childNodes[0].value)
-
-
-
+		}
 
 		lesson.concepts.push(concept)
 	}
@@ -465,8 +390,7 @@ let parseLesson = () => {
 			'concept':'whiteboard',
 			'tag':'whiteboard',
 			'prep':[{'type': 'wbd', 'text':'', 'tag':''}],
-			'notes':[],
-			'writeups': []
+			'notes':[]
 		}
 		lesson.concepts.push(whiteboard)
 	}
@@ -478,13 +402,15 @@ let parseLesson = () => {
 let saveLesson = (_type) => {
 
 	if(parseLesson()){ //if we're creating a lesson
-		if(lesson.course == '' || lesson.name == ''){
+		if(lesson.course == '' || lesson.title == ''){
 
 			let _title = 'something is missing'
 			let _error = 'it seems you haven\'t specified a course or a lesson title.'
 
 			dialog.showErrorBox(_title, _error)
 		}else{
+
+			lesson.prefix = _type == undefined ? 'prep' : _type //either prep or in-class
 			utils.setMessage('saved!', 'info')
 			lessonSaved = true
 			ipc.send('save-lesson', lesson)
@@ -500,7 +426,7 @@ let exitLesson = () => {
 		'message':'The current lesson hasn\'t been saved. Do you want to quit anyways?'
 	}
 
-	if(lesson.course == '' || lesson.name == '' || !lessonSaved){
+	if(lesson.course == '' || lesson.title == '' || !lessonSaved){
 		if(dialog.showMessageBox(options) == 1)
 			ipc.send('exit-home', {'coming':'back'})
 
@@ -509,4 +435,4 @@ let exitLesson = () => {
 	}
 }
 
-export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addNote, removeNote, addWriteup, removeWriteup, addConcept, removeConcept, saveLesson, exitLesson}
+export { createNewCourse, saveCourse, exitCourse, selectCourse, selectCoursePath, selectMediaPath, addPrep, removePrep, addNote, removeNote, addConcept, removeConcept, saveLesson, exitLesson}

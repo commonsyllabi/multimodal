@@ -3,32 +3,11 @@ html
 	head
 		meta(charset='utf8')
 		title Multimodal | Welcome
-		
+		script(src="http://localhost:8098")
 		link(rel='stylesheet', href='./style.css')
 	body
-		div#app
-		div.container
-			div.courses-container
-				div.lessons
-					each co in courses
-						div.inter-class
-							div.inter-class-title= co.course.name
-							ul
-								each lesson in co.lessons
-									li.welcome-lesson(onclick='setLesson(this, "'+co.course.name+'","'+lesson.name+'","'+co.course.path+'")', ondblclick='openLesson("'+co.course.name+'", "'+lesson.name+'","'+co.course.path+'")')= lesson.name
-					else
-						div.welcome-message
-							h2 Welcome to Multimodal!
-							div It seems you haven't added any courses!
-								ul
-									li Click 'Create' to get started...
-									li Or peruse the <a href="https://periode.github.io/multimodal/" target="_blank">homepage</a> to learn more.
-
-			div.interface-buttons
-				button.inter-btn-main(onclick='createLesson()') create
-				button.inter-btn-main(onclick='editLesson()', disabled) edit
-				button.inter-btn-main(onclick='openLesson()', disabled) open
-				button.inter-btn-main(onclick='exportLesson()', disabled) export
-				button.inter-btn-main(onclick='removeLesson()', disabled) remove
-				div.msg-log#msg-log
+		div#notice-board.container
+		div#dialog
+		script.
+			data=!{data}
 		script(src='./main.js')

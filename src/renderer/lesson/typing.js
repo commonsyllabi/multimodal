@@ -1,7 +1,6 @@
 'use strict'
 
-import * as mouse from './mouse.js'
-import { getCurrentNote, setCurrentNote, setCurrrentPosition, getPreviousConcept, getCurrentConcept, setCurrentConcept } from './globals.js'
+import { getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, getPreviousConcept, setCurrentPosition, getPreviousPage, getCurrentPage, setCurrentPage } from './globals.js'
 
 const ESC = 27
 const UP = 38
@@ -9,85 +8,99 @@ const LEFT = 37
 const RIGHT = 39
 const DOWN = 40
 
-let currentNote = null
+let cn = null
 
-let handle = (e) => {
-	currentNote = getCurrentNote()
+let handle = (e, data) => {
+	cn = window.currentNote
 
-	let index
+	let page, concept
 	switch(e.keyCode){
-	case UP: //concept right before
-		if(currentNote == null){
-			index = getCurrentConcept()
-			index = index - 1 >= 0 ? index - 1 : 0
-			setCurrentConcept(index)
+	case UP: //page right before
+		if(cn == null){
+			e.preventDefault()
+			page = getCurrentPage()
+			concept = getCurrentConcept()
+			if(page > 0){
+				page--
+			}else{
+				//-- check for concept overflow
+				if(concept > 0)
+					concept--
+				else
+					concept = 0
+
+				page = data.concepts[concept].pages.length - 1
+			}
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
-	case DOWN: //concept right after
-		if(currentNote == null){
-			index = getCurrentConcept()
-			let len = document.getElementsByClassName('concept').length-1
-			index = index + 1 < len ? index + 1 : len
-			setCurrentConcept(index)
+	case DOWN: //page right after
+		if(cn == null){
+			e.preventDefault()
+			page = getCurrentPage()
+			concept = getCurrentConcept()
+			if(page < data.concepts[concept].pages.length-1){
+				page++
+			}else{
+				page = 0
+				//-- check for concept overflow
+				if(concept < data.concepts.length-1)
+					concept++
+				else
+					concept = 0
+			}
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
-	case LEFT: // previous concept
-		if(currentNote == null){
-			index = getPreviousConcept()
-			setCurrentConcept(index)
+	case LEFT: // previous page
+		if(cn == null){
+			concept = getPreviousConcept()
+			page = getPreviousPage()
+
+			setCurrentConcept(concept)
+			setCurrentPage(page, true)
 		}
 		break
 	case RIGHT: // jump to the whiteboard
-		if(currentNote == null){
-			let index = document.getElementsByClassName('concept').length-1
-			setCurrentConcept(index)
+		if(cn == null){
+			concept = document.getElementsByClassName('concept-group').length-1
+
+			setCurrentConcept(concept)
+			setCurrentPage(0, true)
 		}
 		break
 	case ESC:
-		endNote()
+		if(cn != null)
+			endNote(cn)
 		break
 	default:
 		break
 	}
 }
 
-let newNote = () => {
-	let cn = document.createElement('textarea')
-	cn.setAttribute('type', 'text')
-	cn.setAttribute('class', 'note moveable concept-bound')
-	cn.setAttribute('concept', getCurrentConcept())
-	cn.setAttribute('id', 'current')
-	cn.addEventListener('input', () => { onInput(cn)}, false)
-	document.getElementById(getCurrentConcept()).append(cn)
 
-	setCurrentNote(cn)
-	setCurrrentPosition(mouse.getGridPosition())
-
-	cn.focus()
-}
-
-let onInput = (el) => {
-	el.style.height = 'auto'
-	el.style.height = (el.scrollHeight) + 'px'
-}
-
-let endNote = () => {
+let endNote = (el) => {
 	//if note is blank
-	if(currentNote != null && currentNote.value == ''){
-		currentNote.parentNode.removeChild(currentNote)
-	}else{
-		currentNote.style.height = (currentNote.scrollHeight)+'px'
-		// currentNote.style.overflowY = 'hidden'
+	if(el.value == ''){
+		el.style.display = 'none'
+		el.parentNode.removeChild(el)
+	}else{ //-- else position it correctly
+		el.style.height = (el.scrollHeight)+'px'
 	}
 
-	currentNote.blur()
-	currentNote.removeAttribute('id')
-	currentNote.onclick = (evt) => {
+	el.blur()
+	el.removeAttribute('id')
+	el.onclick = (evt) => {
 		if(evt.target.getAttribute('id') == 'current') return
 		evt.target.setAttribute('id', 'current')
-		setCurrentNote(evt.target)
+		window.currentNote = evt.target
 	}
-	setCurrentNote(null)
+
+	window.currentNote = null
 }
 
-export { handle, newNote, endNote }
+export { handle, endNote }

@@ -2,14 +2,16 @@ doctype
 html
 	head
 		meta(charset="utf8")
-		title= course + ' | notes'
-		link(rel='stylesheet', href='style.css')
+		title= name + ' | notes'
+		style
+			include includes/export.css
 	body
 		header
-			h2= course
+			h2= name
 		main
+			p= description
 			h1 course notes
 			ol
-				for lesson in lessons
+				for topic in topics
 					li
-						a(href= lesson+'.html')= lesson
+						a(href= topic.name+'.html')= topic.name
