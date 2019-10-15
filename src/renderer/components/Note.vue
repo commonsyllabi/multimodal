@@ -15,6 +15,7 @@ textarea {
 
 .note{
   position: absolute;
+  pointer-events: all;
   z-index: 5;
   width: 40%;
   color: $main-fg-color;

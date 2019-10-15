@@ -18,6 +18,7 @@
 	width: 0;
 	height: 25vh;
 	z-index: 4;
+  pointer-events: all;
 	background-color: $main-fg-color;
 	transition: all 0.2s linear;
 }

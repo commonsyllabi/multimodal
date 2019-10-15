@@ -144,8 +144,14 @@ export default {
   },
   mounted(){
     this.$el.ondblclick = (e) => {
-      if(window.currentNote == null && e.target.localName != 'input')
-            this.data.notes.push({text: null, tag: "", type: "text"})
+      if(window.currentNote == null && !this.isEdit){
+              this.data.notes.push({
+                text: null,
+                tag: "",
+                type: "text",
+                x: e.clientX,
+                y: e.clientY})
+      }
     }
   }
 }
