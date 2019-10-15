@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 const path = require('path')
