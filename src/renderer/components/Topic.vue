@@ -334,8 +334,9 @@ export default {
         return
 
   		let pos = getGridPosition(this.position)
-    	window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
-      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
+
+      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
+      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
     },
     handleNewNote(el, evt) {
       window.currentNote = el
@@ -348,8 +349,8 @@ export default {
       el.focus()
 
       let pos = getGridPosition(this.position)
-      window.currentNote.style.left = (pos.x - window.currentNote.parentElement.offsetLeft)+'px'
-      window.currentNote.style.top = (pos.y - window.currentNote.parentElement.offsetTop)+'px'
+      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
+      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
     },
     toggleDraw() {
       this.isDrawing = !this.isDrawing

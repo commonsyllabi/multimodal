@@ -40,6 +40,10 @@
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
+button{
+    pointer-events: all;
+}
+
 .prep-holder{
   width: 50vw;
   margin-left: 10vw;
@@ -76,6 +80,7 @@
   background-color: $main-bg-color;
   border: none;
   border-bottom: 2px solid $main-fg-color;
+  pointer-events: all;
 }
 
 .prep-tag-anchor {
