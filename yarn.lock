@@ -1220,7 +1220,7 @@ builder-util@5.11.1:
     debug "^3.1.0"
     fs-extra-p "^4.6.0"
     is-ci "^1.1.0"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     semver "^5.5.0"
     source-map-support "^0.5.6"
@@ -1239,7 +1239,7 @@ builder-util@5.11.2:
     debug "^3.1.0"
     fs-extra-p "^4.6.0"
     is-ci "^1.1.0"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     semver "^5.5.0"
     source-map-support "^0.5.6"
@@ -1258,7 +1258,7 @@ builder-util@^5.11.0, builder-util@^5.11.2:
     debug "^3.1.0"
     fs-extra-p "^4.6.0"
     is-ci "^1.1.0"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     semver "^5.5.0"
     source-map-support "^0.5.6"
@@ -2108,7 +2108,7 @@ dmg-builder@4.10.1:
     electron-builder-lib "~20.14.6"
     fs-extra-p "^4.6.0"
     iconv-lite "^0.4.23"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     parse-color "^1.0.0"
     sanitize-filename "^1.6.1"
 
@@ -2179,7 +2179,7 @@ electron-builder-lib@20.15.1:
     hosted-git-info "^2.6.0"
     is-ci "^1.1.0"
     isbinaryfile "^3.0.2"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     minimatch "^3.0.4"
     normalize-package-data "^2.4.0"
@@ -2209,7 +2209,7 @@ electron-builder-lib@~20.14.6:
     hosted-git-info "^2.6.0"
     is-ci "^1.1.0"
     isbinaryfile "^3.0.2"
-    js-yaml "^3.13.1"
+    js-yaml "^3.11.0"
     lazy-val "^1.0.3"
     minimatch "^3.0.4"
     normalize-package-data "^2.4.0"
@@ -2498,7 +2498,7 @@ eslint@^4.18.2:
     imurmurhash "^0.1.4"
     inquirer "^3.0.6"
     is-resolvable "^1.0.0"
-    js-yaml "^3.13.1"
+    js-yaml "^3.9.1"
     json-stable-stringify-without-jsonify "^1.0.1"
     levn "^0.3.0"
     lodash "^4.17.4"
@@ -2910,6 +2910,15 @@ fs-extra@^6.0.0:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
+fs-extra@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
+  integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs-minipass@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.5.tgz#06c277218454ec288df77ada54a03b8702aacb9d"
@@ -3220,7 +3229,7 @@ graceful-fs@^4.1.11:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
+graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
   integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
@@ -3917,17 +3926,10 @@ js-yaml@^3.11.0:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-js-yaml@^3.13.1:
+js-yaml@^3.13.1, js-yaml@^3.9.1:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.1.tgz#aff151b30bfdfa8e49e05da22e7415e9dfa37847"
   integrity sha512-YfbcO7jXDdyj0DGxYVSlSeQNHbD7XPWvrVWeVUujrQEoZzWJIRrCPoyk6kL6IAjAG2IolMK4T0hNUe0HOUs5Jw==
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^4.0.0"
-
-js-yaml@^3.9.1:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.10.0.tgz#2e78441646bd4682e963f22b6e92823c309c62dc"
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"

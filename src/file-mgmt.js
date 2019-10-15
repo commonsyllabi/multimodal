@@ -1,5 +1,5 @@
 const admzip = require('adm-zip')
-const fs = require('fs')
+const fs = require('fs-extra')
 const os = require('os')
 const utils = require('./utils.js')
 
