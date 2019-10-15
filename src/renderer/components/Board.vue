@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <div class="topics-container">
+  <!-- <div class="topics-container">
     <div class="topics">
       <ul>
         <li class="topic" v-for="instances in current.sessions"
@@ -42,7 +42,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div> -->
 
   <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
 
@@ -217,7 +217,7 @@ export default {
       this.current.subject = _s
       this.current.name = _n
       this.current.path = _p
-      this.current.sessions = ["session one", "session two"]
+      // this.current.sessions = ["session one", "session two"]
 
       // TODO: this can be streamlined
       let all_subjects = document.getElementsByClassName('subject')

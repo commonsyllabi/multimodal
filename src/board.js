@@ -1,11 +1,11 @@
 'use strict'
 
 const fs  = require('fs')
+const os = require('os')
 const path = require('path')
 const pug = require('pug')
 const { exec } = require('child_process')
 const BrowserWindow = require('electron').BrowserWindow
-const PUSH_TO_GITHUB = false
 
 let win
 
@@ -13,15 +13,16 @@ exports = module.exports = {}
 
 // lists all the lessons from subjects.json and displays them on the board screen
 module.exports.list = () => {
-	if(!fs.existsSync(`${__dirname}/data/subjects.json`))
-		fs.writeFileSync(`${__dirname}/data/subjects.json`, '[]')
+	if(!fs.existsSync(`${os.tmpdir()}/data/subjects.json`))
+		fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, '[]')
+
 
 	let data = {
 		'subjects':[]
 	}
 
 	//first we get all the subjects
-	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
+	let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
 
 	//then for each course we look for all the related lessons
 	for(let s of subjects){
@@ -31,7 +32,7 @@ module.exports.list = () => {
 		}
 
 		for(let t of s.topics){
-			let p = `${__dirname}/app/imports/${s.name}/topics/${t.name}/topic.json`
+			let p = `${os.tmpdir()}/app/imports/${s.name}/topics/${t.name}/topic.json`
 			let l = null
 			try {
 				l = fs.readFileSync(p)
@@ -48,7 +49,7 @@ module.exports.list = () => {
 	}
 
 	let compiled = pug.renderFile(__dirname+'/views/board.pug', {'data': JSON.stringify(data)})
-	fs.writeFileSync(__dirname+'/app/board.html', compiled)
+	fs.writeFileSync(`${os.tmpdir()}/app/board.html`, compiled)
 }
 
 module.exports.init = (w) => {
@@ -59,10 +60,16 @@ module.exports.init = (w) => {
 //-- removes all unfound subjects and topics
 let cleanup = () => {
 	console.log('[BOARD] cleaning up subjects.json...');
-	let subjects = JSON.parse(fs.readFileSync(__dirname+'/data/subjects.json'))
+	let subjects
+	try{
+		subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+	}catch{
+		console.log('[BOARD] subjects.json does not exist, exiting...')
+		return
+	}
 
 	//--backup
-	fs.writeFileSync(`${__dirname}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
+	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
 
 	//-- first cleaning up topics
 	for(let s of subjects){
@@ -90,7 +97,7 @@ let cleanup = () => {
 			subjects_with_topics.push(s)
 
 
-	fs.writeFileSync(__dirname+'/data/subjects.json', JSON.stringify(subjects_with_topics))
+	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects_with_topics))
 }
 
 // cleanup()
