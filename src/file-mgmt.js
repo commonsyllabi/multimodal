@@ -51,11 +51,16 @@ module.exports.compress = (name, target) => {
       zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
     }
 
-    let other = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/`)
+    try {
+      let other = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/`)
 
-    for(let o of other){
-      zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+      for(let o of other){
+        zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+      }
+    } catch (e) {
+      console.log(`[FILE] folder other/ was not found in the archive, skipping...`);
     }
+
   }
 
   zipper.writeZip(`${target}/${name}.mmd`)
