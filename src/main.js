@@ -204,6 +204,12 @@ ipc.on('import-subject', (event, d) => {
 			let t = new Topic(tdata)
 		}
 		mainWindow.webContents.send('msg-log', {msg: 'imported', type: 'msg'})
+
+		setTimeout(() => {
+			board.list()
+			replaceWindow('board')
+		}, 1000)
+
 	}).catch((err) => {
 		console.log(err);
 	})
@@ -240,7 +246,6 @@ ipc.on('open-export', (event, d) => {
 		if(d.type == "folder"){
 			shell.showItemInFolder(`${data.path}/${data.subject.name}.pdf`)
 		}	else if(d.type == 'show'){
-			console.log(`file://${data.path}/${data.name}.pdf`);
 			shell.openExternal(`file://${data.path}/${data.subject.name}.pdf`)
 		} else {
 			console.log('[MAIN] error on opening pdf export');
@@ -269,6 +274,11 @@ app.on('ready', () => {
 	utils.touchDirectory(`${os.tmpdir()}/data`)
 	utils.touchDirectory(`${os.tmpdir()}/app`)
 	utils.touchDirectory(`${os.tmpdir()}/app/imports`)
+
+	// if(!fs.existsSync(`${os.tmpdir()}/data/subjects.json`)){
+		// fs.copySync(`${__dirname}/data/subjects.json`, `${os.tmpdir()}/data/subjects.json`)
+		// fs.copySync(`${__dirname}/app/imports`, `${os.tmpdir()}/app/imports`)
+	// }
 
 	//-- and to copy the js and css files there
 	fs.createReadStream(`${__dirname}/app/main.js`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/main.js`))
