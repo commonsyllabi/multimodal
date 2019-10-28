@@ -7,6 +7,19 @@ Desktop app for teaching
 
 Please visit the Multimodal website at [https://multimodal.cc](https://multimodal.cc) to learn more about the project.
 
+## How to
+
+- Create a new subject by clicking the `create` button at the bottom of the main board.
+- Once you've given it a name, a description and a location to save the file, the subject will automatically create a new topic within that subject.
+- Click on the `edit` button at the bottom of the topic view (or press `e`) to start editiing your content. All text fields can now be changed.
+- Click on the `+` and `-` buttons in the panel on the left to add new pages or concepts (groupings of pages).
+- Click on `present` (or press `ESC`) to go back to presenting mode
+- Double-click anywhere and start typing to add a new note.
+- Click on `draw` and drag your mouse cursor to start drawing (*experimental*)
+- Click `save` to save the session.
+- Click `exit` to exit back to the main board.
+
+
 ## Features
 
 - Seamless editing of notes during class time - *take into account what students discuss, rather than sticking to static slides*
