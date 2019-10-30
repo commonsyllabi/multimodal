@@ -1,3 +1,4 @@
+const app = require('electron').app
 const admzip = require('adm-zip')
 const fs = require('fs-extra')
 const os = require('os')
@@ -20,10 +21,10 @@ module.exports.extract = (path) => {
   if(!subject)
     throw "no subject.json found in imported file!"
 
-  utils.touchDirectory(`${os.tmpdir()}/app/imports/${subject}/topics`)
+  utils.touchDirectory(`${app.getPath('userData')}/app/imports/${subject}/topics`)
   entries.forEach(function(entry) {
     try {
-      zip.extractEntryTo(entry.entryName, `${os.tmpdir()}/app/imports/${subject}`, true, true)
+      zip.extractEntryTo(entry.entryName, `${app.getPath('userData')}/app/imports/${subject}`, true, true)
     } catch (e) {
       console.log(e)
     }
@@ -38,24 +39,24 @@ module.exports.compress = (name, target) => {
   console.log(`[FILE] compressing ${name} to ${target}...`);
   let zipper = new admzip()
 
-  zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/subject.json`)
+  zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/subject.json`)
 
-  let topics = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics/`)
+  let topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/`)
 
   //-- compressing each topics
   for(let t of topics){
-    zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/topic.json`, `topics/${t}`)
-    let media = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics/${t}/media/`)
+    zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/topic.json`, `topics/${t}`)
+    let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/`)
 
     for(let m of media){
-      zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+      zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
     }
 
     try {
-      let other = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/`)
+      let other = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/other/`)
 
       for(let o of other){
-        zipper.addLocalFile(`${os.tmpdir()}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
       }
     } catch (e) {
       console.log(`[FILE] folder other/ was not found in the archive, skipping...`);
