@@ -5,8 +5,6 @@ const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
 const BrowserView = electron.BrowserView
 
-//const path = require('path')
-//const url = require('url')
 const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
