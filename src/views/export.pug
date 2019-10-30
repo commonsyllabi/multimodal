@@ -31,6 +31,8 @@ html
 						each prep in page.preps
 							if prep.type == "txt"
 								div.prep.note(concept= index)= prep.text
+							if prep.type ==  'file'
+								div.prep.note(concept= index)= prep.name
 							if prep.type == "url"
 								div.prep.note(concept= index)
 									a(href= prep.url)= prep.text
