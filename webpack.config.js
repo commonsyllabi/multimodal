@@ -12,7 +12,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'src/app')
+    // path: path.resolve(__dirname, 'src/app')
+    path: '/home/pierre/.config/multimodal/app'
   },
   module: {
       rules: [

@@ -49,6 +49,7 @@ canvas {
   font-weight: bold;
   margin-top: 10vh;
   margin-left: 10vw;
+  width: 70%;
 }
 
 .edit-input{
