@@ -484,6 +484,10 @@ export default {
   },
   beforeMount() {
     this.data = window.data
+    for(let concept of this.data.concepts){
+        concept.context.links = [{"href": "link text", "comment": "comemnt text"}]
+
+    }
     this.currentConcept = window.currentConcept
   },
   afterMount(){

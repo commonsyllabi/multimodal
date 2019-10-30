@@ -3,7 +3,22 @@
     <div class="context-toggle-inner" @click="toggleView">
 
     </div>
+
     <textarea v-if="this.visible" :disabled="!this.isEdit" rows="12" class="context" v-model:value="data.text"></textarea>
+
+    <div v-for="(link, index) in data.links" class="context-link">
+      <input v-if="isEdit" type="text" placeholder="url" v-model:value="link.href"/>
+      <a v-if="!isEdit" :href="link.href" target="_blank">{{link.href}}</a>
+
+      <input v-if="isEdit" type="text" placeholder="comment" v-model:value="link.comment"/>
+      <div v-if="!isEdit">{{link.comment}}</div>
+
+      <div v-if="isEdit" class="links-buttons">
+        <button @click="addLink(index)">+</button>
+        <button @click="removeLink(index)">-</button>
+      </div>
+      <hr/>
+    </div>
   </div>
 </template>
 
@@ -37,9 +52,13 @@
 
 .context{
   width: 90%;
-  height: 90%;
+  min-height: 10%;
   margin: 10px;
   font-size: 1.2em;
+}
+
+.context-link{
+  color: $main-bg-color;
 }
 </style>
 
@@ -48,9 +67,7 @@ export default {
   props: {
     data: {
       type: Object,
-      default: {
-        text: ""
-      }
+      default: {}
     },
     isEdit: {
       type: Boolean,
@@ -66,6 +83,21 @@ export default {
     toggleView(e) {
       this.visible = !this.visible
       e.target.parentNode.style.width = this.visible ? '20vw' : '0px'
+    },
+    addLink(index) {
+      console.log('adding link',index);
+      this.data.links.splice(index+1, 0, {"href":"link here", "comment":"comment here"})
+
+      this.$forceUpdate()
+    },
+    removeLink(index) {
+      console.log('removing link', index);
+      let a = this.data.links.slice(0, index)
+      let b = this.data.links.slice(index+1, this.data.links.length)
+      let c = a.concat(b)
+      this.data.links = c
+
+      this.$forceUpdate()
     }
   }
 }

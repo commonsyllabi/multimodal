@@ -24,7 +24,7 @@ class Topic {
     this.overview = data.overview != undefined ? data.overview : {text:""}
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
-      context: {"text":""},
+      context: {"text":"", "links": []},
       pages: [
         {
           name: "new page",
