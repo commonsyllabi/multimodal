@@ -79,6 +79,10 @@ let replaceWindow = (_target) => {
 // ------------------------------ IPC MESSAGES
 // -----------------------------
 
+ipc.on('open-path', (event, url) => {
+	shell.openExternal(url)
+})
+
 ipc.on('open-url', (event, url) => {
 	shell.openExternal(url)
 
