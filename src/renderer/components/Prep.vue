@@ -12,6 +12,11 @@
       <a v-else :href="data.url" @click="openLink" target="_blank">{{data.text}}</a>
     </div>
 
+    <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
+      <input type="file" v-if="isEdit" @change="handlePathInput"></input>
+      <a v-else :href="data.path" @click="openPath">{{data.name}}</a>
+    </div>
+
     <div v-else-if="data.type == 'img'" class="prep moveable" :concept="index" :tag="data.tag">
       <div v-if="isEdit">
         <input type="file" @change="handleFileInput"></input>
@@ -31,6 +36,7 @@
       <button @click="addPrep('txt')">txt</button>
       <button @click="addPrep('url')">url</button>
       <button @click="addPrep('img')">img</button>
+      <button @click="addPrep('file')">file</button>
       <button v-if="isEdit" @click="removePrep">-</button>
     </div>
   </div>
@@ -159,9 +165,18 @@ export default {
       evt.preventDefault()
       ipc.send('open-url', evt.target.href)
     },
+    openPath(evt, el){
+      evt.preventDefault()
+      ipc.send('open-path', evt.target.href)
+    },
     handleFileInput(e) {
       e.preventDefault()
       this.data.src = e.target.files[0].path
+      this.data.name = e.target.files[0].name
+    },
+    handlePathInput(e) {
+      e.preventDefault()
+      this.data.path = e.target.files[0].path
       this.data.name = e.target.files[0].name
     }
   },

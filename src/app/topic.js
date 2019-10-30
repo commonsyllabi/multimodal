@@ -13960,6 +13960,14 @@ if(false) {
             "type": d.type
           }
           break;
+        case 'file':
+          p = {
+            "tag": "",
+            "name": "",
+            "path": "",
+            "type": d.type
+          }
+          break;
         default:
           break
       }
@@ -14001,6 +14009,12 @@ if(false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -14162,9 +14176,18 @@ const ipc = __webpack_require__(7).ipcRenderer
       evt.preventDefault()
       ipc.send('open-url', evt.target.href)
     },
+    openPath(evt, el){
+      evt.preventDefault()
+      ipc.send('open-path', evt.target.href)
+    },
     handleFileInput(e) {
       e.preventDefault()
       this.data.src = e.target.files[0].path
+      this.data.name = e.target.files[0].name
+    },
+    handlePathInput(e) {
+      e.preventDefault()
+      this.data.path = e.target.files[0].path
       this.data.name = e.target.files[0].name
     }
   },
@@ -15644,6 +15667,29 @@ var render = function() {
                 )
           ]
         )
+      : _vm.data.type == "file"
+      ? _c(
+          "div",
+          {
+            staticClass: "prep written",
+            attrs: { concept: _vm.index, tag: _vm.data.tag }
+          },
+          [
+            _vm.isEdit
+              ? _c("input", {
+                  attrs: { type: "file" },
+                  on: { change: _vm.handlePathInput }
+                })
+              : _c(
+                  "a",
+                  {
+                    attrs: { href: _vm.data.path },
+                    on: { click: _vm.openPath }
+                  },
+                  [_vm._v(_vm._s(_vm.data.name))]
+                )
+          ]
+        )
       : _vm.data.type == "img"
       ? _c(
           "div",
@@ -15740,6 +15786,18 @@ var render = function() {
               }
             },
             [_vm._v("img")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.addPrep("file")
+                }
+              }
+            },
+            [_vm._v("file")]
           ),
           _vm._v(" "),
           _vm.isEdit

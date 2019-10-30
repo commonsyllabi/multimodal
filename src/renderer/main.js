@@ -28,9 +28,6 @@ const msgbox = new Vue({
 
 window.msgbox = msgbox.$children[0]
 
-// TODO: deal later with shortcuts
-
-
 ipc.on('menu-create', () => { welcome.createLesson()})
 ipc.on('menu-open', () => { welcome.openLesson()})
 ipc.on('menu-edit', () => { welcome.editLesson()})

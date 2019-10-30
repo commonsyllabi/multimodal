@@ -130,6 +130,14 @@ export default {
             "type": d.type
           }
           break;
+        case 'file':
+          p = {
+            "tag": "",
+            "name": "",
+            "path": "",
+            "type": d.type
+          }
+          break;
         default:
           break
       }
