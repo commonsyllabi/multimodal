@@ -188,7 +188,7 @@ export default {
 
     //-- make them reactive to a click (for notes that have been loaded from previous sessions)
     this.$el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current') return
+			if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
 			evt.target.setAttribute('id', 'current')
 			evt.target.setAttribute('class', 'prep moveable')
 			window.currentNote = evt.target
