@@ -24,7 +24,7 @@ have only one JSON file with all lessons inside? this way i can link to other as
 - - course_name/
 - - - lessons/
 - - - - lesson_name/
-- - - - - lesson_name.json
+- - - - - topic.json
 - - - - - media/
 - - - - - other/
 - - - - exports/
