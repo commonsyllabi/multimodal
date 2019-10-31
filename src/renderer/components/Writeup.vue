@@ -3,7 +3,10 @@
     <div class="writeup-toggle-inner" @click="toggleView">
 
     </div>
-    <textarea type="text" v-if="this.visible" :disabled="!this.isEdit" class="writeup" v-model:value="data.text"></textarea>
+    <h3 v-if="this.visible">
+      details
+    </h3>
+    <textarea type="text" v-if="this.visible" :disabled="!this.isEdit" class="writeup" v-model:value="data.text" placeholder="write your notes for this particular page here"></textarea>
   </div>
 
 </template>
@@ -23,6 +26,11 @@
 	transition: all 0.2s linear;
 }
 
+h3{
+  color: $main-bg-color;
+  margin: 5px 0px 0px 10px;
+}
+
 .writeup-toggle-inner{
 	position:absolute;
 	width: 10px;
@@ -39,11 +47,14 @@
 
 .writeup{
   width: 90%;
-  height: 90%;
+  height: 80%;
+  border: none;
+  background: transparent;
+  border-left: 2px solid $main-bg-color;
   margin: 10px;
+  padding-left: 5px;
   font-size: 1.2em;
   font-family: 'Inter UI';
-  border: none;
 }
 </style>
 
