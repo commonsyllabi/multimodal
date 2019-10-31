@@ -5,7 +5,8 @@
     <h3>
       overview
     </h3>
-    <textarea v-if="this.visible" :disabled="!this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>
+    <textarea v-if="this.visible && this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>
+    <div v-if="this.visible && !this.isEdit" class="overview" v-html="markdown"></div>
   </div>
 </template>
 
@@ -55,6 +56,9 @@ h3{
 </style>
 
 <script>
+
+const marked = require('marked')
+
 export default {
   props: {
     overview: {
@@ -72,6 +76,12 @@ export default {
       name: {
         text: ""
       }
+    }
+  },
+  computed: {
+    markdown: function() {
+      this.overview.html = marked(this.overview.text)
+      return this.overview.html
     }
   },
   methods: {

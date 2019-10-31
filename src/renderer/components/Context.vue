@@ -6,8 +6,8 @@
     <h3>
       Context
     </h3>
-    <textarea v-if="this.visible" :disabled="!this.isEdit" rows="12" class="context" v-model:value="data.text"></textarea>
-
+    <textarea type="text" v-if="this.visible && this.isEdit" rows="12" class="context" v-model:value="data.text" placeholder="provide context about this current concept"></textarea>
+    <div v-if="this.visible && !this.isEdit" class="context" v-html="markdown"></div>
 
     <h3>
       Links
@@ -65,6 +65,10 @@ h3{
   margin: 0px 0px 0px 10px;
 }
 
+textarea{
+  font-style: italic;
+}
+
 .context{
   width: 90%;
   min-height: 10%;
@@ -73,6 +77,10 @@ h3{
   background: transparent;
   border-left: 2px solid $main-bg-color;
   padding-left: 5px;
+}
+
+.context a{
+  color: $mid-orange;
 }
 
 .context-link{
@@ -102,11 +110,17 @@ h3{
 </style>
 
 <script>
+
+const marked = require('marked')
+
 export default {
   props: {
     data: {
       type: Object,
-      default: {}
+      default: () => {
+        text: ""
+        links: []
+      }
     },
     isEdit: {
       type: Boolean,
@@ -116,6 +130,12 @@ export default {
   data: function () {
     return {
       visible: false
+    }
+  },
+  computed: {
+    markdown: function () {
+      this.data.html = marked(this.data.text)
+      return this.data.html
     }
   },
   methods: {

@@ -50,11 +50,15 @@ body {
 }
 
 a {
-	color: $mid-orange;
+	color: $mid-orange !important;
+}
+
+a:-webkit-any-link {
+	color: $mid-orange !important;
 }
 
 a:hover{
-	color: $dark-orange;
+	color: $dark-orange !important;
 }
 
 button {
