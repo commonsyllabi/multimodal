@@ -6,7 +6,8 @@
     <h3 v-if="this.visible">
       details
     </h3>
-    <textarea type="text" v-if="this.visible" :disabled="!this.isEdit" class="writeup" v-model:value="data.text" placeholder="write your notes for this particular page here"></textarea>
+    <textarea type="text" v-if="this.visible && this.isEdit" class="writeup" v-model:value="data.text" placeholder="write your notes for this particular page here"></textarea>
+    <div v-if="this.visible && !this.isEdit" class="writeup" v-html="markdown"></div>
   </div>
 
 </template>
@@ -46,6 +47,7 @@ h3{
 }
 
 .writeup{
+  color: $main-bg-color;
   width: 90%;
   height: 80%;
   border: none;
@@ -56,9 +58,17 @@ h3{
   font-size: 1.2em;
   font-family: 'Inter UI';
 }
+
+textarea{
+  font-style: italic;
+}
+
 </style>
 
 <script>
+
+const marked = require('marked')
+
 export default {
   props: {
     data: {
@@ -77,13 +87,17 @@ export default {
       visible: false
     }
   },
+  computed: {
+    markdown: function () {
+      this.data.html = marked(this.data.text)
+      return this.data.html
+    }
+  },
   methods: {
     toggleView(e) {
       this.visible = !this.visible
       e.target.parentNode.style.width = this.visible ? '65vw' : '0px'
     }
-  },
-  mounted(){
   }
 }
 </script>
