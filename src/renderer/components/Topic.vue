@@ -400,7 +400,10 @@ export default {
           "type": "txt"
         }],
         notes: [],
-        writeup: {"text":""}
+        writeup: {
+          "text":"",
+          "links": ""
+        }
       })
 
       setTimeout(() => {
@@ -426,7 +429,10 @@ export default {
               "type": "txt"
             }],
             notes: [],
-            writeup: {"text":""}
+            writeup: {
+              "text":"",
+              "links":""
+            }
           }
         ]
       })
@@ -487,7 +493,7 @@ export default {
     this.data = window.data
     for(let concept of this.data.concepts)
         concept.context.links = concept.context.links == undefined ? [] : concept.context.links
-        
+
     this.data.overview = this.data.overview ? this.data.overview : {"text":""}
 
     this.currentConcept = window.currentConcept
