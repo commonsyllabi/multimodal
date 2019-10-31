@@ -2,7 +2,7 @@
   <div class="overview-container">
     <div class="overview-toggle-inner" @click="toggleView">
     </div>
-    <h3>
+    <h3 v-if="this.isEdit">
       overview
     </h3>
     <textarea v-if="this.visible && this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>

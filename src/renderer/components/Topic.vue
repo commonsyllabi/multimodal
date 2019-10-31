@@ -7,6 +7,7 @@
         <input class="concept-name" type="text" :disabled="!isEdit" v-model:value="data.concepts[currentConcept].name"/>
       </div>
       <span v-for="(concept, index) in data.concepts">
+        <h1 class="concept-break">{{concept.name}}</h1>
         <Concept class="concept-group" :data="concept" :subject="data.subject" :concept="index" @new-note="handleNewNote" :key="index" :isEdit="isEdit"/>
       </span>
     </div>
@@ -61,6 +62,7 @@
   position: absolute;
   top: 0px;
   right: 0px;
+  border: 4px solid $main-bg-color;
 }
 
 .concept-name{
@@ -74,12 +76,20 @@
   border: 4px solid $main-bg-color;
 }
 
+.concept-break{
+  width: 100%;
+  background-color: $main-fg-color;
+  color: $main-bg-color;
+  text-align: center;
+  margin-top: 0;
+  padding: 10px 0px 10px 0px;
+}
+
 .concept-group{
   height: auto;
   overflow: visible;
   position: relative;
   color: $main-fg-color;
-  border-bottom: thick double $main-fg-color;
 }
 
 
