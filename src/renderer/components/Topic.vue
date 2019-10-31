@@ -71,6 +71,7 @@
   z-index: 3;
   font-size: 1.6em;
   font-weight: bold;
+  border: 4px solid $main-bg-color;
 }
 
 .concept-group{
@@ -484,10 +485,11 @@ export default {
   },
   beforeMount() {
     this.data = window.data
-    for(let concept of this.data.concepts){
-        concept.context.links = [{"href": "link text", "comment": "comemnt text"}]
+    for(let concept of this.data.concepts)
+        concept.context.links = concept.context.links == undefined ? [] : concept.context.links
+        
+    this.data.overview = this.data.overview ? this.data.overview : {"text":""}
 
-    }
     this.currentConcept = window.currentConcept
   },
   afterMount(){

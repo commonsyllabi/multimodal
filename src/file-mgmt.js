@@ -46,10 +46,15 @@ module.exports.compress = (name, target) => {
   //-- compressing each topics
   for(let t of topics){
     zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/topic.json`, `topics/${t}`)
-    let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/`)
 
-    for(let m of media){
-      zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+    try {
+      let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/`)
+
+      for(let m of media){
+        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+      }
+    } catch(e) {
+      console.log(`[FILE] folder media/ was not found in the archive, skipping...`);
     }
 
     try {
