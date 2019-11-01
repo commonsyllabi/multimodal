@@ -70,35 +70,39 @@ let cleanup = () => {
 	}
 
 	//--backup
+	console.log('[BOARD] backing up subjects.json...');
 	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
 
+	let subjects_with_topics = []
 	//-- first cleaning up topics
 	for(let s of subjects){
 		let cleaned = []
-		let current_topics = fs.readdirSync(`${__dirname}/app/imports/${s.name}/topics`)
 
-		let topic_ids = [] //-- we get all the ids of the current topics
-		for (let current_topic of current_topics)
-			topic_ids.push(JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${s.name}/topics/${current_topic}/topic.json`)).id)
+		try {
+			let current_topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${s.name}/topics`)
 
-		//-- now we cross-check
-		for(let t of s.topics)
-			for(let topic_id of topic_ids)
-				if(topic_id == t.id)
-					cleaned.push(t)
+			let topic_ids = [] //-- we get all the ids of the current topics
+			for (let current_topic of current_topics)
+				topic_ids.push(JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${s.name}/topics/${current_topic}/topic.json`)).id)
 
+			//-- now we cross-check
+			for(let t of s.topics)
+				for(let topic_id of topic_ids)
+					if(topic_id == t.id)
+						cleaned.push(t)
 
-		s.topics = cleaned
+			s.topics = cleaned
+			console.log(`[BOARD] found ${cleaned.length}/${s.topics.length} topics for ${s.name}...`);
+
+			subjects_with_topics.push(s)
+		} catch (e) {
+			console.log(`[BOARD] couldn't find subject ${s.name}, skipping...`);
+		}
 	}
 
-	//-- then cleaning up subjects without topics
-	let subjects_with_topics = []
-	for(let s of subjects)
-		if(s.topics.length > 0)
-			subjects_with_topics.push(s)
-
-
+	console.log(`[BOARD] found ${subjects_with_topics.length} subjects with topics, writing to file...`);
 	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects_with_topics))
+	console.log(`[BOARD] ...done.`);
 }
 
 // cleanup()

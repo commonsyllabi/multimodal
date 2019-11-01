@@ -168,9 +168,10 @@ class Topic {
     console.log(`[TOPIC] deleting ${topic.name}...`);
     return new Promise((resolve, reject) => {
 
-      console.log('[TOPIC] first locally');
-      let foundTopic = false
-      let foundSubject = false
+      console.log(`[TOPIC] first from: ${app.getPath('userData')}/data/subjects.json`);
+
+      let foundTopic = false, foundSubject = false
+
       let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
         if(subjects[i].id == topic.subject.id){
@@ -198,7 +199,10 @@ class Topic {
           info: "could not find the topic"
         })
 
-      console.log('[TOPIC] then remotely..');
+      //-- we have updated the subjects.json, now we write it to file again
+      fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
+
+      console.log(`[TOPIC] then remotely from: ${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/...`);
       try{
         utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/`)
         resolve()
