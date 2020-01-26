@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <canvas v-if="!isEdit" class="drawing-board" page="0-0"></canvas> -->
     <div class="main-container">
       <input type="text" v-if="isEdit" class="topic-name" v-model:value="data.name"/>
       <Overview :overview="data.overview" :isEdit="isEdit"/>
@@ -32,6 +33,15 @@
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
+
+canvas {
+ position: absolute;
+ top: 0px;
+ left: 0px;
+ z-index: 1;
+ width: 100%;
+ height: 100%;
+}
 
 .main-container {
   position: absolute;

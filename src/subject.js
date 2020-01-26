@@ -143,6 +143,11 @@ class Subject {
           //-- create the html stream
           let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
 
+	  //TODO
+	  //-- write the html file instead of passing a stream to createPDF
+	  //
+	  //--TODO DELETE ALL TEMP FILES AFTER EXPORT
+
           //-- generate the pdf
           let options = {
             border: {
@@ -151,7 +156,8 @@ class Subject {
               bottom: "0.2in",
               left: "0.125in"
             },
-            format: 'A4'
+            format: 'A4',
+	    base: 'file://'+path.resolve('.')+'/'
           }
           pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
             if(err){
