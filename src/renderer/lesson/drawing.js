@@ -3,6 +3,7 @@ let contexts = []
 let isDrawing = false
 let isDrawMode = false
 let prevx, prevy
+let orange = '#ff9933'
 
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
@@ -14,7 +15,9 @@ let init = () => {
 		setupCanvas(i)
 	}
 
-	selectCanvas(0)
+	selectCanvas(null)
+	cnv = canvases[0]
+	ctx = contexts[0]
 }
 
 let setupCanvas = (i) => {
@@ -25,7 +28,7 @@ let setupCanvas = (i) => {
 	contexts[i].lineWidth = 5
 	contexts[i].lineJoin = 'round'
 	contexts[i].lineCap = 'round'
-	contexts[i].strokeStyle = '#ff9933'
+	contexts[i].strokeStyle = orange
 
 	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
 }
@@ -33,7 +36,7 @@ let setupCanvas = (i) => {
 let selectCanvas = (_page, _concept) => {
 	for(let i in canvases){
 		if(i == 'length') break
-		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
+		if(_page && canvases[i].getAttribute('page') == `${_concept}-${_page}`){
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
