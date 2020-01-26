@@ -43,21 +43,31 @@ let selectCanvas = (_page, _concept) => {
 	}
 }
 
+// thank god: https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas#17130415
+
 let beginDraw = (e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
-	prevx = e.clientX - cnv.offsetLeft
-	prevy = e.clientY - cnv.offsetTop
+	let rect = cnv.getBoundingClientRect()
+	let scaleX = cnv.width / rect.width
+	let scaleY = cnv.height / rect.height
+
+	prevx = (e.clientX - rect.left) * scaleX
+	prevy = (e.clientY - rect.top) * scaleY
 
 	ctx.moveTo(prevx, prevy)
 }
 
 let draw = (e) => {
+	let rect = cnv.getBoundingClientRect()
+	let scaleX = cnv.width / rect.width
+	let scaleY = cnv.height / rect.height
+
 	if(!isDrawing || !isDrawMode) return
 
-	let x = e.clientX - cnv.offsetLeft
-	let y = e.clientY - cnv.offsetTop
+	let x = (e.clientX - rect.left) * scaleX
+	let y = (e.clientY - rect.top) * scaleY
 
 	ctx.beginPath();
   ctx.moveTo(prevx, prevy);
@@ -67,6 +77,10 @@ let draw = (e) => {
 
 	prevx = x
 	prevy = y
+}
+
+let map = (value, start_1, end_1, start_2, end_2) => {
+	return start_2 + (end_2 - start_2) * (value - start_1) / (end_1 - start_1)
 }
 
 let endDraw = () => {
