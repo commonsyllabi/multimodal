@@ -40,10 +40,9 @@ window.jumpToTag = globals.jumpToTag
 //------------
 //-- shortcuts
 //------------
-ipc.on('menu-save', () => {
-	window.vm.saveSession()
-})
-ipc.on('menu-exit', () => {
-	window.vm.exitSession()
-})
+ipc.on('menu-save', () => { window.vm.saveSession() })
+ipc.on('menu-exit', () => {	window.vm.exitSession() })
+ipc.on('menu-toggle-draw', () => {window.vm.toggleDraw() })
+ipc.on('menu-clear-board', () => {window.vm.clearBoard() })
+
 ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})

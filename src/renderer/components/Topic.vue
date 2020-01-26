@@ -20,14 +20,15 @@
         @go-to-concept="goToConcept" @go-to-page="goToPage"/>
     </div>
 
-    <div class="buttons-container">
-      <button class="btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
+    <!-- <div class="buttons-container"> -->
+      <!-- <button class="btn" @click="toggleDraw"> {{isDrawing ? "write" : "draw"}} </button>
       <button class="btn" @click="clearBoard"> clear </button>
       <button class="btn" @click="editLesson"> {{isEdit ? "present" : "edit"}} </button>
-      <button class="btn" @click="saveSession"> save </button>
-      <button class="btn right" @click="exitSession"> exit </button>
-      <div class="msg-log" id="msg-log"></div>
-    </div>
+      <button class="btn" @click="saveSession"> save </button> -->
+      <!-- <button class="btn right" @click="exitSession"> exit </button> -->
+
+    <!-- </div> -->
+    <div class="msg-log" id="msg-log">saved</div>
   </div>
 </template>
 
@@ -103,62 +104,27 @@ canvas {
 }
 
 
-//---------------- BUTTONS
-.buttons-container {
-	position: fixed;
-	z-index: 3;
-	bottom: 0px;
-	left: 0px;
-	padding-left: 10px;
-	height: 35px;
-  line-height: 35px;
-	width: 100%;
+//---------------- MESSAGE BOX
+.msg-log {
+  position: fixed;
+  z-index: 4;
 
-	background-color: $main-bg-color;
-	border-top: 2px solid $main-fg-color;
+  width: 100vw;
+  height: 4vh;
 
-	button {
-		margin-right: 2%;
-    border: none;
-	}
+  bottom: 0px;
+  left: 0px;
 }
-
-.btn {
-	border: none;
-	color: $main-fg-color;
-	background-color: $main-bg-color;
-  font-size: $btn-size;
-	font-family: 'Inter UI';
-	cursor: pointer;
-  font-size: 1.5em;
-
-  @media (max-width: $break-medium){
-		font-size: 1.5em;
-	}
-}
-
-.btn:hover{
-	background-color: $main-bg-color;
-	color: $main-fg-color;
-}
-
-.btn:active{
-	border: none;
-}
-
-.exit-lesson, .save-session {
-	float: right;
-}
-
 
 //--------------- NAVIGATION
 .nav-container{
 	position: fixed;
 	top: 0px;
 	right: 0px;
+  z-index: 3;
 	min-width: 10%;
 	width: 10vw;
-	height: 97vh;
+	height: 100vh;
 
 	background-color: $main-bg-color;
 	border-left: 2px solid $main-fg-color;

@@ -75,11 +75,12 @@ textarea{
 
 .msg-log {
   font-family: "Inter UI", serif;
+  display: inline-block;
 	float: right;
+  z-index: 5;
 	height:100%;
-	margin-right: 3%;
-	padding-right: 5px;
-	padding-left: 5px;
+  width: 40vw;
+  text-align: center;
 	font-weight: bold;
 	font-size: $btn-size;
 	opacity: 0;
