@@ -43,7 +43,7 @@
 .nav{
   font-size: 1em;
   min-width: 50%;
-  max-width: 80%;
+  max-width: 92%;
   margin-left: 0;
 }
 
@@ -68,11 +68,15 @@
 }
 
 .concept, .page {
-	max-width: 95%;
+	width: 100%;
 	margin: 0%;
   padding-right: 10px;
   float: right;
 	text-align: right;
+}
+
+.page {
+  font-size: 0.9em;
 }
 
 .concept, .edit-input, .input-holder{
@@ -88,12 +92,12 @@
 	color: $main-bg-color;
 }
 
-.current-page {
-	border-left: 10px solid $main-fg-color;
-}
-
 .current-page .nav{
   font-weight: bold;
+}
+
+.current-page::before{
+  content: "->";
 }
 
 .edit-input{
