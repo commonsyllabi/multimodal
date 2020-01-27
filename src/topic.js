@@ -5,6 +5,7 @@ const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 const path = require('path')
+const pdf = require('html-pdf')
 const utils = require('./utils.js')
 const file_mgmt = require('./file-mgmt.js')
 
@@ -215,52 +216,103 @@ class Topic {
 
 
 
-  static export(_info, _type, _path = undefined, resolve, reject){
+  static export(_data, _type, _path){
+    console.log(`[TOPIC] exporting - ${_data.name} - ${_type}`);
+    let topics_to_export = []
+    return new Promise((resolve, reject) => {
 
-    let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_info.subject}/topics/${_info.name}/topic.json`))
+      if(_data.name){ //-- we are exporting one specific topic
+        let c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${_data.name}/topic.json`))
+        topics_to_export.push(c)
+      }else{ //-- we are exporting all of them
+        let s = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
 
-    if(_type == 'html'){
-      let compiled = pug.renderFile(__dirname+'/views/export.pug', topic)
+        for(let t of s.topics){
+          let c = null
+          try{
+            c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${t.name}/topic.json`))
+          }catch(e){
+            console.log(`[SUBJECT] couldn't open ${t.name} for export`);
+          }
 
-      // we copy all the existing assets from the multimodal to the html exports
-      let media_path = `${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/media/`
+          if(c != null)
+            topics_to_export.push(c)
+        }
 
-      console.log('aborted');
+        console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
+      }
 
-      //TODO this very weird, it should copy the export function in Subject.js
+      if(_type == 'html'){
+        //copy all assets over to new folder
+        utils.touchDirectory(`${_path}/${_data.topic}_assets/`)
 
-      // fs.readdirSync(media_path).forEach((file) => {
-      //   if(file != '.DS_Store')
-      //     fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${topic.subject.path}/${topic.subject.name}/exports/assets/`, file)))
-      // })
-      //
-      // // generating the HTML
-      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/${topic.name}.html`, compiled)
-      // console.log(`[EXPORTED] ${topic.subject.path}/exports/${topic.name}.html`)
-      //
-      // //-- rebuild the index with all the already exported topics
-      // //-- find the topic
-      // let exportedtopics = []
-      // let local_files = fs.readdirSync(`${topic.subject.path}/${topic.subject.name}/exports`)
-      // for(let f of local_files)
-      //   if(f != 'index.html' && f.indexOf('.html') > -1)
-      //     exportedtopics.push(f.replace('.html', ''))
-      //
-      // let c = {
-      //   'subject': topic.subject.name,
-      //   'topics': exportedtopics
-      // }
-      //
-      // //-- render the template
-      // compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
-      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/index.html`, compiled)
-      //
-      // console.log('[REBUILT]', 'index.html')
-      //
-      // //-- return the url to open the window
-      // let url = `${topic.subject.path}/${topic.subject.name}/exports/index.html`
-      // return new Promise((resolve, reject) => {resolve(url)})
-    }
+        for(let topic of topics_to_export){
+          for(let concept of topic.concepts)
+            for(let page of concept.pages)
+              for(let prep of page.preps)
+                if(prep.type == 'img' || prep.type == 'vid')
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${_path}/${topic.subject.name}_assets/${prep.name}`))
+
+          let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+          fs.writeFileSync(`${_path}/${topic.name}.html`, render)
+        }
+
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
+        subject.topics = topics_to_export
+        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
+        fs.writeFileSync(`${path}/index.html`, index)
+        resolve()
+      }else if(_type == 'pdf'){
+        let counter = 0 //-- to keep track of how many renders we've finished
+
+        //-- first copy all the media assets and html to a temp folder
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject}_assets/`)
+        for(let topic of topics_to_export){
+          for(let concept of topic.concepts)
+            for(let page of concept.pages)
+              for(let prep of page.preps)
+                if(prep.type == 'img' || prep.type == 'vid')
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
+
+          //-- create the html stream
+          let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+
+	  //TODO
+	  //-- write the html file instead of passing a stream to createPDF
+	  //
+	  //--TODO DELETE ALL TEMP FILES AFTER EXPORT
+
+          //-- generate the pdf
+          let options = {
+            border: {
+              top: "0.2in",
+              right: "0.125in",
+              bottom: "0.2in",
+              left: "0.125in"
+            },
+            format: 'A4',
+	          base: 'file://'+path.resolve('.')+'/'
+          }
+
+          pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+            if(err){
+              console.log(err);
+              utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+              reject(err)
+            }else{
+              if(++counter == topics_to_export.length){
+                utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+                resolve()
+              }
+            }
+          })
+        }
+
+      }else{
+        console.log('[SUBJECT] got wrong type');
+        reject()
+      }
+    })
   }
 
   delete(){
