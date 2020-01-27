@@ -1,15 +1,24 @@
 <template>
   <div class="page-group" :id="index" :page="`${concept}-${index}`" :concept="concept">
+
+    <!-- CANVAS -->
     <canvas v-if="!isEdit" class="drawing-board" :page="`${concept}-${index}`"></canvas>
+
+    <!-- PAGE NAME -->
     <input class="edit-input" type="text" v-if="isEdit" placeholder="page name here" v-model:value="data.name">
     <div v-else class="title" :concept="index">
       {{data.name}}
     </div>
 
+    <!-- ALL PREPS -->
     <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" :index="index"
       @remove-prep="removePrep(index)"
       @add-prep="addPrep" :isEdit="isEdit"/>
+
+    <!-- ALL NOTES -->
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
+
+    <!-- WRITEUP -->
     <Writeup :data="data.writeup" :isEdit="isEdit"/>
   </div>
 </template>
@@ -102,17 +111,26 @@ export default {
     }
   },
   methods: {
+    //-----------
+    //-- this handles the new-note event from Note
+    //-- and passes it on to the Concept
+    //-----------
     handleNewNote(el) {
       this.$emit('new-note', el)
     },
-    addPrep(d) {
+    //-----------
+    //-- creates new preps
+    //-- based on the type
+    //-- and at the given index
+    //-----------
+    addPrep(_data) {
       let p = {}
-      switch (d.type) {
+      switch (_data.type) {
         case 'txt':
           p = {
             "tag": "",
             "text": "",
-            "type": d.type
+            "type": _data.type
           }
           break;
         case 'url':
@@ -120,7 +138,7 @@ export default {
             "tag": "",
             "text": "",
             "url": "",
-            "type": d.type
+            "type": _data.type
           }
           break;
         case 'img':
@@ -128,7 +146,7 @@ export default {
             "tag": "",
             "name": "",
             "src": "",
-            "type": d.type
+            "type": _data.type
           }
           break;
         case 'file':
@@ -136,31 +154,38 @@ export default {
             "tag": "",
             "name": "",
             "path": "",
-            "type": d.type
+            "type": _data.type
           }
           break;
         default:
           break
       }
-      this.data.preps.splice(d.index+1, 0, p)
+      this.data.preps.splice(_data.index+1, 0, p)
     },
-    removePrep(i) {
-      let a = this.data.preps.slice(0, i)
-      let b = this.data.preps.slice(i+1, this.data.preps.length)
+    //-----------
+    //-- removes the prep from the given index
+    //-----------
+    removePrep(_i) {
+      let a = this.data.preps.slice(0, _i)
+      let b = this.data.preps.slice(_i+1, this.data.preps.length)
       let c = a.concat(b)
       this.data.preps = c
     }
   },
   mounted(){
+    //-----------
+    //-- sets up the event listener to add new notes
+    //-- which will trigger the `new-note` event in Note.vue
+    //-----------
     this.$el.ondblclick = (e) => {
-      if(window.currentNote == null && !this.isEdit){
+      if(window.currentNote == null && !this.isEdit)
               this.data.notes.push({
                 text: null,
                 tag: "",
                 type: "text",
                 x: e.clientX,
                 y: e.clientY})
-      }
+
     }
   }
 }

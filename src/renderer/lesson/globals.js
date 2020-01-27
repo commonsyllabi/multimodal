@@ -2,10 +2,14 @@
 
 import * as drawing from './drawing.js'
 
-let currentNote = null
 let currentPage = 0, previousPage = 0
 let currentConcept = 0, previousConcept = 0
 
+//------------
+//-- this adds a link to the tag
+//-- so that we can jump from one concept to another
+//TODO: this can probably be replaced with vue
+//------------
 let initTags = () => {
 	let els = document.getElementsByClassName('prep')
 	for(let e of els){
@@ -16,27 +20,29 @@ let initTags = () => {
 	}
 }
 
+//------------
+//-- jumps to specified tag
+//------------
 let jumpToTag = (_tag) => {
 	let concepts = document.getElementsByClassName('page')
 
 	for(let co of concepts)
-		if(co.getAttribute('tag') == _tag)
+		if(co.getAttribute('tag') == _tag){
 			setCurrentPage(co.getAttribute('page'))
+			setCurrentConcept(co.getAttribute('concept'))
+		}
 
 }
 
-let setCurrentNote = (el) => {
-	currentNote = el
-}
-
-let getCurrentNote = () => {
-	return currentNote
-}
-
-let setCurrentConcept = (el) => {
+//------------
+//-- takes the index from a CONCEPT element
+//-- and sets it as the current concept
+//-- and keeps track of the previous concept
+//------------
+let setCurrentConcept = (_index) => {
 	previousConcept = currentConcept
-	currentConcept = el
-	window.currentConcept = currentConcept
+	currentConcept = _index
+	window.currentConcept = _index
 }
 
 let getCurrentConcept = () => {
@@ -47,9 +53,17 @@ let getPreviousConcept = () => {
 	return previousConcept
 }
 
-let setCurrentPage = (page, shouldNavigate = false) => {
+
+//------------
+//-- takes the index from a PAGE element
+//-- and sets it as the current PAGE
+//-- and highlights the navigation
+//-- and keeps track of the previous concept
+//------------
+let setCurrentPage = (_index, _navigate = false) => {
 	previousPage = currentPage
-	currentPage = page ? page : 0
+	currentPage = _index ? _index : 0
+	window.currentPage = currentPage
 
 	//-- highlight navigation
 	let cs = document.getElementsByClassName('page')
@@ -60,11 +74,11 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 	}
 
 	//-- scroll element into view
-	if(shouldNavigate){
+	if(_navigate){
 		let ns = document.getElementsByClassName('page-group')
 		for(let n of ns){
 			if(n.getAttribute('page') == `${currentConcept}-${currentPage}`){
-				n.scrollIntoView({behavior: "smooth"})
+				n.scrollIntoView({behavior: 'smooth'})
 				n.style.pointerEvents = 'auto'
 			}else{
 				n.style.pointerEvents = 'none'
@@ -72,9 +86,8 @@ let setCurrentPage = (page, shouldNavigate = false) => {
 		}
 	}
 
+	//-- select the corresponding canvas
 	drawing.selectCanvas(currentPage, currentConcept)
-
-	window.currentConcept = currentConcept
 }
 
 let getCurrentPage = () => {
@@ -85,9 +98,4 @@ let getPreviousPage = () => {
 	return previousPage
 }
 
-let setCurrrentPosition = (pos) => {
-	currentNote.style.top = pos.y+'px'
-	currentNote.style.left = pos.x+'px'
-}
-
-export { initTags, jumpToTag, currentNote, getCurrentNote, setCurrentNote, getCurrentConcept, setCurrentConcept, getPreviousConcept, setCurrrentPosition, setCurrentPage, getCurrentPage, getPreviousPage}
+export { initTags, jumpToTag, getCurrentConcept, setCurrentConcept, getPreviousConcept, setCurrentPage, getCurrentPage, getPreviousPage}

@@ -1,37 +1,42 @@
 <template>
-
   <div class="prep-holder">
+
+    <!-- TEXT PREP -->
     <div v-if="data.type == 'txt'" class="prep written" :concept="index" :tag="data.tag">
       <input class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
       <span v-else>{{data.text}}</span>
     </div>
 
+    <!-- URL PREP -->
     <div v-else-if="data.type == 'url'" class="prep written" :concept="index" :tag="data.tag">
       <input class="edit-input" type="text" v-if="isEdit" placeholder="resource text" v-model:value="data.text">
       <input class="edit-input" type="text" v-if="isEdit" placeholder="resource link" v-model:value="data.url">
       <a v-else :href="data.url" @click="openLink" target="_blank">{{data.text}}</a>
     </div>
 
+    <!-- FILE PREP -->
     <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
-      <input type="file" v-if="isEdit" @change="handlePathInput"></input>
+      <input class="file-input" type="file" v-if="isEdit" @change="handlePathInput"></input>
       <a v-else :href="data.path" @click="openPath">{{data.name}}</a>
     </div>
 
+    <!-- IMAGE PREP -->
     <div v-else-if="data.type == 'img'" class="prep moveable" :concept="index" :tag="data.tag">
       <div v-if="isEdit">
-        <input type="file" @change="handleFileInput"></input>
+        <input class="file-input" type="file" @change="handleFileInput"></input>
         <img class="preview" :src="data.src"/>
       </div>
       <img v-else :name="data.name" :src="data.src"/>
     </div>
 
+    <!-- VIDEO PREP -->
     <div v-else-if="data.type == 'vid'" class="prep written " :concept="index" :tag="data.tag">
-      <video max-width="800px", max-height="600px" controls>
+      <video max-width="800px" max-height="600px" controls>
         <source :name="data.name" :src="`assets/${subject.name}/lessons/${name}/media/${data.name}`"/>
       </video>
     </div>
 
-
+    <!-- CONTROLS -->
     <div v-if="isEdit"class="add-buttons">
       <button @click="addPrep('txt')">txt</button>
       <button @click="addPrep('url')">url</button>
@@ -40,14 +45,13 @@
       <button v-if="isEdit" @click="removePrep">-</button>
     </div>
   </div>
-
 </template>
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
 button{
-    pointer-events: all;
+    pointer-events: all; //-- always catch the click events
 }
 
 .prep-holder{
@@ -161,13 +165,13 @@ export default {
     addPrep(t){
       this.$emit('add-prep', {type:t, index:this.index})
     },
-    openLink(evt, el){
-      evt.preventDefault()
-      ipc.send('open-url', evt.target.href)
+    openLink(e){
+      e.preventDefault()
+      ipc.send('open-url', e.target.href)
     },
-    openPath(evt, el){
-      evt.preventDefault()
-      ipc.send('open-path', evt.target.href)
+    openPath(e){
+      e.preventDefault()
+      ipc.send('open-path', e.target.href)
     },
     handleFileInput(e) {
       e.preventDefault()
@@ -183,10 +187,12 @@ export default {
   mounted(){
     let el = this.$el.children[0]
 
+    //-- sanity check
     if(el == undefined || el.getAttribute('class').indexOf('moveable') == -1)
       return
 
-    //-- make them reactive to a click (for notes that have been loaded from previous sessions)
+    //-- for notes that have been loaded from previous sessions
+    //-- make them reactive to a click
     this.$el.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
 			evt.target.setAttribute('id', 'current')

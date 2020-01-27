@@ -41,7 +41,7 @@ $break-medium: 1300px;
 }
 
 body {
-	font-family: "Inter UI", serif, 'Trebuchet MS';
+	font-family: "Inter UI", serif, 'Trebuchet MS' !important;
   background-color: $main-bg-color;
   color: $main-fg-color;
   overflow-x: hidden;
@@ -117,7 +117,7 @@ div, img {
 	-ms-user-select: none;
 }
 
-.cover{
+.overlay{
   position: fixed;
   top: 0px;
   left: 0px;

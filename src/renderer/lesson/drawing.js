@@ -1,14 +1,19 @@
-let canvases, cnv, ctx, ctn, toggle_btn
+let canvases, cnv, ctx, ctn
 let contexts = []
 let isDrawing = false
 let isDrawMode = false
 let prevx, prevy
 let orange = '#ff9933'
 
+//------------
+//-- finds all the <canvas> and sets them up
+//-- finds the main container
+//-- resets the attributes of all canvases
+//-- sets the first canvas
+//------------
 let init = () => {
 	canvases = document.getElementsByClassName('drawing-board')
 	ctn = document.getElementsByClassName('main-container')[0]
-	toggle_btn = document.getElementsByClassName('toggle-draw')[0]
 
 	for(let i in canvases){
 		if(i == 'length') break
@@ -20,19 +25,30 @@ let init = () => {
 	ctx = contexts[0]
 }
 
-let setupCanvas = (i) => {
+//------------
+//-- gets the context
+//-- sets up the size
+//-- appearance of stroke
+//-- and clears it up
+//------------
+let setupCanvas = (_i) => {
+	contexts[_i] = canvases[_i].getContext('2d')
+	canvases[_i].width = 1800
+	canvases[_i].height = 1000
 
-	contexts[i] = canvases[i].getContext('2d')
-	canvases[i].width = 1800
-	canvases[i].height = 1000
-	contexts[i].lineWidth = 5
-	contexts[i].lineJoin = 'round'
-	contexts[i].lineCap = 'round'
-	contexts[i].strokeStyle = orange
+	contexts[_i].lineWidth = 5
+	contexts[_i].lineJoin = 'round'
+	contexts[_i].lineCap = 'round'
+	contexts[_i].strokeStyle = orange
 
-	contexts[i].clearRect(0, 0, canvases[i].height, canvases[i].width)
+	contexts[_i].clearRect(0, 0, canvases[_i].height, canvases[_i].width)
 }
 
+//------------
+//-- takes a page and a concept number
+//-- find the corresponding canvas
+//-- activates it for drawing
+//------------
 let selectCanvas = (_page, _concept) => {
 	for(let i in canvases){
 		if(i == 'length') break
@@ -46,9 +62,12 @@ let selectCanvas = (_page, _concept) => {
 	}
 }
 
-// thank god: https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas#17130415
-
-let beginDraw = (e) => {
+//------------
+//-- handles the drawing
+//-- takes into account the difference in scale
+//-- thank god: https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas#17130415
+//------------
+let beginDraw = (_e) => {
 	if(!isDrawMode) return
 
 	isDrawing = true
@@ -56,34 +75,30 @@ let beginDraw = (e) => {
 	let scaleX = cnv.width / rect.width
 	let scaleY = cnv.height / rect.height
 
-	prevx = (e.clientX - rect.left) * scaleX
-	prevy = (e.clientY - rect.top) * scaleY
+	prevx = (_e.clientX - rect.left) * scaleX
+	prevy = (_e.clientY - rect.top) * scaleY
 
 	ctx.moveTo(prevx, prevy)
 }
 
-let draw = (e) => {
+let draw = (_e) => {
 	let rect = cnv.getBoundingClientRect()
 	let scaleX = cnv.width / rect.width
 	let scaleY = cnv.height / rect.height
 
 	if(!isDrawing || !isDrawMode) return
 
-	let x = (e.clientX - rect.left) * scaleX
-	let y = (e.clientY - rect.top) * scaleY
+	let x = (_e.clientX - rect.left) * scaleX
+	let y = (_e.clientY - rect.top) * scaleY
 
-	ctx.beginPath();
-  ctx.moveTo(prevx, prevy);
-  ctx.lineTo(x, y);
-  ctx.closePath();
-  ctx.stroke();
+	ctx.beginPath()
+	ctx.moveTo(prevx, prevy)
+	ctx.lineTo(x, y)
+	ctx.closePath()
+	ctx.stroke()
 
 	prevx = x
 	prevy = y
-}
-
-let map = (value, start_1, end_1, start_2, end_2) => {
-	return start_2 + (end_2 - start_2) * (value - start_1) / (end_1 - start_1)
 }
 
 let endDraw = () => {
@@ -96,6 +111,10 @@ let clearBoard = () => {
 	ctx.clearRect(0, 0, cnv.width, cnv.height)
 }
 
+//------------
+//-- toggles draw mode
+//-- and switches the index of the canvas and the main-container
+//------------
 let toggleDraw = (mode) => {
 	isDrawMode = mode
 	if(isDrawMode){
