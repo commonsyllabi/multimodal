@@ -57,8 +57,8 @@ subject-container<template>
     <!-- CONTROLS -->
     <div class="buttons-container">
       <button class="btn left" @click="showCreate = true">create</button>
-      <button class="btn left" @click="exportTo('html')" :disabled="!(selectedSubject || selectedTopic)">to html</button>
-      <button class="btn left" @click="exportTo('pdf')" :disabled="!(selectedSubject || selectedTopic)">to pdf</button>
+      <button class="btn left" @click="exportTo('html', selectedSubject, selectedTopic)" :disabled="!(selectedSubject || selectedTopic)">to html</button>
+      <button class="btn left" @click="exportTo('pdf', selectedSubject, selectedTopic)" :disabled="!(selectedSubject || selectedTopic)">to pdf</button>
       <button class="btn right" @click="importFrom">import</button>
 
       <div class="msg-log" id="msg-log"></div>
@@ -231,6 +231,7 @@ export default {
       _e.target.setAttribute('class', `${_class} selected`)
 
       this.selectedSubject = true
+      this.selectedTopic = false
     },
     //------------
     //-- sets the current topic, taking event, subject and path
@@ -260,10 +261,11 @@ export default {
         btn.disabled = false
 
       this.selectedTopic = true
+      this.selectedSubject = false
     },
     openTopic(){
       if(this.current == {}) return
-      
+
     	ipc.send('open-topic', this.current)
     },
     //------------
@@ -283,9 +285,14 @@ export default {
     //------------
     //-- opens a dialog box to export
     //-- either to html or to pdf
+    //-- checks if topic or subject is non-null
+    //-- and exports that
     //------------
-    exportTo(_type) {
+    exportTo(_type, _selectedSubject, _selectedTopic) {
       if(this.current == {}) return
+
+      let format = _selectedSubject ? 'subject' : _selectedTopic ? 'topic' : null
+      if(format == null) return
 
       let options = {
     		'title':'Select export path',
@@ -293,8 +300,8 @@ export default {
     		'properties':['openDirectory', 'createDirectory']
     	}
 
-    	dialog.showOpenDialog(options, (p) => {
-    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: _type}))
+    	dialog.showOpenDialog(options, (_path) => {
+    		ipc.send('export', JSON.stringify({info: this.current, path: _path, type: _type, format: format}))
     	})
     },
     //------------

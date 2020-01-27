@@ -10,11 +10,11 @@ const utils = require('./utils.js')
 const file_mgmt = require('./file-mgmt.js')
 
 class Subject {
-  constructor(data){
-    this.id = data.id ? data.id : generateId(data.name)
-    this.name = data.name.trim()
-    this.path = data.path
-    this.description = data.description
+  constructor(_data){
+    this.id = _data.id ? _data.id : generateId(_data.name)
+    this.name = _data.name.trim()
+    this.path = _data.path
+    this.description = _data.description
     this.created = new Date()
     this.updated = null
     this.topics = []
@@ -74,7 +74,7 @@ class Subject {
     return new Promise((resolve, reject) => {
       try {
         let file = file_mgmt.extract(path)
-        console.log('subject',file);
+        console.log(`[SUBJECT] success importing: ${file}`);
         resolve(file)
       } catch (e) {
         reject(e)
@@ -82,21 +82,24 @@ class Subject {
     })
   }
 
-  static export(data, type, path){
-    console.log(`[SUBJECT] exporting - ${data.subject} - ${type}`);
+  static export(_data, _type, _path){
+
+    console.log(`[SUBJECT] exporting - ${_data.subject} - ${_type}`);
     let topics_to_export = []
     return new Promise((resolve, reject) => {
+      console.log('RETURN - actually write that function! this is currently in the "topic mode"');
+      reject()
 
-      if(data.name){ //-- we are exporting one specific topic
-        let c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+      if(_data.name){ //-- we are exporting one specific topic
+        let c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${_data.name}/topic.json`))
         topics_to_export.push(c)
       }else{ //-- we are exporting all of them
-        let s = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
+        let s = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
 
         for(let t of s.topics){
           let c = null
           try{
-            c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${t.name}/topic.json`))
+            c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${t.name}/topic.json`))
           }catch(e){
             console.log(`[SUBJECT] couldn't open ${t.name} for export`);
           }
@@ -108,31 +111,31 @@ class Subject {
         console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
       }
 
-      if(type == 'html'){
+      if(_type == 'html'){
         //copy all assets over to new folder
-        utils.touchDirectory(`${path}/${data.subject}_assets/`)
+        utils.touchDirectory(`${_path}/${_data.subject}_assets/`)
 
         for(let topic of topics_to_export){
           for(let concept of topic.concepts)
             for(let page of concept.pages)
               for(let prep of page.preps)
                 if(prep.type == 'img' || prep.type == 'vid')
-                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${path}/${topic.subject.name}_assets/${prep.name}`))
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${_path}/${topic.subject.name}_assets/${prep.name}`))
 
           let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
-          fs.writeFileSync(`${path}/${topic.name}.html`, render)
+          fs.writeFileSync(`${_path}/${topic.name}.html`, render)
         }
 
-        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
         subject.topics = topics_to_export
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
         fs.writeFileSync(`${path}/index.html`, index)
         resolve()
-      }else if(type == 'pdf'){
+      }else if(_type == 'pdf'){
         let counter = 0 //-- to keep track of how many renders we've finished
 
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${data.subject}_assets/`)
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject}_assets/`)
         for(let topic of topics_to_export){
           for(let concept of topic.concepts)
             for(let page of concept.pages)
@@ -157,7 +160,7 @@ class Subject {
               left: "0.125in"
             },
             format: 'A4',
-	    base: 'file://'+path.resolve('.')+'/'
+	          base: 'file://'+path.resolve('.')+'/'
           }
           pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
             if(err){
