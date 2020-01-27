@@ -1,9 +1,13 @@
 <template>
   <div class="overview-container">
+
+    <!-- HANDLE -->
     <div class="overview-toggle-inner" @click="toggleView">
     </div>
-    <!-- <input v-if="this.visible" :disabled="!this.isEdit" class="subject-name" type="text" v-model:value="topic"> -->
-    <textarea v-if="this.visible" :disabled="!this.isEdit" class="overview" v-model:value="overview.text"></textarea>
+
+    <h3 v-if="this.visible && this.isEdit">overview</h3>
+    <textarea v-if="this.visible && this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>
+    <div v-if="this.visible && !this.isEdit" class="overview" v-html="markdown"></div>
   </div>
 </template>
 
@@ -16,12 +20,15 @@
   left: 10px;
   top: -10px;
   width: 30vw;
-  height: -20vh;
+  height: 0px;
   padding: 5px;
+  padding-top: 15px;
   background-color: $main-fg-color;
   color: $main-bg-color;
   transition: all 0.2s linear;
 }
+
+//-- little clickable handle
 .overview-toggle-inner{
 	position:absolute;
 	width: 10vw;
@@ -35,15 +42,26 @@
   border: 5px solid $main-bg-color;
 }
 
+h3{
+  margin: 0;
+}
+
+//-- textarea
 .overview{
   width: 90%;
   height: 80%;
-  margin: 10px;
+  margin: 10px 10px 10px 0px;
+  padding-left: 5px;
+  border-left: 2px solid $main-bg-color;
+  background: transparent;
   font-size: 1.2em;
 }
 </style>
 
 <script>
+
+const marked = require('marked')
+
 export default {
   props: {
     overview: {
@@ -61,6 +79,12 @@ export default {
       name: {
         text: ""
       }
+    }
+  },
+  computed: {
+    markdown: function() { //-- parse the text as markdown and render as html
+      this.overview.html = marked(this.overview.text)
+      return this.overview.html
     }
   },
   methods: {

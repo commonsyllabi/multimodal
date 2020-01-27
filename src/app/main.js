@@ -13496,9 +13496,6 @@ const msgbox = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 
 window.msgbox = msgbox.$children[0]
 
-// TODO: deal later with shortcuts
-
-
 ipc.on('menu-create', () => { welcome.createLesson()})
 ipc.on('menu-open', () => { welcome.openLesson()})
 ipc.on('menu-edit', () => { welcome.editLesson()})

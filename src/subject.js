@@ -1,4 +1,7 @@
-const fs = require('fs')
+'use strict'
+
+const app = require('electron').app
+const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 const path = require('path')
@@ -21,16 +24,16 @@ class Subject {
 
   init(){
     //add to the internal data
-    let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+    let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
     let data = this.toJSON()
     subjects.push(data)
-  	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects))
+  	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
     //create subject folder locally
-    utils.touchDirectory(`${os.tmpdir()}/app/imports/${this.name}/topics`)
+    utils.touchDirectory(`${app.getPath('userData')}/app/imports/${this.name}/topics`)
 
     //write the subject file locally
-    fs.writeFileSync(`${os.tmpdir()}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
+    fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
   }
 
   static remove(subject){
@@ -39,7 +42,7 @@ class Subject {
 
       console.log('[SUBJECT] first from the subjects list');
       let foundSubject = false
-      let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+      let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
         if(subjects[i].id == subject.id){
           foundSubject = true
@@ -57,7 +60,7 @@ class Subject {
 
       console.log('[SUBJECT] then the local folder..');
       try{
-        utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/${subject.name}/`)
+        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${subject.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -85,15 +88,15 @@ class Subject {
     return new Promise((resolve, reject) => {
 
       if(data.name){ //-- we are exporting one specific topic
-        let c = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
+        let c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
         topics_to_export.push(c)
       }else{ //-- we are exporting all of them
-        let s = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
+        let s = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
 
         for(let t of s.topics){
           let c = null
           try{
-            c = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${t.name}/topic.json`))
+            c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${t.name}/topic.json`))
           }catch(e){
             console.log(`[SUBJECT] couldn't open ${t.name} for export`);
           }
@@ -120,7 +123,7 @@ class Subject {
           fs.writeFileSync(`${path}/${topic.name}.html`, render)
         }
 
-        let subject = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/subject.json`))
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
         subject.topics = topics_to_export
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
         fs.writeFileSync(`${path}/index.html`, index)
@@ -129,16 +132,21 @@ class Subject {
         let counter = 0 //-- to keep track of how many renders we've finished
 
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${os.tmpdir()}/app/imports/temp/${data.subject}_assets/`)
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${data.subject}_assets/`)
         for(let topic of topics_to_export){
           for(let concept of topic.concepts)
             for(let page of concept.pages)
               for(let prep of page.preps)
                 if(prep.type == 'img' || prep.type == 'vid')
-                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
+                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
 
           //-- create the html stream
           let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+
+	  //TODO
+	  //-- write the html file instead of passing a stream to createPDF
+	  //
+	  //--TODO DELETE ALL TEMP FILES AFTER EXPORT
 
           //-- generate the pdf
           let options = {
@@ -148,7 +156,8 @@ class Subject {
               bottom: "0.2in",
               left: "0.125in"
             },
-            format: 'A4'
+            format: 'A4',
+	    base: 'file://'+path.resolve('.')+'/'
           }
           pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
             if(err){

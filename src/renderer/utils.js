@@ -2,6 +2,12 @@
 
 exports = module.exports = {}
 
+let delay = 2000
+
+//------------
+//-- set message displays information at the bottom of the screen
+//-- and fades out after `delay`
+//------------
 module.exports.setMessage = (_msg, _type) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
@@ -11,5 +17,5 @@ module.exports.setMessage = (_msg, _type) => {
 	setTimeout(() => {
 		el.style.opacity = 0
 		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
-	}, 2000)
+	}, delay)
 }

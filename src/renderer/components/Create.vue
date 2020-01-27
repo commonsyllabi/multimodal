@@ -1,19 +1,32 @@
 <template>
   <div class="create-container">
-    <div class="cover">
+
+    <!-- OVERLAY -->
+    <div class="overlay">
     </div>
+
+    <!-- POPUP -->
     <div class="create-subject">
       <h1>new subject</h1>
+
+      <!-- NAME -->
       <input class="name" type="text" placeholder="subject name" v-model="subject.name">
+
+      <!-- DESCRIPTION -->
       <textarea class="description" rows="8" v-model="subject.description" placeholder="subject description"></textarea>
+
+      <!-- LOCATION -->
       <input class="path" type="text" placeholder="subject folder" v-model="subject.path">
       <button class="create-local-path" @click="selectSubjectPath($event)">select</button>
+
+      <!-- CONTROLS -->
       <div class="buttons-container">
-        <button class="btn" @click="exit">exit</button>
+        <button class="btn" @click="close">close</button>
         <button class="btn" @click="create">create</button>
         <div class="msg-log" id="msg-log"></div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -123,12 +136,6 @@
 const {dialog} = require('electron').remote
 
 export default {
-  components: {
-
-  },
-  props: {
-
-  },
   data: function () {
     return {
       subject: {
@@ -139,11 +146,15 @@ export default {
     }
   },
   methods: {
-    exit() {
-      this.$emit('exit')
+    close() {
+      this.$emit('close')
     },
+    //-----------
+    //-- checks if all fields are there
+    //-- if that's the case, create the subject
+    //-----------
     create(){
-      if(this.subject.name == '' || this.subject.path == '')
+      if(this.subject.name == '' || this.subject.path == '' || this.subject.description == '')
     		alert('Some fields are missing!')
       else
         this.$emit('create-subject', this.subject)
@@ -159,9 +170,6 @@ export default {
     		this.subject.path = path[0]
     	})
     }
-  },
-  mounted(){
-
   }
 }
 </script>

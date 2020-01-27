@@ -41,7 +41,7 @@ $break-medium: 1300px;
 }
 
 body {
-	font-family: "Inter UI", serif, 'Trebuchet MS';
+	font-family: "Inter UI", serif, 'Trebuchet MS' !important;
   background-color: $main-bg-color;
   color: $main-fg-color;
   overflow-x: hidden;
@@ -50,11 +50,15 @@ body {
 }
 
 a {
-	color: $mid-orange;
+	color: $mid-orange !important;
+}
+
+a:-webkit-any-link {
+	color: $mid-orange !important;
 }
 
 a:hover{
-	color: $dark-orange;
+	color: $dark-orange !important;
 }
 
 button {
@@ -71,11 +75,12 @@ textarea{
 
 .msg-log {
   font-family: "Inter UI", serif;
+  display: inline-block;
 	float: right;
+  z-index: 5;
 	height:100%;
-	margin-right: 3%;
-	padding-right: 5px;
-	padding-left: 5px;
+  width: 40vw;
+  text-align: center;
 	font-weight: bold;
 	font-size: $btn-size;
 	opacity: 0;
@@ -112,7 +117,7 @@ div, img {
 	-ms-user-select: none;
 }
 
-.cover{
+.overlay{
   position: fixed;
   top: 0px;
   left: 0px;

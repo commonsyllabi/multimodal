@@ -12,22 +12,22 @@ const template = [
 		label: 'File',
 		submenu: [
 			{
-				label: 'Create Topic...',
-				click() { win.webContents.send('menu-create') },
+				label: 'Create Subject...',
+				click() { win.webContents.send('menu-create-subject') },
 				accelerator: 'CmdOrCtrl+N'
 			},
 			{
-				label: 'Open Topic...',
-				click() { win.webContents.send('menu-open') },
+				label: 'Open Subject...',
+				click() { win.webContents.send('menu-open-topic') },
 				accelerator: 'CmdOrCtrl+O'
 			},
 			{
-				label: 'Edit lesson...',
+				label: 'Edit Topic...',
 				click() { win.webContents.send('menu-edit') },
 				accelerator: 'CmdOrCtrl+E'
 			},
 			{
-				label: 'Save lesson...',
+				label: 'Save Topic...',
 				click() { win.webContents.send('menu-save') },
 				accelerator: 'CmdOrCtrl+S'
 			},
@@ -37,7 +37,7 @@ const template = [
 				accelerator: 'CmdOrCtrl+Shift+E'
 			},
 			{
-				label: 'Go home',
+				label: 'Go to board',
 				click() { win.webContents.send('menu-exit') },
 				accelerator: 'CmdOrCtrl+H'
 			},
@@ -65,8 +65,8 @@ const template = [
 	{
 		label: 'Topic',
 		submenu: [
-			{label: 'Toggle whiteboard',
-				click() { win.webContents.send('menu-toggle') },
+			{label: 'Toggle drawing',
+				click() { win.webContents.send('menu-toggle-draw') },
 				accelerator: 'CmdOrCtrl+D'},
 			{label: 'Clear whiteboard',
 				click() { win.webContents.send('menu-clear-board')},
