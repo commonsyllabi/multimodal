@@ -13,12 +13,12 @@ const template = [
 		submenu: [
 			{
 				label: 'Create Subject...',
-				click() { win.webContents.send('menu-create') },
+				click() { win.webContents.send('menu-create-subject') },
 				accelerator: 'CmdOrCtrl+N'
 			},
 			{
 				label: 'Open Subject...',
-				click() { win.webContents.send('menu-open') },
+				click() { win.webContents.send('menu-open-topic') },
 				accelerator: 'CmdOrCtrl+O'
 			},
 			{

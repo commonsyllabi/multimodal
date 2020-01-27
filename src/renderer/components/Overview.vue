@@ -1,10 +1,11 @@
 <template>
   <div class="overview-container">
+
+    <!-- HANDLE -->
     <div class="overview-toggle-inner" @click="toggleView">
     </div>
-    <h3 v-if="this.visible && this.isEdit">
-      overview
-    </h3>
+
+    <h3 v-if="this.visible && this.isEdit">overview</h3>
     <textarea v-if="this.visible && this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>
     <div v-if="this.visible && !this.isEdit" class="overview" v-html="markdown"></div>
   </div>
@@ -27,6 +28,7 @@
   transition: all 0.2s linear;
 }
 
+//-- little clickable handle
 .overview-toggle-inner{
 	position:absolute;
 	width: 10vw;
@@ -44,6 +46,7 @@ h3{
   margin: 0;
 }
 
+//-- textarea
 .overview{
   width: 90%;
   height: 80%;
@@ -79,7 +82,7 @@ export default {
     }
   },
   computed: {
-    markdown: function() {
+    markdown: function() { //-- parse the text as markdown and render as html
       this.overview.html = marked(this.overview.text)
       return this.overview.html
     }

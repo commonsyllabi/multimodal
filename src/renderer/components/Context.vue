@@ -1,17 +1,14 @@
 <template>
   <div class="context-container">
-    <div class="context-toggle-inner" @click="toggleView">
 
-    </div>
-    <h3>
-      Context
-    </h3>
+    <!-- HANDLE -->
+    <div class="context-toggle-inner" @click="toggleView"> </div>
+
+    <h3>Context</h3>
     <textarea type="text" v-if="this.visible && this.isEdit" rows="12" class="context" v-model:value="data.text" placeholder="provide context about this current concept"></textarea>
     <div v-if="this.visible && !this.isEdit" class="context" v-html="markdown"></div>
 
-    <h3>
-      Links
-    </h3>
+    <h3>Links</h3>
     <div v-for="(link, index) in data.links" class="context-link">
       <input v-if="isEdit" class="edit-link" type="text" placeholder="url" v-model:value="link.href"/>
       <a v-if="!isEdit" class="display-link" :href="link.href" target="_blank">{{link.href}}</a>
@@ -24,6 +21,8 @@
         <button @click="removeLink(index)">-</button>
       </div>
     </div>
+
+    <!-- CONTROLS TO ADD LINKS -->
     <div v-if="isEdit" class="links-buttons">
       <button @click="addLink(-1)">+</button>
     </div>
@@ -48,6 +47,8 @@
   color: $main-bg-color;
   transition: all 0.2s linear;
 }
+
+//-- little handle
 .context-toggle-inner{
 	position:absolute;
 	width: 10px;
@@ -143,11 +144,11 @@ export default {
       this.visible = !this.visible
       e.target.parentNode.style.width = this.visible ? '20vw' : '0px'
     },
-    addLink(index) {
-      if(index == -1)
+    addLink(_index) {
+      if(_index == -1)
         this.data.links.push({"href":"", "comment":""})
       else
-        this.data.links.splice(index+1, 0, {"href":"", "comment":""})
+        this.data.links.splice(_index+1, 0, {"href":"", "comment":""})
 
       this.$forceUpdate()
     },

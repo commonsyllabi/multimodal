@@ -1,65 +1,77 @@
-<template>
-<div>
-  <div class="subjects-container">
-    <div class="subjects">
-      <div v-for="single in data.subjects" class="inter-class">
-        <div class="subject" @click="setSubject($event, single.subject.name, single.subject.path)">
-          {{single.subject.name}}
-          <button class="right" @click="removeSubject(single.subject)">-</button>
-        </div>
-        <ul>
-          <li v-for="topic in single.topics" class="topic"
-          @click="setTopic($event, single.subject.name, topic.name, single.subject.path)"
-          @dblclick="openTopic(single.subject.name, topic.name, single.subject.path)">
-            {{topic.name}}
+subject-container<template>
+  <div>
 
-            <button class="right" @click="removeTopic(topic)">-</button>
-          </li>
+    <!-- LEFT -->
+    <div class="subjects-container">
+      <div class="subjects">
 
-        </ul>
-        <button class="btn" @click="createTopic(single.subject)">+</button>
-      </div>
-      <div v-if="data.subjects.length == 0" class="welcome-message">
-        <h2> Welcome to Multimodal! </h2>
-        <div>
-          It seems you haven't added any subjects yet.
+        <!-- LIST SUBJECTS -->
+        <div v-for="single in data.subjects" class="subject-container">
+          <div class="subject" @click="setSubject($event, single.subject.name, single.subject.path)">
+            {{single.subject.name}}
+            <button class="right" @click="removeSubject(single.subject)">-</button>
+          </div>
           <ul>
-            <li>Click on 'Create' to get started...</li>
-            <li>...or peruse the <a href="https://periode.github.io/multimodal/" target="_blank">homepage</a> to learn more.</li>
+            <li v-for="topic in single.topics" class="topic"
+            @click="setTopic($event, single.subject.name, topic.name, single.subject.path)"
+            @dblclick="openTopic(single.subject.name, topic.name, single.subject.path)">
+              {{topic.name}}
+
+              <button class="right" @click="removeTopic(topic)">-</button>
+            </li>
+
           </ul>
+          <button class="btn" @click="createTopic(single.subject)">+</button>
+        </div>
+
+        <!-- WELCOME MESSAGE -->
+        <div v-if="data.subjects.length == 0" class="welcome-message">
+          <h2> Welcome to Multimodal! </h2>
+          <div>
+            It seems you haven't added any subjects yet.
+            <ul>
+              <li>Click on 'Create' to get started...</li>
+              <li>...or peruse the <a href="https://periode.github.io/multimodal/" target="_blank">homepage</a> to learn more.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- <div class="topics-container">
-    <div class="topics">
-      <ul>
-        <li class="topic" v-for="instances in current.sessions"
-          @click="setTopic($event, current.subject, current.name, current.path)"
-          @dblclick="openTopic(current.subject, current.name, current.path)">
-            {{instances}}
-        </li>
-      </ul>
+    <!-- RIGHT -->
+    <div class="topics-container">
+      <div class="topics">
+        <ul>
+          <li class="topic" v-for="instances in current.sessions"
+            @click="setTopic($event, current.subject, current.name, current.path)"
+            @dblclick="openTopic(current.subject, current.name, current.path)">
+              Spring 2020 (dummy info)
+          </li>
+        </ul>
+      </div>
     </div>
-  </div> -->
 
-  <Create v-if="showCreate" @exit="showCreate = false" @create-subject="createSubject"/>
+    <!-- OVERLAY -->
+    <Create v-if="showCreate" @close="showCreate = false" @create-subject="createSubject"/>
 
-  <div class="buttons-container">
-    <button class="btn left" @click="create">create</button>
-    <button class="btn left" @click="exportTo('html')" :disabled="!(selectedSubject || selectedTopic)">to html</button>
-    <button class="btn left" @click="exportTo('pdf')" :disabled="!(selectedSubject || selectedTopic)">to pdf</button>
-    <button class="btn right" @click="importFrom">import</button>
+    <!-- CONTROLS -->
+    <div class="buttons-container">
+      <button class="btn left" @click="showCreate = true">create</button>
+      <button class="btn left" @click="exportTo('html')" :disabled="!(selectedSubject || selectedTopic)">to html</button>
+      <button class="btn left" @click="exportTo('pdf')" :disabled="!(selectedSubject || selectedTopic)">to pdf</button>
+      <button class="btn right" @click="importFrom">import</button>
 
-    <div class="msg-log" id="msg-log"></div>
+      <div class="msg-log" id="msg-log"></div>
+    </div>
+
   </div>
-</div>
 </template>
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
+
+//---------------- GENERAL
 .buttons-container, .subjects-container, .topics-container{
 	position: absolute;
 	width: 50%;
@@ -71,9 +83,9 @@
     left: 0;
 }
 
-.topics-container{
-  float: right;
-  right: 0;
+//---------------- SUBJECTS
+.subject-container{
+  margin-bottom: 50px;
 }
 
 .subjects, .topics{
@@ -88,10 +100,7 @@
   cursor: pointer;
 }
 
-.inter-class{
-  margin-bottom: 50px;
-}
-
+//---------------- TOPICS
 .topic, .topic-instance {
 	border: none;
 	color: $main-fg-color;
@@ -99,6 +108,11 @@
 	font-family: 'Inter UI';
 	font-size: 1.2em;
 	cursor: pointer;
+}
+
+.topics-container{
+  float: right;
+  right: 0;
 }
 
 .topic {
@@ -195,6 +209,11 @@ export default {
     }
   },
   methods: {
+    //------------
+    //-- sets the current subject, taking event, subject and path
+    //-- removes styles from all subjects and topics
+    //-- styles the current subject
+    //------------
     setSubject(_e, _s, _p){
       this.current.subject = _s
       this.current.path = _p
@@ -213,9 +232,14 @@ export default {
 
       this.selectedSubject = true
     },
+    //------------
+    //-- sets the current topic, taking event, subject and path
+    //-- removes styles from all subjects and topics
+    //-- styles the current topic
+    //------------
     setTopic(_e, _s, _n, _p) {
       this.current.subject = _s
-      this.current.name = _n
+      this.current.name = _n //-- this is setting the topic
       this.current.path = _p
       // this.current.sessions = ["session one", "session two"]
 
@@ -228,8 +252,8 @@ export default {
       for(let l of all_topics)
         l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
 
-      let _class = _e.target.getAttribute('class')
-      _e.target.setAttribute('class', `${_class} selected`)
+      let cl = _e.target.getAttribute('class')
+      _e.target.setAttribute('class', `${cl} selected`)
 
       let btns = document.getElementsByClassName('inter-btn-main')
       for(let btn of btns)
@@ -237,12 +261,14 @@ export default {
 
       this.selectedTopic = true
     },
-    openTopic(_c, _l, _p){
+    openTopic(){
+      if(this.current == {}) return
+      
     	ipc.send('open-topic', this.current)
     },
-    create() {
-      this.showCreate = true
-    },
+    //------------
+    //-- opens a dialog box to import a .mmd file
+    //------------
     importFrom() {
       let options = {
         'title':'Select file to import',
@@ -251,11 +277,16 @@ export default {
       }
 
       dialog.showOpenDialog(options, (p) => {
-        console.log(p);
     		ipc.send('import-subject', JSON.stringify({path: p[0]}))
     	})
     },
-    exportTo(type) {
+    //------------
+    //-- opens a dialog box to export
+    //-- either to html or to pdf
+    //------------
+    exportTo(_type) {
+      if(this.current == {}) return
+
       let options = {
     		'title':'Select export path',
     		'defaultPath':'~/',
@@ -263,31 +294,51 @@ export default {
     	}
 
     	dialog.showOpenDialog(options, (p) => {
-    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: type}))
+    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: _type}))
     	})
     },
-    createTopic(subject){
-      console.log('here');
-      ipc.send('create-topic', {subject: subject})
+    //------------
+    //-- creates a topic, under a given subject
+    //------------
+    createTopic(_subject){
+      ipc.send('create-topic', {subject: _subject})
     },
-    removeTopic(topic){
+    //------------
+    //-- removes a given topic
+    //------------
+    removeTopic(_topic){
       msgbox.setMessage("are you sure you want to remove this topic?", [{fn: () => {
-        ipc.send('remove-topic', topic)
+        ipc.send('remove-topic', _topic)
       }, name: "remove"}], null, true)
     },
-    createSubject(subject){
-      ipc.send('save-subject', subject)
+    //------------
+    //-- creates a new subject
+    //-- called from within the Create component
+    //------------
+    createSubject(_subject){
+      ipc.send('save-subject', _subject)
     },
-    removeSubject(subject){
+    //------------
+    //-- removes a given subject
+    //------------
+    removeSubject(_subject){
       msgbox.setMessage("are you sure you want to remove this subject?", [{fn: () => {
-        ipc.send('remove-subject', subject)
+        ipc.send('remove-subject', _subject)
       }, name: "remove"}], null, true)
     }
   },
+  //------------
+  //-- loads the data rendered with pug
+  //------------
   beforeMount(){
     this.data = window.data
   },
   mounted(){
+
+    //------------
+    //-- sets up the event listener
+    //-- to display the result of exportTo
+    //------------
     ipc.on('export-success', (event, d) => {
       msgbox.setMessage("export successful!", [{fn: () => {
         d.type = "folder"

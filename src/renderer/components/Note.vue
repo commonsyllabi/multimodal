@@ -89,6 +89,7 @@ export default {
     })
 
     //-- listen for x and y attribute changes
+    //-- so that we can save them for future sessions
     let that = this
     let observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {

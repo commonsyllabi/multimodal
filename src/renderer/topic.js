@@ -3,7 +3,6 @@
 const ipc = require('electron').ipcRenderer
 
 import * as globals from './lesson/globals.js'
-import * as drawing from './lesson/drawing.js'
 import * as utils from './utils.js'
 
 import Vue from 'vue'
@@ -23,8 +22,6 @@ const vm = new Vue({
 	}
 })
 
-window.vm = vm.$children[0]
-
 const msgbox = new Vue({
 	el: '#dialog',
 	template: '<Dialog/>',
@@ -33,16 +30,22 @@ const msgbox = new Vue({
 	}
 })
 
+//------------
+//-- this allows us to access
+//-- vue elements from non-vue scripts
+//------------
+window.vm = vm.$children[0]
 window.msgbox = msgbox.$children[0]
-
 window.jumpToTag = globals.jumpToTag
 
 //------------
 //-- shortcuts
 //------------
-ipc.on('menu-save', () => { window.vm.saveSession() })
-ipc.on('menu-exit', () => {	window.vm.exitSession() })
 ipc.on('menu-toggle-draw', () => {window.vm.toggleDraw() })
 ipc.on('menu-clear-board', () => {window.vm.clearBoard() })
+ipc.on('menu-save', () => { window.vm.saveTopic() })
+ipc.on('menu-exit', () => {	window.vm.exitTopic() })
+ipc.on('menu-edit', () => { window.vm.editTopic() })
+
 
 ipc.on('msg-log', (event, data) => { utils.setMessage(data.msg, data.type)})

@@ -3,20 +3,20 @@
     <div class="dialog-overlay">
 
     </div>
+
     <div class="dialog">
-      <div class="message">
-        {{message}}
-      </div>
+      <div class="message">{{message}}</div>
+
       <button v-show="choice" class="btn" @click="close();">cancel</button>
       <button v-for="cb in callbacks" class="btn right" @click="close(); if(cb.fn) cb.fn()">{{cb.name}}</button>
     </div>
   </div>
-
 </template>
 
 <style scoped lang="scss">
-@import '../sass/globals.scss';
+  @import '../sass/globals.scss';
 
+  //-- to make everything dimmer
   .dialog-overlay{
     position: fixed;
     top: 0;
@@ -53,33 +53,32 @@
   .right{
     margin-left: 10px;
   }
-
 </style>
 
 <script>
-export default {
-  data () {
-    return {
-      message: '',
-      visible: false,
-      choice: false,
-      callbacks: null
-    }
-  },
-  methods: {
-    setMessage(msg, cbs = null, err = null, choice = false){
-      this.visible = true
-      this.message = msg
-
-      this.callbacks = cbs
-      this.choice = choice
-
-      if(err)
-        console.log(err);
+  export default {
+    data () {
+      return {
+        message: '',
+        visible: false,
+        choice: false,
+        callbacks: null
+      }
     },
-    close(){
-      this.visible = false
+    methods: {
+      setMessage(msg, cbs = null, err = null, choice = false){
+        this.visible = true
+        this.message = msg
+
+        this.callbacks = cbs
+        this.choice = choice
+
+        if(err)
+          console.log(err);
+      },
+      close(){
+        this.visible = false
+      }
     }
   }
-}
 </script>

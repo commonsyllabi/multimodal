@@ -1,15 +1,13 @@
 <template>
   <div class="writeup-toggle-outer">
-    <div class="writeup-toggle-inner" @click="toggleView">
 
-    </div>
-    <h3 v-if="this.visible">
-      details
-    </h3>
+    <!-- HANDLE -->
+    <div class="writeup-toggle-inner" @click="toggleView"></div>
+
+    <h3 v-if="this.visible">details</h3>
     <textarea type="text" v-if="this.visible && this.isEdit" class="writeup" v-model:value="data.text" placeholder="write your notes for this particular page here"></textarea>
     <div v-if="this.visible && !this.isEdit" class="writeup" v-html="markdown"></div>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -62,11 +60,9 @@ h3{
 textarea{
   font-style: italic;
 }
-
 </style>
 
 <script>
-
 const marked = require('marked')
 
 export default {
@@ -88,7 +84,7 @@ export default {
     }
   },
   computed: {
-    markdown: function () {
+    markdown: function () {//-- parse the text as markdown and render as html
       this.data.html = marked(this.data.text)
       return this.data.html
     }
