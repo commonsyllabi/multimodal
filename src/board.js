@@ -1,6 +1,7 @@
 'use strict'
 
-const fs  = require('fs')
+const app = require('electron').app
+const fs  = require('fs-extra')
 const os = require('os')
 const path = require('path')
 const pug = require('pug')
@@ -13,8 +14,8 @@ exports = module.exports = {}
 
 // lists all the lessons from subjects.json and displays them on the board screen
 module.exports.list = () => {
-	if(!fs.existsSync(`${os.tmpdir()}/data/subjects.json`))
-		fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, '[]')
+	if(!fs.existsSync(`${app.getPath('userData')}/data/subjects.json`))
+		fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, '[]')
 
 
 	let data = {
@@ -22,7 +23,7 @@ module.exports.list = () => {
 	}
 
 	//first we get all the subjects
-	let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+	let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
 
 	//then for each course we look for all the related lessons
 	for(let s of subjects){
@@ -32,7 +33,7 @@ module.exports.list = () => {
 		}
 
 		for(let t of s.topics){
-			let p = `${os.tmpdir()}/app/imports/${s.name}/topics/${t.name}/topic.json`
+			let p = `${app.getPath('userData')}/app/imports/${s.name}/topics/${t.name}/topic.json`
 			let l = null
 			try {
 				l = fs.readFileSync(p)
@@ -49,7 +50,7 @@ module.exports.list = () => {
 	}
 
 	let compiled = pug.renderFile(__dirname+'/views/board.pug', {'data': JSON.stringify(data)})
-	fs.writeFileSync(`${os.tmpdir()}/app/board.html`, compiled)
+	fs.writeFileSync(`${app.getPath('userData')}/app/board.html`, compiled)
 }
 
 module.exports.init = (w) => {
@@ -62,42 +63,46 @@ let cleanup = () => {
 	console.log('[BOARD] cleaning up subjects.json...');
 	let subjects
 	try{
-		subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+		subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
 	}catch{
 		console.log('[BOARD] subjects.json does not exist, exiting...')
 		return
 	}
 
 	//--backup
-	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
+	console.log('[BOARD] backing up subjects.json...');
+	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
 
+	let subjects_with_topics = []
 	//-- first cleaning up topics
 	for(let s of subjects){
 		let cleaned = []
-		let current_topics = fs.readdirSync(`${__dirname}/app/imports/${s.name}/topics`)
 
-		let topic_ids = [] //-- we get all the ids of the current topics
-		for (let current_topic of current_topics)
-			topic_ids.push(JSON.parse(fs.readFileSync(`${__dirname}/app/imports/${s.name}/topics/${current_topic}/topic.json`)).id)
+		try {
+			let current_topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${s.name}/topics`)
 
-		//-- now we cross-check
-		for(let t of s.topics)
-			for(let topic_id of topic_ids)
-				if(topic_id == t.id)
-					cleaned.push(t)
+			let topic_ids = [] //-- we get all the ids of the current topics
+			for (let current_topic of current_topics)
+				topic_ids.push(JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${s.name}/topics/${current_topic}/topic.json`)).id)
 
+			//-- now we cross-check
+			for(let t of s.topics)
+				for(let topic_id of topic_ids)
+					if(topic_id == t.id)
+						cleaned.push(t)
 
-		s.topics = cleaned
+			s.topics = cleaned
+			console.log(`[BOARD] found ${cleaned.length}/${s.topics.length} topics for ${s.name}...`);
+
+			subjects_with_topics.push(s)
+		} catch (e) {
+			console.log(`[BOARD] couldn't find subject ${s.name}, skipping...`);
+		}
 	}
 
-	//-- then cleaning up subjects without topics
-	let subjects_with_topics = []
-	for(let s of subjects)
-		if(s.topics.length > 0)
-			subjects_with_topics.push(s)
-
-
-	fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects_with_topics))
+	console.log(`[BOARD] found ${subjects_with_topics.length} subjects with topics, writing to file...`);
+	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects_with_topics))
+	console.log(`[BOARD] ...done.`);
 }
 
 // cleanup()

@@ -1,4 +1,7 @@
-const fs = require('fs')
+'use strict'
+
+const app = require('electron').app
+const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 const path = require('path')
@@ -21,7 +24,7 @@ class Topic {
     this.overview = data.overview != undefined ? data.overview : {text:""}
     this.concepts = data.concepts ? data.concepts : [{
       name: "new concept",
-      context: {"text":""},
+      context: {"text":"", "links": []},
       pages: [
         {
           name: "new page",
@@ -43,23 +46,23 @@ class Topic {
   init(){
     //-- create the appropriate folders
     //-- now we only create folders in the local imports directory. they get compressed afterwards
-    utils.touchDirectory(`${os.tmpdir()}/app/imports/${this.subject.name}/topics/${this.name}/media`)
-    utils.touchDirectory(`${os.tmpdir()}/app/imports/${this.subject.name}/topics/${this.name}/other`)
+    utils.touchDirectory(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/media`)
+    utils.touchDirectory(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/other`)
 
     //-- find the appropriate course and update it locally
-    let subject_list = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+    let subject_list = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
     for(let s of subject_list)
       if(s.id == this.subject.id) //TODO -> course id doesn't match with the lesson _id
         s.topics.push(this.toJSON())
-    fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subject_list))
+    fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subject_list))
 
     //-- as well as in the imports folder
-    let remote_subject = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${this.subject.name}/subject.json`))
+    let remote_subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`))
     remote_subject.topics.push(this.toJSON())
-    fs.writeFileSync(`${os.tmpdir()}/app/imports/${this.subject.name}/subject.json`, JSON.stringify(remote_subject))
+    fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`, JSON.stringify(remote_subject))
 
     //-- finally write the actual topic file
-    fs.writeFileSync(`${os.tmpdir()}/app/imports/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
+    fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
 
     file_mgmt.compress(this.subject.name, this.subject.path)
   }
@@ -70,7 +73,7 @@ class Topic {
     return new Promise((resolve, reject) => {
 
       console.log(`[TOPIC] checking for existing topic...`);
-      let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+      let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       let foundTopic = false
       let foundSubject = false
 
@@ -87,18 +90,18 @@ class Topic {
             if(t.id == data.id){
               if(t.name != data.name){ //--this is where I check for the name change
                 console.log('[TOPIC] found different name, renaming folder...');
-                fs.renameSync(`${os.tmpdir()}/app/imports/${t.subject.name}/topics/${t.name}`, `${os.tmpdir()}/app/imports/${data.subject.name}/topics/${data.name}`)
+                fs.renameSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}`)
 
                 //-- also rename the field in subject.json
                 t.name = data.name
-                fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects))
+                fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
                 //-- find the subject.json of the subject and update the name
-                let subj = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${t.subject.name}/subject.json`));
+                let subj = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`));
                 for(let top of subj.topics)
                   if(top.id == data.id)
                     top.name = data.name
-                fs.writeFileSync(`${os.tmpdir()}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subj));
+                fs.writeFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subj));
 
               }
 
@@ -138,9 +141,9 @@ class Topic {
 
               //-- here we check that we're not copying from an image that is already copied
               if(p.src.indexOf('/app/imports') == -1){
-                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${os.tmpdir()}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
+                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
                 // now we redirect the source to the local folder
-                p.src = `${os.tmpdir()}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
+                p.src = `${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
               }
             }
@@ -149,11 +152,11 @@ class Topic {
       }
 
       console.log(`[TOPIC] writing to local subject.json...`);
-      fs.writeFileSync(`${os.tmpdir()}/data/subjects.json`, JSON.stringify(subjects))
+      fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
       //-- update the remote file
       console.log(`[TOPIC] Writing to local topic.json...`);
-      fs.writeFileSync(`${os.tmpdir()}/app/imports/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
+      fs.writeFileSync(`${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
 
       file_mgmt.compress(data.subject.name, data.subject.path)
 
@@ -165,10 +168,11 @@ class Topic {
     console.log(`[TOPIC] deleting ${topic.name}...`);
     return new Promise((resolve, reject) => {
 
-      console.log('[TOPIC] first locally');
-      let foundTopic = false
-      let foundSubject = false
-      let subjects = JSON.parse(fs.readFileSync(`${os.tmpdir()}/data/subjects.json`))
+      console.log(`[TOPIC] first from: ${app.getPath('userData')}/data/subjects.json`);
+
+      let foundTopic = false, foundSubject = false
+
+      let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
         if(subjects[i].id == topic.subject.id){
           foundSubject = true
@@ -195,9 +199,12 @@ class Topic {
           info: "could not find the topic"
         })
 
-      console.log('[TOPIC] then remotely..');
+      //-- we have updated the subjects.json, now we write it to file again
+      fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
+
+      console.log(`[TOPIC] then remotely from: ${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/...`);
       try{
-        utils.deleteFolderRecursive(`${os.tmpdir()}/app/imports/${topic.subject.name}/topics/${topic.name}/`)
+        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -210,13 +217,13 @@ class Topic {
 
   static export(_info, _type, _path = undefined, resolve, reject){
 
-    let topic = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${_info.subject}/topics/${_info.name}/topic.json`))
+    let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_info.subject}/topics/${_info.name}/topic.json`))
 
     if(_type == 'html'){
       let compiled = pug.renderFile(__dirname+'/views/export.pug', topic)
 
       // we copy all the existing assets from the multimodal to the html exports
-      let media_path = `${os.tmpdir()}/app/imports/${topic.subject.name}/topics/${topic.name}/media/`
+      let media_path = `${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/media/`
 
       console.log('aborted');
 

@@ -1,9 +1,14 @@
 <template>
   <div>
+
+    <!-- CONTEXT -->
     <Context :data="data.context" :isEdit="isEdit"/>
+
+    <!-- ALL PAGES -->
     <Page v-for="(page, index) in data.pages" :concept="concept" :index="index ":data="page" :key="`page-${index}`" :_id="`page-${index}`" :subject="subject" :isEdit="isEdit" @new-note="handleNewNote"/>
   </div>
 </template>
+</style>
 
 <script>
 import Context from './Context.vue'
@@ -38,12 +43,13 @@ export default {
     }
   },
   methods: {
+    //-----------
+    //-- this handles the new-note event from Page
+    //-- and passes it on to the Topic
+    //-----------
     handleNewNote(el){
       this.$emit('new-note', el)
     }
-  },
-  mounted(){
-
   }
 }
 </script>

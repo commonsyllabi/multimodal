@@ -5,9 +5,7 @@ const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
 const BrowserView = electron.BrowserView
 
-//const path = require('path')
-//const url = require('url')
-const fs = require('fs')
+const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 
@@ -20,7 +18,7 @@ const Topic = require('./topic.js')
 let mainWindow
 
 let generateHTML = (data, template) => {
-	let c = fs.readFileSync(`${os.tmpdir()}/app/imports/${data.subject}/topics/${data.name}/topic.json`)
+	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${data.name}/topic.json`)
 
 	//-- TODO cleanup
 	let compiled
@@ -29,7 +27,7 @@ let generateHTML = (data, template) => {
 	else
 		compiled = pug.renderFile(`${__dirname}/views/${template}.pug`, JSON.parse(c))
 
-	fs.writeFileSync(`${os.tmpdir()}/app/${template}.html`, compiled)
+	fs.writeFileSync(`${app.getPath('userData')}/app/${template}.html`, compiled)
 }
 
 // ------------------------------
@@ -55,7 +53,7 @@ let createWindow = (current, _w_ratio, _h_ratio) => {
     	}
 		})
 
-	mainWindow.loadURL(`file:///${os.tmpdir()}/app/${current}.html`)
+	mainWindow.loadURL(`file:///${app.getPath('userData')}/app/${current}.html`)
 
 	mainWindow.on('closed', () => {
 		mainWindow = null
@@ -71,13 +69,17 @@ let replaceWindow = (_target) => {
 	if(mainWindow == null)
 		createWindow(_target)
 	else
-		mainWindow.loadURL(`file:///${os.tmpdir()}/app/${_target}.html`)
+		mainWindow.loadURL(`file:///${app.getPath('userData')}/app/${_target}.html`)
 }
 
 
 // ------------------------------
 // ------------------------------ IPC MESSAGES
 // -----------------------------
+
+ipc.on('open-path', (event, url) => {
+	shell.openExternal(url)
+})
 
 ipc.on('open-url', (event, url) => {
 	shell.openExternal(url)
@@ -195,15 +197,21 @@ ipc.on('import-subject', (event, d) => {
 	d = JSON.parse(d)
 	Subject.importFrom(d.path).then((name) => {
 		//-- once we have extracted all the folders in the local directory, we update the subjects list by creating a new subject
-		let sdata = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${name}/subject.json`))
+		let sdata = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${name}/subject.json`))
 		let s = new Subject(sdata)
 
-		let topics = fs.readdirSync(`${os.tmpdir()}/app/imports/${name}/topics`)
+		let topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics`)
 		for(let topic of topics){
-			let tdata = JSON.parse(fs.readFileSync(`${os.tmpdir()}/app/imports/${name}/topics/${topic}/topic.json`))
+			let tdata = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${name}/topics/${topic}/topic.json`))
 			let t = new Topic(tdata)
 		}
 		mainWindow.webContents.send('msg-log', {msg: 'imported', type: 'msg'})
+
+		setTimeout(() => {
+			board.list()
+			replaceWindow('board')
+		}, 1000)
+
 	}).catch((err) => {
 		console.log(err);
 	})
@@ -240,7 +248,6 @@ ipc.on('open-export', (event, d) => {
 		if(d.type == "folder"){
 			shell.showItemInFolder(`${data.path}/${data.subject.name}.pdf`)
 		}	else if(d.type == 'show'){
-			console.log(`file://${data.path}/${data.name}.pdf`);
 			shell.openExternal(`file://${data.path}/${data.subject.name}.pdf`)
 		} else {
 			console.log('[MAIN] error on opening pdf export');
@@ -266,14 +273,26 @@ ipc.on('exit-home', () => {
 
 app.on('ready', () => {
 	//-- we need to create the temp directories
-	utils.touchDirectory(`${os.tmpdir()}/data`)
-	utils.touchDirectory(`${os.tmpdir()}/app`)
-	utils.touchDirectory(`${os.tmpdir()}/app/imports`)
+	utils.touchDirectory(`${app.getPath('userData')}/data`)
+	utils.touchDirectory(`${app.getPath('userData')}/app`) //-- for the html renders
+	utils.touchDirectory(`${app.getPath('userData')}/app/imports`) //-- for keeping track of the user's subjects
+
+	if(!fs.existsSync(`${app.getPath('userData')}/data/subjects.json`)){
+		console.log(`[MAIN] list of subjects not found in tmp dir ${app.getPath('userData')}, copying existing subjects.json found in /app`);
+		fs.copySync(`${__dirname}/data/subjects.json`, `${app.getPath('userData')}/data/subjects.json`)
+		fs.copySync(`${__dirname}/app/imports`, `${app.getPath('userData')}/app/imports`)
+	}
 
 	//-- and to copy the js and css files there
-	fs.createReadStream(`${__dirname}/app/main.js`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/main.js`))
-	fs.createReadStream(`${__dirname}/app/topic.js`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/topic.js`))
-	fs.createReadStream(`${__dirname}/app/style.css`).pipe(fs.createWriteStream(`${os.tmpdir()}/app/style.css`))
+	if(!fs.existsSync(`${app.getPath('userData')}/app/main.js`))
+		fs.createReadStream(`${__dirname}/app/main.js`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/main.js`))
+
+	if(!fs.existsSync(`${app.getPath('userData')}/app/topic.js`))
+		fs.createReadStream(`${__dirname}/app/topic.js`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/topic.js`))
+
+
+
+	fs.createReadStream(`${__dirname}/app/style.css`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/style.css`))
 
 	board.list()
 	createWindow('board', 0.8, 0.8)

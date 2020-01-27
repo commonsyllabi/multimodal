@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack')
 const electron = require('electron')
+const app = electron.app
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -11,7 +12,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'src/app')
+    // path: path.resolve(__dirname, 'src/app')
+    path: '/home/pierre/.config/multimodal/app'
   },
   module: {
       rules: [

@@ -12,7 +12,7 @@ html
 				a(href="index.html")= subject.name
 		div.overview-holder
 			h1 overview
-			p= overview.text
+			| !{overview.html}
 		div.concept-nav
 			h1 summary
 			each concept in concepts
@@ -24,13 +24,22 @@ html
 		each concept, index in concepts
 			div.concept-group
 				h3.concept-name(id= concept.name)= concept.name
-				div.context= concept.context.text
+				div.context
+					div
+						| !{concept.context.html}
+					div.context-links
+					hr
+					each link in concept.context.links
+						a(href= link.href)= link.href
+						div= link.comment
 				each page in concept.pages
 					div.page-group
 						h3.page-name= page.name
 						each prep in page.preps
 							if prep.type == "txt"
 								div.prep.note(concept= index)= prep.text
+							if prep.type ==  'file'
+								div.prep.note(concept= index)= prep.name
 							if prep.type == "url"
 								div.prep.note(concept= index)
 									a(href= prep.url)= prep.text
@@ -46,6 +55,7 @@ html
 							div.prep.note(concept= index)= note.text
 							
 					div.writeup-group
-						div.prep.writeup(concept= index)= page.writeup.text
+						div.prep.writeup(concept= index)
+							| !{page.writeup.html}
 			br
 			div.break-after(style="page-break-after:always;")
