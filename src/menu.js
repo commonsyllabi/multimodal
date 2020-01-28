@@ -39,7 +39,7 @@ const template = [
 			{
 				label: 'Go to board',
 				click() { win.webContents.send('menu-exit') },
-				accelerator: 'CmdOrCtrl+H'
+				accelerator: 'CmdOrCtrl+B'
 			},
 			{
 				label:'Quit',

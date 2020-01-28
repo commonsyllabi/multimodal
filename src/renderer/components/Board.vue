@@ -282,6 +282,7 @@ export default {
     		ipc.send('import-subject', JSON.stringify({path: p[0]}))
     	})
     },
+
     //------------
     //-- opens a dialog box to export
     //-- either to html or to pdf
@@ -341,7 +342,7 @@ export default {
     this.data = window.data
   },
   mounted(){
-
+    console.log('hey');
     //------------
     //-- sets up the event listener
     //-- to display the result of exportTo
