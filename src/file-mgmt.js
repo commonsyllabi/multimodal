@@ -6,62 +6,71 @@ const utils = require('./utils.js')
 
 exports = module.exports = {}
 
-module.exports.extract = (path) => {
-  console.log(`[FILE] extracting ${path}...`);
-  let zip = new admzip(path)
+//------------
+//-- extracts a subject given a path
+//-- returns a string of the name of the subject
+//------------
+module.exports.extract = (_path) => {
+  console.log(`[FILE] extracting ${_path}...`);
+  let zip = new admzip(_path)
   let entries = zip.getEntries()
-  let subject = undefined
+  let subjectName = undefined
 
-  //-- extract to temp
+  //-- find the name of the subject we're importing
   entries.forEach(function(entry) {
     if(entry.entryName === 'subject.json')
-      subject = JSON.parse(entry.getData().toString()).name
+      subjectName = JSON.parse(entry.getData().toString()).name
   })
 
-  if(!subject)
+  if(!subjectName)
     throw "no subject.json found in imported file!"
 
-  utils.touchDirectory(`${app.getPath('userData')}/app/imports/${subject}/topics`)
+  //-- extract the contents to the app/imports directory
+  utils.touchDirectory(`${app.getPath('userData')}/app/imports/${subjectName}/topics`)
   entries.forEach(function(entry) {
     try {
-      zip.extractEntryTo(entry.entryName, `${app.getPath('userData')}/app/imports/${subject}`, true, true)
+      zip.extractEntryTo(entry.entryName, `${app.getPath('userData')}/app/imports/${subjectName}`, true, true)
     } catch (e) {
       console.log(e)
     }
   })
 
   console.log('[FILE] ...done');
-  return subject
+  return subjectName
 }
 
-
-module.exports.compress = (name, target) => {
-  console.log(`[FILE] compressing ${name} to ${target}...`);
+//------------
+//-- compresses a subject into a .mmd archive
+//-- and writes it to the _targetdir
+//------------
+module.exports.compress = (_name, _targetdir) => {
+  console.log(`[FILE] compressing ${_name} to ${_targetdir}...`);
   let zipper = new admzip()
 
-  zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/subject.json`)
+  zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/subject.json`)
 
-  let topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/`)
+  let topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/`)
 
   //-- compressing each topics
+  //-- also checking for media/ or other/ directories, since they don't always get saved (TODO)
   for(let t of topics){
-    zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/topic.json`, `topics/${t}`)
+    zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/topic.json`, `topics/${t}`)
 
     try {
-      let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/`)
+      let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/`)
 
       for(let m of media){
-        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/${m}`, `topics/${t}/media`)
       }
     } catch(e) {
       console.log(`[FILE] folder media/ was not found in the archive, skipping...`);
     }
 
     try {
-      let other = fs.readdirSync(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/other/`)
+      let other = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/`)
 
       for(let o of other){
-        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/${o}`, `topics/${t}/other`)
       }
     } catch (e) {
       console.log(`[FILE] folder other/ was not found in the archive, skipping...`);
@@ -69,9 +78,6 @@ module.exports.compress = (name, target) => {
 
   }
 
-  zipper.writeZip(`${target}/${name}.mmd`)
+  zipper.writeZip(`${_targetdir}/${_name}.mmd`)
   console.log('[FILE] ...done');
 }
-
-// module.exports.extract('/home/pierre/teaching/pierre lesson.mmd')
-// module.exports.compress('test', '/home/pierre/Documents')
