@@ -20,7 +20,7 @@ let init = () => {
 		setupCanvas(i)
 	}
 
-	selectCanvas(null)
+	selectCanvas(0, 0)
 	cnv = canvases[0]
 	ctx = contexts[0]
 }
@@ -116,6 +116,7 @@ let clearBoard = () => {
 //-- and switches the index of the canvas and the main-container
 //------------
 let toggleDraw = (mode) => {
+	console.log('toggling draw:', mode);
 	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')

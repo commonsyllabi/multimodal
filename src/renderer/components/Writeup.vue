@@ -55,6 +55,7 @@ h3{
   padding-left: 5px;
   font-size: 1.2em;
   font-family: 'Inter UI';
+  overflow: scroll;
 }
 
 textarea{

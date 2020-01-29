@@ -16,21 +16,21 @@ const file_mgmt = require('./file-mgmt.js')
 //-- checks for an ID so a not to always create new ones
 //------------
 class Topic {
-  constructor(data){
-    this.id = data.id ? data.id : generateId()
+  constructor(_data){
+    this.id = _data.id ? _data.id : generateId()
 
     //-- this prevents us from recursively integrating
     //-- all the topics within the subject
     this.subject = {
-      name: data.subject.name,
-      id: data.subject.id,
-      path: data.subject.path
+      name: _data.subject.name,
+      id: _data.subject.id,
+      path: _data.subject.path
     },
 
     //-- if there are no concepts or no overview, we create new ones
-    this.name = data.name ? data.name : "new-topic"
-    this.overview = data.overview ? data.overview : {text:""}
-    this.concepts = data.concepts ? data.concepts : [{
+    this.name = _data.name ? _data.name : "new-topic"
+    this.overview = _data.overview ? _data.overview : {text:""}
+    this.concepts = _data.concepts ? _data.concepts : [{
       name: "new concept",
       context: {"text":"", "links": []},
       pages: [
@@ -116,11 +116,11 @@ class Topic {
 
           for(let j = 0; j < s.topics.length; j++){
             let t = s.topics[j]
-            if(t.id == data.id){
+            if(t.id == _data.id){
 
               //-- if the name of the topic has changed
               //-- we need to rename the folders and subjects.json
-              if(t.name != data.name){
+              if(t.name != _data.name){
                 console.log('[TOPIC] found a topic, and updating instances...');
                 fs.renameSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
 
@@ -132,11 +132,11 @@ class Topic {
                 for(let topic of subject.topics)
                   if(topic.id == _data.id)
                     topic.name = _data.name
-                fs.writeFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subj));
+                fs.writeFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subject));
               }
 
               //-- we insert the topic (updating)
-              subjects[i].topics[j] = data
+              subjects[i].topics[j] = _data
               foundTopic = true
             }
           }
@@ -144,7 +144,7 @@ class Topic {
           //-- this means we just created a new topic
           //-- we add it to the end of the array
           if(!foundTopic)
-            s.topics.push(data)
+            s.topics.push(_data)
         }
       }
 
@@ -155,7 +155,7 @@ class Topic {
         })
 
       //-- check for external media assets and copy them in the local folder
-      for(let concept of data.concepts){
+      for(let concept of _data.concepts){
         for(let page of concept.pages){
           for(let p of page.preps){
             if(p.type == 'img' || p.type == 'vid'){
@@ -230,7 +230,7 @@ class Topic {
       fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
       //-- and deleting the reference in imports/subject.json
-      let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/tsubject.json`))
+      let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/subject.json`))
       for(let i = 0; i < subject.topics.length; i++)
         if(subject.topics[i].id == _topic.id)
           subject.topics.splice(i, 1)
