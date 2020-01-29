@@ -263,8 +263,11 @@ export default {
     	case ESC: //-- stop editing the current note
     		if(cn)
     			this.endNote(cn)
-        else if(this.isEdit) //-- stop editing the current topic
+        else if(this.isEdit){
           this.isEdit = false
+          drawing.selectCanvas(this.currentPage, this.currentConcept)
+        } //-- stop editing the current topic
+
     		break
     	default:
     		break
@@ -339,7 +342,6 @@ export default {
     toggleDraw() {
       this.isDrawing = !this.isDrawing
       drawing.toggleDraw(this.isDrawing)
-      console.log(this.topicSaved);
     },
     //------------
     //-- clears board
@@ -353,6 +355,8 @@ export default {
     //------------
     editTopic() {
       this.isEdit = !this.isEdit
+      this.isDrawing = false
+      drawing.toggleDraw(this.isDrawing)
       if(!this.isEdit) this.topicSaved = false
     },
     //------------

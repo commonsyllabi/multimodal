@@ -369,7 +369,7 @@ ipc.on('open-export', (event, _d) => {
 //------------
 ipc.on('save-topic', (event, _data) => {
 	Topic.save(_data).then((result) => {
-		console.log(`[SAVE TOPIC] ${data.name} to ${data.subject.path} at ${utils.time()}`)
+		console.log(`[SAVE TOPIC] ${_data.name} to ${_data.subject.path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	}).catch((err) => {
 		console.log(`[MAIN] error on save topic: ${err}`);
@@ -406,11 +406,13 @@ app.on('ready', () => {
 		fs.copySync(`${__dirname}/app/imports`, `${app.getPath('userData')}/app/imports`)
 	}
 
+	//-- TODO figure out when those files should be updated
+	//-- probably never since that's what webpack is supposed to be doing
  	//-- always copy the js and css files there
 	//-- especially necessary for development
-	fs.copySync(`${__dirname}/app/main.js`, `${app.getPath('userData')}/app/main.js`)
-	fs.copySync(`${__dirname}/app/topic.js`, `${app.getPath('userData')}/app/topic.js`)
-	fs.copySync(`${__dirname}/app/style.css`, `${app.getPath('userData')}/app/style.css`)
+	// fs.copySync(`${__dirname}/app/main.js`, `${app.getPath('userData')}/app/main.js`)
+	// fs.copySync(`${__dirname}/app/topic.js`, `${app.getPath('userData')}/app/topic.js`)
+	// fs.copySync(`${__dirname}/app/style.css`, `${app.getPath('userData')}/app/style.css`)
 
 	//-- list all the subjects and topics we actually have
 	board.list()
