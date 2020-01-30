@@ -35,6 +35,7 @@ let setupCanvas = (_i) => {
 	contexts[_i] = canvases[_i].getContext('2d')
 	canvases[_i].width = 1800
 	canvases[_i].height = 1000
+	canvases[_i].style.pointerEvents = 'none'
 
 	contexts[_i].lineWidth = 5
 	contexts[_i].lineJoin = 'round'
