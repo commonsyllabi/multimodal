@@ -44,8 +44,17 @@ class Topic {
           }],
           notes: [],
           writeup: {"text":""}
-        }
-      ]
+        },
+    		{
+    			name: "scrapboard",
+    			context: {text: ""},
+    			pages: [{
+    				name: "first",
+    				preps: [],
+    				notes: [],
+    				writeup: {text: ""}
+    			}]
+    		}]
     }]
 
     this.created = new Date()
@@ -121,8 +130,9 @@ class Topic {
               //-- if the name of the topic has changed
               //-- we need to rename the folders and subjects.json
               if(t.name != _data.name){
-                console.log('[TOPIC] found a topic, and updating instances...');
-                fs.renameSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
+                console.log(`[TOPIC] found a topic, and updating the name to ${_data.name}...`);
+                fs.copySync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
+                fs.removeSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`)
 
                 t.name = _data.name
                 fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
