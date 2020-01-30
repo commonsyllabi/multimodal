@@ -16,6 +16,11 @@
 <style scoped lang="scss">
   @import '../sass/globals.scss';
 
+  //-- make sure it's always on top
+  div{
+    z-index: 5;
+  }
+
   //-- to make everything dimmer
   .dialog-overlay{
     position: fixed;

@@ -366,7 +366,6 @@ export default {
     //-- unsaved changes
     //------------
     exitTopic() {
-      console.log('exiting with topic saved:', this.topicSaved);
       if(!this.topicSaved)
         msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.send('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
       else
