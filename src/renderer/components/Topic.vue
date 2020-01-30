@@ -314,8 +314,12 @@ export default {
 
   		let pos = getGridPosition(this.position)
 
-      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
-      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
+      //-- we need to take into account the original position
+      pos.x -= window.currentNote.getAttribute('x')
+      pos.y -= window.currentNote.getAttribute('y')
+
+      window.currentNote.style.left = pos.x+'px'
+      window.currentNote.style.top = pos.y+'px'
     },
     //------------
     //-- takes an element from the Note component
