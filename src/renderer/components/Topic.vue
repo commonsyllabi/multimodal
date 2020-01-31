@@ -538,46 +538,48 @@ export default {
   //------------
   beforeMount() {
     this.data = sanitize(window.data)
-    for(let concept of this.data.concepts)
-        concept.context.links = concept.context.links == undefined ? [] : concept.context.links
-
-    this.data.overview = this.data.overview ? this.data.overview : {"text":""}
 
     this.currentConcept = window.currentConcept
   }
 }
 
 //------------
+//-- sanitizes previous data
 //-- for backwards compatibility
 //------------
 let sanitize = (_data) => {
   let data = _data
 
+  //-- consolidate the `txt` and `url` into `md`
   for(let i = 0; i < _data.concepts.length; i++){
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
-      let prep = ''
-      for(let p of _data.concepts[i].pages[j].preps){
-        if(p.type == 'txt')
-          prep += p.text
-        else if(p.type == 'img')
-          prep += `[!${p.src}]`
-        else if(p.type == 'url')
-          prep += `[${p.text}](${p.url})`
-        else if(p.type == 'vid')
-          prep += `[!${data.name}]`
-        else if(p.type == 'file')
-          prep += `[${p.name}](${p.path})`
-        else
-          console.log(`wrong type of prep`)
+      let prep = {type: "md", text: "", tag: ""}
 
-        prep += '\n\n'
+      for(let p of _data.concepts[i].pages[j].preps){
+        switch (p.type) {
+          case 'txt':
+            prep.text += p.text
+            break;
+          case 'url':
+            prep.text += `[${p.text}](${p.url})`
+            break;
+          default:
+            break;
+        }
+
+        prep.text += '\n\n\n'
       }
 
-      data.concepts[i].pages[j].prep = {"text": prep}
+      data.concepts[i].pages[j].preps.push(prep)
     }
   }
 
-  console.log(data);
+  //-- make sure each context has links
+  for(let concept of data.concepts)
+      concept.context.links = concept.context.links == undefined ? [] : concept.context.links
+
+  //-- make sure each overview has a text field
+  data.overview = data.overview ? data.overview : {"text":""}
 
   return data
 }

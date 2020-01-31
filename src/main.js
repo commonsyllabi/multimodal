@@ -151,10 +151,11 @@ ipc.on('save-subject', (event, _d) => {
 			context: {text: ""},
 			pages: [{
 				name: "new page",
-				prep: {
-					text: "",
-					html: ""
-				},
+				preps: [{
+					text: "...",
+					tag: "",
+					type: "md"
+				}],
 				notes: [],
 				writeup: {text: ""}
 			}]
@@ -164,10 +165,11 @@ ipc.on('save-subject', (event, _d) => {
 			context: {text: ""},
 			pages: [{
 				name: "first",
-				prep: {
-					text: "",
-					html: ""
-				},
+				preps: [{
+					text: "...",
+					tag: "",
+					type: "md"
+				}],
 				notes: [],
 				writeup: {text: ""}
 			}]
@@ -301,7 +303,6 @@ ipc.on('import-subject', (event, _d) => {
 //------------
 ipc.on('export', (event, _d) => {
 	let d = JSON.parse(_d)
-	console.log(_d);
 
 	if(d.format == 'subject'){
 		Subject.export(d.info, d.type, d.path).then(() => {
@@ -335,29 +336,27 @@ ipc.on('export', (event, _d) => {
 //-- containing a type, a path and a subject name
 //------------
 ipc.on('open-export', (event, _d) => {
-	let data = JSON.parse(JSON.parse(_d).data) //-- this is ridiculous
-
-	console.log(data);
+	let data = JSON.parse(_d) //-- this is ridiculous
 
 	if(data.type == 'html'){
 
-		if(_d.type == "folder"){
+		if(data.location == "folder"){
 			shell.showItemInFolder(`${data.path}/index.html`)
-		}	else if(_d.type == 'show'){
+		}	else if(data.location == 'show'){
 			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
 			win.loadURL(`file://${data.path}/index.html`)
 		} else {
-			console.log(`[MAIN] error on opening HTML export: ${data}`);
+			console.log(`[MAIN] error on opening HTML export: ${data.location}`);
 		}
 
 	}else if(data.type == 'pdf'){
 
-		if(_d.type == "folder"){
-			shell.showItemInFolder(`${data.path}/${data.topic.name}.pdf`)
-		}	else if(d.type == 'show'){
-			shell.openExternal(`file://${data.path}/${data.topci.name}.pdf`)
+		if(data.location == "folder"){
+			shell.showItemInFolder(`${data.path}/${data.name}.pdf`)
+		}	else if(data.location == 'show'){
+			shell.openExternal(`file://${data.path}/${data.name}.pdf`)
 		} else {
-			console.log(`[MAIN] error on opening PDF export: ${data}`);
+			console.log(`[MAIN] error on opening PDF export: ${data.location}`);
 		}
 
 	}

@@ -1,7 +1,41 @@
 <template>
   <div class="prep-holder">
-    <textarea v-if="this.isEdit" placeholder="your text here">{{data.text}}</textarea>
-    <div v-if="!this.isEdit" class="prep" v-html="markdown"></div>
+
+    <!-- MARKDOWN PREP -->
+    <div v-if="data.type == 'md'" class="prep written" :concept="index" :tag="data.tag">
+      <textarea class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text"></textarea>
+      <div class="markdown-render" v-else v-html="markdown"></div>
+    </div>
+
+    <!-- FILE PREP -->
+    <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
+      <input class="file-input" type="file" v-if="isEdit" @change="handlePathInput"></input>
+      <a v-else :href="data.path" @click="openPath">{{data.name}}</a>
+    </div>
+
+    <!-- IMAGE PREP -->
+    <div v-else-if="data.type == 'img'" class="prep" :concept="index" :tag="data.tag">
+      <div v-if="isEdit">
+        <input class="file-input" type="file" @change="handleFileInput"></input>
+        <img class="preview" :src="data.src"/>
+      </div>
+      <img v-else :name="data.name" :src="data.src"/>
+    </div>
+
+    <!-- VIDEO PREP -->
+    <div v-else-if="data.type == 'vid'" class="prep written " :concept="index" :tag="data.tag">
+      <video max-width="800px" max-height="600px" controls>
+        <source :name="data.name" :src="`assets/${subject.name}/lessons/${name}/media/${data.name}`"/>
+      </video>
+    </div>
+
+    <!-- CONTROLS -->
+    <div v-if="isEdit"class="add-buttons">
+      <button @click="addPrep('txt')">add txt</button>
+      <button @click="addPrep('img')">add img</button>
+      <button @click="addPrep('file')">add file</button>
+      <button v-if="isEdit" @click="removePrep">remove</button>
+    </div>
   </div>
 </template>
 
@@ -24,6 +58,10 @@ button{
     pointer-events: all; //-- always catch the click events
 }
 
+.markdown-render p a {
+  color: red !important;
+}
+
 .prep-holder{
   position: relative;
   width: 70%;
@@ -41,7 +79,6 @@ button{
   opacity:1;
 
   font-family: 'Inter UI';
-  font-style: italic;
   font-size: 2em;
 
   @media (max-width: 1300px){
@@ -57,7 +94,7 @@ button{
 }
 
 .prep{
-  pointer-events: none;
+  pointer-events: all;
 }
 
 .moved{
@@ -112,6 +149,10 @@ img{
     font-weight: bold;
     color: $main-bg-color;
     background-color: $main-fg-color;
+  }
+
+  button{
+    font-size: 16px;
   }
 }
 </style>
