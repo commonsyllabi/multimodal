@@ -1,7 +1,6 @@
 <template>
   <div class="prep-holder">
-
-    <textarea v-if="this.isEdit">{{data.text}}</textarea>
+    <textarea v-if="this.isEdit" placeholder="your text here">{{data.text}}</textarea>
     <div v-if="!this.isEdit" class="prep" v-html="markdown"></div>
   </div>
 </template>
