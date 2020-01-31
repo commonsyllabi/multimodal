@@ -306,7 +306,7 @@ ipc.on('export', (event, _d) => {
 
 	if(d.format == 'subject'){
 		Subject.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.name} done`);
+			console.log(`[MAIN] export of ${d.info.subject.name} done`);
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
@@ -316,7 +316,7 @@ ipc.on('export', (event, _d) => {
 		})
 	}else if(d.format == 'topic'){
 		Topic.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.name} done`);
+			console.log(`[MAIN] export of ${d.info.topic.name} done`);
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})

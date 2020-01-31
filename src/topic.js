@@ -266,17 +266,17 @@ class Topic {
   //-- name, subject name, type and path
   //------------
   static export(_data, _type, _path){
-    console.log(`[TOPIC] exporting - ${_data.name} - ${_type}`)
+    console.log(`[TOPIC] exporting - ${_data.topic.name} - ${_type}`)
 
     return new Promise((resolve, reject) => {
-      let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${_data.name}/topic.json`))
+      let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.topic.name}/topic.json`))
 
       if(topic == null)
         reject()
 
       if(_type == 'html'){
         //-- making sure the assets directory exists
-        utils.touchDirectory(`${_path}/${_data.topic}_assets/`)
+        utils.touchDirectory(`${_path}/${_data.topic.name}_assets/`)
 
         //-- copy all images, videos and file assets over to new folder
         for(let concept of topic.concepts)
@@ -290,7 +290,7 @@ class Topic {
         fs.writeFileSync(`${_path}/${topic.name}.html`, render)
 
         //-- rebuild the index
-        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/subject.json`))
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
         fs.writeFileSync(`${_path}/index.html`, index)
 
@@ -298,7 +298,7 @@ class Topic {
 
       }else if(_type == 'pdf'){
         //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject}_assets/`)
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject.name}_assets/`)
         for(let concept of topic.concepts)
           for(let page of concept.pages)
             for(let prep of page.preps)
@@ -306,7 +306,6 @@ class Topic {
                 fs.copySync(`${prep.src}`, `${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`)
 
         //-- create the html stream
-        //-- TODO write the html file instead of passing a stream to createPDF
         let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
         fs.writeFileSync(`${app.getPath('userData')}/app/imports/temp/render.html`, render)
         let writtenFile = fs.readFileSync(`${app.getPath('userData')}/app/imports/temp/render.html`, 'utf8')

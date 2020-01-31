@@ -1,4 +1,4 @@
-subject-container<template>
+<template>
   <div>
 
     <div class="menu-container">
@@ -56,7 +56,8 @@ subject-container<template>
               <div class="subject-buttons">
                 <button @click="removeSubject(single.subject)">rename</button>
                 <button @click="">duplicate</button>
-                <button @click="exportTo('html', selectedSubject, selectedTopic)" :disabled="!(selectedSubject || selectedTopic)">export</button>
+                <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
+                <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
                 <!-- <button @click="exportTo('pdf', selectedSubject, selectedTopic)" :disabled="!(selectedSubject || selectedTopic)">to pdf</button> -->
                 <button @click="removeSubject(single.subject)">remove</button>
               </div>
@@ -91,7 +92,8 @@ subject-container<template>
           </div>
 
             <div class="topic-buttons">
-              <button @click="exportTo('html', selectedSubject, selectedTopic)">export</button>
+              <button @click="exportTo('topic', 'html', topic.name)">to html</button>
+              <button @click="exportTo('topic', 'pdf', topic.name)">to pdf</button>
               <button @click="removeTopic(topic)">remove</button>
             </div>
           </li>
@@ -192,6 +194,10 @@ h1{
   padding: 0;
 }
 
+.subject button:hover, .topic button:hover{
+  text-decoration: underline;
+}
+
 .subject-name, .subject-buttons, .subject-info-container{
   padding-left: 1vw;
 }
@@ -231,7 +237,6 @@ h1{
 	background-color: $main-bg-color;
 	font-family: 'Inter UI';
 	font-size: 1.2em;
-	cursor: pointer;
 }
 
 .topics{
@@ -250,6 +255,7 @@ h1{
 .topic button{
   color: $main-bg-color;
   background-color: $main-fg-color;
+  cursor: pointer;
 }
 
 .topic-create{
@@ -295,7 +301,8 @@ export default {
         },
         topic: {
           name: undefined
-        }
+        },
+        path: ''
       },
       showCreate: false,
       selectedTopic: false,
@@ -327,14 +334,6 @@ export default {
       this.selectedSubject = true
       this.selectedTopic = false
     },
-    //------------
-    //-- sets the current topic, taking event, subject and path
-    //-- removes styles from all subjects and topics
-    //-- styles the current topic
-    //------------
-    setTopic(_e, _n) {
-
-    },
     openTopic(_e, _n){
       this.current.topic.name = _n
       if(this.current.topic == {}) return
@@ -358,15 +357,13 @@ export default {
 
     //------------
     //-- opens a dialog box to export
+    //-- either from subject or topic
     //-- either to html or to pdf
-    //-- checks if topic or subject is non-null
+    //-- with a given path
     //-- and exports that
     //------------
-    exportTo(_type, _selectedSubject, _selectedTopic) {
-      if(this.current == {}) return
-
-      let format = _selectedSubject ? 'subject' : _selectedTopic ? 'topic' : null
-      if(format == null) return
+    exportTo(_format, _type, _name, _path) {
+      if(_format == 'topic') this.current.topic.name = _name
 
       let options = {
     		'title':'Select export path',
@@ -375,7 +372,7 @@ export default {
     	}
 
     	dialog.showOpenDialog(options, (_path) => {
-    		ipc.send('export', JSON.stringify({info: this.current, path: _path, type: _type, format: format}))
+    		ipc.send('export', JSON.stringify({info: this.current, path: _path, type: _type, format: _format}))
     	})
     },
     //------------
