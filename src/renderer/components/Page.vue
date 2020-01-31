@@ -10,8 +10,10 @@
       {{data.name}}
     </div>
 
-    <!-- PREP FIELD -->
-    <Prep :data="data.prep" :subject="subject" :isEdit="isEdit"/>
+    <!-- ALL PREPS -->
+   <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" :index="index"
+     @remove-prep="removePrep(index)"
+     @add-prep="addPrep" :isEdit="isEdit"/>
 
     <!-- ALL NOTES -->
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
