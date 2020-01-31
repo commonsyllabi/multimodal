@@ -555,7 +555,11 @@ let sanitize = (_data) => {
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
       let prep = {type: "md", text: "", tag: ""}
 
-      for(let p of _data.concepts[i].pages[j].preps){
+      for(let k = 0; k < _data.concepts[i].pages[j].preps.length; k++){
+        let p = _data.concepts[i].pages[j].preps[k]
+
+        let a, b, c
+
         switch (p.type) {
           case 'txt':
             prep.text += p.text
@@ -567,10 +571,26 @@ let sanitize = (_data) => {
             break;
         }
 
-        prep.text += '\n\n\n'
+        //-- we need a line break
+        prep.text += '\n\n'
       }
 
       data.concepts[i].pages[j].preps.push(prep)
+    }
+  }
+
+  //-- remove the 'url' and 'txt' preps
+
+  for(let i = 0; i < _data.concepts.length; i++){
+    for(let j = 0; j < _data.concepts[i].pages.length; j++){
+      let cleaned_preps = []
+      for(let k = 0; k < _data.concepts[i].pages[j].preps.length; k++){
+        let p = _data.concepts[i].pages[j].preps[k]
+        if(p.type != 'url' && p.type != 'txt')
+          cleaned_preps.push(p)
+      }
+
+      data.concepts[i].pages[j].preps = cleaned_preps
     }
   }
 
