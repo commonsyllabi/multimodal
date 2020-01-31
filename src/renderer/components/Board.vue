@@ -2,23 +2,28 @@ subject-container<template>
   <div>
 
     <div class="menu-container">
-      <div class="menu-item">
-        {{new Date().toDateString()}}
+      <div class="menu-top">
+        <div class="menu-item">
+          {{new Date().toDateString()}}
+        </div>
+
+        <hr>
+        <div class="menu-item">
+        <button  @click="showCreate = true">create</button>
+        </div>
+
+        <div class="menu-item">
+          <button  @click="importFrom">import</button>
+        </div>
+
+        <div class="menu-item">
+          <button>settings</button>
+        </div>
       </div>
 
-      <hr>
-      <div class="menu-item">
-      <button  @click="showCreate = true">create</button>
+      <div class="menu-bottom">
+        <a href="mailto:pierre.depaz@gmail.com?subject=feedback">pierre depaz</a> | <a href="https://multimodal.cc" target="_blank">multimodal.cc</a>
       </div>
-
-      <div class="menu-item">
-        <button  @click="importFrom">import</button>
-      </div>
-
-      <div class="menu-item">
-        <button>settings</button>
-      </div>
-
 
     </div>
 
@@ -28,9 +33,10 @@ subject-container<template>
         <h1>My Syllabi</h1>
         <!-- LIST SUBJECTS -->
         <div v-for="single in data.subjects" class="subject-container">
-          <div class="subject" @click="setSubject($event, single.subject.name, single.subject.path, single.subject.topics)">
-            <div class="subject-name">
+          <div class="subject">
+            <div class="subject-name" @click="setSubject($event, single.subject.name, single.subject.path, single.subject.topics)">
               {{single.subject.name}}
+              </div>
 
               <div class="subject-buttons">
                 <button @click="removeSubject(single.subject)">rename</button>
@@ -40,12 +46,7 @@ subject-container<template>
                 <button @click="removeSubject(single.subject)">remove</button>
               </div>
 
-            </div>
-
-
-
           </div>
-
         </div>
 
         <!-- WELCOME MESSAGE -->
@@ -77,7 +78,6 @@ subject-container<template>
 
             <button class="right" @click="removeTopic(topic)">remove</button>
           </li>
-
         </ul>
         <button @click="createTopic(current.subject)">create new topic</button>
       </div>
@@ -108,6 +108,7 @@ h1{
   float: left;
 	height: 100vh;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .subjects-container, .topics-container{
@@ -117,6 +118,7 @@ h1{
   left: 0;
 }
 
+//---------------- MENU
 .menu-container{
   position: fixed;
   width: 12vw;
@@ -125,7 +127,15 @@ h1{
   color: $main-bg-color;
 }
 
-//---------------- SUBJECTS
+.menu-container hr{
+  border: 1px solid $main-bg-color;
+}
+
+.menu-bottom{
+  position: absolute;
+  bottom: 100px;
+}
+
 .menu-item, .menu-item button{
   font-size: 24px;
   width: 90%;
@@ -137,7 +147,6 @@ h1{
 //---------------- SUBJECTS
 .subjects-container{
   left: 16vw;
-  margin-bottom: 50px;
 }
 
 .subjects{
@@ -145,27 +154,40 @@ h1{
 	margin-bottom: 5%;
 }
 
+.subject-container{
+  margin-bottom: 30px;
+  margin-top: 20px;
+  border-bottom: 2px solid $main-fg-color;
+  overflow: hidden;
+}
+
 .subject {
 	width: 100%;
   margin-bottom: 5vh;
 	font-weight: bold;
 	font-size: 2em;
-  cursor: pointer;
 }
 
 .subject button{
+  text-align: center;
   border: none;
-  margin-left: 0;
-  padding-left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.subject-name, .subject-buttons{
+  padding-left: 1vw;
 }
 
 .subject-buttons{
+  pointer-events: all;
   width: 100%;
 }
 
 .subject-name{
   width: 100%;
-  margin-left: 1vw;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 //---------------- TOPICS
@@ -196,7 +218,6 @@ h1{
 }
 
 .topic:hover{
-	border-color: $main-fg-color;
 	font-weight: bold;
 }
 
