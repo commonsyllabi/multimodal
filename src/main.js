@@ -24,7 +24,7 @@ let mainWindow
 let generateHTML = (_d, _template) => {
 
 	//-- read the `topic.json` file given a subject name and a topic name
-	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_d.subject}/topics/${_d.name}/topic.json`)
+	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_d.subject.name}/topics/${_d.topic.name}/topic.json`)
 
 	//-- the topic.pug template needs a particular format
 	let data = _template == 'topic' ? {'data': c} : JSON.parse(c)
@@ -128,8 +128,8 @@ ipc.on('open-url', (event, _url) => {
 //-- takes a JSON object
 //-- generates an HTML and loads it
 //------------
-ipc.on('open-topic', (event, _) => {
-	generateHTML(_, 'topic')
+ipc.on('open-topic', (event, _t) => {
+	generateHTML(_t, 'topic')
 	replaceWindow('topic')
 })
 
