@@ -11,5 +11,6 @@ build/
 *.app
 [Mm]ultimodal-darwin-x64/
 
+notes/
 documentation.md
 todo.md
