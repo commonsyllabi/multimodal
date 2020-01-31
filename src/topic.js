@@ -37,10 +37,11 @@ class Topic {
         {
           name: "new page",
           tag: "",
-          prep: {
-            text:"",
-            html: ""
-          },
+          preps: [{
+            "tag": "",
+            "text": "",
+            "type": "md"
+          }],
           notes: [],
           writeup: {"text":""}
         },
@@ -49,10 +50,11 @@ class Topic {
     			context: {text: ""},
     			pages: [{
     				name: "first",
-    				prep: {
-              text: "",
-              html: ""
-            },
+    				preps: [{
+              "tag": "",
+              "text": "",
+              "type": "md"
+            }],
     				notes: [],
     				writeup: {text: ""}
     			}]
@@ -290,7 +292,7 @@ class Topic {
         //-- rebuild the index
         let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
-        fs.writeFileSync(`${path}/index.html`, index)
+        fs.writeFileSync(`${_path}/index.html`, index)
 
         resolve()
 
@@ -306,6 +308,8 @@ class Topic {
         //-- create the html stream
         //-- TODO write the html file instead of passing a stream to createPDF
         let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+        fs.writeFileSync(`${app.getPath('userData')}/app/imports/temp/render.html`, render)
+        let writtenFile = fs.readFileSync(`${app.getPath('userData')}/app/imports/temp/render.html`, 'utf8')
 
         //-- generate the pdf
         let options = {
@@ -316,10 +320,10 @@ class Topic {
             left: "0.125in"
           },
           format: 'A4',
-          base: 'file://'+path.resolve('.')+'/'
+          base: `file://${app.getPath('userData')}/app/imports/temp/`
         }
 
-        pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+        pdf.create(writtenFile, options).toFile(`${_path}/${topic.name}.pdf`, (err, res) => {
           if(err){
             console.log(err);
             utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
