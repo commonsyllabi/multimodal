@@ -38,6 +38,21 @@ subject-container<template>
               {{single.subject.name}}
               </div>
 
+              <div v-if="current.subject.name == single.subject.name" class="subject-info-container">
+                <div class="subject-info-item">
+                  <b>Description:</b><br>
+                  {{single.subject.description}}
+                </div>
+                <div class="subject-info-item">
+                  <b>Created at:</b><br>
+                  {{single.subject.created}}
+                </div>
+                <div class="subject-info-item">
+                  <b>Path:</b><br>
+                  {{single.subject.path}}
+                </div>
+              </div>
+
               <div class="subject-buttons">
                 <button @click="removeSubject(single.subject)">rename</button>
                 <button @click="">duplicate</button>
@@ -70,16 +85,18 @@ subject-container<template>
       <div class="topics" v-if="current.subject.name != undefined">
         <h1>My Classes</h1>
         <ul>
-          <li v-for="topic in current.subject.topics" class="topic"
-          @click="setTopic($event, topic.name)"
-          @dblclick="openTopic(topic.name)">
-
+          <li v-for="topic in current.subject.topics" class="topic">
+          <div class="topic-name" @click="openTopic($event, topic.name)">
             {{topic.name}}
+          </div>
 
-            <button class="right" @click="removeTopic(topic)">remove</button>
+            <div class="topic-buttons">
+              <button @click="exportTo('html', selectedSubject, selectedTopic)">export</button>
+              <button @click="removeTopic(topic)">remove</button>
+            </div>
           </li>
         </ul>
-        <button @click="createTopic(current.subject)">create new topic</button>
+        <button class="topic-create" @click="createTopic(current.subject)">create new topic</button>
       </div>
     </div>
 
@@ -103,7 +120,7 @@ h1{
 
 
 //---------------- GENERAL
-.buttons-container, .subjects-container, .topics-container, .menu-container{
+.subjects-container, .topics-container, .menu-container{
   display: inline-block;
   float: left;
 	height: 100vh;
@@ -168,15 +185,28 @@ h1{
 	font-size: 2em;
 }
 
-.subject button{
+.subject button, .topic button{
   text-align: center;
   border: none;
   margin: 0;
   padding: 0;
 }
 
-.subject-name, .subject-buttons{
+.subject-name, .subject-buttons, .subject-info-container{
   padding-left: 1vw;
+}
+
+.subject-info-container{
+	color: $main-bg-color;
+	background-color: $main-fg-color;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.subject-info-item{
+  font-size: 16px;
+  font-weight: normal;
+  margin: 10px;
 }
 
 .subject-buttons{
@@ -217,7 +247,23 @@ h1{
   background-color: $main-fg-color;
 }
 
-.topic:hover{
+.topic button{
+  color: $main-bg-color;
+  background-color: $main-fg-color;
+}
+
+.topic-create{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.topic-name{
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.topic-name:hover{
 	font-weight: bold;
 }
 
@@ -226,62 +272,6 @@ h1{
 	color: $main-bg-color;
 	border-color: $main-fg-color;
 	font-weight: bold;
-}
-
-//---------------- BUTTONS
-.buttons-container {
-	position: fixed;
-	z-index: 3;
-	bottom: 0px;
-	left: 0px;
-	padding-left: 10px;
-	height: 35px;
-  line-height: 35px;
-	width: 100%;
-
-	background-color: $main-bg-color;
-	border-top: 2px solid $main-fg-color;
-
-	button {
-		margin-right: 2%;
-    border: none;
-	}
-}
-
-.btn {
-	border: none;
-	color: $main-fg-color;
-	background-color: $main-bg-color;
-  font-size: $btn-size;
-	font-family: 'Inter UI';
-	cursor: pointer;
-  // font-size: 1.5em;
-
-  @media (max-width: $break-medium){
-		font-size: 1.5em;
-	}
-}
-
-.btn:hover{
-	background-color: $main-bg-color;
-	color: $main-fg-color;
-}
-
-.btn:active{
-	border: none;
-}
-
-.btn:disabled{
-  color: $main-bg-color;
-}
-
-li button{
-  // font-size: 1em;
-  font-weight: bold;
-  color: $main-bg-color;
-  background-color: $main-fg-color;
-  border-radius: 60px;
-  z-index: 5;
 }
 </style>
 
@@ -343,30 +333,10 @@ export default {
     //-- styles the current topic
     //------------
     setTopic(_e, _n) {
-      this.current.topic.name = _n
-      this.current.path = _p
-      // this.current.sessions = ["session one", "session two"]
 
-      // TODO: this can be streamlined
-      let all_subjects = document.getElementsByClassName('subject')
-      for(let s of all_subjects)
-        s.setAttribute('class', s.getAttribute('class').replace('selected', ''))
-
-      let all_topics = document.getElementsByClassName('topic')
-      for(let l of all_topics)
-        l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
-
-      let cl = _e.target.getAttribute('class')
-      _e.target.setAttribute('class', `${cl} selected`)
-
-      let btns = document.getElementsByClassName('inter-btn-main')
-      for(let btn of btns)
-        btn.disabled = false
-
-      this.selectedTopic = true
-      this.selectedSubject = false
     },
-    openTopic(){
+    openTopic(_e, _n){
+      this.current.topic.name = _n
       if(this.current.topic == {}) return
 
     	ipc.send('open-topic', this.current)

@@ -127,7 +127,7 @@ export default {
     addPrep(_data) {
       let p = {}
       switch (_data.type) {
-        case 'txt':
+        case 'md':
           p = {
             "tag": "",
             "text": "",

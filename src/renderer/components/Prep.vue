@@ -31,7 +31,7 @@
 
     <!-- CONTROLS -->
     <div v-if="isEdit"class="add-buttons">
-      <button @click="addPrep('txt')">add txt</button>
+      <button @click="addPrep('md')">add txt</button>
       <button @click="addPrep('img')">add img</button>
       <button @click="addPrep('file')">add file</button>
       <button v-if="isEdit" @click="removePrep">remove</button>
