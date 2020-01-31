@@ -37,11 +37,10 @@ class Topic {
         {
           name: "new page",
           tag: "",
-          preps: [{
-            "tag": "",
-            "text": "",
-            "type": "txt"
-          }],
+          prep: {
+            text:"",
+            html: ""
+          },
           notes: [],
           writeup: {"text":""}
         },
@@ -50,7 +49,10 @@ class Topic {
     			context: {text: ""},
     			pages: [{
     				name: "first",
-    				preps: [],
+    				prep: {
+              text: "",
+              html: ""
+            },
     				notes: [],
     				writeup: {text: ""}
     			}]

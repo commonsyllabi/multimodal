@@ -151,11 +151,10 @@ ipc.on('save-subject', (event, _d) => {
 			context: {text: ""},
 			pages: [{
 				name: "new page",
-				preps: [{
-					text: "this is your first note",
-					tag: "",
-					type: "txt"
-				}],
+				prep: {
+					text: "",
+					html: ""
+				},
 				notes: [],
 				writeup: {text: ""}
 			}]
@@ -165,7 +164,10 @@ ipc.on('save-subject', (event, _d) => {
 			context: {text: ""},
 			pages: [{
 				name: "first",
-				preps: [],
+				prep: {
+					text: "",
+					html: ""
+				},
 				notes: [],
 				writeup: {text: ""}
 			}]
