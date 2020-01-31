@@ -156,12 +156,6 @@ export default {
     }
   },
   methods: {
-    removePrep() {
-      this.$emit('remove-prep', this)
-    },
-    addPrep(t){
-      this.$emit('add-prep', {type:t, index:this.index})
-    },
     openLink(e){
       e.preventDefault()
       ipc.send('open-url', e.target.href)
