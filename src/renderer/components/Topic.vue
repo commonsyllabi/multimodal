@@ -537,7 +537,7 @@ export default {
   //-- this is mostly used for backwards compatibility
   //------------
   beforeMount() {
-    this.data = window.data
+    this.data = sanitize(window.data)
     for(let concept of this.data.concepts)
         concept.context.links = concept.context.links == undefined ? [] : concept.context.links
 
@@ -545,6 +545,41 @@ export default {
 
     this.currentConcept = window.currentConcept
   }
+}
+
+//------------
+//-- for backwards compatibility
+//------------
+let sanitize = (_data) => {
+  let data = _data
+
+  for(let i = 0; i < _data.concepts.length; i++){
+    for(let j = 0; j < _data.concepts[i].pages.length; j++){
+      let prep = ''
+      for(let p of _data.concepts[i].pages[j].preps){
+        if(p.type == 'txt')
+          prep += p.text
+        else if(p.type == 'img')
+          prep += `[!${p.src}]`
+        else if(p.type == 'url')
+          prep += `[${p.text}](${p.url})`
+        else if(p.type == 'vid')
+          prep += `[!${data.name}]`
+        else if(p.type == 'file')
+          prep += `[${p.name}](${p.path})`
+        else
+          console.log(`wrong type of prep`)
+
+        prep += '\n\n'
+      }
+
+      data.concepts[i].pages[j].prep = {"text": prep}
+    }
+  }
+
+  console.log(data);
+
+  return data
 }
 
 //------------

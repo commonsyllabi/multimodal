@@ -1,54 +1,25 @@
 <template>
   <div class="prep-holder">
 
-    <!-- TEXT PREP -->
-    <div v-if="data.type == 'txt'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
-      <span v-else>{{data.text}}</span>
-    </div>
-
-    <!-- URL PREP -->
-    <div v-else-if="data.type == 'url'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource text" v-model:value="data.text">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource link" v-model:value="data.url">
-      <a v-else :href="data.url" @click="openLink" target="_blank">{{data.text}}</a>
-    </div>
-
-    <!-- FILE PREP -->
-    <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="file-input" type="file" v-if="isEdit" @change="handlePathInput"></input>
-      <a v-else :href="data.path" @click="openPath">{{data.name}}</a>
-    </div>
-
-    <!-- IMAGE PREP -->
-    <div v-else-if="data.type == 'img'" class="prep" :concept="index" :tag="data.tag">
-      <div v-if="isEdit">
-        <input class="file-input" type="file" @change="handleFileInput"></input>
-        <img class="preview" :src="data.src"/>
-      </div>
-      <img v-else :name="data.name" :src="data.src"/>
-    </div>
-
-    <!-- VIDEO PREP -->
-    <div v-else-if="data.type == 'vid'" class="prep written " :concept="index" :tag="data.tag">
-      <video max-width="800px" max-height="600px" controls>
-        <source :name="data.name" :src="`assets/${subject.name}/lessons/${name}/media/${data.name}`"/>
-      </video>
-    </div>
-
-    <!-- CONTROLS -->
-    <div v-if="isEdit"class="add-buttons">
-      <button @click="addPrep('txt')">txt</button>
-      <button @click="addPrep('url')">url</button>
-      <button @click="addPrep('img')">img</button>
-      <button @click="addPrep('file')">file</button>
-      <button v-if="isEdit" @click="removePrep">-</button>
-    </div>
+    <textarea v-if="this.isEdit">{{data.text}}</textarea>
+    <div v-if="!this.isEdit" class="prep" v-html="markdown"></div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @import '../sass/globals.scss';
+
+textarea{
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  width: 100%;
+  min-height: 50vh;
+  font-size: 2em;
+  height: auto;
+  overflow: visible;
+  border-left: 2px solid $main-fg-color;
+  padding-left: 10px;
+}
 
 button{
     pointer-events: all; //-- always catch the click events
@@ -56,7 +27,8 @@ button{
 
 .prep-holder{
   position: relative;
-  width: 50vw;
+  width: 70%;
+  margin-top: 5vh;
   margin-left: 10vw;
 }
 
@@ -147,6 +119,7 @@ img{
 
 <script>
 const ipc = require('electron').ipcRenderer
+const marked = require('marked')
 
 export default {
   props: {
@@ -174,6 +147,12 @@ export default {
   data: function () {
     return {
       newFile: ''
+    }
+  },
+  computed: {
+    markdown: function () {//-- parse the text as markdown and render as html
+      this.data.html = marked(this.data.text)
+      return this.data.html
     }
   },
   methods: {
