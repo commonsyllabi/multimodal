@@ -537,14 +537,51 @@ export default {
   //-- this is mostly used for backwards compatibility
   //------------
   beforeMount() {
-    this.data = window.data
-    for(let concept of this.data.concepts)
-        concept.context.links = concept.context.links == undefined ? [] : concept.context.links
-
-    this.data.overview = this.data.overview ? this.data.overview : {"text":""}
+    this.data = sanitize(window.data)
 
     this.currentConcept = window.currentConcept
   }
+}
+
+//------------
+//-- sanitizes previous data
+//-- for backwards compatibility
+//------------
+let sanitize = (_data) => {
+  let data = _data
+
+  //-- consolidate the `txt` and `url` into `md`
+  for(let i = 0; i < _data.concepts.length; i++){
+    for(let j = 0; j < _data.concepts[i].pages.length; j++){
+      let prep = {type: "md", text: "", tag: ""}
+
+      for(let p of _data.concepts[i].pages[j].preps){
+        switch (p.type) {
+          case 'txt':
+            prep.text += p.text
+            break;
+          case 'url':
+            prep.text += `[${p.text}](${p.url})`
+            break;
+          default:
+            break;
+        }
+
+        prep.text += '\n\n\n'
+      }
+
+      data.concepts[i].pages[j].preps.push(prep)
+    }
+  }
+
+  //-- make sure each context has links
+  for(let concept of data.concepts)
+      concept.context.links = concept.context.links == undefined ? [] : concept.context.links
+
+  //-- make sure each overview has a text field
+  data.overview = data.overview ? data.overview : {"text":""}
+
+  return data
 }
 
 //------------

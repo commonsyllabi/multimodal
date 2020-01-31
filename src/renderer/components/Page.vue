@@ -55,7 +55,7 @@ canvas {
 }
 
 .title, .edit-input {
-  font-size: 2.3em;
+  font-size: 2.5em;
   font-weight: bold;
   margin-top: 10vh;
   margin-left: 10vw;

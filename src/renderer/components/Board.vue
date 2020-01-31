@@ -342,19 +342,24 @@ export default {
     this.data = window.data
   },
   mounted(){
-    console.log('hey');
     //------------
     //-- sets up the event listener
     //-- to display the result of exportTo
     //------------
     ipc.on('export-success', (event, d) => {
+      let data = {
+        path: JSON.parse(d.data).path,
+        type: JSON.parse(d.data).type,
+        name: JSON.parse(d.data).info.name
+      }
+
       msgbox.setMessage("export successful!", [{fn: () => {
-        d.type = "folder"
-        ipc.send('open-export', JSON.stringify(d))
+        data.location = "folder"
+        ipc.send('open-export', JSON.stringify(data))
       }, name: "show in folder"},
       {fn: () => {
-        d.type = "show"
-        ipc.send('open-export', JSON.stringify(d))
+        data.location = "show"
+        ipc.send('open-export', JSON.stringify(data))
       }, name: "open file"}], null, true)
     })
   }
