@@ -284,10 +284,11 @@ app.on('ready', () => {
 	}
 
 	//-- and to copy the js and css files there
-	if(!fs.existsSync(`${app.getPath('userData')}/app/main.js`))
+	//// TODO: clear that up
+	// if(!fs.existsSync(`${app.getPath('userData')}/app/main.js`))
 		fs.createReadStream(`${__dirname}/app/main.js`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/main.js`))
 
-	if(!fs.existsSync(`${app.getPath('userData')}/app/topic.js`))
+	// if(!fs.existsSync(`${app.getPath('userData')}/app/topic.js`))
 		fs.createReadStream(`${__dirname}/app/topic.js`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/topic.js`))
 
 

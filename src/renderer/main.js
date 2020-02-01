@@ -34,6 +34,8 @@ window.vm = vm.$children[0]
 window.msgbox = msgbox.$children[0]
 
 ipc.on('menu-create-subject', () => { window.vm.showCreate = true})
+ipc.on('menu-toggle-draw', () => {window.vm.toggleDraw() })
+ipc.on('menu-clear-board', () => {window.vm.clearBoard() })
 ipc.on('menu-remove', () => { window.vm.removeLesson()})
 ipc.on('menu-export', () => { window.vm.exportLesson()})
 
