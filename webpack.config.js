@@ -8,7 +8,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 //-- different target directories based on platforms
 let targetPath = process.platform == 'linux' ?
   path.join(process.env.HOME, '/.config/multimodal/app') :
-  path.resolve(__dirname, 'src/app')
+  path.join(process.env.HOME, '/Library/Application Support/multimodal/app')
 
 module.exports = {
   entry: {
