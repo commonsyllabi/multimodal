@@ -36,6 +36,14 @@ const template = [
 				click() { win.webContents.send('menu-export') },
 				accelerator: 'CmdOrCtrl+Shift+E'
 			},
+			{label: 'Toggle drawing',
+				click() { win.webContents.send('menu-toggle-draw') },
+				accelerator: 'CmdOrCtrl+D'
+			},
+			{label: 'Clear whiteboard',
+				click() { win.webContents.send('menu-clear-board')},
+				accelerator: 'CmdOrCtrl+K'
+			},
 			{
 				label: 'Go to board',
 				click() { win.webContents.send('menu-exit') },
