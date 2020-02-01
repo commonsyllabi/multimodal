@@ -9,12 +9,16 @@ const pdf = require('html-pdf')
 const utils = require('./utils.js')
 const file_mgmt = require('./file-mgmt.js')
 
+//------------
+//-- initiates the subject
+//-- checks for an ID so a not to always create new ones
+//------------
 class Subject {
-  constructor(data){
-    this.id = data.id ? data.id : generateId(data.name)
-    this.name = data.name.trim()
-    this.path = data.path
-    this.description = data.description
+  constructor(_data){
+    this.id = _data.id ? _data.id : generateId()
+    this.name = _data.name.trim()
+    this.path = _data.path
+    this.description = _data.description
     this.created = new Date()
     this.updated = null
     this.topics = []
@@ -22,6 +26,11 @@ class Subject {
     this.init()
   }
 
+  //------------
+  //-- updates the subjects.json array
+  //-- and creates the topics/ folder
+  //-- as well as the subject.json description file
+  //------------
   init(){
     //add to the internal data
     let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
@@ -36,17 +45,35 @@ class Subject {
     fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.name}/subject.json`, JSON.stringify(data))
   }
 
-  static remove(subject){
-    console.log(`[SUBJECT] deleting ${subject.name}...`);
+  //------------
+  //-- returns a JSON version of the current instance
+  //------------
+  toJSON(){
+    return {
+      "id": this.id,
+      "name": this.name,
+      "path": this.path,
+      'description': this.description,
+      "created": this.created,
+      "updated": this.updated,
+      "topics": this.topics
+    }
+  }
+
+  //------------
+  //-- removes a subject given
+  //-- a name and an id
+  //------------
+  static remove(_subject){
+    console.log(`[SUBJECT] deleting ${_subject.name}...`);
     return new Promise((resolve, reject) => {
 
-      console.log('[SUBJECT] first from the subjects list');
+      console.log('[SUBJECT] ...from the subjects list.');
       let foundSubject = false
       let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
-        if(subjects[i].id == subject.id){
+        if(subjects[i].id == _subject.id){
           foundSubject = true
-          console.log('[SUBJECT] found the subject to be deleted...');
           subjects.splice(i, 1)
           console.log('[SUBJECT] deleted from local list...');
         }
@@ -58,9 +85,9 @@ class Subject {
           info: "could not find the subject"
         })
 
-      console.log('[SUBJECT] then the local folder..');
+      console.log('[SUBJECT] ...from the imports/ folder.');
       try{
-        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${subject.name}/`)
+        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${_subject.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -69,12 +96,16 @@ class Subject {
     })
   }
 
-  static importFrom(path){
-    console.log(`[SUBJECT] importing from ${path}...`)
+  //------------
+  //-- imports a subject given a path
+  //-- to a .mmd archive
+  //------------
+  static importFrom(_path){
+    console.log(`[SUBJECT] importing from ${_path}...`)
     return new Promise((resolve, reject) => {
       try {
-        let file = file_mgmt.extract(path)
-        console.log('subject',file);
+        let file = file_mgmt.extract(_path)
+        console.log(`[SUBJECT] ...success importing: ${file}`);
         resolve(file)
       } catch (e) {
         reject(e)
@@ -82,71 +113,79 @@ class Subject {
     })
   }
 
-  static export(data, type, path){
-    console.log(`[SUBJECT] exporting - ${data.subject} - ${type}`);
+  //------------
+  //-- exports a subject
+  //-- and its topics
+  //-- given a subject name, a type and a path
+  //------------
+  static export(_data, _type, _path){
+    console.log(`[SUBJECT] exporting - ${_data.subject} - ${_type}`)
+
     let topics_to_export = []
     return new Promise((resolve, reject) => {
+      console.log('RETURN - actually write that function! this is currently in the "topic mode"')
+      reject()
 
-      if(data.name){ //-- we are exporting one specific topic
-        let c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${data.name}/topic.json`))
-        topics_to_export.push(c)
-      }else{ //-- we are exporting all of them
-        let s = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
+      //-- first we collect all the topics of the subject
+      let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
 
-        for(let t of s.topics){
-          let c = null
-          try{
-            c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/topics/${t.name}/topic.json`))
-          }catch(e){
-            console.log(`[SUBJECT] couldn't open ${t.name} for export`);
-          }
-
-          if(c != null)
-            topics_to_export.push(c)
+      for(let topic of subject.topics){
+        let data = null
+        try{
+          c = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${topic.name}/topic.json`))
+        }catch(e){
+          console.log(`[SUBJECT] couldn't open ${topic.name} for export`);
         }
 
-        console.log(`[SUBJECT] found ${topics_to_export.length} topics to export`);
+        if(data != null)
+          topics_to_export.push(data)
       }
 
-      if(type == 'html'){
-        //copy all assets over to new folder
-        utils.touchDirectory(`${path}/${data.subject}_assets/`)
+      //-- then we export depending on the type
+      if(_type == 'html'){
+        //-- creating subject_assets directory
+        utils.touchDirectory(`${_path}/${_data.subject}_assets/`)
 
+        //-- for each topic
         for(let topic of topics_to_export){
+
+          //-- copy all images, videos and file assets over to new folder
           for(let concept of topic.concepts)
             for(let page of concept.pages)
               for(let prep of page.preps)
-                if(prep.type == 'img' || prep.type == 'vid')
-                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${path}/${topic.subject.name}_assets/${prep.name}`))
+                if(prep.type == 'img' || prep.type == 'vid' || prep.type == 'file')
+                  fs.copySync(`${prep.src}`,`${_path}/${topic.subject.name}_assets/${prep.name}`)
 
+          //-- render  and write an HTML file for each of these topics
           let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
-          fs.writeFileSync(`${path}/${topic.name}.html`, render)
+          fs.writeFileSync(`${_path}/${topic.name}.html`, render)
         }
 
-        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${data.subject}/subject.json`))
+        //-- rebuild the index
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
         subject.topics = topics_to_export
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
         fs.writeFileSync(`${path}/index.html`, index)
+
         resolve()
-      }else if(type == 'pdf'){
+
+      }else if(_type == 'pdf'){
         let counter = 0 //-- to keep track of how many renders we've finished
 
-        //-- first copy all the media assets and html to a temp folder
-        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${data.subject}_assets/`)
+        //-- for each topic
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject}_assets/`)
         for(let topic of topics_to_export){
+
+          //-- first copy all the media assets and html to a temp folder
           for(let concept of topic.concepts)
             for(let page of concept.pages)
               for(let prep of page.preps)
-                if(prep.type == 'img' || prep.type == 'vid')
-                  fs.createReadStream(`${prep.src}`).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`))
+                if(prep.type == 'img' || prep.type == 'vid' || prep.type == 'file')
+                  fs.copySync(`${prep.src}`, `${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`)
 
           //-- create the html stream
+      	  //-- TODO write the html file instead of passing a stream to createPDF
           let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
-
-	  //TODO
-	  //-- write the html file instead of passing a stream to createPDF
-	  //
-	  //--TODO DELETE ALL TEMP FILES AFTER EXPORT
 
           //-- generate the pdf
           let options = {
@@ -157,9 +196,10 @@ class Subject {
               left: "0.125in"
             },
             format: 'A4',
-	    base: 'file://'+path.resolve('.')+'/'
+	          base: 'file://'+path.resolve('.')+'/'
           }
-          pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+
+          pdf.create(render, options).toFile(`${_path}/${topic.name}.pdf`, (err, res) => {
             if(err){
               console.log(err);
               utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
@@ -173,26 +213,22 @@ class Subject {
           })
         }
 
+        //-- TODO
+        //-- render the cover page
+        //-- bind all topics together
+
       }else{
-        console.log('[SUBJECT] got wrong type');
+        console.log('[SUBJECT] got wrong export type');
         reject()
       }
     })
   }
-
-  toJSON(){
-    return {
-      "id": this.id,
-      "name": this.name,
-      "path": this.path,
-      'description': this.description,
-      "created": this.created,
-      "topics": this.topics
-    }
-  }
 }
 
-let generateId = (n) => {
+//------------
+//-- generates a 15 digit long id string
+//------------
+let generateId = () => {
   let id = ''
   for(let i = 0; i < 15; i++)
     id += Math.floor(Math.random()*10).toString()

@@ -19,9 +19,10 @@ textarea {
   z-index: 5;
   width: 40%;
   color: $main-fg-color;
+  opacity: 0.8;
   font-size: 1.9em;
 
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.1s ease-in;
 
   @media (max-width: 1300px){
     font-size: 1.7em;
@@ -39,7 +40,7 @@ textarea {
 
 #current{
    position: absolute;
-   font-weight: bold;
+   opacity: 1;
    overflow-y: visible;
 }
 </style>

@@ -26,7 +26,7 @@
     <div v-if="isEdit" class="links-buttons">
       <button @click="addLink(-1)">+</button>
     </div>
-    <div v-if="data.links.length == 0 && !isEdit">
+    <div v-if="!data.links && !isEdit">
       No links added yet.
     </div>
   </div>

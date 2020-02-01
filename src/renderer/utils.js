@@ -12,7 +12,7 @@ module.exports.setMessage = (_msg, _type) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
 	el.setAttribute('class', 'msg-log '+_type)
-	el.style.opacity = 1
+	el.style.opacity = 0.9
 
 	setTimeout(() => {
 		el.style.opacity = 0

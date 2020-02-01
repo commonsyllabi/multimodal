@@ -5,24 +5,32 @@ const fs = require('fs-extra')
 const os = require('os')
 const pug = require('pug')
 const path = require('path')
+const pdf = require('html-pdf')
 const utils = require('./utils.js')
 const file_mgmt = require('./file-mgmt.js')
 
+//------------
+//-- initiates the topic
+//-- either from an existing subject
+//-- or as the first topic of a new subject
+//-- checks for an ID so a not to always create new ones
+//------------
 class Topic {
+  constructor(_data){
+    this.id = _data.id ? _data.id : generateId()
 
-  constructor(data){
-    this.id = data.id != undefined ? data.id : generateId()
-    console.log(data.subject);
+    //-- this prevents us from recursively integrating
+    //-- all the topics within the subject
     this.subject = {
-      name: data.subject.name,
-      id: data.subject.id,
-      path: data.subject.path
+      name: _data.subject.name,
+      id: _data.subject.id,
+      path: _data.subject.path
     },
-    this.name = data.name ? data.name : "new-topic"
-    this.created = new Date()
-    this.updated = null
-    this.overview = data.overview != undefined ? data.overview : {text:""}
-    this.concepts = data.concepts ? data.concepts : [{
+
+    //-- if there are no concepts or no overview, we create new ones
+    this.name = _data.name ? _data.name : "new-topic"
+    this.overview = _data.overview ? _data.overview : {text:""}
+    this.concepts = _data.concepts ? _data.concepts : [{
       name: "new concept",
       context: {"text":"", "links": []},
       pages: [
@@ -36,30 +44,41 @@ class Topic {
           }],
           notes: [],
           writeup: {"text":""}
-        }
-      ]
+        },
+    		{
+    			name: "scrapboard",
+    			context: {text: ""},
+    			pages: [{
+    				name: "first",
+    				preps: [],
+    				notes: [],
+    				writeup: {text: ""}
+    			}]
+    		}]
     }]
+
+    this.created = new Date()
+    this.updated = null
 
     this.init()
   }
 
   init(){
-    //-- create the appropriate folders
-    //-- now we only create folders in the local imports directory. they get compressed afterwards
+    //-- create the media/ and other/ folders
     utils.touchDirectory(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/media`)
     utils.touchDirectory(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/other`)
 
-    //-- find the appropriate course and update it locally
+    //-- update the corresponding subject in the subjects.json list
     let subject_list = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
     for(let s of subject_list)
-      if(s.id == this.subject.id) //TODO -> course id doesn't match with the lesson _id
+      if(s.id == this.subject.id)
         s.topics.push(this.toJSON())
     fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subject_list))
 
-    //-- as well as in the imports folder
-    let remote_subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`))
-    remote_subject.topics.push(this.toJSON())
-    fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`, JSON.stringify(remote_subject))
+    //-- update subject.json description in the imports/ folder as well
+    let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`))
+    subject.topics.push(this.toJSON())
+    fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/subject.json`, JSON.stringify(subject))
 
     //-- finally write the actual topic file
     fs.writeFileSync(`${app.getPath('userData')}/app/imports/${this.subject.name}/topics/${this.name}/topic.json`, JSON.stringify(this.toJSON()))
@@ -67,12 +86,32 @@ class Topic {
     file_mgmt.compress(this.subject.name, this.subject.path)
   }
 
-  static save(data){
-    data.updated = new Date()
+  //------------
+  //-- returns a JSON version of the current instance
+  //------------
+  toJSON(){
+    return {
+      "id": this.id,
+      "subject": this.subject,
+      "name": this.name,
+      "overview": this.overview,
+      "concepts": this.concepts,
+      "created": this.created,
+      "updated": this.updated
+    }
+  }
+
+  //------------
+  //-- saves a topic during a session
+  //-- given all of the session data
+  //------------
+  static save(_data){
+    _data.updated = new Date()
 
     return new Promise((resolve, reject) => {
 
-      console.log(`[TOPIC] checking for existing topic...`);
+      //-- is it an existing topic, or are we saving a new one?
+      //-- we check if the topic and subject do exist
       let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       let foundTopic = false
       let foundSubject = false
@@ -80,70 +119,64 @@ class Topic {
       for(let i = 0; i < subjects.length; i++){
         let s = subjects[i]
 
-        if(s.id == data.subject.id){ //we have found the subject of the topic we're trying to
-
+        //-- we have found the parent subject of the topic we're trying to save
+        if(s.id == _data.subject.id){
           foundSubject = true
-          console.log(`[TOPIC] found subject...`);
 
           for(let j = 0; j < s.topics.length; j++){
             let t = s.topics[j]
-            if(t.id == data.id){
-              if(t.name != data.name){ //--this is where I check for the name change
-                console.log('[TOPIC] found different name, renaming folder...');
-                fs.renameSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}`)
+            if(t.id == _data.id){
 
-                //-- also rename the field in subject.json
-                t.name = data.name
+              //-- if the name of the topic has changed
+              //-- we need to rename the folders and subjects.json
+              if(t.name != _data.name){
+                console.log(`[TOPIC] found a topic, and updating the name to ${_data.name}...`);
+                fs.copySync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
+                fs.removeSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`)
+
+                t.name = _data.name
                 fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
-                //-- find the subject.json of the subject and update the name
-                let subj = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`));
-                for(let top of subj.topics)
-                  if(top.id == data.id)
-                    top.name = data.name
-                fs.writeFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subj));
-
+                //-- find the subject.json description of the subject and update the name as well
+                let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`));
+                for(let topic of subject.topics)
+                  if(topic.id == _data.id)
+                    topic.name = _data.name
+                fs.writeFileSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/subject.json`, JSON.stringify(subject));
               }
 
-              console.log(`[TOPIC] found existing topic...`);
-              subjects[i].topics[j] = data
+              //-- we insert the topic (updating)
+              subjects[i].topics[j] = _data
               foundTopic = true
             }
           }
 
-          //-- we add the topic to the end of the array
+          //-- this means we just created a new topic
+          //-- we add it to the end of the array
           if(!foundTopic)
-            s.topics.push(data)
+            s.topics.push(_data)
         }
       }
 
       if(!foundSubject)
         reject({
           err: 404,
-          info: `subject ${data.subject.id} not found`
+          info: `[TOPIC] parent subject ${_data.subject.name} (${_data.subject.id}) not found`
         })
 
-      console.log('[MEDIA] checking for media to copy...');
       //-- check for external media assets and copy them in the local folder
-      for(let concept of data.concepts){
+      for(let concept of _data.concepts){
         for(let page of concept.pages){
           for(let p of page.preps){
             if(p.type == 'img' || p.type == 'vid'){
               let re = (/[^/]*$/gi).exec(p.src)
               p.name = re[0]
 
-              // //-- check for existing assets
-              // let existing = fs.readdirSync(`${__dirname}/app/imports/${data.subject.name}/topics/${data.name}/media`)
-              // let isReplacing = false
-              // for(let e of existing)
-              //   if(e == p.name)
-              //     isReplacing = true
-
               //-- here we check that we're not copying from an image that is already copied
               if(p.src.indexOf('/app/imports') == -1){
-                fs.createReadStream(p.src).pipe(fs.createWriteStream(`${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`))
-                // now we redirect the source to the local folder
-                p.src = `${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/media/${p.name}`
+                fs.copySync(p.src, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}/media/${p.name}`)
+                // now we update the source of each of these assets to point the local folder
+                p.src = `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}/media/${p.name}`
                 console.log(`[MEDIA] copied ${p.name} to ${p.src}`)
               }
             }
@@ -151,33 +184,36 @@ class Topic {
         }
       }
 
-      console.log(`[TOPIC] writing to local subject.json...`);
+      //-- update the subjects.json list
       fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
-      //-- update the remote file
-      console.log(`[TOPIC] Writing to local topic.json...`);
-      fs.writeFileSync(`${app.getPath('userData')}/app/imports/${data.subject.name}/topics/${data.name}/topic.json`, JSON.stringify(data))
+      //-- update the imports/topic.json description file
+      fs.writeFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}/topic.json`, JSON.stringify(_data))
 
-      file_mgmt.compress(data.subject.name, data.subject.path)
+      file_mgmt.compress(_data.subject.name, _data.subject.path)
 
-      resolve(data)
+      resolve(_data)
     })
   }
 
-  static remove(topic){
-    console.log(`[TOPIC] deleting ${topic.name}...`);
+  //------------
+  //-- removes a topic, given data with
+  //-- name, id, subject name, subject id
+  //------------
+  static remove(_topic){
+    console.log(`[TOPIC] removing ${_topic.name}...`)
+
     return new Promise((resolve, reject) => {
 
-      console.log(`[TOPIC] first from: ${app.getPath('userData')}/data/subjects.json`);
-
+      //-- removing reference from the subjects.json list
+      //-- by checking ids of both topic and subject
       let foundTopic = false, foundSubject = false
-
       let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
-        if(subjects[i].id == topic.subject.id){
+        if(subjects[i].id == _topic.subject.id){
           foundSubject = true
           for(let j = 0; j < subjects[i].topics.length; j++){
-            if(subjects[i].topics[j].id == topic.id){
+            if(subjects[i].topics[j].id == _topic.id){
               foundTopic = true
               console.log('[TOPIC] found the topic to be deleted...');
               subjects[i].topics.splice(j, 1)
@@ -190,21 +226,29 @@ class Topic {
       if(!foundSubject)
         reject({
           err: 404,
-          info: "could not find the subject"
+          info: "[TOPIC] could not find the subject"
         })
 
       if(!foundTopic)
         reject({
           err: 404,
-          info: "could not find the topic"
+          info: "[TOPIC] could not find the topic"
         })
 
-      //-- we have updated the subjects.json, now we write it to file again
+      //-- we have updated the subjects.json list
+      //-- now we write it to disk again
       fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
-      console.log(`[TOPIC] then remotely from: ${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/...`);
+      //-- and deleting the reference in imports/subject.json
+      let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/subject.json`))
+      for(let i = 0; i < subject.topics.length; i++)
+        if(subject.topics[i].id == _topic.id)
+          subject.topics.splice(i, 1)
+      fs.writeFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/subject.json`, JSON.stringify(subject))
+
+      //-- and the associated folders
       try{
-        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/`)
+        utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/topics/${_topic.name}/`)
         resolve()
       }catch (e){
         console.log(e);
@@ -213,74 +257,88 @@ class Topic {
     })
   }
 
+  //------------
+  //-- exports a topic, given data with
+  //-- name, subject name, type and path
+  //------------
+  static export(_data, _type, _path){
+    console.log(`[TOPIC] exporting - ${_data.name} - ${_type}`)
 
+    return new Promise((resolve, reject) => {
+      let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/topics/${_data.name}/topic.json`))
 
-  static export(_info, _type, _path = undefined, resolve, reject){
+      if(topic == null)
+        reject()
 
-    let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_info.subject}/topics/${_info.name}/topic.json`))
+      if(_type == 'html'){
+        //-- making sure the assets directory exists
+        utils.touchDirectory(`${_path}/${_data.topic}_assets/`)
 
-    if(_type == 'html'){
-      let compiled = pug.renderFile(__dirname+'/views/export.pug', topic)
+        //-- copy all images, videos and file assets over to new folder
+        for(let concept of topic.concepts)
+          for(let page of concept.pages)
+            for(let prep of page.preps)
+              if(prep.type == 'img' || prep.type == 'vid' || prep.type == 'file')
+                fs.copySync(`${prep.src}`, `${_path}/${topic.subject.name}_assets/${prep.name}`)
 
-      // we copy all the existing assets from the multimodal to the html exports
-      let media_path = `${app.getPath('userData')}/app/imports/${topic.subject.name}/topics/${topic.name}/media/`
+        //-- render and write an HTML file
+        let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
+        fs.writeFileSync(`${_path}/${topic.name}.html`, render)
 
-      console.log('aborted');
+        //-- rebuild the index
+        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
+        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
+        fs.writeFileSync(`${path}/index.html`, index)
 
-      //TODO this very weird, it should copy the export function in Subject.js
+        resolve()
 
-      // fs.readdirSync(media_path).forEach((file) => {
-      //   if(file != '.DS_Store')
-      //     fs.createReadStream(path.join(media_path, file)).pipe(fs.createWriteStream(path.join(`${topic.subject.path}/${topic.subject.name}/exports/assets/`, file)))
-      // })
-      //
-      // // generating the HTML
-      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/${topic.name}.html`, compiled)
-      // console.log(`[EXPORTED] ${topic.subject.path}/exports/${topic.name}.html`)
-      //
-      // //-- rebuild the index with all the already exported topics
-      // //-- find the topic
-      // let exportedtopics = []
-      // let local_files = fs.readdirSync(`${topic.subject.path}/${topic.subject.name}/exports`)
-      // for(let f of local_files)
-      //   if(f != 'index.html' && f.indexOf('.html') > -1)
-      //     exportedtopics.push(f.replace('.html', ''))
-      //
-      // let c = {
-      //   'subject': topic.subject.name,
-      //   'topics': exportedtopics
-      // }
-      //
-      // //-- render the template
-      // compiled = pug.renderFile(`${__dirname}/views/export-index.pug`, c)
-      // fs.writeFileSync(`${topic.subject.path}/${topic.subject.name}/exports/index.html`, compiled)
-      //
-      // console.log('[REBUILT]', 'index.html')
-      //
-      // //-- return the url to open the window
-      // let url = `${topic.subject.path}/${topic.subject.name}/exports/index.html`
-      // return new Promise((resolve, reject) => {resolve(url)})
-    }
-  }
+      }else if(_type == 'pdf'){
+        //-- first copy all the media assets and html to a temp folder
+        utils.touchDirectory(`${app.getPath('userData')}/app/imports/temp/${_data.subject}_assets/`)
+        for(let concept of topic.concepts)
+          for(let page of concept.pages)
+            for(let prep of page.preps)
+              if(prep.type == 'img' || prep.type == 'vid' || prep.type == 'file')
+                fs.copySync(`${prep.src}`, `${app.getPath('userData')}/app/imports/temp/${topic.subject.name}_assets/${prep.name}`)
 
-  delete(){
+        //-- create the html stream
+        //-- TODO write the html file instead of passing a stream to createPDF
+        let render = pug.renderFile(`${__dirname}/views/export.pug`, topic)
 
-  }
+        //-- generate the pdf
+        let options = {
+          border: {
+            top: "0.2in",
+            right: "0.125in",
+            bottom: "0.2in",
+            left: "0.125in"
+          },
+          format: 'A4',
+          base: 'file://'+path.resolve('.')+'/'
+        }
 
-  toJSON(){
-    return {
-      "id": this.id,
-      "subject": this.subject,
-      "name": this.name,
-      "created": this.created,
-      "updated": this.updated,
-      "concepts": this.concepts,
-      "context": this.context,
-      "overview": this.overview
-    }
+        pdf.create(render, options).toFile(`${path}/${topic.name}.pdf`, (err, res) => {
+          if(err){
+            console.log(err);
+            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            reject(err)
+          }else{
+            utils.deleteFolderRecursive(`${__dirname}/app/imports/temp/`)
+            resolve()
+          }
+        })
+
+      }else{
+        console.log('[TOPIC] got wrong type');
+        reject()
+      }
+    })
   }
 }
 
+//------------
+//-- generates a 15 digit long id string
+//------------
 let generateId = (n) => {
   let id = ''
   for(let i = 0; i < 15; i++)
