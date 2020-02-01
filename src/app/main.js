@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 97);
+/******/ 	return __webpack_require__(__webpack_require__.s = 98);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -596,6 +596,10 @@ module.exports = require("electron");
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data () {
@@ -660,22 +664,27 @@ if(false) {
 
 exports = module.exports = {}
 
+let delay = 2000
+
+//------------
+//-- set message displays information at the bottom of the screen
+//-- and fades out after `delay`
+//------------
 module.exports.setMessage = (_msg, _type) => {
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
 	el.setAttribute('class', 'msg-log '+_type)
-	el.style.opacity = 1
+	el.style.opacity = 0.9
 
 	setTimeout(() => {
 		el.style.opacity = 0
 		setTimeout(() => { el.setAttribute('class', 'msg-log') }, 500)
-	}, 2000)
+	}, delay)
 }
 
 
 /***/ }),
-/* 12 */,
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -12625,6 +12634,7 @@ module.exports.setMessage = (_msg, _type) => {
 
 
 /***/ }),
+/* 13 */,
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12690,7 +12700,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
@@ -12750,9 +12760,7 @@ var render = function() {
         "div",
         { staticClass: "dialog" },
         [
-          _c("div", { staticClass: "message" }, [
-            _vm._v("\n      " + _vm._s(_vm.message) + "\n    ")
-          ]),
+          _c("div", { staticClass: "message" }, [_vm._v(_vm._s(_vm.message))]),
           _vm._v(" "),
           _c(
             "button",
@@ -12823,7 +12831,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  font-family: \"Inter UI\", serif;\n  position: fixed;\n  top: 20vh;\n  width: 50vw;\n  margin-left: 20vw;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 5vw;\n}\n.message[data-v-58ede44e] {\n  text-align: center;\n  margin-bottom: 50px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-58ede44e]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS' !important;\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-58ede44e] {\n  color: #e77607 !important;\n}\na[data-v-58ede44e]:-webkit-any-link {\n  color: #e77607 !important;\n}\na[data-v-58ede44e]:hover {\n  color: #b25900 !important;\n}\nbutton[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-58ede44e] {\n  font-family: \"Inter UI\", serif;\n  display: inline-block;\n  float: right;\n  z-index: 5;\n  height: 100%;\n  width: 40vw;\n  text-align: center;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-58ede44e] {\n  background-color: darkseagreen;\n}\n.error[data-v-58ede44e] {\n  background-color: crimson;\n}\n.metadata[data-v-58ede44e] {\n  visibility: hidden;\n}\n.right[data-v-58ede44e] {\n  float: right;\n}\n.left[data-v-58ede44e] {\n  float: left;\n}\ndiv[data-v-58ede44e],\nimg[data-v-58ede44e] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\ndiv[data-v-58ede44e] {\n  z-index: 5;\n}\n.dialog-overlay[data-v-58ede44e] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.dialog[data-v-58ede44e] {\n  background-color: #202020;\n  color: #eeeeee;\n  font-family: \"Inter UI\", serif;\n  position: fixed;\n  top: 20vh;\n  width: 50vw;\n  margin-left: 20vw;\n  display: block;\n  font-size: 2.2em;\n  border: 2px solid white;\n  padding: 5vw;\n}\n.message[data-v-58ede44e] {\n  text-align: center;\n  margin-bottom: 50px;\n}\n.dialog .btn[data-v-58ede44e] {\n  border: 2px solid #eeeeee;\n  font-size: 0.9em;\n}\n.right[data-v-58ede44e] {\n  margin-left: 10px;\n}", ""]);
 
 // exports
 
@@ -12857,20 +12865,35 @@ exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" 
 /* 45 */,
 /* 46 */,
 /* 47 */,
-/* 48 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___ = __webpack_require__(49);
-/* unused harmony namespace reexport */
- /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___["a" /* default */]); 
-
-/***/ }),
+/* 48 */,
 /* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___ = __webpack_require__(50);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue__ = __webpack_require__(104);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13068,6 +13091,11 @@ const {dialog} = __webpack_require__(7).remote
     }
   },
   methods: {
+    //------------
+    //-- sets the current subject, taking event, subject and path
+    //-- removes styles from all subjects and topics
+    //-- styles the current subject
+    //------------
     setSubject(_e, _s, _p){
       this.current.subject = _s
       this.current.path = _p
@@ -13085,10 +13113,16 @@ const {dialog} = __webpack_require__(7).remote
       _e.target.setAttribute('class', `${_class} selected`)
 
       this.selectedSubject = true
+      this.selectedTopic = false
     },
+    //------------
+    //-- sets the current topic, taking event, subject and path
+    //-- removes styles from all subjects and topics
+    //-- styles the current topic
+    //------------
     setTopic(_e, _s, _n, _p) {
       this.current.subject = _s
-      this.current.name = _n
+      this.current.name = _n //-- this is setting the topic
       this.current.path = _p
       // this.current.sessions = ["session one", "session two"]
 
@@ -13101,21 +13135,24 @@ const {dialog} = __webpack_require__(7).remote
       for(let l of all_topics)
         l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
 
-      let _class = _e.target.getAttribute('class')
-      _e.target.setAttribute('class', `${_class} selected`)
+      let cl = _e.target.getAttribute('class')
+      _e.target.setAttribute('class', `${cl} selected`)
 
       let btns = document.getElementsByClassName('inter-btn-main')
       for(let btn of btns)
         btn.disabled = false
 
       this.selectedTopic = true
+      this.selectedSubject = false
     },
-    openTopic(_c, _l, _p){
+    openTopic(){
+      if(this.current == {}) return
+
     	ipc.send('open-topic', this.current)
     },
-    create() {
-      this.showCreate = true
-    },
+    //------------
+    //-- opens a dialog box to import a .mmd file
+    //------------
     importFrom() {
       let options = {
         'title':'Select file to import',
@@ -13124,43 +13161,74 @@ const {dialog} = __webpack_require__(7).remote
       }
 
       dialog.showOpenDialog(options, (p) => {
-        console.log(p);
     		ipc.send('import-subject', JSON.stringify({path: p[0]}))
     	})
     },
-    exportTo(type) {
+
+    //------------
+    //-- opens a dialog box to export
+    //-- either to html or to pdf
+    //-- checks if topic or subject is non-null
+    //-- and exports that
+    //------------
+    exportTo(_type, _selectedSubject, _selectedTopic) {
+      if(this.current == {}) return
+
+      let format = _selectedSubject ? 'subject' : _selectedTopic ? 'topic' : null
+      if(format == null) return
+
       let options = {
     		'title':'Select export path',
     		'defaultPath':'~/',
     		'properties':['openDirectory', 'createDirectory']
     	}
 
-    	dialog.showOpenDialog(options, (p) => {
-    		ipc.send('export-subject', JSON.stringify({subject: this.current, path: p, type: type}))
+    	dialog.showOpenDialog(options, (_path) => {
+    		ipc.send('export', JSON.stringify({info: this.current, path: _path, type: _type, format: format}))
     	})
     },
-    createTopic(subject){
-      console.log('here');
-      ipc.send('create-topic', {subject: subject})
+    //------------
+    //-- creates a topic, under a given subject
+    //------------
+    createTopic(_subject){
+      ipc.send('create-topic', {subject: _subject})
     },
-    removeTopic(topic){
+    //------------
+    //-- removes a given topic
+    //------------
+    removeTopic(_topic){
       msgbox.setMessage("are you sure you want to remove this topic?", [{fn: () => {
-        ipc.send('remove-topic', topic)
+        ipc.send('remove-topic', _topic)
       }, name: "remove"}], null, true)
     },
-    createSubject(subject){
-      ipc.send('save-subject', subject)
+    //------------
+    //-- creates a new subject
+    //-- called from within the Create component
+    //------------
+    createSubject(_subject){
+      ipc.send('save-subject', _subject)
     },
-    removeSubject(subject){
+    //------------
+    //-- removes a given subject
+    //------------
+    removeSubject(_subject){
       msgbox.setMessage("are you sure you want to remove this subject?", [{fn: () => {
-        ipc.send('remove-subject', subject)
+        ipc.send('remove-subject', _subject)
       }, name: "remove"}], null, true)
     }
   },
+  //------------
+  //-- loads the data rendered with pug
+  //------------
   beforeMount(){
     this.data = window.data
   },
   mounted(){
+    console.log('hey');
+    //------------
+    //-- sets up the event listener
+    //-- to display the result of exportTo
+    //------------
     ipc.on('export-success', (event, d) => {
       msgbox.setMessage("export successful!", [{fn: () => {
         d.type = "folder"
@@ -13176,19 +13244,32 @@ const {dialog} = __webpack_require__(7).remote
 
 
 /***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___ = __webpack_require__(51);
-/* unused harmony namespace reexport */
- /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___["a" /* default */]); 
-
-/***/ }),
 /* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___ = __webpack_require__(52);
+/* unused harmony namespace reexport */
+ /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___["a" /* default */]); 
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -13314,12 +13395,6 @@ const {dialog} = __webpack_require__(7).remote
 const {dialog} = __webpack_require__(7).remote
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  components: {
-
-  },
-  props: {
-
-  },
   data: function () {
     return {
       subject: {
@@ -13330,11 +13405,15 @@ const {dialog} = __webpack_require__(7).remote
     }
   },
   methods: {
-    exit() {
-      this.$emit('exit')
+    close() {
+      this.$emit('close')
     },
+    //-----------
+    //-- checks if all fields are there
+    //-- if that's the case, create the subject
+    //-----------
     create(){
-      if(this.subject.name == '' || this.subject.path == '')
+      if(this.subject.name == '' || this.subject.path == '' || this.subject.description == '')
     		alert('Some fields are missing!')
       else
         this.$emit('create-subject', this.subject)
@@ -13350,21 +13429,18 @@ const {dialog} = __webpack_require__(7).remote
     		this.subject.path = path[0]
     	})
     }
-  },
-  mounted(){
-
   }
 });
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(107);
+var content = __webpack_require__(108);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13385,13 +13461,13 @@ if(false) {
 }
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(109);
+var content = __webpack_require__(110);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13412,7 +13488,6 @@ if(false) {
 }
 
 /***/ }),
-/* 54 */,
 /* 55 */,
 /* 56 */,
 /* 57 */,
@@ -13455,22 +13530,23 @@ if(false) {
 /* 94 */,
 /* 95 */,
 /* 96 */,
-/* 97 */
+/* 97 */,
+/* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__utils_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Board_vue__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Board_vue__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Dialog_vue__ = __webpack_require__(15);
 
 
 const ipc = __webpack_require__(7).ipcRenderer
 
-__webpack_require__(98)
+__webpack_require__(99)
 
 
 
@@ -13478,7 +13554,7 @@ __webpack_require__(98)
 
 
 
-window.vm = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
+const vm = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 	el: '#notice-board',
 	template: '<Board/>',
 	components: {
@@ -13494,39 +13570,28 @@ const msgbox = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 	}
 })
 
+//------------
+//-- this allows us to access
+//-- vue elements from non-vue scripts
+//------------
+window.vm = vm.$children[0]
 window.msgbox = msgbox.$children[0]
 
-ipc.on('menu-create', () => { welcome.createLesson()})
-ipc.on('menu-open', () => { welcome.openLesson()})
-ipc.on('menu-edit', () => { welcome.editLesson()})
-ipc.on('menu-remove', () => { welcome.removeLesson()})
-ipc.on('menu-export', () => { welcome.exportLesson()})
-ipc.on('menu-save', () => { create.saveLesson()})
-ipc.on('menu-exit', () => { create.exitLesson()})
+ipc.on('menu-create-subject', () => { window.vm.showCreate = true})
+ipc.on('menu-remove', () => { window.vm.removeLesson()})
+ipc.on('menu-export', () => { window.vm.exportLesson()})
 
 ipc.on('msg-log', (event, data) => { __WEBPACK_IMPORTED_MODULE_0__utils_js__["setMessage"](data.msg, data.type)})
 
-ipc.on('update-dropdown', (event, data) => {
-	console.log('got updated dropdown course', data)
-	let new_course = document.createElement('option')
-	new_course.setAttribute('value', data.name)
-	new_course.setAttribute('created', data.created)
-	new_course.setAttribute('path', data.path)
-	new_course.setAttribute('id', data.id)
-	new_course.innerText = data.name
-	new_course.setAttribute('selected', true)
-	document.getElementById('course-list').appendChild(new_course)
-})
-
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(99);
+var content = __webpack_require__(100);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13547,7 +13612,7 @@ if(false) {
 }
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(0);
@@ -13556,20 +13621,20 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607;\n}\n\na:hover {\n  color: #b25900;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\ntextarea {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n\n.msg-log {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\n.right {\n  float: right;\n}\n\n.left {\n  float: left;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.cover {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n\n::-webkit-scrollbar {\n  display: none;\n}\n\nbody {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS' !important;\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\n\na {\n  color: #e77607 !important;\n}\n\na:-webkit-any-link {\n  color: #e77607 !important;\n}\n\na:hover {\n  color: #b25900 !important;\n}\n\nbutton {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\n\ntextarea {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n\n.msg-log {\n  font-family: \"Inter UI\", serif;\n  display: inline-block;\n  float: right;\n  z-index: 5;\n  height: 100%;\n  width: 40vw;\n  text-align: center;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n\n.info {\n  background-color: darkseagreen;\n}\n\n.error {\n  background-color: crimson;\n}\n\n.metadata {\n  visibility: hidden;\n}\n\n.right {\n  float: right;\n}\n\n.left {\n  float: left;\n}\n\ndiv,\nimg {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n\n.overlay {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}", ""]);
 
 // exports
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Board_vue_vue_type_script_lang_js___ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Board_vue_vue_type_script_lang_js___ = __webpack_require__(49);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(6);
 
 
@@ -13592,7 +13657,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
@@ -13613,17 +13678,17 @@ component.options.__file = "src/renderer/components/Board.vue"
 /* harmony default export */ __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___ = __webpack_require__(103);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_template_id_40ee3f60_scoped_true___["b"]; });
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13642,7 +13707,7 @@ var render = function() {
           { staticClass: "subjects" },
           [
             _vm._l(_vm.data.subjects, function(single) {
-              return _c("div", { staticClass: "inter-class" }, [
+              return _c("div", { staticClass: "subject-container" }, [
                 _c(
                   "div",
                   {
@@ -13754,10 +13819,45 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "topics-container" }, [
+        _c("div", { staticClass: "topics" }, [
+          _c(
+            "ul",
+            _vm._l(_vm.current.sessions, function(instances) {
+              return _c(
+                "li",
+                {
+                  staticClass: "topic",
+                  on: {
+                    click: function($event) {
+                      return _vm.setTopic(
+                        $event,
+                        _vm.current.subject,
+                        _vm.current.name,
+                        _vm.current.path
+                      )
+                    },
+                    dblclick: function($event) {
+                      return _vm.openTopic(
+                        _vm.current.subject,
+                        _vm.current.name,
+                        _vm.current.path
+                      )
+                    }
+                  }
+                },
+                [_vm._v("\n            Spring 2020 (dummy info)\n        ")]
+              )
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
       _vm.showCreate
         ? _c("Create", {
             on: {
-              exit: function($event) {
+              close: function($event) {
                 _vm.showCreate = false
               },
               "create-subject": _vm.createSubject
@@ -13766,9 +13866,18 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "buttons-container" }, [
-        _c("button", { staticClass: "btn left", on: { click: _vm.create } }, [
-          _vm._v("create")
-        ]),
+        _c(
+          "button",
+          {
+            staticClass: "btn left",
+            on: {
+              click: function($event) {
+                _vm.showCreate = true
+              }
+            }
+          },
+          [_vm._v("create")]
+        ),
         _vm._v(" "),
         _c(
           "button",
@@ -13777,7 +13886,11 @@ var render = function() {
             attrs: { disabled: !(_vm.selectedSubject || _vm.selectedTopic) },
             on: {
               click: function($event) {
-                return _vm.exportTo("html")
+                return _vm.exportTo(
+                  "html",
+                  _vm.selectedSubject,
+                  _vm.selectedTopic
+                )
               }
             }
           },
@@ -13791,7 +13904,11 @@ var render = function() {
             attrs: { disabled: !(_vm.selectedSubject || _vm.selectedTopic) },
             on: {
               click: function($event) {
-                return _vm.exportTo("pdf")
+                return _vm.exportTo(
+                  "pdf",
+                  _vm.selectedSubject,
+                  _vm.selectedTopic
+                )
               }
             }
           },
@@ -13845,14 +13962,14 @@ render._withStripped = true
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Create_vue_vue_type_script_lang_js___ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Create_vue_vue_type_script_lang_js___ = __webpack_require__(51);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(107);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_runtime_componentNormalizer_js__ = __webpack_require__(6);
 
 
@@ -13875,7 +13992,7 @@ var component = Object(__WEBPACK_IMPORTED_MODULE_3__node_modules_vue_loader_lib_
 
 /* hot reload */
 if (false) {
-  var api = require("/home/pierre/code/electron/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
+  var api = require("/Users/Pierre/Code/multimodal/node_modules/vue-hot-reload-api/dist/index.js")
   api.install(require('vue'))
   if (api.compatible) {
     module.hot.accept()
@@ -13896,17 +14013,17 @@ component.options.__file = "src/renderer/components/Create.vue"
 /* harmony default export */ __webpack_exports__["a"] = (component.exports);
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___ = __webpack_require__(106);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_05cee3fc_scoped_true___["b"]; });
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13917,7 +14034,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "create-container" }, [
-    _c("div", { staticClass: "cover" }),
+    _c("div", { staticClass: "overlay" }),
     _vm._v(" "),
     _c("div", { staticClass: "create-subject" }, [
       _c("h1", [_vm._v("new subject")]),
@@ -14002,8 +14119,8 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "buttons-container" }, [
-        _c("button", { staticClass: "btn", on: { click: _vm.exit } }, [
-          _vm._v("exit")
+        _c("button", { staticClass: "btn", on: { click: _vm.close } }, [
+          _vm._v("close")
         ]),
         _vm._v(" "),
         _c("button", { staticClass: "btn", on: { click: _vm.create } }, [
@@ -14021,17 +14138,17 @@ render._withStripped = true
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss___);
 /* unused harmony reexport namespace */
  /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_05cee3fc_scoped_true_lang_scss____default.a); 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(0);
@@ -14040,23 +14157,23 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-05cee3fc]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-05cee3fc] {\n  color: #e77607;\n}\na[data-v-05cee3fc]:hover {\n  color: #b25900;\n}\nbutton[data-v-05cee3fc] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-05cee3fc] {\n  background-color: darkseagreen;\n}\n.error[data-v-05cee3fc] {\n  background-color: crimson;\n}\n.metadata[data-v-05cee3fc] {\n  visibility: hidden;\n}\n.right[data-v-05cee3fc] {\n  float: right;\n}\n.left[data-v-05cee3fc] {\n  float: left;\n}\ndiv[data-v-05cee3fc],\nimg[data-v-05cee3fc] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-05cee3fc] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.create-container[data-v-05cee3fc] {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  margin: auto;\n  overflow: auto;\n  z-index: 10;\n  top: 50px;\n}\n.create-subject[data-v-05cee3fc] {\n  position: relative;\n  width: 50%;\n  min-height: 40vh;\n  overflow: auto;\n  margin: auto;\n  padding: 4%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n  background-color: #202020;\n}\n.create-subject h1[data-v-05cee3fc] {\n  margin-left: 3%;\n}\n.name[data-v-05cee3fc],\n.path[data-v-05cee3fc],\n.description[data-v-05cee3fc] {\n  width: 98%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin-bottom: 20px;\n  padding-left: 2%;\n  color: #eeeeee;\n  background-color: #202020;\n}\n.path[data-v-05cee3fc] {\n  width: 78%;\n}\n.description[data-v-05cee3fc] {\n  height: 72px;\n}\n.create-local-path[data-v-05cee3fc] {\n  width: 20%;\n  float: right;\n  display: inline;\n  font-size: 24px;\n  height: 51px;\n  background-color: #eeeeee;\n  color: #202020;\n}\n.buttons-container[data-v-05cee3fc] {\n  position: absolute;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-05cee3fc] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-05cee3fc] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-05cee3fc] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-05cee3fc]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-05cee3fc]:active {\n  border: none;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-05cee3fc]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS' !important;\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-05cee3fc] {\n  color: #e77607 !important;\n}\na[data-v-05cee3fc]:-webkit-any-link {\n  color: #e77607 !important;\n}\na[data-v-05cee3fc]:hover {\n  color: #b25900 !important;\n}\nbutton[data-v-05cee3fc] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-05cee3fc] {\n  font-family: \"Inter UI\", serif;\n  display: inline-block;\n  float: right;\n  z-index: 5;\n  height: 100%;\n  width: 40vw;\n  text-align: center;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-05cee3fc] {\n  background-color: darkseagreen;\n}\n.error[data-v-05cee3fc] {\n  background-color: crimson;\n}\n.metadata[data-v-05cee3fc] {\n  visibility: hidden;\n}\n.right[data-v-05cee3fc] {\n  float: right;\n}\n.left[data-v-05cee3fc] {\n  float: left;\n}\ndiv[data-v-05cee3fc],\nimg[data-v-05cee3fc] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.overlay[data-v-05cee3fc] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.create-container[data-v-05cee3fc] {\n  position: absolute;\n  width: 100vw;\n  height: 100vh;\n  margin: auto;\n  overflow: auto;\n  z-index: 10;\n  top: 50px;\n}\n.create-subject[data-v-05cee3fc] {\n  position: relative;\n  width: 50%;\n  min-height: 40vh;\n  overflow: auto;\n  margin: auto;\n  padding: 4%;\n  text-align: left;\n  border: 3px solid #eeeeee;\n  background-color: #202020;\n}\n.create-subject h1[data-v-05cee3fc] {\n  margin-left: 3%;\n}\n.name[data-v-05cee3fc],\n.path[data-v-05cee3fc],\n.description[data-v-05cee3fc] {\n  width: 98%;\n  font-size: 24px;\n  height: 48px;\n  display: block;\n  float: left;\n  margin-bottom: 20px;\n  padding-left: 2%;\n  color: #eeeeee;\n  background-color: #202020;\n}\n.path[data-v-05cee3fc] {\n  width: 78%;\n}\n.description[data-v-05cee3fc] {\n  height: 72px;\n}\n.create-local-path[data-v-05cee3fc] {\n  width: 20%;\n  float: right;\n  display: inline;\n  font-size: 24px;\n  height: 51px;\n  background-color: #eeeeee;\n  color: #202020;\n}\n.buttons-container[data-v-05cee3fc] {\n  position: absolute;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 50px;\n  line-height: 50px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-05cee3fc] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-05cee3fc] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  cursor: pointer;\n}\n@media (max-width: 1300px) {\n.btn[data-v-05cee3fc] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-05cee3fc]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-05cee3fc]:active {\n  border: none;\n}", ""]);
 
 // exports
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss____default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss___);
 /* unused harmony reexport namespace */
  /* unused harmony default export */ var _unused_webpack_default_export = (__WEBPACK_IMPORTED_MODULE_0__node_modules_vue_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_resolve_url_loader_index_js_node_modules_sass_loader_lib_loader_js_sourceMap_node_modules_vue_loader_lib_index_js_vue_loader_options_Board_vue_vue_type_style_index_0_id_40ee3f60_scoped_true_lang_scss____default.a); 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var escape = __webpack_require__(0);
@@ -14065,7 +14182,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS';\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif;\n  float: right;\n  height: 100%;\n  margin-right: 3%;\n  padding-right: 5px;\n  padding-left: 5px;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\n.right[data-v-40ee3f60] {\n  float: right;\n}\n.left[data-v-40ee3f60] {\n  float: left;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.cover[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.buttons-container[data-v-40ee3f60],\n.subjects-container[data-v-40ee3f60],\n.topics-container[data-v-40ee3f60] {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n}\n.buttons-container[data-v-40ee3f60],\n.subjects-container[data-v-40ee3f60] {\n  float: left;\n  left: 0;\n}\n.topics-container[data-v-40ee3f60] {\n  float: right;\n  right: 0;\n}\n.subjects[data-v-40ee3f60],\n.topics[data-v-40ee3f60] {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n.subject[data-v-40ee3f60] {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n  cursor: pointer;\n}\n.inter-class[data-v-40ee3f60] {\n  margin-bottom: 50px;\n}\n.topic[data-v-40ee3f60],\n.topic-instance[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n.topic[data-v-40ee3f60] {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n.topic[data-v-40ee3f60]:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.selected[data-v-40ee3f60] {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 35px;\n  line-height: 35px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n  font-size: 1.5em;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}\n.btn[data-v-40ee3f60]:disabled {\n  color: #202020;\n}\nli button[data-v-40ee3f60] {\n  font-size: 1em;\n  font-weight: bold;\n  color: #202020;\n  background-color: #eeeeee;\n  border-radius: 60px;\n  z-index: 5;\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(2)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(3)) + ") format(\"woff\");\n  font-weight: bold;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Inter UI';\n  src: url(" + escape(__webpack_require__(4)) + ") format(\"woff\");\n  font-weight: normal;\n  font-style: italic;\n}\n[data-v-40ee3f60]::-webkit-scrollbar {\n  display: none;\n}\nbody[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif, 'Trebuchet MS' !important;\n  background-color: #202020;\n  color: #eeeeee;\n  overflow-x: hidden;\n  margin: 0px;\n  padding: 0px;\n}\na[data-v-40ee3f60] {\n  color: #e77607 !important;\n}\na[data-v-40ee3f60]:-webkit-any-link {\n  color: #e77607 !important;\n}\na[data-v-40ee3f60]:hover {\n  color: #b25900 !important;\n}\nbutton[data-v-40ee3f60] {\n  background-color: #202020;\n  color: #eeeeee;\n  border: 1px solid #eeeeee;\n  cursor: pointer;\n}\ntextarea[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif;\n  border: none;\n}\n.msg-log[data-v-40ee3f60] {\n  font-family: \"Inter UI\", serif;\n  display: inline-block;\n  float: right;\n  z-index: 5;\n  height: 100%;\n  width: 40vw;\n  text-align: center;\n  font-weight: bold;\n  font-size: 2.2em;\n  opacity: 0;\n  background-color: #333333;\n  color: #f0f0f0;\n  transition: opacity 0.5s ease-in-out;\n}\n.info[data-v-40ee3f60] {\n  background-color: darkseagreen;\n}\n.error[data-v-40ee3f60] {\n  background-color: crimson;\n}\n.metadata[data-v-40ee3f60] {\n  visibility: hidden;\n}\n.right[data-v-40ee3f60] {\n  float: right;\n}\n.left[data-v-40ee3f60] {\n  float: left;\n}\ndiv[data-v-40ee3f60],\nimg[data-v-40ee3f60] {\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n}\n.overlay[data-v-40ee3f60] {\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100vw;\n  height: 100vh;\n  background-color: rgba(0, 0, 0, 0.5);\n}\n.buttons-container[data-v-40ee3f60],\n.subjects-container[data-v-40ee3f60],\n.topics-container[data-v-40ee3f60] {\n  position: absolute;\n  width: 50%;\n  height: 100%;\n}\n.buttons-container[data-v-40ee3f60],\n.subjects-container[data-v-40ee3f60] {\n  float: left;\n  left: 0;\n}\n.subject-container[data-v-40ee3f60] {\n  margin-bottom: 50px;\n}\n.subjects[data-v-40ee3f60],\n.topics[data-v-40ee3f60] {\n  padding: 5%;\n  margin-bottom: 5%;\n}\n.subject[data-v-40ee3f60] {\n  width: 100%;\n  font-weight: bold;\n  font-size: 2em;\n  cursor: pointer;\n}\n.topic[data-v-40ee3f60],\n.topic-instance[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-family: 'Inter UI';\n  font-size: 1.2em;\n  cursor: pointer;\n}\n.topics-container[data-v-40ee3f60] {\n  float: right;\n  right: 0;\n}\n.topic[data-v-40ee3f60] {\n  border: 2px solid #202020;\n  padding: 5px;\n}\n.topic[data-v-40ee3f60]:hover {\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.selected[data-v-40ee3f60] {\n  background-color: #eeeeee;\n  color: #202020;\n  border-color: #eeeeee;\n  font-weight: bold;\n}\n.buttons-container[data-v-40ee3f60] {\n  position: fixed;\n  z-index: 3;\n  bottom: 0px;\n  left: 0px;\n  padding-left: 10px;\n  height: 35px;\n  line-height: 35px;\n  width: 100%;\n  background-color: #202020;\n  border-top: 2px solid #eeeeee;\n}\n.buttons-container button[data-v-40ee3f60] {\n  margin-right: 2%;\n  border: none;\n}\n.btn[data-v-40ee3f60] {\n  border: none;\n  color: #eeeeee;\n  background-color: #202020;\n  font-size: 2.2em;\n  font-family: 'Inter UI';\n  cursor: pointer;\n  font-size: 1.5em;\n}\n@media (max-width: 1300px) {\n.btn[data-v-40ee3f60] {\n    font-size: 1.5em;\n}\n}\n.btn[data-v-40ee3f60]:hover {\n  background-color: #202020;\n  color: #eeeeee;\n}\n.btn[data-v-40ee3f60]:active {\n  border: none;\n}\n.btn[data-v-40ee3f60]:disabled {\n  color: #202020;\n}\nli button[data-v-40ee3f60] {\n  font-size: 1em;\n  font-weight: bold;\n  color: #202020;\n  background-color: #eeeeee;\n  border-radius: 60px;\n  z-index: 5;\n}", ""]);
 
 // exports
 

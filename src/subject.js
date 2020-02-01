@@ -165,7 +165,7 @@ class Subject {
         let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject}/subject.json`))
         subject.topics = topics_to_export
         let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
-        fs.writeFileSync(`${path}/index.html`, index)
+        fs.writeFileSync(`${_path}/index.html`, index)
 
         resolve()
 
