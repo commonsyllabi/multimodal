@@ -24,7 +24,7 @@ let mainWindow
 let generateHTML = (_d, _template) => {
 
 	//-- read the `topic.json` file given a subject name and a topic name
-	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_d.subject}/topics/${_d.name}/topic.json`)
+	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_d.subject.name}/topics/${_d.topic.name}/topic.json`)
 
 	//-- the topic.pug template needs a particular format
 	let data = _template == 'topic' ? {'data': c} : JSON.parse(c)
@@ -83,11 +83,7 @@ let createWindow = (_filename) => {
 //-- it should always be called with a mainWindow set
 //------------
 let replaceWindow = (_filename) => {
-	console.log(`CHECK: is main window ever null? ${mainWindow == null}`);
-	if(mainWindow == null)
-		createWindow(_filename)
-	else
-		mainWindow.loadURL(`file:///${app.getPath('userData')}/app/${_filename}.html`)
+	mainWindow.loadURL(`file:///${app.getPath('userData')}/app/${_filename}.html`)
 }
 
 
@@ -128,8 +124,8 @@ ipc.on('open-url', (event, _url) => {
 //-- takes a JSON object
 //-- generates an HTML and loads it
 //------------
-ipc.on('open-topic', (event, _) => {
-	generateHTML(_, 'topic')
+ipc.on('open-topic', (event, _t) => {
+	generateHTML(_t, 'topic')
 	replaceWindow('topic')
 })
 
@@ -152,9 +148,9 @@ ipc.on('save-subject', (event, _d) => {
 			pages: [{
 				name: "new page",
 				preps: [{
-					text: "this is your first note",
+					text: "...",
 					tag: "",
-					type: "txt"
+					type: "md"
 				}],
 				notes: [],
 				writeup: {text: ""}
@@ -165,7 +161,11 @@ ipc.on('save-subject', (event, _d) => {
 			context: {text: ""},
 			pages: [{
 				name: "first",
-				preps: [],
+				preps: [{
+					text: "...",
+					tag: "",
+					type: "md"
+				}],
 				notes: [],
 				writeup: {text: ""}
 			}]
@@ -299,11 +299,10 @@ ipc.on('import-subject', (event, _d) => {
 //------------
 ipc.on('export', (event, _d) => {
 	let d = JSON.parse(_d)
-	console.log(_d);
 
 	if(d.format == 'subject'){
 		Subject.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.name} done`);
+			console.log(`[MAIN] export of ${d.info.subject.name} done`);
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
@@ -313,7 +312,7 @@ ipc.on('export', (event, _d) => {
 		})
 	}else if(d.format == 'topic'){
 		Topic.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.name} done`);
+			console.log(`[MAIN] export of ${d.info.topic.name} done`);
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
@@ -333,29 +332,27 @@ ipc.on('export', (event, _d) => {
 //-- containing a type, a path and a subject name
 //------------
 ipc.on('open-export', (event, _d) => {
-	let data = JSON.parse(JSON.parse(_d).data) //-- this is ridiculous
-
-	console.log(data);
+	let data = JSON.parse(_d) //-- this is ridiculous
 
 	if(data.type == 'html'){
 
-		if(_d.type == "folder"){
+		if(data.location == "folder"){
 			shell.showItemInFolder(`${data.path}/index.html`)
-		}	else if(_d.type == 'show'){
+		}	else if(data.location == 'show'){
 			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
 			win.loadURL(`file://${data.path}/index.html`)
 		} else {
-			console.log(`[MAIN] error on opening HTML export: ${data}`);
+			console.log(`[MAIN] error on opening HTML export: ${data.location}`);
 		}
 
 	}else if(data.type == 'pdf'){
 
-		if(_d.type == "folder"){
-			shell.showItemInFolder(`${data.path}/${data.topic.name}.pdf`)
-		}	else if(d.type == 'show'){
-			shell.openExternal(`file://${data.path}/${data.topci.name}.pdf`)
+		if(data.location == "folder"){
+			shell.showItemInFolder(`${data.path}/${data.name}.pdf`)
+		}	else if(data.location == 'show'){
+			shell.openExternal(`file://${data.path}/${data.name}.pdf`)
 		} else {
-			console.log(`[MAIN] error on opening PDF export: ${data}`);
+			console.log(`[MAIN] error on opening PDF export: ${data.location}`);
 		}
 
 	}
@@ -405,14 +402,6 @@ app.on('ready', () => {
 		fs.copySync(`${__dirname}/data/subjects.json`, `${app.getPath('userData')}/data/subjects.json`)
 		fs.copySync(`${__dirname}/app/imports`, `${app.getPath('userData')}/app/imports`)
 	}
-
-	//-- TODO figure out when those files should be updated
-	//-- probably never since that's what webpack is supposed to be doing
- 	//-- always copy the js and css files there
-	//-- especially necessary for development
-	// fs.copySync(`${__dirname}/app/main.js`, `${app.getPath('userData')}/app/main.js`)
-	// fs.copySync(`${__dirname}/app/topic.js`, `${app.getPath('userData')}/app/topic.js`)
-	// fs.copySync(`${__dirname}/app/style.css`, `${app.getPath('userData')}/app/style.css`)
 
 	//-- list all the subjects and topics we actually have
 	board.list()

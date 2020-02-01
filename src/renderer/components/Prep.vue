@@ -1,17 +1,10 @@
 <template>
   <div class="prep-holder">
 
-    <!-- TEXT PREP -->
-    <div v-if="data.type == 'txt'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text">
-      <span v-else>{{data.text}}</span>
-    </div>
-
-    <!-- URL PREP -->
-    <div v-else-if="data.type == 'url'" class="prep written" :concept="index" :tag="data.tag">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource text" v-model:value="data.text">
-      <input class="edit-input" type="text" v-if="isEdit" placeholder="resource link" v-model:value="data.url">
-      <a v-else :href="data.url" @click="openLink" target="_blank">{{data.text}}</a>
+    <!-- MARKDOWN PREP -->
+    <div v-if="data.type == 'md'" class="prep written" :concept="index" :tag="data.tag">
+      <textarea class="edit-input text" type="text" v-if="isEdit" placeholder="..." v-model:value="data.text"></textarea>
+      <div class="markdown-render" v-else v-html="markdown"></div>
     </div>
 
     <!-- FILE PREP -->
@@ -38,11 +31,10 @@
 
     <!-- CONTROLS -->
     <div v-if="isEdit"class="add-buttons">
-      <button @click="addPrep('txt')">txt</button>
-      <button @click="addPrep('url')">url</button>
-      <button @click="addPrep('img')">img</button>
-      <button @click="addPrep('file')">file</button>
-      <button v-if="isEdit" @click="removePrep">-</button>
+      <button @click="addPrep('md')">add txt</button>
+      <button @click="addPrep('img')">add img</button>
+      <button @click="addPrep('file')">add file</button>
+      <button v-if="isEdit" @click="removePrep">remove</button>
     </div>
   </div>
 </template>
@@ -50,13 +42,30 @@
 <style scoped lang="scss">
 @import '../sass/globals.scss';
 
+textarea{
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  width: 100%;
+  min-height: 50vh;
+  font-size: 2em;
+  height: auto;
+  overflow: visible;
+  border-left: 2px solid $main-fg-color;
+  padding-left: 10px;
+}
+
 button{
     pointer-events: all; //-- always catch the click events
 }
 
+.markdown-render p a {
+  color: red !important;
+}
+
 .prep-holder{
   position: relative;
-  width: 50vw;
+  width: 70%;
+  margin-top: 5vh;
   margin-left: 10vw;
 }
 
@@ -70,7 +79,6 @@ button{
   opacity:1;
 
   font-family: 'Inter UI';
-  font-style: italic;
   font-size: 2em;
 
   @media (max-width: 1300px){
@@ -86,7 +94,7 @@ button{
 }
 
 .prep{
-  pointer-events: none;
+  pointer-events: all;
 }
 
 .moved{
@@ -142,11 +150,16 @@ img{
     color: $main-bg-color;
     background-color: $main-fg-color;
   }
+
+  button{
+    font-size: 16px;
+  }
 }
 </style>
 
 <script>
 const ipc = require('electron').ipcRenderer
+const marked = require('marked')
 
 export default {
   props: {
@@ -174,6 +187,12 @@ export default {
   data: function () {
     return {
       newFile: ''
+    }
+  },
+  computed: {
+    markdown: function () {//-- parse the text as markdown and render as html
+      this.data.html = marked(this.data.text)
+      return this.data.html
     }
   },
   methods: {

@@ -11,9 +11,9 @@
     </div>
 
     <!-- ALL PREPS -->
-    <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" :index="index"
-      @remove-prep="removePrep(index)"
-      @add-prep="addPrep" :isEdit="isEdit"/>
+   <Prep v-for="(prep, index) in data.preps" :data="prep" :key="`prep-${index}`" :_id="`prep-${index}`" :subject="subject" :index="index"
+     @remove-prep="removePrep(index)"
+     @add-prep="addPrep" :isEdit="isEdit"/>
 
     <!-- ALL NOTES -->
     <Note v-for="(note, index) in data.notes" :data="note" :key="`note-${index}`" @new-note="handleNewNote" :isEdit="isEdit"/>
@@ -55,7 +55,7 @@ canvas {
 }
 
 .title, .edit-input {
-  font-size: 2.3em;
+  font-size: 2.5em;
   font-weight: bold;
   margin-top: 10vh;
   margin-left: 10vw;
@@ -127,7 +127,7 @@ export default {
     addPrep(_data) {
       let p = {}
       switch (_data.type) {
-        case 'txt':
+        case 'md':
           p = {
             "tag": "",
             "text": "",

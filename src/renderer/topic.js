@@ -5,6 +5,9 @@ const ipc = require('electron').ipcRenderer
 import * as globals from './lesson/globals.js'
 import * as utils from './utils.js'
 
+require('./sass/normalize.scss')
+require('./sass/globals.scss')
+
 import Vue from 'vue'
 import Topic from './components/Topic.vue'
 import Dialog from './components/Dialog.vue'
