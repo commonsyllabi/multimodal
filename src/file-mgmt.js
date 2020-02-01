@@ -54,30 +54,41 @@ module.exports.compress = (_name, _targetdir) => {
   //-- compressing each topics
   //-- also checking for media/ or other/ directories, since they don't always get saved (TODO)
   for(let t of topics){
-    zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/topic.json`, `topics/${t}`)
 
-    try {
-      let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/`)
+    if(fs.pathExistsSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/topic.json`)){
+      zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/topic.json`, `topics/${t}`)
 
-      for(let m of media){
-        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+      try {
+        let media = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/`)
+
+        for(let m of media){
+          zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/media/${m}`, `topics/${t}/media`)
+        }
+      } catch(e) {
+        console.log(`[FILE] folder media/ was not found in the archive, skipping...`);
       }
-    } catch(e) {
-      console.log(`[FILE] folder media/ was not found in the archive, skipping...`);
-    }
 
-    try {
-      let other = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/`)
+      try {
+        let other = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/`)
 
-      for(let o of other){
-        zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+        for(let o of other){
+          zipper.addLocalFile(`${app.getPath('userData')}/app/imports/${_name}/topics/${t}/other/${o}`, `topics/${t}/other`)
+        }
+      } catch (e) {
+        console.log(`[FILE] folder other/ was not found in the archive, skipping...`);
       }
-    } catch (e) {
-      console.log(`[FILE] folder other/ was not found in the archive, skipping...`);
+    }else{
+      console.log(`[FILE] not found at ${t}`);
     }
-
   }
 
-  zipper.writeZip(`${_targetdir}/${_name}.mmd`)
+  try {
+    zipper.writeZip(`${_targetdir}/${_name}.mmd`)
+  }catch(e){
+    console.log(`[FILE] subject original path not found, saving at ~/`)
+    // TODO: ask for alternate path and do that at the beginning of function
+    zipper.writeZip(`${process.env.HOME}/${_name}.mmd`)
+  }
+
   console.log('[FILE] ...done');
 }
