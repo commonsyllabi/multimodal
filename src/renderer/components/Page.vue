@@ -2,7 +2,7 @@
   <div class="page-group" :id="index" :page="`${concept}-${index}`" :concept="concept">
 
     <!-- CANVAS -->
-    <canvas v-if="!isEdit" class="drawing-board" :page="`${concept}-${index}`"></canvas>
+    <canvas class="drawing-board" :page="`${concept}-${index}`"></canvas>
 
     <!-- PAGE NAME -->
     <input class="edit-input" type="text" v-if="isEdit" placeholder="page name here" v-model:value="data.name">
@@ -30,7 +30,7 @@ canvas {
  position: absolute;
  top: 0px;
  left: 0px;
- z-index: 1;
+ z-index: 0;
  width: 100%;
  height: 100%;
 }
@@ -39,6 +39,7 @@ canvas {
   visibility: visible;
 	pointer-events: auto;
 	cursor: crosshair;
+  z-index: 3;
 }
 
 .inactive{

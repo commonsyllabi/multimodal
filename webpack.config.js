@@ -5,6 +5,11 @@ const app = electron.app
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+//-- different target directories based on platforms
+let targetPath = process.platform == 'linux' ?
+  path.join(process.env.HOME, '/.config/multimodal/app') :
+  path.resolve(__dirname, 'src/app')
+
 module.exports = {
   entry: {
 	  topic:'./src/renderer/topic.js',
@@ -12,8 +17,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'src/app')
-    //path: '/home/pierre/.config/multimodal/app'
+    path: targetPath
   },
   module: {
       rules: [

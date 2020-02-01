@@ -21,7 +21,7 @@
     </div>
 
     <!-- IMAGE PREP -->
-    <div v-else-if="data.type == 'img'" class="prep moveable" :concept="index" :tag="data.tag">
+    <div v-else-if="data.type == 'img'" class="prep" :concept="index" :tag="data.tag">
       <div v-if="isEdit">
         <input class="file-input" type="file" @change="handleFileInput"></input>
         <img class="preview" :src="data.src"/>
@@ -55,8 +55,13 @@ button{
 }
 
 .prep-holder{
+  position: relative;
   width: 50vw;
   margin-left: 10vw;
+}
+
+#current{
+  position: absolute;
 }
 
 .prep, .edit-input{
@@ -80,16 +85,32 @@ button{
   line-height: 2em;
 }
 
+.prep{
+  pointer-events: none;
+}
+
+.moved{
+  position: absolute;
+  pointer-events: all;
+}
+
 .text{
   width: 100%;
 }
 
 .edit-input{
+  position: relative;
   margin: 0;
   font-size: 1em;
   background-color: $main-bg-color;
   border: none;
   border-bottom: 2px solid $main-fg-color;
+  pointer-events: all;
+}
+
+.file-input{
+  font-family: "Inter UI";
+  font-size: 0.6em;
   pointer-events: all;
 }
 
@@ -102,10 +123,7 @@ button{
 img{
   max-width: 800px !important;
   max-height: 600px;
-}
-
-.prep-moveable{
-  max-width: 10%;
+  pointer-events: none;
 }
 
 .preview{
@@ -119,7 +137,7 @@ img{
   float: right;
   margin-top: 5px;
 
-  button{
+  button, .file-input{
     font-weight: bold;
     color: $main-bg-color;
     background-color: $main-fg-color;
@@ -185,18 +203,20 @@ export default {
     }
   },
   mounted(){
-    let el = this.$el.children[0]
-
-    //-- sanity check
-    if(el == undefined || el.getAttribute('class').indexOf('moveable') == -1)
+    if(this.data.type !== 'img')
       return
+
+    let el = this.$el
+
+    el.setAttribute('x', el.offsetLeft)
+    el.setAttribute('y', el.offsetTop)
 
     //-- for notes that have been loaded from previous sessions
     //-- make them reactive to a click
     this.$el.onclick = (evt) => {
 			if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
 			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'prep moveable')
+			evt.target.setAttribute('class', 'prep moved')
 			window.currentNote = evt.target
 		}
   }

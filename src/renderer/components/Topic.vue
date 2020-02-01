@@ -38,6 +38,7 @@ canvas {
  z-index: 1;
  width: 100%;
  height: 100%;
+ pointer-events: none;
 }
 
 .main-container {
@@ -263,8 +264,11 @@ export default {
     	case ESC: //-- stop editing the current note
     		if(cn)
     			this.endNote(cn)
-        else if(this.isEdit) //-- stop editing the current topic
+        else if(this.isEdit){
           this.isEdit = false
+          drawing.selectCanvas(this.currentPage, this.currentConcept)
+        } //-- stop editing the current topic
+
     		break
     	default:
     		break
@@ -310,8 +314,12 @@ export default {
 
   		let pos = getGridPosition(this.position)
 
-      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
-      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
+      //-- we need to take into account the original position
+      pos.x -= window.currentNote.getAttribute('x')
+      pos.y -= window.currentNote.getAttribute('y')
+
+      window.currentNote.style.left = pos.x+'px'
+      window.currentNote.style.top = pos.y+'px'
     },
     //------------
     //-- takes an element from the Note component
@@ -339,7 +347,6 @@ export default {
     toggleDraw() {
       this.isDrawing = !this.isDrawing
       drawing.toggleDraw(this.isDrawing)
-      console.log(this.topicSaved);
     },
     //------------
     //-- clears board
@@ -353,6 +360,8 @@ export default {
     //------------
     editTopic() {
       this.isEdit = !this.isEdit
+      this.isDrawing = false
+      drawing.toggleDraw(this.isDrawing)
       if(!this.isEdit) this.topicSaved = false
     },
     //------------
@@ -361,7 +370,6 @@ export default {
     //-- unsaved changes
     //------------
     exitTopic() {
-      console.log('exiting with topic saved:', this.topicSaved);
       if(!this.topicSaved)
         msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.send('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
       else
