@@ -537,6 +537,7 @@ export default {
   //-- this is mostly used for backwards compatibility
   //------------
   beforeMount() {
+    console.log(window.data);
     this.data = sanitize(window.data)
 
     this.currentConcept = window.currentConcept
@@ -554,33 +555,26 @@ let sanitize = (_data) => {
   for(let i = 0; i < _data.concepts.length; i++){
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
       let prep = {type: "md", text: "", tag: ""}
-
+      console.log(_data.concepts[i].pages[j].preps);
       for(let k = 0; k < _data.concepts[i].pages[j].preps.length; k++){
         let p = _data.concepts[i].pages[j].preps[k]
-
-        let a, b, c
-
         switch (p.type) {
           case 'txt':
-            prep.text += p.text
+            prep.text += p.text + '\n\n'
             break;
           case 'url':
-            prep.text += `[${p.text}](${p.url})`
+            prep.text += `[${p.text}](${p.url})` + '\n\n'
             break;
           default:
             break;
         }
-
-        //-- we need a line break
-        prep.text += '\n\n'
       }
-
-      data.concepts[i].pages[j].preps.push(prep)
+      if(prep.text != "")
+        data.concepts[i].pages[j].preps.push(prep)
     }
   }
 
   //-- remove the 'url' and 'txt' preps
-
   for(let i = 0; i < _data.concepts.length; i++){
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
       let cleaned_preps = []

@@ -34,7 +34,7 @@
         <!-- LIST SUBJECTS -->
         <div v-for="single in data.subjects" class="subject-container">
           <div class="subject">
-            <div class="subject-name" @click="setSubject($event, single.subject.name, single.subject.path, single.subject.topics)">
+            <div class="subject-name" @click="setSubject($event, single.subject)">
               {{single.subject.name}}
               </div>
 
@@ -297,12 +297,13 @@ export default {
       current: {
         subject: {
           name: undefined,
+          id: undefined,
+          path: '',
           topics: []
         },
         topic: {
           name: undefined
-        },
-        path: ''
+        }
       },
       showCreate: false,
       selectedTopic: false,
@@ -315,10 +316,11 @@ export default {
     //-- removes styles from all subjects and topics
     //-- styles the current subject
     //------------
-    setSubject(_e, _s, _p, _t){
-      this.current.subject.name = _s
-      this.current.subject.topics = _t
-      this.current.path = _p
+    setSubject(_e, _subject, _p, _t){
+      this.current.subject.name = _subject.name
+      this.current.subject.id = _subject.id
+      this.current.subject.topics = _subject.topics
+      this.current.subject.path = _subject.path
 
       let all_subjects = document.getElementsByClassName('subject-name')
       for(let s of all_subjects)
@@ -334,9 +336,14 @@ export default {
       this.selectedSubject = true
       this.selectedTopic = false
     },
+    //------------
+    //-- opens the topic
+    //------------
     openTopic(_e, _n){
       this.current.topic.name = _n
       if(this.current.topic == {}) return
+
+      console.log(this.current);
 
     	ipc.send('open-topic', this.current)
     },

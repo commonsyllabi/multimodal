@@ -106,3 +106,5 @@ let cleanup = () => {
 	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(new_subjects))
 	console.log(`[BOARD] ...done.`);
 }
+
+// cleanup()

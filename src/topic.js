@@ -122,8 +122,13 @@ class Topic {
               //-- we need to rename the folders and subjects.json
               if(t.name != _data.name){
                 console.log(`[TOPIC] found a topic, and updating the name to ${_data.name}...`);
-                fs.copySync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
-                fs.removeSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`)
+                console.log(t);
+                console.log(_data);
+                fs.ensureDirSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`)
+                fs.copy(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`, `${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.name}`, () => {
+                  console.log('copied');
+                })
+                //fs.removeSync(`${app.getPath('userData')}/app/imports/${t.subject.name}/topics/${t.name}`)
 
                 t.name = _data.name
                 fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))

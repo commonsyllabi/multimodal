@@ -21,17 +21,17 @@ let mainWindow
 //-- renders an HTML file to the disk
 //-- given a JSON object and a string `_template`
 //------------
-let generateHTML = (_d, _template) => {
+let generateHTML = (_topic) => {
 
 	//-- read the `topic.json` file given a subject name and a topic name
-	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_d.subject.name}/topics/${_d.topic.name}/topic.json`)
+	let name = _topic.name == undefined ? _topic.topic.name : _topic.name //-- this happens depending on whether i create a new or open an existing topic
+	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/topics/${name}/topic.json`)
 
 	//-- the topic.pug template needs a particular format
-	let data = _template == 'topic' ? {'data': c} : JSON.parse(c)
-	let compiled = pug.renderFile(`${__dirname}/views/${_template}.pug`, data)
+	let compiled = pug.renderFile(`${__dirname}/views/topic.pug`, {'data': c})
 
 	//-- write that file to disk
-	fs.writeFileSync(`${app.getPath('userData')}/app/${_template}.html`, compiled)
+	fs.writeFileSync(`${app.getPath('userData')}/app/topic.html`, compiled)
 }
 
 // ------------------------------
@@ -125,7 +125,7 @@ ipc.on('open-url', (event, _url) => {
 //-- generates an HTML and loads it
 //------------
 ipc.on('open-topic', (event, _t) => {
-	generateHTML(_t, 'topic')
+	generateHTML(_t)
 	replaceWindow('topic')
 })
 
@@ -140,27 +140,13 @@ ipc.on('save-subject', (event, _d) => {
 	//-- by creating a new topic with a subject, it automatically gets associated with it
 	let topic = new Topic({
 		subject: subject,
-		name: 'new-topic',
+		name: undefined,
 		overview: {text:""},
 		concepts: [{
 			name: "new concept",
 			context: {text: ""},
 			pages: [{
 				name: "new page",
-				preps: [{
-					text: "...",
-					tag: "",
-					type: "md"
-				}],
-				notes: [],
-				writeup: {text: ""}
-			}]
-		},
-		{
-			name: "scrapboard",
-			context: {text: ""},
-			pages: [{
-				name: "first",
 				preps: [{
 					text: "...",
 					tag: "",
@@ -183,7 +169,7 @@ ipc.on('save-subject', (event, _d) => {
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
 	console.log(`[SUBJECT] created ${subject.name} successfully`)
 
-	generateHTML(data, 'topic')
+	generateHTML(data)
 	replaceWindow('topic')
 })
 
@@ -194,13 +180,8 @@ ipc.on('save-subject', (event, _d) => {
 //------------
 ipc.on('create-topic', (event, _d) => {
 	let topic = new Topic(_d)
-	let d = {
-		"path": topic.subject.path,
-		"subject": topic.subject.name,
-		"name": topic.name
-	}
 
-	generateHTML(d, 'topic')
+	generateHTML(topic)
 	replaceWindow('topic')
 })
 
