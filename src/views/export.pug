@@ -36,13 +36,11 @@ html
 					div.page-group
 						h3.page-name= page.name
 						each prep in page.preps
-							if prep.type == "txt"
-								div.prep.note(concept= index)= prep.text
+							if prep.type == "md"
+								div.prep.note(concept= index)
+									| !{prep.html}
 							if prep.type ==  'file'
 								div.prep.note(concept= index)= prep.name
-							if prep.type == "url"
-								div.prep.note(concept= index)
-									a(href= prep.url)= prep.text
 							if prep.type == "img"
 								div.prep.note(concept= index)
 									img(src= subject.name+'_assets/'+prep.name, alt= prep.name)
