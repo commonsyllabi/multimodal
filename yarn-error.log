@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/Pierre/.nvm/versions/node/v10.15.3/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js
+  /Users/Pierre/.nvm/versions/node/v10.15.3/bin/node /usr/local/Cellar/yarn/1.15.2/libexec/bin/yarn.js upgrade fs-extra
 
 PATH: 
   /Users/Pierre/.cargo/bin:/Users/Pierre/.rvm/gems/ruby-2.4-head/bin:/Users/Pierre/.rvm/gems/ruby-2.4-head@global/bin:/Users/Pierre/.rvm/rubies/ruby-2.4-head/bin:/usr/local/opt/openssl/bin:/Users/Pierre/.nvm/versions/node/v10.15.3/bin:/opt/local/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:jhbuild= ~/.local/bin:/Library/TeX/texbin:/usr/local/MacGPG2/bin:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Postgres.app/Contents/Versions/latest/bin:/Users/Pierre/bin:/usr/local/bin:/Users/Pierre/Code/android-sdk/tools:/Users/Pierre/Code/android-sdk/platform-tools:/Users/Pierre/Code/android-sdk//tools:/Users/Pierre/Code/android-sdk//platform-tools:/Users/Pierre/.rvm/bin
@@ -14,12 +14,12 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/Users/Pierre/Code/multimodal/node_modules/electron-download-tf/node_modules/fs-extra'
+  Error: EACCES: permission denied, mkdir '/Users/Pierre/Code/multimodal/node_modules/@electron/get/node_modules/keyv'
 
 npm manifest: 
   {
     "name": "multimodal",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "a tool for teaching",
     "main": "src/main.js",
     "scripts": {
@@ -99,6 +99,7 @@ npm manifest:
       "webpack-cli": "^2.1.4"
     },
     "dependencies": {
+      "@vue/devtools": "^5.3.3",
       "adm-zip": "^0.4.10",
       "fs-extra": "^8.1.0",
       "html-pdf": "^2.2.0",
@@ -2482,6 +2483,11 @@ Lockfile:
       memory-fs "^0.4.0"
       tapable "^1.0.0"
   
+  entities@~1.1.1:
+    version "1.1.2"
+    resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
+    integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
+  
   env-paths@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-1.0.0.tgz#4168133b42bb05c38a35b1ae4397c8298ab369e0"
@@ -3035,6 +3041,15 @@ Lockfile:
       jsonfile "^4.0.0"
       universalify "^0.1.0"
   
+  fs-extra@^8.1.0:
+    version "8.1.0"
+    resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
+    integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+    dependencies:
+      graceful-fs "^4.2.0"
+      jsonfile "^4.0.0"
+      universalify "^0.1.0"
+  
   fs-minipass@^1.2.5:
     version "1.2.5"
     resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.5.tgz#06c277218454ec288df77ada54a03b8702aacb9d"
@@ -3349,6 +3364,11 @@ Lockfile:
     version "4.2.2"
     resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
     integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
+  
+  graceful-fs@^4.2.0:
+    version "4.2.3"
+    resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
+    integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
   
   grouped-queue@^0.3.3:
     version "0.3.3"
@@ -4178,6 +4198,13 @@ Lockfile:
       json-schema "0.2.3"
       verror "1.10.0"
   
+  jstransformer-markdown-it@^2.1.0:
+    version "2.1.0"
+    resolved "https://registry.yarnpkg.com/jstransformer-markdown-it/-/jstransformer-markdown-it-2.1.0.tgz#69ec30ce4518bed5997b38f027648e8c285e92f7"
+    integrity sha1-aewwzkUYvtWZezjwJ2SOjChekvc=
+    dependencies:
+      markdown-it "^8.0.0"
+  
   jstransformer@1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/jstransformer/-/jstransformer-1.0.0.tgz#ed8bf0921e2f3f1ed4d5c1a44f68709ed24722c3"
@@ -4259,6 +4286,13 @@ Lockfile:
     dependencies:
       prelude-ls "~1.1.2"
       type-check "~0.3.2"
+  
+  linkify-it@^2.0.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
+    integrity sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==
+    dependencies:
+      uc.micro "^1.0.1"
   
   listr-silent-renderer@^1.1.1:
     version "1.1.1"
@@ -4582,6 +4616,22 @@ Lockfile:
     dependencies:
       object-visit "^1.0.0"
   
+  markdown-it@^8.0.0:
+    version "8.4.2"
+    resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-8.4.2.tgz#386f98998dc15a37722aa7722084f4020bdd9b54"
+    integrity sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==
+    dependencies:
+      argparse "^1.0.7"
+      entities "~1.1.1"
+      linkify-it "^2.0.0"
+      mdurl "^1.0.1"
+      uc.micro "^1.0.5"
+  
+  marked@^0.7.0:
+    version "0.7.0"
+    resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
+    integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
+  
   math-expression-evaluator@^1.2.14:
     version "1.2.17"
     resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"
@@ -4597,6 +4647,11 @@ Lockfile:
       hash-base "^3.0.0"
       inherits "^2.0.1"
       safe-buffer "^5.1.2"
+  
+  mdurl@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
+    integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
   
   mem-fs-editor@^4.0.0:
     version "4.0.2"
@@ -7247,6 +7302,11 @@ Lockfile:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
     integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+  
+  uc.micro@^1.0.1, uc.micro@^1.0.5:
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+    integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
   
   uglify-js@^2.6.1, uglify-js@^2.8.29:
     version "2.8.29"
