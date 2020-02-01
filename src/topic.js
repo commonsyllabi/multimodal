@@ -23,12 +23,12 @@ class Topic {
     //-- all the topics within the subject
     this.subject = {
       name: _data.subject.name,
-      id: _data.subject.id,
+      id: _data.subject.id, //-- TODO this is not done
       path: _data.subject.path
     },
 
     //-- if there are no concepts or no overview, we create new ones
-    this.name = _data.name ? _data.name : "new-topic"
+    this.name = _data.name ? _data.name : `new-topic-${this.id}`
     this.overview = _data.overview ? _data.overview : {text:""}
     this.concepts = _data.concepts ? _data.concepts : [{
       name: "new concept",
@@ -44,22 +44,8 @@ class Topic {
           }],
           notes: [],
           writeup: {"text":""}
-        },
-    		{
-    			name: "scrapboard",
-    			context: {text: ""},
-    			pages: [{
-    				name: "first",
-    				preps: [{
-              "tag": "",
-              "text": "",
-              "type": "md"
-            }],
-    				notes: [],
-    				writeup: {text: ""}
-    			}]
-    		}]
-    }]
+        }]
+    	}]
 
     this.created = new Date()
     this.updated = null
@@ -110,6 +96,7 @@ class Topic {
   //-- given all of the session data
   //------------
   static save(_data){
+    console.log(_data);
     _data.updated = new Date()
 
     return new Promise((resolve, reject) => {
