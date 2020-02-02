@@ -401,7 +401,7 @@ export default {
     //-- called from within the Create component
     //------------
     createSubject(_subject){
-      ipc.send('save-subject', _subject)
+      ipc.send('create-subject', _subject)
     },
     //------------
     //-- removes a given subject

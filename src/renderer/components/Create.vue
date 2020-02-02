@@ -7,7 +7,7 @@
 
     <!-- POPUP -->
     <div class="create-subject">
-      <h1>new subject</h1>
+      <h1>new syllabi</h1>
 
       <!-- NAME -->
       <input class="name" type="text" placeholder="subject name" v-model="subject.name">
