@@ -21,11 +21,11 @@ let mainWindow
 //-- renders an HTML file to the disk
 //-- given a JSON object and a string `_template`
 //------------
-let generateHTML = (_topic) => {
+let generateHTML = (_subjectname, _topicname) => {
+	console.log(`generating HTML with subject: ${_subjectname}, topic: ${_topicname}`);
 
 	//-- read the `topic.json` file given a subject name and a topic name
-	let name = _topic.name == undefined ? _topic.topic.name : _topic.name //-- this happens depending on whether i create a new or open an existing topic
-	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_topic.subject.name}/topics/${name}/topic.json`)
+	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_subjectname}/topics/${_topicname}/topic.json`)
 
 	//-- the topic.pug template needs a particular format
 	let compiled = pug.renderFile(`${__dirname}/views/topic.pug`, {'data': c})
@@ -124,8 +124,8 @@ ipc.on('open-url', (event, _url) => {
 //-- takes a JSON object
 //-- generates an HTML and loads it
 //------------
-ipc.on('open-topic', (event, _t) => {
-	generateHTML(_t)
+ipc.on('open-topic', (event, _d) => {
+	generateHTML(_d.subject.name, _d.topic.name)
 	replaceWindow('topic')
 })
 
@@ -134,7 +134,7 @@ ipc.on('open-topic', (event, _t) => {
 //-- takes a JSON object,
 //-- and opens up the topic window immediately
 //------------
-ipc.on('save-subject', (event, _d) => {
+ipc.on('create-subject', (event, _d) => {
 	let subject = new Subject(_d)
 
 	//-- by creating a new topic with a subject, it automatically gets associated with it
@@ -158,18 +158,11 @@ ipc.on('save-subject', (event, _d) => {
 		}]
 	})
 
-	//-- this is all the information we need to open the new topic lesson
-	let data = {
-		"path": subject.path,
-		"subject": subject.name,
-		"name": topic.name
-	}
-
 	//send a confirmation message
 	BrowserWindow.getFocusedWindow().webContents.send('msg-log', {msg: 'subject saved!', type: 'info'})
 	console.log(`[SUBJECT] created ${subject.name} successfully`)
 
-	generateHTML(data)
+	generateHTML(topic.subject.name, topic.name)
 	replaceWindow('topic')
 })
 
@@ -181,7 +174,7 @@ ipc.on('save-subject', (event, _d) => {
 ipc.on('create-topic', (event, _d) => {
 	let topic = new Topic(_d)
 
-	generateHTML(topic)
+	generateHTML(topic.subject.name, topic.name)
 	replaceWindow('topic')
 })
 

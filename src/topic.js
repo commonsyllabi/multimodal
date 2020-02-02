@@ -96,7 +96,6 @@ class Topic {
   //-- given all of the session data
   //------------
   static save(_data){
-    console.log(_data);
     _data.updated = new Date()
 
     return new Promise((resolve, reject) => {
