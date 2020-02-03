@@ -68,7 +68,6 @@ class Subject {
     console.log(`[SUBJECT] deleting ${_subject.name}...`);
     return new Promise((resolve, reject) => {
 
-      console.log('[SUBJECT] ...from the subjects list.');
       let foundSubject = false
       let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
       for(let i = 0; i < subjects.length; i++){
@@ -84,8 +83,10 @@ class Subject {
           err: 404,
           info: "could not find the subject"
         })
+      else if(foundSubject)
+        fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
 
-      console.log('[SUBJECT] ...from the imports/ folder.');
+      console.log(`[SUBJECT] removing ${_subject.name} folder from imports/...`);
       try{
         utils.deleteFolderRecursive(`${app.getPath('userData')}/app/imports/${_subject.name}/`)
         resolve()
