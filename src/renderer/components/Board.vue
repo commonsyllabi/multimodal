@@ -58,7 +58,6 @@
                 <button @click="">duplicate</button>
                 <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
                 <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
-                <!-- <button @click="exportTo('pdf', selectedSubject, selectedTopic)" :disabled="!(selectedSubject || selectedTopic)">to pdf</button> -->
                 <button @click="removeSubject(single.subject)">remove</button>
               </div>
 
