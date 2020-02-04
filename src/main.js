@@ -22,7 +22,7 @@ let mainWindow
 //-- given a JSON object and a string `_template`
 //------------
 let generateHTML = (_subjectname, _topicname) => {
-	console.log(`generating HTML with subject: ${_subjectname}, topic: ${_topicname}`);
+	console.log(`[MAIN] generating HTML for: ${_subjectname} - ${_topicname}`)
 
 	//-- read the `topic.json` file given a subject name and a topic name
 	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_subjectname}/topics/${_topicname}/topic.json`)
@@ -50,7 +50,7 @@ let createWindow = (_filename) => {
 	mainWindow = null
 
 	//-- set window dimensions
-	let _w_ratio = _h_ratio = 0.95
+	let _w_ratio = _h_ratio = 1
 	let _w = electron.screen.getPrimaryDisplay().workAreaSize.width*_w_ratio
 	let _h = electron.screen.getPrimaryDisplay().workAreaSize.height*_h_ratio
 

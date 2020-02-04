@@ -32,10 +32,18 @@
       <div class="subjects">
         <h1>My Syllabi</h1>
         <!-- LIST SUBJECTS -->
-        <div v-for="single in data.subjects" class="subject-container">
+        <div v-for="single in data.subjects" :class="current.subject.name == single.subject.name ? 'subject-container unfolded' : 'subject-container folded'">
           <div class="subject">
             <div class="subject-name" @click="setSubject($event, single.subject)">
               {{single.subject.name}}
+              </div>
+
+              <div class="subject-buttons">
+                <button @click="removeSubject(single.subject)">rename</button>
+                <button @click="">duplicate</button>
+                <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
+                <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
+                <button @click="removeSubject(single.subject)">remove</button>
               </div>
 
               <div v-if="current.subject.name == single.subject.name" class="subject-info-container">
@@ -51,14 +59,6 @@
                   <b>Path:</b><br>
                   {{single.subject.path}}
                 </div>
-              </div>
-
-              <div class="subject-buttons">
-                <button @click="removeSubject(single.subject)">rename</button>
-                <button @click="">duplicate</button>
-                <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
-                <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
-                <button @click="removeSubject(single.subject)">remove</button>
               </div>
 
           </div>
@@ -162,6 +162,10 @@ h1{
   color: $main-bg-color;
 }
 
+.menu-item button:hover{
+  text-decoration: underline;
+}
+
 //---------------- SUBJECTS
 .subjects-container{
   left: 16vw;
@@ -173,15 +177,13 @@ h1{
 }
 
 .subject-container{
-  margin-bottom: 30px;
-  margin-top: 20px;
   border-bottom: 2px solid $main-fg-color;
   overflow: hidden;
+  transition: all 1.5s linear;
 }
 
 .subject {
 	width: 100%;
-  margin-bottom: 5vh;
 	font-weight: bold;
 	font-size: 2em;
 }
@@ -193,7 +195,7 @@ h1{
   padding: 0;
 }
 
-.subject button:hover, .topic button:hover{
+.subject button:hover, .topic button:hover, .subject-name:hover, .topic-name:hover{
   text-decoration: underline;
 }
 
@@ -202,10 +204,9 @@ h1{
 }
 
 .subject-info-container{
-	color: $main-bg-color;
-	background-color: $main-fg-color;
-  padding-top: 10px;
-  padding-bottom: 10px;
+	color: $main-fg-color;
+	background-color: $main-bg-color;
+  padding: 10px;
 }
 
 .subject-info-item{
@@ -217,10 +218,11 @@ h1{
 .subject-buttons{
   pointer-events: all;
   width: 100%;
+  margin-top: -10px;
 }
 
 .subject-name{
-  width: 100%;
+  padding-top: 20px;
   cursor: pointer;
   overflow: hidden;
 }
@@ -266,17 +268,22 @@ h1{
   width: 100%;
   cursor: pointer;
   overflow: hidden;
+  font-weight: bold;
 }
 
-.topic-name:hover{
-	font-weight: bold;
+.selected{
+  background-color: $main-fg-color;
+  color: $main-bg-color;
+  border-color: $main-fg-color;
+  font-weight: bold;
 }
 
-.selected {
-	background-color: $main-fg-color;
-	color: $main-bg-color;
-	border-color: $main-fg-color;
-	font-weight: bold;
+.folded {
+  max-height: 15vh;
+}
+
+.unfolded{
+  max-height: 100vh;
 }
 </style>
 
@@ -304,9 +311,7 @@ export default {
           name: undefined
         }
       },
-      showCreate: false,
-      selectedTopic: false,
-      selectedSubject: false
+      showCreate: false
     }
   },
   methods: {
@@ -320,20 +325,6 @@ export default {
       this.current.subject.id = _subject.id
       this.current.subject.topics = _subject.topics
       this.current.subject.path = _subject.path
-
-      let all_subjects = document.getElementsByClassName('subject-name')
-      for(let s of all_subjects)
-        s.setAttribute('class', s.getAttribute('class').replace('selected', ''))
-
-      let all_topics = document.getElementsByClassName('topic')
-      for(let l of all_topics)
-        l.setAttribute('class', l.getAttribute('class').replace('selected', ''))
-
-      let _class = _e.target.getAttribute('class')
-      _e.target.setAttribute('class', `${_class} selected`)
-
-      this.selectedSubject = true
-      this.selectedTopic = false
     },
     //------------
     //-- opens the topic
@@ -341,8 +332,6 @@ export default {
     openTopic(_e, _n){
       this.current.topic.name = _n
       if(this.current.topic == {}) return
-
-      console.log(this.current);
 
     	ipc.send('open-topic', this.current)
     },
