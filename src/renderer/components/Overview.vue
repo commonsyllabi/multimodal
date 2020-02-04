@@ -5,7 +5,7 @@
     <div class="overview-toggle-inner" @click="toggleView">
     </div>
 
-    <h3 v-if="this.visible && this.isEdit">overview</h3>
+    <h3 v-if="this.visible">overview</h3>
     <textarea v-if="this.visible && this.isEdit" class="overview" v-model:value="overview.text" placeholder="an overview of what this is all about"></textarea>
     <div v-if="this.visible && !this.isEdit" class="overview" v-html="markdown"></div>
   </div>
@@ -23,8 +23,9 @@
   height: 0px;
   padding: 5px;
   padding-top: 15px;
-  background-color: $main-fg-color;
-  color: $main-bg-color;
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  border: 3px solid $main-fg-color;
   transition: all 0.2s linear;
 }
 
