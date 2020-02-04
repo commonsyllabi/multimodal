@@ -16,41 +16,41 @@
 .writeup-toggle-outer{
 	position: absolute;
 	bottom: 100px;
-  left: 0px;
+  left: 5px;
 	width: 0;
 	height: 25vh;
 	z-index: 4;
   pointer-events: all;
-	background-color: $main-fg-color;
+	background-color: $main-bg-color;
+  border: 3px solid $main-fg-color;
 	transition: all 0.2s linear;
 }
 
 h3{
-  color: $main-bg-color;
+  color: $main-fg-color;
   margin: 5px 0px 0px 10px;
 }
 
 .writeup-toggle-inner{
 	position:absolute;
-	width: 10px;
+	width: 15px;
   top: 20px;
-	right: -20px;
-	height: 15vh;
+	right: -15px;
+	height: 30px;
 	background-color: $main-fg-color;
 	margin: auto;
 	cursor: pointer;
 	z-index: 3;
 	margin-left: 40%;
-  border: 5px solid $main-bg-color;
 }
 
 .writeup{
-  color: $main-bg-color;
+  color: $main-fg-color;
   width: 90%;
   height: 80%;
   border: none;
   background: transparent;
-  border-left: 2px solid $main-bg-color;
+  border-left: 2px solid $main-fg-color;
   margin: 10px;
   padding-left: 5px;
   font-size: 1.2em;
