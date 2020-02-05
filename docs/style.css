@@ -34,8 +34,15 @@ main {
 }
 
 main h1{
+	width: 100%;
+	text-align: center;
 	padding-top: 30px;
 	padding-bottom: 30px;
+}
+
+main h3{
+	float: left;
+	width: 100%;
 }
 
 hr {
@@ -64,6 +71,23 @@ p {
 	text-align: justify;
 }
 
+.contents{
+	float: left;
+}
+
+.highlight{
+	display: block;
+	width: 80%;
+	margin: 5%;
+	padding: 5%;
+	/* border: 3px solid black; */
+
+	text-align: center;
+
+	font-size: 1.6em;
+	line-height: 2em;
+}
+
 .newsletter{
 	width: 100%;
 	padding: 5%;
@@ -83,6 +107,9 @@ iframe{
 }
 
 .links {
+	float: left;
+	display: block;
+
 	width: 100%;
 }
 
