@@ -307,19 +307,19 @@ export default {
     //--------------------
     handleMousePosition(evt) {
       //-- always save the mouse position
-      this.position = {x: evt.clientX, y: evt.clientY}
-
-      if(!window.currentNote)
-        return
-
-  		let pos = getGridPosition(this.position)
-
-      //-- we need to take into account the original position
-      pos.x -= window.currentNote.getAttribute('x')
-      pos.y -= window.currentNote.getAttribute('y')
-
-      window.currentNote.style.left = pos.x+'px'
-      window.currentNote.style.top = pos.y+'px'
+      // this.position = {x: evt.clientX, y: evt.clientY}
+      //
+      // if(!window.currentNote)
+      //   return
+      //
+  		// let pos = getGridPosition(this.position)
+      //
+      // //-- we need to take into account the original position
+      // pos.x -= window.currentNote.getAttribute('x')
+      // pos.y -= window.currentNote.getAttribute('y')
+      //
+      // window.currentNote.style.left = pos.x+'px'
+      // window.currentNote.style.top = pos.y+'px'
     },
     //------------
     //-- takes an element from the Note component
@@ -554,7 +554,6 @@ let sanitize = (_data) => {
   for(let i = 0; i < _data.concepts.length; i++){
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
       let prep = {type: "md", text: "", tag: ""}
-      console.log(_data.concepts[i].pages[j].preps);
       for(let k = 0; k < _data.concepts[i].pages[j].preps.length; k++){
         let p = _data.concepts[i].pages[j].preps[k]
         switch (p.type) {

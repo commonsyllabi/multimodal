@@ -199,7 +199,6 @@ export default {
   computed: {
     markdown: function () {//-- parse the text as markdown and render as html
       this.data.html = marked(this.data.text)
-      console.log(this.data.html);
       return this.data.html
     }
   },
