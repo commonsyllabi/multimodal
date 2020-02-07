@@ -87,7 +87,8 @@ let setCurrentPage = (_index, _navigate = false) => {
 	}
 
 	//-- select the corresponding canvas
-	drawing.selectCanvas(currentPage, currentConcept)
+	if(!window.isEdit)
+		drawing.selectCanvas(currentPage, currentConcept)
 }
 
 let getCurrentPage = () => {

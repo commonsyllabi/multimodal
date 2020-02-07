@@ -105,6 +105,7 @@ canvas {
 
 //-- MESSAGE BOX
 .msg-log {
+  pointer-events: none;
   position: fixed;
   z-index: 4;
 
@@ -362,6 +363,7 @@ export default {
       this.isDrawing = false
       drawing.toggleDraw(this.isDrawing)
       if(!this.isEdit) this.topicSaved = false
+      window.isEdit = this.isEdit
     },
     //------------
     //-- exits topic
