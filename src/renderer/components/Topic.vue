@@ -291,11 +291,12 @@ export default {
 
     	el.blur()
     	el.removeAttribute('id')
+      document.getElementById('current').removeAttribute('id')
 
       //-- attach the listener to make it interactable again as the current note
     	el.onclick = (evt) => {
-    		if(evt.target.getAttribute('id') == 'current') return
-    		evt.target.setAttribute('id', 'current')
+    		if(evt.target.parentNode.getAttribute('id') == 'current') return
+    		evt.target.parentNode.setAttribute('id', 'current')
     		window.currentNote = evt.target
     	}
 

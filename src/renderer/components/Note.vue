@@ -1,7 +1,10 @@
 <template>
-  <div class="note-holder" @drag="move($event)" @dragend.stop.prevent="endDrag($event)" draggable="true">
+  <div class="note-holder" @drag="duringDrag($event)" @dragend.stop.prevent="endDrag($event)" draggable="true">
     <div class="note-controls">
-      <div class="note-minimize">
+      <div class="note-grab">
+        ■
+      </div>
+      <div class="note-minimize" @click="toggleVisible">
         -
       </div>
     </div>
@@ -24,28 +27,46 @@ textarea {
 .note-holder{
   position: absolute;
   pointer-events: all;
+
   z-index: 5;
   width: auto;
+  height: auto;
+  max-height: 60px;
+  overflow-y: hidden;
+
   color: $main-fg-color;
   background-color: $main-bg-color;
-  opacity: 0.8;
+  opacity: 0.5;
   font-size: 1.9em;
 
   transition: opacity 0.1s ease-in;
+  transition: max-height 0.1s linear;
   border: 3px solid $main-fg-color;
 }
 
 .note-controls{
   z-index: 6;
-  height: auto;
+  height: 20px;
   overflow: auto;
   border-bottom: 3px solid $main-fg-color;
 }
 
-.note-minimize{
-  float: right;
+.note-grab{
+  cursor: grab;
+}
+
+.note-grab, .note-minimize{
+  position: absolute;
   line-height: 14px;
-  margin-right: 4px;
+  font-size: 28px;
+  margin: 0;
+
+  width: 20px;
+}
+
+.note-minimize{
+  right: 0px;
+  top: 2px;
   cursor: pointer;
 }
 
@@ -65,9 +86,7 @@ textarea {
 }
 
 #current{
-   // position: absolute;
-   // opacity: 1;
-   // overflow-y: visible;
+  border-width: 5px;
 }
 </style>
 
@@ -92,45 +111,44 @@ export default {
     return {
       x: 0,
       y: 0,
-      isDragging: false
+      isVisible: false
     }
   },
   methods: {
-    startDrag(){
-      this.isDragging = true
-    },
-    move(evt) {
+    duringDrag(evt) {
       let pos = {x: evt.screenX, y: evt.screenY}
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
     },
     endDrag(evt) {
-      evt.preventDefault();
-      let pos = {x: evt.pageX, y: evt.pageY}
-      this.isDragging = false
+      let pos = {x: evt.layerX, y: evt.layerY}
 
-      // pos.x -= this.data.x
-      // pos.y -= this.data.y
+      pos.x -= this.data.x
+      pos.y -= this.data.y
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
+    },
+    toggleVisible(evt, _value) {
+      this.isVisible = _value ? _value : !this.isVisible
+      this.$el.style.maxHeight = this.isVisible ? '500px' : '60px'
+      this.$el.style.opacity = this.isVisible ? '1' : '0.5'
     }
   },
   mounted(){
     let el = this.$el
-    //-- make them reactive to a click (for notes that have been loaded from previous sessions)
 
-    // el.onclick = (evt) => {
-		// 	if(evt.target.getAttribute('id') == 'current') return
-		// 	evt.target.setAttribute('id', 'current')
-		// 	evt.target.setAttribute('class', 'note moveable')
-		// 	window.currentNote = evt.target
-		// }
+    //-- show editing note
+    el.children[1].addEventListener('click', (evt) => {
+      this.toggleVisible(true)
+      window.currentNote = evt.target
+      evt.target.parentNode.setAttribute('id', 'current')
+    })
 
     //-- resize on text input
-    el.addEventListener('input', () => {
-      let e = document.getElementById('current')
+    el.children[1].addEventListener('input', (evt) => {
+      let e = evt.target
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
@@ -140,7 +158,7 @@ export default {
     let that = this
     let observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
-        if (mutation.type == "attributes" && !that.isDragging) {
+        if (mutation.type == "attributes") {
           that.data.y = el.style.top.substring(0, el.style.top.length-2)
           that.data.x = el.style.left.substring(0, el.style.left.length-2)
         }
