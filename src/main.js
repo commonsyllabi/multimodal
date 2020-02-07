@@ -377,7 +377,9 @@ app.on('ready', () => {
 		fs.copySync(`${__dirname}/app/imports`, `${app.getPath('userData')}/app/imports`)
 	}
 
+	//-- clean up any ghost references from old created topics
 	//-- list all the subjects and topics we actually have
+	board.cleanup()
 	board.list()
 	createWindow('board')
 })

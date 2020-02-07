@@ -537,7 +537,6 @@ export default {
   //-- this is mostly used for backwards compatibility
   //------------
   beforeMount() {
-    console.log(window.data);
     this.data = sanitize(window.data)
 
     this.currentConcept = window.currentConcept
