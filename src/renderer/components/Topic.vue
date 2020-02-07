@@ -274,6 +274,27 @@ export default {
     		break
     	}
     },
+    //------------
+    //-- takes an element from the Note component
+    //-- sets it as the currentNote globally
+    //-- removes any other possible currentNote
+    //-- styles it and positions it
+    //------------
+    handleNewNote(el, evt) {
+      window.currentNote = el
+
+      let els = document.getElementsByClassName('written')
+      for(let el of els)
+        el.removeAttribute('id')
+
+      el.setAttribute('id', 'current')
+      el.style.maxHeight = '500px'
+      el.children[1].focus() //-- setting focus on the textarea child element
+
+      let pos = getGridPosition(this.position)
+      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
+      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
+    },
     //---------------------
     //-- takes care of removing the current status of the note
     //-- and setting it as regular note
@@ -282,23 +303,20 @@ export default {
       this.topicSaved = false
 
     	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
-    	if(el.value == ''){
+    	if(el.children[1].value == ''){
     		el.style.display = 'none'
     		el.parentNode.removeChild(el)
-    	}else{ //-- else position it correctly
-    		el.style.height = (el.scrollHeight)+'px'
     	}
 
-    	el.blur()
+    	el.children[1].blur()
     	el.removeAttribute('id')
-      document.getElementById('current').removeAttribute('id')
 
       //-- attach the listener to make it interactable again as the current note
-    	el.onclick = (evt) => {
-    		if(evt.target.parentNode.getAttribute('id') == 'current') return
-    		evt.target.parentNode.setAttribute('id', 'current')
-    		window.currentNote = evt.target
-    	}
+    	// el.onclick = (evt) => {
+    	// 	if(evt.target.parentNode.getAttribute('id') == 'current') return
+    	// 	evt.target.parentNode.setAttribute('id', 'current')
+    	// 	window.currentNote = evt.target
+    	// }
 
     	window.currentNote = null
     },
@@ -321,26 +339,6 @@ export default {
       //
       // window.currentNote.style.left = pos.x+'px'
       // window.currentNote.style.top = pos.y+'px'
-    },
-    //------------
-    //-- takes an element from the Note component
-    //-- sets it as the currentNote globally
-    //-- removes any other possible currentNote
-    //-- styles it and positions it
-    //------------
-    handleNewNote(el, evt) {
-      window.currentNote = el
-
-      let els = document.getElementsByClassName('written')
-      for(let el of els)
-        el.removeAttribute('id')
-
-      el.setAttribute('id', 'current')
-      el.focus()
-
-      let pos = getGridPosition(this.position)
-      window.currentNote.style.left = Math.max(pos.x, 0)+'px'
-      window.currentNote.style.top = Math.max(pos.y, 0)+'px'
     },
     //------------
     //-- toggles draw mode
