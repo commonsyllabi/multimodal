@@ -239,12 +239,12 @@ export default {
 
     //-- for notes that have been loaded from previous sessions
     //-- make them reactive to a click
-    this.$el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'prep moved')
-			window.currentNote = evt.target
-		}
+    // this.$el.onclick = (evt) => {
+		// 	if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
+		// 	evt.target.setAttribute('id', 'current')
+		// 	evt.target.setAttribute('class', 'prep moved')
+		// 	window.currentNote = evt.target
+		// }
   }
 }
 </script>
