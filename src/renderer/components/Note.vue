@@ -1,5 +1,5 @@
 <template>
-  <div class="note-holder" @drag="duringDrag($event)" @dragend.stop.prevent="endDrag($event)" draggable="true">
+  <div class="note-holder" @dragstart="startDrag($event) "@drag="duringDrag($event)" @dragend.prevent="endDrag($event)" draggable="true">
     <div class="note-controls">
       <div class="note-grab">
         ■
@@ -111,24 +111,38 @@ export default {
     return {
       x: 0,
       y: 0,
-      isVisible: false
+      isVisible: false,
+      isDragging: false
     }
   },
   methods: {
+    startDrag(evt){
+      this.isDragging = true
+      let ghost = document.createElement('img')
+      ghost.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+      evt.dataTransfer.setDragImage(ghost, 0, 0)
+    },
     duringDrag(evt) {
+      // evt.preventDefault()
       let pos = {x: evt.screenX, y: evt.screenY}
+
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
     },
     endDrag(evt) {
+      // evt.preventDefault()
       let pos = {x: evt.layerX, y: evt.layerY}
 
-      pos.x -= this.data.x
-      pos.y -= this.data.y
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
+
+      this.isDragging = false
     },
     toggleVisible(evt, _value) {
       this.isVisible = _value ? _value : !this.isVisible
@@ -152,20 +166,6 @@ export default {
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
-
-    //-- listen for x and y attribute changes
-    //-- so that we can save them for future sessions
-    let that = this
-    let observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.type == "attributes") {
-          that.data.y = el.style.top.substring(0, el.style.top.length-2)
-          that.data.x = el.style.left.substring(0, el.style.left.length-2)
-        }
-      })
-    })
-
-    observer.observe(el, {attributes: true})
 
     //-- this prevents existing notes from being set as current notes on subject mount
     if(!this.data.saved)
