@@ -58,10 +58,6 @@ button{
     pointer-events: all; //-- always catch the click events
 }
 
-.markdown-render p a {
-  color: red !important;
-}
-
 .prep-holder{
   position: relative;
   width: 70%;
@@ -161,6 +157,17 @@ img{
 const ipc = require('electron').ipcRenderer
 const marked = require('marked')
 
+//-- setting links as target="_blank"
+let renderer = new marked.Renderer();
+renderer.link = function(href, title, text) {
+    let link = marked.Renderer.prototype.link.apply(this, arguments);
+    return link.replace("<a","<a target='_blank'");
+};
+
+marked.setOptions({
+    renderer: renderer
+});
+
 export default {
   props: {
     _id: {
@@ -192,6 +199,7 @@ export default {
   computed: {
     markdown: function () {//-- parse the text as markdown and render as html
       this.data.html = marked(this.data.text)
+      console.log(this.data.html);
       return this.data.html
     }
   },
