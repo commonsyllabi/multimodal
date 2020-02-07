@@ -56,6 +56,7 @@ h3{
   border-left: 2px solid $main-bg-color;
   background: transparent;
   font-size: 1.2em;
+  overflow-y: scroll;
 }
 </style>
 
