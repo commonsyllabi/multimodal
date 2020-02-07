@@ -36,7 +36,6 @@ textarea {
 
   color: $main-fg-color;
   background-color: $main-bg-color;
-  opacity: 0.5;
   font-size: 1.9em;
 
   transition: opacity 0.1s ease-in;
@@ -136,8 +135,8 @@ export default {
       // evt.preventDefault()
       let pos = {x: evt.layerX, y: evt.layerY}
 
-      // pos.x -= this.data.x
-      // pos.y -= this.data.y
+      pos.x -= this.data.x
+      pos.y -= this.data.y
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
@@ -145,18 +144,21 @@ export default {
       this.isDragging = false
     },
     toggleVisible(evt, _value) {
+      // evt.preventDefault()
       this.isVisible = _value ? _value : !this.isVisible
       this.$el.style.maxHeight = this.isVisible ? '500px' : '60px'
-      this.$el.style.opacity = this.isVisible ? '1' : '0.5'
     }
   },
   mounted(){
+    // this.toggleVisible(true)
     let el = this.$el
 
     //-- show editing note
     el.children[1].addEventListener('click', (evt) => {
-      this.toggleVisible(true)
-      window.currentNote = evt.target
+      //-- set visible
+      this.$el.style.maxHeight = '500px'
+
+      window.currentNote = evt.target.parentNode
       evt.target.parentNode.setAttribute('id', 'current')
     })
 
@@ -166,6 +168,19 @@ export default {
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
+
+    //-- listen for x and y attribute changes
+    //-- so that we can save them for future sessions
+    let that = this
+    let observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type == "attributes") {
+          that.data.y = el.style.top.substring(0, el.style.top.length-2)
+          that.data.x = el.style.left.substring(0, el.style.left.length-2)
+        }
+      })
+    })
+    observer.observe(el, {attributes: true})
 
     //-- this prevents existing notes from being set as current notes on subject mount
     if(!this.data.saved)
