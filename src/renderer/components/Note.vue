@@ -1,5 +1,13 @@
 <template>
-  <textarea class="note moveable" type="text" v-model:value="data.text"></textarea>
+  <div class="note-holder" @drag="move($event)" @dragend.stop.prevent="endDrag($event)" draggable="true">
+    <div class="note-controls">
+      <div class="note-minimize">
+        -
+      </div>
+    </div>
+    <textarea class="note moveable" type="text" v-model:value="data.text"></textarea>
+
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -13,17 +21,35 @@ textarea {
   height: auto;
 }
 
-.note{
+.note-holder{
   position: absolute;
   pointer-events: all;
   z-index: 5;
-  width: 40%;
+  width: auto;
   color: $main-fg-color;
+  background-color: $main-bg-color;
   opacity: 0.8;
   font-size: 1.9em;
 
   transition: opacity 0.1s ease-in;
+  border: 3px solid $main-fg-color;
+}
 
+.note-controls{
+  z-index: 6;
+  height: auto;
+  overflow: auto;
+  border-bottom: 3px solid $main-fg-color;
+}
+
+.note-minimize{
+  float: right;
+  line-height: 14px;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.note{
   @media (max-width: 1300px){
     font-size: 1.7em;
   }
@@ -39,9 +65,9 @@ textarea {
 }
 
 #current{
-   position: absolute;
-   opacity: 1;
-   overflow-y: visible;
+   // position: absolute;
+   // opacity: 1;
+   // overflow-y: visible;
 }
 </style>
 
@@ -65,22 +91,42 @@ export default {
   data: function () {
     return {
       x: 0,
-      y: 0
+      y: 0,
+      isDragging: false
     }
   },
   methods: {
+    startDrag(){
+      this.isDragging = true
+    },
+    move(evt) {
+      let pos = {x: evt.screenX, y: evt.screenY}
 
+      this.$el.style.left = pos.x+'px'
+      this.$el.style.top = pos.y+'px'
+    },
+    endDrag(evt) {
+      evt.preventDefault();
+      let pos = {x: evt.pageX, y: evt.pageY}
+      this.isDragging = false
+
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
+
+      this.$el.style.left = pos.x+'px'
+      this.$el.style.top = pos.y+'px'
+    }
   },
   mounted(){
     let el = this.$el
-
     //-- make them reactive to a click (for notes that have been loaded from previous sessions)
-    el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current') return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable')
-			window.currentNote = evt.target
-		}
+
+    // el.onclick = (evt) => {
+		// 	if(evt.target.getAttribute('id') == 'current') return
+		// 	evt.target.setAttribute('id', 'current')
+		// 	evt.target.setAttribute('class', 'note moveable')
+		// 	window.currentNote = evt.target
+		// }
 
     //-- resize on text input
     el.addEventListener('input', () => {
@@ -94,7 +140,7 @@ export default {
     let that = this
     let observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutation) {
-        if (mutation.type == "attributes") {
+        if (mutation.type == "attributes" && !that.isDragging) {
           that.data.y = el.style.top.substring(0, el.style.top.length-2)
           that.data.x = el.style.left.substring(0, el.style.left.length-2)
         }
