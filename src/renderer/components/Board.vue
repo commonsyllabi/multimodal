@@ -48,7 +48,6 @@
 
               <div class="subject-buttons">
                 <button @click="toggleEdit($event, single)">{{single.isEdit ? 'save' : 'edit'}}</button>
-                <button @click="">duplicate</button>
                 <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
                 <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
                 <button @click="removeSubject(single.subject)">remove</button>
@@ -69,7 +68,12 @@
                 </div>
                 <div class="subject-info-item">
                   <b>Path:</b><br>
-                  {{single.subject.path}}
+                  <div>
+                    {{single.subject.path}}
+                  </div>
+                  <div v-if="single.isEdit">
+                    <button class="right" @click="choosePath($event, single.subject)">choose path</button>
+                  </div>
                 </div>
               </div>
 
@@ -224,6 +228,13 @@ h1{
   margin: 10px;
 }
 
+.subject-info-item button{
+  font-size: 1.2em;
+  background-color: $main-fg-color;
+  color: $main-bg-color;
+  padding: 5px;
+}
+
 .subject-info-item textarea{
   width: 100%;
   font-size: 1em;
@@ -342,13 +353,6 @@ export default {
       showCreate: false
     }
   },
-  computed: {
-    // markdown: function(_subject) { //-- parse the text as markdown and render as html
-    //   console.log(_subject);
-    //   _subject.description.html = marked(_subject.description.text)
-    //   return  _subject.description.html
-    // }
-  },
   methods: {
     markdown (_subject){
       _subject.description.html = marked(_subject.description.text)
@@ -368,23 +372,23 @@ export default {
       this.current.subject.id = _subject.id
       this.current.subject.topics = _subject.topics
       this.current.subject.path = _subject.path
+      this.current.subject.description = _subject.description
     },
     //------------
     //-- toggles edit mode independently for each subject
+    //-- if the edit mode is active, it saves the subject
     //------------
     toggleEdit(_e, _single){
       this.setSubject(_e, _single.subject)
+
+      if(_single.isEdit)
+        ipc.send('save-subject', this.current.subject)
 
       for(let s of this.data.subjects)
         if(s.subject.id == _single.subject.id)
           s.isEdit = !s.isEdit
         else
           s.isEdit = false
-
-
-      if(_single.isEdit){
-        console.log('NEED TO WRITE THE LOGIC FOR SAVING');
-      }
     },
     //------------
     //-- opens the topic
@@ -405,11 +409,21 @@ export default {
         'properties':['openFile']
       }
 
-      dialog.showOpenDialog(options, (p) => {
-    		ipc.send('import-subject', JSON.stringify({path: p[0]}))
+      dialog.showOpenDialog(options, (_path) => {
+    		ipc.send('import-subject', JSON.stringify({path: _path[0]}))
     	})
     },
+    choosePath(evt, _subject){
+      let options = {
+        'title':'Select new path for subject',
+        'defaultPath':'~/',
+        'properties':['openDirectory', 'createDirectory']
+      }
 
+      dialog.showOpenDialog(options, (_path) => {
+    		_subject.path = _path[0]
+    	})
+    },
     //------------
     //-- opens a dialog box to export
     //-- either from subject or topic
@@ -462,6 +476,7 @@ export default {
   },
   //------------
   //-- loads the data rendered with pug
+  //-- and sanitizes it
   //------------
   beforeMount(){
     //-- populate edit flags for each subject

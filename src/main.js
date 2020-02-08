@@ -179,6 +179,20 @@ ipc.on('create-topic', (event, _d) => {
 })
 
 //------------
+//-- saves the changes on a subject
+//-- given a JSON object
+//------------
+ipc.on('save-subject', (event, _d) => {
+		Subject.save(_d).then((_result) => {
+		console.log(`[MAIN] saved changes to ${_result.name}`);
+		mainWindow.webContents.send('msg-log', {msg: 'saved changes!', type: 'info'})
+	}).catch((err) => {
+		console.log(err);
+		mainWindow.webContents.send('msg-log', {msg: 'error saving subject!', type: 'error'})
+	})
+})
+
+//------------
 //-- removes a topic
 //-- then sends a confirmation message
 //-- to the mainWindow

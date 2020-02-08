@@ -237,6 +237,8 @@ export default {
     el.setAttribute('x', el.offsetLeft)
     el.setAttribute('y', el.offsetTop)
 
+    //-- this is commented out to prevent images from moving
+
     //-- for notes that have been loaded from previous sessions
     //-- make them reactive to a click
     // this.$el.onclick = (evt) => {
