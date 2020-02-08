@@ -34,12 +34,20 @@
         <!-- LIST SUBJECTS -->
         <div v-for="single in data.subjects" :class="current.subject.name == single.subject.name ? 'subject-container unfolded' : 'subject-container folded'">
           <div class="subject">
-            <div class="subject-name" @click="setSubject($event, single.subject)">
-              {{single.subject.name}}
+
+            <!-- SUBJECT NAME -->
+            <div  class="subject-name">
+              <div v-if="single.isEdit">
+                <input type="text" v-model:value="single.subject.name" placeholder="subject name">
               </div>
+              <div v-else @click="setSubject($event, single.subject)">
+                {{single.subject.name}}
+              </div>
+            </div>
+
 
               <div class="subject-buttons">
-                <button @click="removeSubject(single.subject)">rename</button>
+                <button @click="toggleEdit($event, single)">{{single.isEdit ? 'save' : 'edit'}}</button>
                 <button @click="">duplicate</button>
                 <button @click="exportTo('subject', 'html', single.subject.name, single.subject.path)">to html</button>
                 <button @click="exportTo('subject', 'pdf', single.subject.name, single.subject.path)">to pdf</button>
@@ -49,7 +57,11 @@
               <div v-if="current.subject.name == single.subject.name" class="subject-info-container">
                 <div class="subject-info-item">
                   <b>Description:</b><br>
-                  {{single.subject.description}}
+                  <div v-if="!single.isEdit" v-html="markdown(single.subject)"></div>
+                  <div v-else class="">
+                    <textarea v-model:value="single.subject.description.text" placeholder="description of the subject"></textarea>
+                  </div>
+
                 </div>
                 <div class="subject-info-item">
                   <b>Created at:</b><br>
@@ -103,9 +115,6 @@
 
     <!-- OVERLAY -->
     <Create v-if="showCreate" @close="showCreate = false" @create-subject="createSubject"/>
-
-    <!-- CONTROLS -->
-
 
     <div class="msg-log" id="msg-log"></div>
 
@@ -215,6 +224,13 @@ h1{
   margin: 10px;
 }
 
+.subject-info-item textarea{
+  width: 100%;
+  font-size: 1em;
+  min-height: 150px;
+  border-bottom: 2px solid $main-fg-color;
+}
+
 .subject-buttons{
   pointer-events: all;
   width: 100%;
@@ -225,6 +241,13 @@ h1{
   padding-top: 20px;
   cursor: pointer;
   overflow: hidden;
+}
+
+.subject-name input{
+  width: 50%;
+  font-size: 1em;
+  background-color: transparent;
+  border-bottom: 2px solid $main-fg-color;
 }
 
 //---------------- TOPICS
@@ -290,6 +313,7 @@ h1{
 <script>
 const ipc = require('electron').ipcRenderer
 const {dialog} = require('electron').remote
+const marked = require('marked')
 
 import Create from './Create.vue'
 
@@ -305,7 +329,11 @@ export default {
           name: undefined,
           id: undefined,
           path: '',
-          topics: []
+          topics: [],
+          description: {
+            "text": '',
+            "html": ''
+          }
         },
         topic: {
           name: undefined
@@ -314,17 +342,49 @@ export default {
       showCreate: false
     }
   },
+  computed: {
+    // markdown: function(_subject) { //-- parse the text as markdown and render as html
+    //   console.log(_subject);
+    //   _subject.description.html = marked(_subject.description.text)
+    //   return  _subject.description.html
+    // }
+  },
   methods: {
+    markdown (_subject){
+      _subject.description.html = marked(_subject.description.text)
+      return  _subject.description.html
+    },
     //------------
     //-- sets the current subject, taking event, subject, path and topics
     //-- removes styles from all subjects and topics
     //-- styles the current subject
     //------------
     setSubject(_e, _subject, _p, _t){
+      for(let s of this.data.subjects)
+        if(_subject.id != this.current.subject.id)
+          s.isEdit = false
+
       this.current.subject.name = _subject.name
       this.current.subject.id = _subject.id
       this.current.subject.topics = _subject.topics
       this.current.subject.path = _subject.path
+    },
+    //------------
+    //-- toggles edit mode independently for each subject
+    //------------
+    toggleEdit(_e, _single){
+      this.setSubject(_e, _single.subject)
+
+      for(let s of this.data.subjects)
+        if(s.subject.id == _single.subject.id)
+          s.isEdit = !s.isEdit
+        else
+          s.isEdit = false
+
+
+      if(_single.isEdit){
+        console.log('NEED TO WRITE THE LOGIC FOR SAVING');
+      }
     },
     //------------
     //-- opens the topic
@@ -404,6 +464,15 @@ export default {
   //-- loads the data rendered with pug
   //------------
   beforeMount(){
+    //-- populate edit flags for each subject
+    for(let s of window.data.subjects)
+      s.isEdit = false
+
+    //-- check that the data has correct description fields
+    for(let s of window.data.subjects)
+      if(s.subject.description.text == undefined)
+        s.subject.description = {"text": s.subject.description, "html": ''}
+
     this.data = window.data
   },
   mounted(){
