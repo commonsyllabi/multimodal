@@ -123,7 +123,7 @@ export default {
     },
     duringDrag(evt) {
       // evt.preventDefault()
-      let pos = {x: evt.screenX, y: evt.screenY}
+      let pos = {x: evt.clientX, y: evt.clientY}
 
       // pos.x -= this.data.x
       // pos.y -= this.data.y
@@ -135,8 +135,8 @@ export default {
       // evt.preventDefault()
       let pos = {x: evt.layerX, y: evt.layerY}
 
-      pos.x -= this.data.x
-      pos.y -= this.data.y
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
 
       this.$el.style.left = pos.x+'px'
       this.$el.style.top = pos.y+'px'
