@@ -7,6 +7,10 @@
       <div class="markdown-render" v-else v-html="markdown"></div>
     </div>
 
+    <div v-else-if="data.type == 'space'" :class="isEdit ? 'prep space outline' : 'prep space'">
+
+    </div>
+
     <!-- FILE PREP -->
     <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
       <input class="file-input" type="file" v-if="isEdit" @change="handlePathInput"></input>
@@ -32,6 +36,7 @@
     <!-- CONTROLS -->
     <div v-if="isEdit"class="add-buttons">
       <button @click="addPrep('md')">add txt</button>
+      <button @click="addPrep('space')">add space</button>
       <button @click="addPrep('img')">add img</button>
       <button @click="addPrep('file')">add file</button>
       <button v-if="isEdit" @click="removePrep">remove</button>
@@ -91,6 +96,16 @@ button{
 
 .prep{
   pointer-events: all;
+}
+
+.space{
+  width: 100vw;
+  height: 80vh;
+  background-color: $main-bg-color;
+}
+
+.outline{
+  border-left: 3px solid $main-fg-color;
 }
 
 .moved{
