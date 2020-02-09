@@ -134,6 +134,13 @@ export default {
             "type": _data.type
           }
           break;
+        case 'space':
+          p = {
+            "tag": "",
+            "text": "",
+            "type": _data.type
+          }
+          break;
         case 'url':
           p = {
             "tag": "",
@@ -159,6 +166,8 @@ export default {
           }
           break;
         default:
+          console.log('Unexpected prep type');
+          return
           break
       }
       this.data.preps.splice(_data.index+1, 0, p)

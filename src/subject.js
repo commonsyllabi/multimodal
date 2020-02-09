@@ -81,7 +81,7 @@ class Subject {
             console.log(`[SUBJECT] found a subject, and updating the name to ${_subject.name}...`);
             fs.ensureDirSync(`${app.getPath('userData')}/app/imports/${_subject.name}`)
             fs.copySync(`${app.getPath('userData')}/app/imports/${s.name}`, `${app.getPath('userData')}/app/imports/${_subject.name}`)
-            fs.removeSync(`${app.getPath('userData')}/app/imports/${s.subject.name}`)
+            fs.removeSync(`${app.getPath('userData')}/app/imports/${s.name}`)
           }
 
           //-- make a deep copy into the current entry of subjects.json
@@ -114,7 +114,11 @@ class Subject {
           id: _subject.id,
           description: _subject.description
         }
+
+
         _subject.topics.push(topic)
+
+        fs.writeFileSync(`${app.getPath('userData')}/app/imports/${_subject.name}/topics/${t}/topic.json`, JSON.stringify(topic))
       }
 
       //-- finally we update the local subject.json
