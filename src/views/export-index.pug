@@ -9,7 +9,8 @@ html
 		header
 			h2= name
 		main
-			p= description
+			p
+				| !{description.html}
 			h1 course notes
 			ol
 				for topic in topics
