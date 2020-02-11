@@ -124,7 +124,7 @@ let clearBoard = () => {
 //-- and switches the index of the canvas and the main-container
 //------------
 let toggleDraw = (mode) => {
-	console.log('toggling draw:', mode);
+	console.log('toggling draw:', mode)
 	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
