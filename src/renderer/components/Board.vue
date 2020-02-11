@@ -36,13 +36,14 @@
           <div class="subject">
 
             <!-- SUBJECT NAME -->
-            <div  class="subject-name">
+            <div  class="subject-name-holder">
               <div v-if="single.isEdit">
                 <input type="text" v-model:value="single.subject.name" placeholder="subject name">
               </div>
-              <div v-else @click="setSubject($event, single.subject)">
+              <div v-else @click="setSubject($event, single.subject)" class="subject-name left">
                 {{single.subject.name}}
               </div>
+              <div @click="showSessions($event, single.subject)" class="subject-open right">{{ viewSessions && current.subject.name == single.subject.name ? '<-' : '->'}}</div>
             </div>
 
 
@@ -98,7 +99,7 @@
 
     <!-- RIGHT -->
     <div class="topics-container">
-      <div class="topics" v-if="current.subject.name != undefined">
+      <div class="topics" v-if="viewSessions">
         <h1>My Classes</h1>
         <ul>
           <li v-for="topic in current.subject.topics" class="topic">
@@ -208,11 +209,11 @@ h1{
   padding: 0;
 }
 
-.subject button:hover, .topic button:hover, .subject-name:hover, .topic-name:hover{
+.subject button:hover, .topic button:hover, .subject-name-holder:hover, .topic-name:hover{
   text-decoration: underline;
 }
 
-.subject-name, .subject-buttons, .subject-info-container{
+.subject-name-holder, .subject-buttons, .subject-info-container{
   padding-left: 1vw;
 }
 
@@ -248,13 +249,20 @@ h1{
   margin-top: -10px;
 }
 
-.subject-name{
+.subject-name-holder{
   padding-top: 20px;
-  cursor: pointer;
   overflow: hidden;
 }
 
-.subject-name input{
+.subject-name, .subject-open{
+  cursor: pointer;
+}
+
+.subject-name:hover, .subject-open:hover{
+  text-decoration: underline;
+}
+
+.subject-name-holder input{
   width: 50%;
   font-size: 1em;
   background-color: transparent;
@@ -350,7 +358,8 @@ export default {
           name: undefined
         }
       },
-      showCreate: false
+      showCreate: false,
+      viewSessions: false
     }
   },
   methods: {
@@ -364,6 +373,16 @@ export default {
     //-- styles the current subject
     //------------
     setSubject(_e, _subject, _p, _t){
+
+      //-- if we're already selected
+      if(this.current.subject.name == _subject.name){
+        console.log('reset');
+        
+        this.resetSubject()
+        return
+      }
+      
+      //-- fold all other subjects
       for(let s of this.data.subjects)
         if(_subject.id != this.current.subject.id)
           s.isEdit = false
@@ -373,6 +392,30 @@ export default {
       this.current.subject.topics = _subject.topics
       this.current.subject.path = _subject.path
       this.current.subject.description = _subject.description
+    },
+    //------------
+    //-- resets the current subject
+    //------------
+    resetSubject(){
+      for(let s of this.data.subjects)
+        s.isEdit = false
+
+      this.current.subject.name = undefined
+      this.current.subject.id = undefined
+      this.current.subject.topics = undefined
+      this.current.subject.path = undefined
+      this.current.subject.description = undefined
+    },
+    //------------
+    //-- shows the active class sessions for a given subject
+    //------------
+    showSessions(_e, _subject, _p, _t){
+      this.viewSessions = !this.viewSessions
+
+      if(this.viewSessions)
+        this.setSubject(_e, _subject, _p, _t)
+      else
+        this.resetSubject()
     },
     //------------
     //-- toggles edit mode independently for each subject
@@ -479,16 +522,7 @@ export default {
   //-- and sanitizes it
   //------------
   beforeMount(){
-    //-- populate edit flags for each subject
-    for(let s of window.data.subjects)
-      s.isEdit = false
-
-    //-- check that the data has correct description fields
-    for(let s of window.data.subjects)
-      if(s.subject.description.text == undefined)
-        s.subject.description = {"text": s.subject.description, "html": ''}
-
-    this.data = window.data
+    this.data = sanitize(window.data)
   },
   mounted(){
     //------------
@@ -512,5 +546,18 @@ export default {
       }, name: "open file"}], null, true)
     })
   }
+}
+
+let sanitize = (_data) => {
+    //-- populate edit flags for each subject
+    for(let s of window.data.subjects)
+      s.isEdit = false
+
+    //-- check that the data has correct description fields
+    for(let s of window.data.subjects)
+      if(s.subject.description.text == undefined)
+        s.subject.description = {"text": s.subject.description, "html": ''}
+
+    return window.data
 }
 </script>
