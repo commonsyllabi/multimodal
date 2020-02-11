@@ -51,9 +51,13 @@ let setupCanvas = (_i) => {
 //-- activates it for drawing
 //------------
 let selectCanvas = (_page, _concept) => {
+	console.log('2.5 - looking for canvas', _page, _concept);
 	for(let i in canvases){
+		console.log('2.6 - looooooping for canvas', i);
 		if(i == 'length') break
 		if(_page && canvases[i].getAttribute('page') == `${_concept}-${_page}`){
+			console.log('-------------');
+			console.log('3 - SETTING CANVAS', _page, _concept);
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
