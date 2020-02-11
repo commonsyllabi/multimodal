@@ -40,6 +40,7 @@ let jumpToTag = (_tag) => {
 //-- and keeps track of the previous concept
 //------------
 let setCurrentConcept = (_index) => {
+	console.log('1 - setting current concept', _index);
 	previousConcept = currentConcept
 	currentConcept = _index
 	window.currentConcept = _index
@@ -61,6 +62,7 @@ let getPreviousConcept = () => {
 //-- and keeps track of the previous concept
 //------------
 let setCurrentPage = (_index, _navigate = false) => {
+	console.log('2 - setting current page', _index);
 	previousPage = currentPage
 	currentPage = _index ? _index : 0
 	window.currentPage = currentPage
