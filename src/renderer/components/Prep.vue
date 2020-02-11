@@ -7,6 +7,7 @@
       <div class="markdown-render" v-else v-html="markdown"></div>
     </div>
 
+    <!-- SPACE PREP -->
     <div v-else-if="data.type == 'space'" :class="isEdit ? 'prep space outline' : 'prep space'">
 
     </div>

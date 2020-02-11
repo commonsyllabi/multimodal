@@ -52,6 +52,7 @@ canvas {
   min-height: 105vh;
   overflow: hidden;
   background-color: $main-bg-color;
+  margin-bottom: 20vh;
 }
 
 .title, .edit-input {
