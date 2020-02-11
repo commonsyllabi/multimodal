@@ -62,7 +62,6 @@ let getPreviousConcept = () => {
 //-- and keeps track of the previous concept
 //------------
 let setCurrentPage = (_index, _navigate = false) => {
-	console.log('2 - setting current page', _index);
 	previousPage = currentPage
 	currentPage = _index ? _index : 0
 	window.currentPage = currentPage
