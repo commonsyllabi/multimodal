@@ -32,7 +32,9 @@
       <div class="subjects">
         <h1>My Syllabi</h1>
         <!-- LIST SUBJECTS -->
-        <div v-for="single in data.subjects" :class="current.subject.name == single.subject.name ? 'subject-container unfolded' : 'subject-container folded'">
+        <div v-for="single in data.subjects"
+          :class="current.subject.name == single.subject.name ? 'subject-container unfolded' : 'subject-container folded'"
+          v-bind:key="single.subject.id">
           <div class="subject">
 
             <!-- SUBJECT NAME -->
@@ -43,7 +45,8 @@
               <div v-else @click="setSubject($event, single.subject)" class="subject-name left">
                 {{single.subject.name}}
               </div>
-              <div @click="showSessions($event, single.subject)" class="subject-open right">{{ viewSessions && current.subject.name == single.subject.name ? '<-' : '->'}}</div>
+              <div @click="showSessions($event, single.subject)" class="subject-open right">
+                {{ viewSessions && current.subject.name == single.subject.name ? '<-' : '->'}}</div>
             </div>
 
 
@@ -98,11 +101,27 @@
     </div>
 
     <!-- RIGHT -->
+
+    <!-- SESSIONS CONTAINER -->
+    <div class="sessions-container">
+      <div class="sessions" v-if="viewSessions">
+        <h1>My Sessions</h1>
+        <ul>
+          <li v-for="session in current.subject.sessions" v-bind:key="session.id" class="session">
+            <div class="session-name"> {{session.name}} </div>
+            <div class="session-latest"> Last topic covered: {{current.subject.topics[current.subject.topics.length-1].name}}</div>
+          </li>
+        </ul>
+        <button class="topic-create">new session</button>
+      </div>
+    </div>
+
+    <!-- TOPICS CONTAINERS -->
     <div class="topics-container">
       <div class="topics" v-if="viewSessions">
-        <h1>My Classes</h1>
+        <h1>My Topics</h1>
         <ul>
-          <li v-for="topic in current.subject.topics" class="topic">
+          <li v-for="topic in current.subject.topics" v-bind:key="topic.id" class="topic">
           <div class="topic-name" @click="openTopic($event, topic.name)">
             {{topic.name}}
           </div>
@@ -114,7 +133,7 @@
             </div>
           </li>
         </ul>
-        <button class="topic-create" @click="createTopic(current.subject)">create new topic</button>
+        <button class="topic-create" @click="createTopic(current.subject)">new topic</button>
       </div>
     </div>
 
@@ -135,7 +154,7 @@ h1{
 
 
 //---------------- GENERAL
-.subjects-container, .topics-container, .menu-container{
+.subjects-container, .topics-container, .menu-container, .sessions-container{
   display: inline-block;
   float: left;
 	height: 100vh;
@@ -143,7 +162,7 @@ h1{
   overflow-x: hidden;
 }
 
-.subjects-container, .topics-container{
+.subjects-container, .topics-container, .sessions-container{
   position: absolute;
 	float: left;
   width: 40vw;
@@ -270,8 +289,12 @@ h1{
 }
 
 //---------------- TOPICS
-.topics-container{
+.topics-container, .sessions-container{
   left: 56vw;
+}
+
+.topics-container{
+  top: 40vh;
 }
 
 .topic, .topic-instance {
@@ -282,13 +305,17 @@ h1{
 	font-size: 1.2em;
 }
 
-.topics{
+.topics, .sessions{
   padding: 5%;
 	margin-bottom: 5%;
 }
 
+.topic, .session{
+  margin: 4px;
+}
+
 .topic {
-	border: 2px solid $main-bg-color;
+	border: 2px solid $main-fg-color;
   padding: 1vw;
   list-style-type: none;
   color: $main-bg-color;
@@ -306,13 +333,23 @@ h1{
   font-weight: bold;
 }
 
-.topic-name{
+.topic-name, .session-name{
   width: 100%;
   cursor: pointer;
   overflow: hidden;
   font-weight: bold;
 }
 
+//---------------- SESSIONS
+.session{
+  list-style: none;
+  padding: 1vw;
+
+  border: 3px solid $main-fg-color;
+  background-color: $main-bg-color;
+}
+
+//---------------- OTHERS
 .selected{
   background-color: $main-fg-color;
   color: $main-bg-color;
@@ -352,7 +389,8 @@ export default {
           description: {
             "text": '',
             "html": ''
-          }
+          },
+          sessions: []
         },
         topic: {
           name: undefined
@@ -374,24 +412,22 @@ export default {
     //------------
     setSubject(_e, _subject, _p, _t){
 
-      //-- if we're already selected
+      //-- if we're already selected, we reset
       if(this.current.subject.name == _subject.name){
-        console.log('reset');
-        
         this.resetSubject()
         return
       }
       
-      //-- fold all other subjects
+      //-- fold and stop edit mode for all other subjects
       for(let s of this.data.subjects)
         if(_subject.id != this.current.subject.id)
           s.isEdit = false
 
-      this.current.subject.name = _subject.name
-      this.current.subject.id = _subject.id
-      this.current.subject.topics = _subject.topics
-      this.current.subject.path = _subject.path
-      this.current.subject.description = _subject.description
+      
+      //-- copy into the current subject
+      Object.assign(this.current.subject, _subject)
+      console.log('current topics:', this.current.subject.topics);
+      
     },
     //------------
     //-- resets the current subject
@@ -412,9 +448,9 @@ export default {
     showSessions(_e, _subject, _p, _t){
       this.viewSessions = !this.viewSessions
 
-      if(this.viewSessions)
+      if(this.viewSessions && this.current.subject.name != _subject.name) //-- if we have no subject selected
         this.setSubject(_e, _subject, _p, _t)
-      else
+      else if(!this.viewSessions) //-- if we're already showing sessions
         this.resetSubject()
     },
     //------------
@@ -522,7 +558,9 @@ export default {
   //-- and sanitizes it
   //------------
   beforeMount(){
-    this.data = sanitize(window.data)
+    Object.assign(this.data, sanitize(window.data))
+    
+    // this.data = sanitize(window.data)
   },
   mounted(){
     //------------
@@ -558,6 +596,27 @@ let sanitize = (_data) => {
       if(s.subject.description.text == undefined)
         s.subject.description = {"text": s.subject.description, "html": ''}
 
+    //-- add default sessions
+    for(let s of window.data.subjects)
+      if(s.sessions == undefined){
+        s.subject.sessions = []
+        if(s.subject.name == "augmenting-the-gallery"){
+          s.subject.sessions.push({
+            "name": "[IMNY-UT-9001] Spring 2019",
+            "id": "000000001"
+          })
+          s.subject.sessions.push({
+            "name": "[IMNY-UT-9001] Spring 2020",
+            "id": "000000001"
+          })
+        }else{       
+          s.subject.sessions.push({
+            "name": "Default Session",
+            "id": "000000001"
+          })
+        }
+      }
+    
     return window.data
 }
 </script>
