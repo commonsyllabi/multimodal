@@ -17,7 +17,7 @@
         </div>
 
         <div class="menu-item">
-          <button>settings</button>
+          <button disabled>settings</button>
         </div>
       </div>
 
@@ -30,7 +30,7 @@
     <!-- MIDDLE -->
     <div class="subjects-container">
       <div class="subjects">
-        <h1>My Syllabi</h1>
+        <h1 v-if="data.subjects.length > 0">My Syllabi</h1>
         <!-- LIST SUBJECTS -->
         <div v-for="single in data.subjects"
           :class="current.subject.name == single.subject.name ? 'subject-container unfolded' : 'subject-container folded'"
@@ -86,12 +86,15 @@
 
         <!-- WELCOME MESSAGE -->
         <div v-if="data.subjects.length == 0" class="welcome-message">
-          <h2> Welcome to Multimodal! </h2>
+          <h2> Welcome! </h2>
           <div>
+            <b>Multimodal</b> is a software for teaching, focusing on interactive classroom discussions, the creation of full syllabi and the organization of class notes.
+            <br>
+            <br>
             It seems you haven't added any subjects yet.
             <ul>
-              <li>Click on 'Create' to get started...</li>
-              <li>...or peruse the <a href="https://periode.github.io/multimodal/" target="_blank">homepage</a> to learn more.</li>
+              <li>Click on <b>Create</b> to get started with a new syllabus.</li>
+              <li>Click on <b>Import</b> to work with an existing syllabus.</li>
             </ul>
           </div>
         </div>
@@ -112,7 +115,7 @@
             <div class="session-latest"> Last topic covered: {{current.subject.topics[current.subject.topics.length-1].name}}</div>
           </li>
         </ul>
-        <button class="topic-create">new session</button>
+        <button class="topic-create" disabled>new session</button>
       </div>
     </div>
 
@@ -417,17 +420,17 @@ export default {
         this.resetSubject()
         return
       }
-      
+
       //-- fold and stop edit mode for all other subjects
       for(let s of this.data.subjects)
         if(_subject.id != this.current.subject.id)
           s.isEdit = false
 
-      
+
       //-- copy into the current subject
       Object.assign(this.current.subject, _subject)
       console.log('current topics:', this.current.subject.topics);
-      
+
     },
     //------------
     //-- resets the current subject
@@ -559,7 +562,7 @@ export default {
   //------------
   beforeMount(){
     Object.assign(this.data, sanitize(window.data))
-    
+
     // this.data = sanitize(window.data)
   },
   mounted(){
@@ -609,14 +612,14 @@ let sanitize = (_data) => {
             "name": "[IMNY-UT-9001] Spring 2020",
             "id": "000000001"
           })
-        }else{       
+        }else{
           s.subject.sessions.push({
             "name": "Default Session",
             "id": "000000001"
           })
         }
       }
-    
+
     return window.data
 }
 </script>
