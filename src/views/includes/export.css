@@ -173,6 +173,13 @@ img {
 	margin-bottom: 10px;
 	width: 100%;
 	overflow: auto;
+	white-space: pre;
+}
+
+@media print {
+	.note{
+		white-space: normal;
+	}
 }
 
 .writeup-group{

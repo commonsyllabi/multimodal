@@ -32,17 +32,20 @@
   }
 
   .dialog{
-    background-color: $main-bg-color;
-    color: $main-fg-color;
-    font-family: "Inter UI", serif;
     position: fixed;
     top: 20vh;
     width: 50vw;
     margin-left: 20vw;
     display: block;
+
+    font-family: "Inter UI", serif;
     font-size: 2.2em;
-    border: 2px solid white;
+
     padding: 5vw;
+
+    background-color: $main-bg-color;
+    color: $main-fg-color;
+    border: 3px solid $main-fg-color;
   }
 
   .message{

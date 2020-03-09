@@ -7,6 +7,11 @@
       <div class="markdown-render" v-else v-html="markdown"></div>
     </div>
 
+    <!-- SPACE PREP -->
+    <div v-else-if="data.type == 'space'" :class="isEdit ? 'prep space outline' : 'prep space'">
+
+    </div>
+
     <!-- FILE PREP -->
     <div v-else-if="data.type == 'file'" class="prep written" :concept="index" :tag="data.tag">
       <input class="file-input" type="file" v-if="isEdit" @change="handlePathInput"></input>
@@ -32,6 +37,7 @@
     <!-- CONTROLS -->
     <div v-if="isEdit"class="add-buttons">
       <button @click="addPrep('md')">add txt</button>
+      <button @click="addPrep('space')">add space</button>
       <button @click="addPrep('img')">add img</button>
       <button @click="addPrep('file')">add file</button>
       <button v-if="isEdit" @click="removePrep">remove</button>
@@ -56,10 +62,6 @@ textarea{
 
 button{
     pointer-events: all; //-- always catch the click events
-}
-
-.markdown-render p a {
-  color: red !important;
 }
 
 .prep-holder{
@@ -95,6 +97,16 @@ button{
 
 .prep{
   pointer-events: all;
+}
+
+.space{
+  width: 100vw;
+  height: 80vh;
+  background-color: $main-bg-color;
+}
+
+.outline{
+  border-left: 3px solid $main-fg-color;
 }
 
 .moved{
@@ -160,6 +172,17 @@ img{
 <script>
 const ipc = require('electron').ipcRenderer
 const marked = require('marked')
+
+//-- setting links as target="_blank"
+let renderer = new marked.Renderer();
+renderer.link = function(href, title, text) {
+    let link = marked.Renderer.prototype.link.apply(this, arguments);
+    return link.replace("<a","<a target='_blank'");
+};
+
+marked.setOptions({
+    renderer: renderer
+});
 
 export default {
   props: {
@@ -230,14 +253,16 @@ export default {
     el.setAttribute('x', el.offsetLeft)
     el.setAttribute('y', el.offsetTop)
 
+    //-- this is commented out to prevent images from moving
+
     //-- for notes that have been loaded from previous sessions
     //-- make them reactive to a click
-    this.$el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'prep moved')
-			window.currentNote = evt.target
-		}
+    // this.$el.onclick = (evt) => {
+		// 	if(evt.target.getAttribute('id') == 'current' || this.isEdit) return
+		// 	evt.target.setAttribute('id', 'current')
+		// 	evt.target.setAttribute('class', 'prep moved')
+		// 	window.currentNote = evt.target
+		// }
   }
 }
 </script>
