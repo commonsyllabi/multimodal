@@ -30,7 +30,7 @@ canvas {
  position: absolute;
  top: 0px;
  left: 0px;
- z-index: 0;
+ z-index: -1;
  width: 100%;
  height: 100%;
 }
@@ -52,6 +52,7 @@ canvas {
   min-height: 105vh;
   overflow: hidden;
   background-color: $main-bg-color;
+  margin-bottom: 20vh;
 }
 
 .title, .edit-input {
@@ -134,6 +135,13 @@ export default {
             "type": _data.type
           }
           break;
+        case 'space':
+          p = {
+            "tag": "",
+            "text": "",
+            "type": _data.type
+          }
+          break;
         case 'url':
           p = {
             "tag": "",
@@ -159,6 +167,8 @@ export default {
           }
           break;
         default:
+          console.log('Unexpected prep type');
+          return
           break
       }
       this.data.preps.splice(_data.index+1, 0, p)

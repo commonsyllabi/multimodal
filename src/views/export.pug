@@ -24,28 +24,29 @@ html
 		each concept, index in concepts
 			div.concept-group
 				h3.concept-name(id= concept.name)= concept.name
-				div.context
-					div
-						| !{concept.context.html}
-					div.context-links
-					hr
-					each link in concept.context.links
-						a(href= link.href)= link.href
-						div= link.comment
+				if concept.context.links.length > 0
+					div.context
+						div
+							| !{concept.context.html}
+						div.context-links
+						hr
+						each link in concept.context.links
+							a(href= link.href)= link.href
+							div= link.comment
 				each page in concept.pages
 					div.page-group
 						h3.page-name= page.name
 						each prep in page.preps
 							if prep.type == "md"
-								div.prep.note(concept= index)
+								div.prep(concept= index)
 									| !{prep.html}
 							if prep.type ==  'file'
-								div.prep.note(concept= index)= prep.name
+								div.prep(concept= index)= prep.name
 							if prep.type == "img"
-								div.prep.note(concept= index)
+								div.prep(concept= index)
 									img(src= subject.name+'_assets/'+prep.name, alt= prep.name)
 							if prep.type == "vid"
-								div.prep.note(concept= index)
+								div.prep(concept= index)
 									video(width="auto", height="auto", controls)
 										source(src= 'assets/'+prep.name)
 					div.note-group

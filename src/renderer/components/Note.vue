@@ -1,5 +1,16 @@
 <template>
-  <textarea class="note moveable" type="text" v-model:value="data.text"></textarea>
+  <div class="note-holder" @dragstart="startDrag($event) "@drag="duringDrag($event)" @dragend.prevent="endDrag($event)" draggable="true">
+    <div class="note-controls">
+      <div class="note-grab">
+        ■
+      </div>
+      <div class="note-minimize" @click="toggleVisible">
+        -
+      </div>
+    </div>
+    <textarea class="note moveable" type="text" v-model:value="data.text"></textarea>
+
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -13,17 +24,52 @@ textarea {
   height: auto;
 }
 
-.note{
+.note-holder{
   position: absolute;
   pointer-events: all;
+
   z-index: 5;
-  width: 40%;
+  width: auto;
+  height: auto;
+  max-height: 60px;
+  overflow-y: hidden;
+
   color: $main-fg-color;
-  opacity: 0.8;
+  background-color: $main-bg-color;
   font-size: 1.9em;
 
   transition: opacity 0.1s ease-in;
+  transition: max-height 0.1s linear;
+  border: 3px solid $main-fg-color;
+}
 
+.note-controls{
+  z-index: 6;
+  height: 20px;
+  overflow: auto;
+  border-bottom: 3px solid $main-fg-color;
+}
+
+.note-grab{
+  cursor: grab;
+}
+
+.note-grab, .note-minimize{
+  position: absolute;
+  line-height: 14px;
+  font-size: 28px;
+  margin: 0;
+
+  width: 20px;
+}
+
+.note-minimize{
+  right: 0px;
+  top: 2px;
+  cursor: pointer;
+}
+
+.note{
   @media (max-width: 1300px){
     font-size: 1.7em;
   }
@@ -39,9 +85,7 @@ textarea {
 }
 
 #current{
-   position: absolute;
-   opacity: 1;
-   overflow-y: visible;
+  border-width: 5px;
 }
 </style>
 
@@ -65,26 +109,62 @@ export default {
   data: function () {
     return {
       x: 0,
-      y: 0
+      y: 0,
+      isVisible: false,
+      isDragging: false
     }
   },
   methods: {
+    startDrag(evt){
+      this.isDragging = true
+      let ghost = document.createElement('img')
+      ghost.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+      evt.dataTransfer.setDragImage(ghost, 0, 0)
+    },
+    duringDrag(evt) {
+      // evt.preventDefault()
+      let pos = {x: evt.clientX, y: evt.clientY}
 
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
+
+      this.$el.style.left = pos.x+'px'
+      this.$el.style.top = pos.y+'px'
+    },
+    endDrag(evt) {
+      // evt.preventDefault()
+      let pos = {x: evt.layerX, y: evt.layerY}
+
+      // pos.x -= this.data.x
+      // pos.y -= this.data.y
+
+      this.$el.style.left = pos.x+'px'
+      this.$el.style.top = pos.y+'px'
+
+      this.isDragging = false
+    },
+    toggleVisible(evt, _value) {
+      // evt.preventDefault()
+      this.isVisible = _value ? _value : !this.isVisible
+      this.$el.style.maxHeight = this.isVisible ? '500px' : '60px'
+    }
   },
   mounted(){
+    // this.toggleVisible(true)
     let el = this.$el
 
-    //-- make them reactive to a click (for notes that have been loaded from previous sessions)
-    el.onclick = (evt) => {
-			if(evt.target.getAttribute('id') == 'current') return
-			evt.target.setAttribute('id', 'current')
-			evt.target.setAttribute('class', 'note moveable')
-			window.currentNote = evt.target
-		}
+    //-- show editing note
+    el.children[1].addEventListener('click', (evt) => {
+      //-- set visible
+      this.$el.style.maxHeight = '500px'
+
+      window.currentNote = evt.target.parentNode
+      evt.target.parentNode.setAttribute('id', 'current')
+    })
 
     //-- resize on text input
-    el.addEventListener('input', () => {
-      let e = document.getElementById('current')
+    el.children[1].addEventListener('input', (evt) => {
+      let e = evt.target
       e.style.height = 'auto'
       e.style.height = (e.scrollHeight) + 'px'
     })
@@ -100,7 +180,6 @@ export default {
         }
       })
     })
-
     observer.observe(el, {attributes: true})
 
     //-- this prevents existing notes from being set as current notes on subject mount

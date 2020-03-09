@@ -51,12 +51,19 @@ let setupCanvas = (_i) => {
 //-- activates it for drawing
 //------------
 let selectCanvas = (_page, _concept) => {
+	if(!_page){
+		console.log(`_page is not defined: ${_page}`)
+		return
+	} 
+
 	for(let i in canvases){
 		if(i == 'length') break
-		if(_page && canvases[i].getAttribute('page') == `${_concept}-${_page}`){
+		if(canvases[i].getAttribute('page') == `${_concept}-${_page}`){
 			canvases[i].setAttribute('class', 'drawing-board active')
 			cnv = canvases[i]
 			ctx = contexts[i]
+			console.log('3 - SETTING CANVAS', _page, _concept)
+			break
 		}else{
 			canvases[i].setAttribute('class', 'drawing-board')
 		}
@@ -117,7 +124,7 @@ let clearBoard = () => {
 //-- and switches the index of the canvas and the main-container
 //------------
 let toggleDraw = (mode) => {
-	console.log('toggling draw:', mode);
+	console.log('toggling draw:', mode)
 	isDrawMode = mode
 	if(isDrawMode){
 		cnv.setAttribute('class', 'drawing-board active')
