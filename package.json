@@ -84,7 +84,7 @@
     "fs-extra": "^8.1.0",
     "html-pdf": "^2.2.0",
     "js-yaml": "3.13.1",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.19",
     "lodash.mergewith": "^4.6.2",
     "macaddress": "^0.2.9",
     "marked": "^0.7.0",
