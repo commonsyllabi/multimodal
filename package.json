@@ -62,6 +62,7 @@
   },
   "homepage": "https://github.com/periode/multimodal#readme",
   "devDependencies": {
+    "@vue/devtools": "^5.3.3",
     "css-loader": "^0.28.8",
     "electron": "^6.0.9",
     "electron-builder": "^20.15.1",

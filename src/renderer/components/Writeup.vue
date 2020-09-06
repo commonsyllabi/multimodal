@@ -72,6 +72,7 @@ export default {
       type: Object,
       default: () => {
         text: ""
+        html: ""
       }
     },
     isEdit: {
