@@ -24,7 +24,7 @@ html
 		each concept, index in concepts
 			div.concept-group
 				h3.concept-name(id= concept.name)= concept.name
-				if concept.context.links.length > 0
+				if concept.context.links
 					div.context
 						div
 							| !{concept.context.html}
@@ -54,7 +54,11 @@ html
 							div.prep.note(concept= index)= note.text
 							
 					div.writeup-group
-						div.prep.writeup(concept= index)
-							| !{page.writeup.html}
+						if page.writeup.html != ""
+							div.prep.writeup(concept= index)
+								| !{page.writeup.html}
+						else
+							div.prep.writeup(concept= index)
+								div= page.writeup.text
 			br
 			div.break-after(style="page-break-after:always;")
