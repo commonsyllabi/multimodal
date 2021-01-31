@@ -522,8 +522,8 @@ export default {
     		'properties':['openDirectory', 'createDirectory']
     	}
 
-    	dialog.showOpenDialog(options, (_path) => {
-    		ipc.send('export', JSON.stringify({info: this.current, path: _path, type: _type, format: _format}))
+    	dialog.showOpenDialog(options).then((result) => {
+    		ipc.send('export', JSON.stringify({info: this.current, path: result.filePaths[0], type: _type, format: _format}))
     	})
     },
     //------------

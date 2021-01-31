@@ -60,6 +60,7 @@ let createWindow = (_filename) => {
 			icon: __dirname + '/assets/icon.png',
 			frame: true,
 			webPreferences: {
+				contextIsolation: false,
 				nodeIntegration: true,
 				enableRemoteModule: true
 			}

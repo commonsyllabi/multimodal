@@ -254,7 +254,7 @@ class Topic {
   //-- name, subject name, type and path
   //------------
   static export(_data, _type, _path){
-    console.log(`[TOPIC] exporting - ${_data.topic.name} - ${_type}`)
+    console.log(`[TOPIC] exporting - ${_data.topic.name} - ${_type} to ${_path}`)
 
     return new Promise((resolve, reject) => {
       let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/topics/${_data.topic.name}/topic.json`))
@@ -278,9 +278,10 @@ class Topic {
         fs.writeFileSync(`${_path}/${topic.name}.html`, render)
 
         //-- rebuild the index
-        let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/subject.json`))
-        let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
-        fs.writeFileSync(`${_path}/index.html`, index)
+        // let subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_data.subject.name}/subject.json`))
+        // console.log(subject.description)
+        // let index = pug.renderFile(`${__dirname}/views/export-index.pug`, subject)
+        // fs.writeFileSync(`${_path}/index.html`, index)
 
         resolve()
 
