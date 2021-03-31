@@ -61,19 +61,23 @@ module.exports.list = () => {
 //-- cross check with the current data in the imports folder
 //-- removes all unfound subjects and topics
 //------------
-let cleanup = () => {
-	console.log('[BOARD] cleaning up ghost topics...');
+module.exports.cleanup = () => {
+	console.log('[BOARD] [CLEAN] cleaning up ghost topics...');
 	let subjects
 	try{
 		subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
 	}catch{
-		console.log('[BOARD] subjects.json does not exist, exiting...')
+		console.log('[BOARD] [CLEAN] subjects.json does not exist, exiting...')
 		return
 	}
 
+	//-- prepare timestamps for backups
+	let d = new Date()
+	let timestamp = `${d.getFullYear()}-${d.getUTCMonth()+1}-${d.getUTCDay()}-${d.getHours()}-${d.getMinutes()}`
+
 	//-- backup
-	console.log('[BOARD] backing up subjects.json...');
-	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json.bakup${Math.floor(Math.random()*1000)}`, JSON.stringify(subjects))
+	console.log('[BOARD] [CLEAN] backing up subjects.json...');
+	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json.bakup-${timestamp}`, JSON.stringify(subjects))
 
 	let new_subjects = []
 	for(let s of subjects){
@@ -94,17 +98,32 @@ let cleanup = () => {
 						new_topics.push(t)
 
 			s.topics = new_topics
-			console.log(`[BOARD] found ${new_topics.length}/${s.topics.length} topics for ${s.name}...`);
+			console.log(`[BOARD] [CLEAN] found ${new_topics.length}/${s.topics.length} topics for ${s.name}...`);
 
 			new_subjects.push(s)
 		} catch (e) {
-			console.log(`[BOARD] couldn't find subject ${s.name}, skipping...`);
+			console.log(`[BOARD] [CLEAN] couldn't find subject ${s.name}, skipping...`);
+		}
+
+		//-- then cleaning up ghost references of topics in subject.json
+		console.log(`[BOARD] [CLEAN] cleaning up local subject.json, backing to bakup-${timestamp}`);
+		let local_subject = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${s.name}/subject.json`))
+		fs.writeFileSync(`${app.getPath('userData')}/app/imports/${s.name}/subject.json.bakup-${timestamp}`, JSON.stringify(local_subject))
+
+		if(local_subject.topics.length > s.topics.length){
+			console.log(`[BOARD] [CLEAN] found ${s.topics.length}/${local_subject.topics.length}, cleaning...`)
+			let existing_topics = []
+			for(let local_t of local_subject.topics)
+				for(let external_t of s.topics)
+					if(local_t.id == external_t.id)
+						existing_topics.push(local_t)
+
+			local_subject.topics = existing_topics
+			fs.writeFileSync(`${app.getPath('userData')}/app/imports/${s.name}/subject.json`, JSON.stringify(local_subject))
 		}
 	}
 
-	console.log(`[BOARD] cleaned up ${new_subjects.length} subjects, writing to file...`);
+	console.log(`[BOARD] [CLEAN] cleaned up ${new_subjects.length} subjects, writing to file...`);
 	fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(new_subjects))
-	console.log(`[BOARD] ...done.`);
+	console.log(`[BOARD] [CLEAN] ...done!`);
 }
-
-// cleanup()

@@ -3,10 +3,8 @@ const ipc = electron.ipcMain
 const app = electron.app
 const shell = electron.shell
 const BrowserWindow = electron.BrowserWindow
-const BrowserView = electron.BrowserView
 
 const fs = require('fs-extra')
-const os = require('os')
 const pug = require('pug')
 
 const utils = require('./utils.js')
@@ -22,7 +20,7 @@ let mainWindow
 //-- given a JSON object and a string `_template`
 //------------
 let generateHTML = (_subjectname, _topicname) => {
-	console.log(`generating HTML with subject: ${_subjectname}, topic: ${_topicname}`);
+	console.log(`[MAIN] generating HTML for: ${_subjectname} - ${_topicname}`)
 
 	//-- read the `topic.json` file given a subject name and a topic name
 	let c = fs.readFileSync(`${app.getPath('userData')}/app/imports/${_subjectname}/topics/${_topicname}/topic.json`)
@@ -50,9 +48,8 @@ let createWindow = (_filename) => {
 	mainWindow = null
 
 	//-- set window dimensions
-	let _w_ratio = _h_ratio = 0.95
-	let _w = electron.screen.getPrimaryDisplay().workAreaSize.width*_w_ratio
-	let _h = electron.screen.getPrimaryDisplay().workAreaSize.height*_h_ratio
+	let _w = electron.screen.getPrimaryDisplay().workAreaSize.width
+	let _h = electron.screen.getPrimaryDisplay().workAreaSize.height
 
 
 	//-- create the electron window
@@ -63,8 +60,10 @@ let createWindow = (_filename) => {
 			icon: __dirname + '/assets/icon.png',
 			frame: true,
 			webPreferences: {
-      	nodeIntegration: true
-    	}
+				contextIsolation: false,
+				nodeIntegration: true,
+				enableRemoteModule: true
+			}
 		})
 
 	//-- load the file created by generateHTML into the main window
@@ -141,19 +140,19 @@ ipc.on('create-subject', (event, _d) => {
 	let topic = new Topic({
 		subject: subject,
 		name: undefined,
-		overview: {text:""},
+		overview: {text:''},
 		concepts: [{
-			name: "new concept",
-			context: {text: ""},
+			name: 'new concept',
+			context: {text: ''},
 			pages: [{
-				name: "new page",
+				name: 'new page',
 				preps: [{
-					text: "...",
-					tag: "",
-					type: "md"
+					text: '...',
+					tag: '',
+					type: 'md'
 				}],
 				notes: [],
-				writeup: {text: ""}
+				writeup: {text: ''}
 			}]
 		}]
 	})
@@ -179,12 +178,26 @@ ipc.on('create-topic', (event, _d) => {
 })
 
 //------------
+//-- saves the changes on a subject
+//-- given a JSON object
+//------------
+ipc.on('save-subject', (event, _d) => {
+	Subject.save(_d).then((_result) => {
+		console.log(`[MAIN] saved changes to ${_result.name}`)
+		mainWindow.webContents.send('msg-log', {msg: 'saved changes!', type: 'info'})
+	}).catch((err) => {
+		console.log(err)
+		mainWindow.webContents.send('msg-log', {msg: 'error saving subject!', type: 'error'})
+	})
+})
+
+//------------
 //-- removes a topic
 //-- then sends a confirmation message
 //-- to the mainWindow
 //------------
 ipc.on('remove-topic', (event, _d) => {
-	Topic.remove(_d).then((result) => {
+	Topic.remove(_d).then(() => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 
 		//-- refresh the page
@@ -197,7 +210,7 @@ ipc.on('remove-topic', (event, _d) => {
 		}, 1000)
 
 	}).catch((err) => {
-		console.log(err);
+		console.log(err)
 		mainWindow.webContents.send('msg-log', {msg: 'error deleting topic!', type: 'error'})
 	})
 })
@@ -208,7 +221,7 @@ ipc.on('remove-topic', (event, _d) => {
 //-- to the mainWindow
 //------------
 ipc.on('remove-subject', (event, _d) => {
-	Subject.remove(_d).then((result) => {
+	Subject.remove(_d).then(() => {
 		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
 		setTimeout(() => {
 
@@ -220,7 +233,7 @@ ipc.on('remove-subject', (event, _d) => {
 			replaceWindow('board')
 		}, 1000)
 	}).catch((err) => {
-		console.log(err);
+		console.log(err)
 		mainWindow.webContents.send('msg-log', {msg: 'error deleting subject!', type: 'error'})
 	})
 })
@@ -233,10 +246,12 @@ ipc.on('import-subject', (event, _d) => {
 	let path = JSON.parse(_d).path
 
 	Subject.importFrom(path).then((filename) => {
-		console.log(`[MAIN] import of ${filename} done`);
+		console.log(`[MAIN] import of ${filename} done`)
 		//-- we read from the `subject.json` file we've just imported, and create a new subject instance
 		let data = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${filename}/subject.json`))
 		let s = new Subject(data)
+		console.log(`[MAIN] created subject: ${s}`)
+		
 
 		//-- we scan for any existing topics, and create as many topic instances as necessary
 		//-- we reuse the data variable since there is no asynchronous processing involved
@@ -245,6 +260,7 @@ ipc.on('import-subject', (event, _d) => {
 		for(let topic of topics){
 			data = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${filename}/topics/${topic}/topic.json`))
 			let t = new Topic(data)
+			console.log(`[MAIN] created topic: ${t}`)
 		}
 
 		//-- we send confirmation
@@ -261,7 +277,7 @@ ipc.on('import-subject', (event, _d) => {
 		}, 1000)
 
 	}).catch((err) => {
-		console.log(err);
+		console.log(err)
 	})
 })
 
@@ -276,26 +292,26 @@ ipc.on('export', (event, _d) => {
 
 	if(d.format == 'subject'){
 		Subject.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.subject.name} done`);
+			console.log(`[MAIN] export of ${d.info.subject.name} done`)
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
 			mainWindow.webContents.send('export-success', {data: JSON.stringify(d)})
 		}).catch((err) => {
-			console.log(err);
+			console.log(err)
 		})
 	}else if(d.format == 'topic'){
 		Topic.export(d.info, d.type, d.path).then(() => {
-			console.log(`[MAIN] export of ${d.info.topic.name} done`);
+			console.log(`[MAIN] export of ${d.info.topic.name} done`)
 
 			//-- send back a confirmation and the path to the exported files
 			mainWindow.webContents.send('msg-log', {msg: 'exported!', type: 'msg'})
 			mainWindow.webContents.send('export-success', {data: JSON.stringify(d)})
 		}).catch((err) => {
-			console.log(err);
+			console.log(err)
 		})
 	}else{
-		console.log(`[MAIN] Error exporting ${_d}`);
+		console.log(`[MAIN] Error exporting ${_d}`)
 	}
 })
 
@@ -310,23 +326,23 @@ ipc.on('open-export', (event, _d) => {
 
 	if(data.type == 'html'){
 
-		if(data.location == "folder"){
+		if(data.location == 'folder'){
 			shell.showItemInFolder(`${data.path}/index.html`)
 		}	else if(data.location == 'show'){
 			let win = new BrowserWindow({width: 800, height: 600, icon: __dirname + '/icon.png', frame: true})
 			win.loadURL(`file://${data.path}/index.html`)
 		} else {
-			console.log(`[MAIN] error on opening HTML export: ${data.location}`);
+			console.log(`[MAIN] error on opening HTML export: ${data.location}`)
 		}
 
 	}else if(data.type == 'pdf'){
 
-		if(data.location == "folder"){
+		if(data.location == 'folder'){
 			shell.showItemInFolder(`${data.path}/${data.name}.pdf`)
 		}	else if(data.location == 'show'){
 			shell.openExternal(`file://${data.path}/${data.name}.pdf`)
 		} else {
-			console.log(`[MAIN] error on opening PDF export: ${data.location}`);
+			console.log(`[MAIN] error on opening PDF export: ${data.location}`)
 		}
 
 	}
@@ -340,10 +356,10 @@ ipc.on('open-export', (event, _d) => {
 //------------
 ipc.on('save-topic', (event, _data) => {
 	Topic.save(_data).then((result) => {
-		console.log(`[SAVE TOPIC] ${_data.name} to ${_data.subject.path} at ${utils.time()}`)
+		console.log(`[SAVE TOPIC] ${result.name} to ${result.subject.path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
 	}).catch((err) => {
-		console.log(`[MAIN] error on save topic: ${err}`);
+		console.log(`[MAIN] error on save topic: ${err}`)
 	})
 })
 
@@ -372,12 +388,14 @@ app.on('ready', () => {
 	//-- we copy it from our local directory
 	//-- as long with all the imported data
 	if(!fs.existsSync(`${app.getPath('userData')}/data/subjects.json`)){
-		console.log(`[MAIN] list of subjects not found in tmp dir ${app.getPath('userData')}, copying existing subjects.json found in /app`);
+		console.log(`[MAIN] list of subjects not found in tmp dir ${app.getPath('userData')}, copying existing subjects.json found in /app`)
 		fs.copySync(`${__dirname}/data/subjects.json`, `${app.getPath('userData')}/data/subjects.json`)
 		fs.copySync(`${__dirname}/app/imports`, `${app.getPath('userData')}/app/imports`)
 	}
 
+	//-- clean up any ghost references from old created topics
 	//-- list all the subjects and topics we actually have
+	board.cleanup()
 	board.list()
 	createWindow('board')
 })
