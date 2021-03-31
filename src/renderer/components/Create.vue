@@ -20,9 +20,9 @@
       <button class="create-local-path" @click="selectSubjectPath($event)">select</button>
 
       <!-- CONTROLS -->
+      <button class="btn close" @click="close">X</button>
       <div class="buttons-container">
-        <button class="btn" @click="close">close</button>
-        <button class="btn" @click="create">create</button>
+        <button class="btn right" @click="create">create</button>
         <div class="msg-log" id="msg-log"></div>
       </div>
     </div>
@@ -41,13 +41,12 @@
 	overflow: auto;
   z-index: 10;
 
-  top: 50px;
+  top: 200px;
 }
 
 .create-subject{
   position: relative;
 	width: 50%;
-	min-height: 40vh;
 	overflow: auto;
 	margin: auto;
 	padding: 4%;
@@ -56,18 +55,14 @@
   background-color: $main-bg-color;
 }
 
-.create-subject h1{
-	margin-left: 3%;
-}
-
 .name, .path, .description {
-	width: 98%;
+	width: 100%;
 	font-size: 24px;
 	height: 48px;
 	display: block;
 	float: left;
   margin-bottom: 20px;
-  padding-left: 2%;
+  border-bottom: 2px solid $main-fg-color;
 
   color: $main-fg-color;
   background-color: $main-bg-color;
@@ -99,13 +94,9 @@
 	padding-left: 10px;
 	height: 50px;
   line-height: 50px;
-	width: 100%;
-
-	background-color: $main-bg-color;
-	border-top: 2px solid $main-fg-color;
+	width: auto;
 
 	button {
-		margin-right: 2%;
     border: none;
 	}
 }
@@ -116,6 +107,8 @@
 	background-color: $main-bg-color;
   font-size: $btn-size;
 	cursor: pointer;
+  margin-right: 10px;
+  padding: 0px;
 
   @media (max-width: $break-medium){
 		font-size: 1.5em;
@@ -129,6 +122,12 @@
 
 .btn:active{
 	border: none;
+}
+
+.close{
+  position: absolute;
+  top: 10px;
+  right: 0px;
 }
 </style>
 

@@ -42,9 +42,10 @@
   top: 15vh;
   width: 0;
   height: 90%;
-  padding: 5px;
-  background-color: $main-fg-color;
-  color: $main-bg-color;
+  // padding: 5px;
+  background-color: $main-bg-color;
+  color: $main-fg-color;
+  border: 3px solid $main-fg-color;
   transition: all 0.2s linear;
 }
 
@@ -53,7 +54,7 @@
 	position:absolute;
 	width: 10px;
   top: 20px;
-	left: -20px;
+	left: -25px;
 	height: 90%;
 	background-color: $main-fg-color;
 	margin: auto;
@@ -63,17 +64,21 @@
 }
 
 h3{
-  margin: 0px 0px 0px 10px;
+  margin: 10px 0px 0px 10px;
+}
+
+textarea, .context{
+  display: block;
+  margin: auto;
 }
 
 textarea{
+  width: 90%;
   font-style: italic;
 }
 
 .context{
   width: 90%;
-  min-height: 10%;
-  margin: 10px 10px 10px 0px;
   font-size: 1.2em;
   background: transparent;
   border-left: 2px solid $main-bg-color;
@@ -85,27 +90,47 @@ textarea{
 }
 
 .context-link{
-  color: $main-bg-color;
+  float: left;
+  width: 95%;
+  margin-top: 20px;
+  padding-left: 10px;
+  color: $main-fg-color;
+}
+
+.context-link::before{
+  content: '-';
 }
 
 .display-link, .display-comment, .edit-link, .edit-comment{
-  width: 90%;
-  display: block;
-  float: left;
+  width: 85%;
+  margin: auto;
 }
 
 .edit-link, .edit-comment{
+  display: inline;
   border: none;
   padding: 5px;
-  margin: 5px 5px 5px 0px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid $main-fg-color;
+  margin-left: 0px;
 
   font-family: 'Inter UI', sans-serif;
 }
 
+.display-comment, .edit-comment{
+  margin-left: 8px;
+}
+
 .links-buttons{
   width: 90%;
-  float: left;
+}
+
+.links-buttons button{
+  font-size: 1.3em;
+  float: right;
+  border: none;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 </style>

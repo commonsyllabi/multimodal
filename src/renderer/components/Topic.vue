@@ -105,6 +105,7 @@ canvas {
 
 //-- MESSAGE BOX
 .msg-log {
+  pointer-events: none;
   position: fixed;
   z-index: 4;
 
@@ -274,53 +275,6 @@ export default {
     		break
     	}
     },
-    //---------------------
-    //-- takes care of removing the current status of the note
-    //-- and setting it as regular note
-    //---------------------
-    endNote(el){
-      this.topicSaved = false
-
-    	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
-    	if(el.value == ''){
-    		el.style.display = 'none'
-    		el.parentNode.removeChild(el)
-    	}else{ //-- else position it correctly
-    		el.style.height = (el.scrollHeight)+'px'
-    	}
-
-    	el.blur()
-    	el.removeAttribute('id')
-
-      //-- attach the listener to make it interactable again as the current note
-    	el.onclick = (evt) => {
-    		if(evt.target.getAttribute('id') == 'current') return
-    		evt.target.setAttribute('id', 'current')
-    		window.currentNote = evt.target
-    	}
-
-    	window.currentNote = null
-    },
-    //---------------------
-    //-- handles the mouse position and stores it
-    //-- if necessary, sets the current mouse position as the current note position
-    //--------------------
-    handleMousePosition(evt) {
-      //-- always save the mouse position
-      this.position = {x: evt.clientX, y: evt.clientY}
-
-      if(!window.currentNote)
-        return
-
-  		let pos = getGridPosition(this.position)
-
-      //-- we need to take into account the original position
-      pos.x -= window.currentNote.getAttribute('x')
-      pos.y -= window.currentNote.getAttribute('y')
-
-      window.currentNote.style.left = pos.x+'px'
-      window.currentNote.style.top = pos.y+'px'
-    },
     //------------
     //-- takes an element from the Note component
     //-- sets it as the currentNote globally
@@ -335,11 +289,57 @@ export default {
         el.removeAttribute('id')
 
       el.setAttribute('id', 'current')
-      el.focus()
+      el.style.maxHeight = '500px'
+      el.children[1].focus() //-- setting focus on the textarea child element
 
       let pos = getGridPosition(this.position)
       window.currentNote.style.left = Math.max(pos.x, 0)+'px'
       window.currentNote.style.top = Math.max(pos.y, 0)+'px'
+    },
+    //---------------------
+    //-- takes care of removing the current status of the note
+    //-- and setting it as regular note
+    //---------------------
+    endNote(el){
+      this.topicSaved = false
+
+    	//-- if note is left blank, remove it from the DOM (it is removed from the data structure on save)
+    	if(el.children[1].value == ''){
+    		el.style.display = 'none'
+    		el.parentNode.removeChild(el)
+    	}
+
+    	el.children[1].blur()
+    	el.removeAttribute('id')
+
+      //-- attach the listener to make it interactable again as the current note
+    	// el.onclick = (evt) => {
+    	// 	if(evt.target.parentNode.getAttribute('id') == 'current') return
+    	// 	evt.target.parentNode.setAttribute('id', 'current')
+    	// 	window.currentNote = evt.target
+    	// }
+
+    	window.currentNote = null
+    },
+    //---------------------
+    //-- handles the mouse position and stores it
+    //-- if necessary, sets the current mouse position as the current note position
+    //--------------------
+    handleMousePosition(evt) {
+      //-- always save the mouse position
+      // this.position = {x: evt.clientX, y: evt.clientY}
+      //
+      // if(!window.currentNote)
+      //   return
+      //
+  		// let pos = getGridPosition(this.position)
+      //
+      // //-- we need to take into account the original position
+      // pos.x -= window.currentNote.getAttribute('x')
+      // pos.y -= window.currentNote.getAttribute('y')
+      //
+      // window.currentNote.style.left = pos.x+'px'
+      // window.currentNote.style.top = pos.y+'px'
     },
     //------------
     //-- toggles draw mode
@@ -363,6 +363,7 @@ export default {
       this.isDrawing = false
       drawing.toggleDraw(this.isDrawing)
       if(!this.isEdit) this.topicSaved = false
+      window.isEdit = this.isEdit
     },
     //------------
     //-- exits topic
@@ -537,7 +538,6 @@ export default {
   //-- this is mostly used for backwards compatibility
   //------------
   beforeMount() {
-    console.log(window.data);
     this.data = sanitize(window.data)
 
     this.currentConcept = window.currentConcept
@@ -555,7 +555,6 @@ let sanitize = (_data) => {
   for(let i = 0; i < _data.concepts.length; i++){
     for(let j = 0; j < _data.concepts[i].pages.length; j++){
       let prep = {type: "md", text: "", tag: ""}
-      console.log(_data.concepts[i].pages[j].preps);
       for(let k = 0; k < _data.concepts[i].pages[j].preps.length; k++){
         let p = _data.concepts[i].pages[j].preps[k]
         switch (p.type) {

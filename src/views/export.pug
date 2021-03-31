@@ -10,50 +10,56 @@ html
 			h1.topic-name= name
 			h1.subject-name
 				a(href="index.html")= subject.name
-		div.overview-holder
-			h1 overview
-			| !{overview.html}
-		div.concept-nav
-			h1 summary
-			each concept in concepts
-				ul
-					a.web-only(href= '\#'+concept.name)= concept.name
-					li.print-only= concept.name
-			br
-		div.break-after(style="page-break-after:always;")
-		each concept, index in concepts
-			div.concept-group
-				h3.concept-name(id= concept.name)= concept.name
-				div.context
-					div
-						| !{concept.context.html}
-					div.context-links
-					hr
-					each link in concept.context.links
-						a(href= link.href)= link.href
-						div= link.comment
-				each page in concept.pages
-					div.page-group
-						h3.page-name= page.name
-						each prep in page.preps
-							if prep.type == "md"
-								div.prep.note(concept= index)
-									| !{prep.html}
-							if prep.type ==  'file'
-								div.prep.note(concept= index)= prep.name
-							if prep.type == "img"
-								div.prep.note(concept= index)
-									img(src= subject.name+'_assets/'+prep.name, alt= prep.name)
-							if prep.type == "vid"
-								div.prep.note(concept= index)
-									video(width="auto", height="auto", controls)
-										source(src= 'assets/'+prep.name)
-					div.note-group
-						each note in page.notes
-							div.prep.note(concept= index)= note.text
-							
-					div.writeup-group
-						div.prep.writeup(concept= index)
-							| !{page.writeup.html}
-			br
+		main
+			div.overview-holder
+				h1 overview
+				| !{overview.html}
+			div.concept-nav
+				h1 summary
+				each concept in concepts
+					ul
+						a.web-only(href= '\#'+concept.name)= concept.name
+						li.print-only= concept.name
+				br
 			div.break-after(style="page-break-after:always;")
+			each concept, index in concepts
+				div.concept-group
+					h3.concept-name(id= concept.name)= concept.name
+					if concept.context.links
+						div.context
+							div
+								| !{concept.context.html}
+							div.context-links
+							hr
+							each link in concept.context.links
+								a(href= link.href)= link.href
+								div= link.comment
+					each page in concept.pages
+						div.page-group
+							h3.page-name= page.name
+							each prep in page.preps
+								if prep.type == "md"
+									div.prep(concept= index)
+										| !{prep.html}
+								if prep.type ==  'file'
+									div.prep(concept= index)= prep.name
+								if prep.type == "img"
+									div.prep(concept= index)
+										img(src= subject.name+'_assets/'+prep.name, alt= prep.name)
+								if prep.type == "vid"
+									div.prep(concept= index)
+										video(width="auto", height="auto", controls)
+											source(src= 'assets/'+prep.name)
+						div.note-group
+							each note in page.notes
+								div.prep.note(concept= index)= note.text
+								
+						div.writeup-group
+							if page.writeup.html != ""
+								div.prep.writeup(concept= index)
+									| !{page.writeup.html}
+							else
+								div.prep.writeup(concept= index)
+									div= page.writeup.text
+				br
+				div.break-after(style="page-break-after:always;")

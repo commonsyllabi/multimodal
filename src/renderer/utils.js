@@ -9,6 +9,7 @@ let delay = 2000
 //-- and fades out after `delay`
 //------------
 module.exports.setMessage = (_msg, _type) => {
+	console.log(`[MSG] [${_type}] ${_msg}`)
 	let el = document.getElementById('msg-log')
 	el.innerText = _msg
 	el.setAttribute('class', 'msg-log '+_type)

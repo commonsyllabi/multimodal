@@ -40,6 +40,7 @@ let jumpToTag = (_tag) => {
 //-- and keeps track of the previous concept
 //------------
 let setCurrentConcept = (_index) => {
+	console.log('1 - setting current concept', _index)
 	previousConcept = currentConcept
 	currentConcept = _index
 	window.currentConcept = _index
@@ -87,7 +88,8 @@ let setCurrentPage = (_index, _navigate = false) => {
 	}
 
 	//-- select the corresponding canvas
-	drawing.selectCanvas(currentPage, currentConcept)
+	if(!window.isEdit)
+		drawing.selectCanvas(currentPage, currentConcept)
 }
 
 let getCurrentPage = () => {

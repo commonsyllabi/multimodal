@@ -15,17 +15,17 @@ module.exports.time = () => {
 }
 
 module.exports.deleteFolderRecursive = (path) => {
-  if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index){
-      let curPath = path + "/" + file;
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
-        module.exports.deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
+	if (fs.existsSync(path)) {
+		fs.readdirSync(path).forEach(function(file){
+			let curPath = path + '/' + file
+			if (fs.lstatSync(curPath).isDirectory()) { // recurse
+				module.exports.deleteFolderRecursive(curPath)
+			} else { // delete file
+				fs.unlinkSync(curPath)
+			}
+		})
+		fs.rmdirSync(path)
+	}
 }
 
 module.exports.touchDirectory = (_path) => {

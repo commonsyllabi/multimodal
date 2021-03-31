@@ -61,6 +61,74 @@ class Subject {
   }
 
   //------------
+  //-- saves changes on a subject given
+  //-- a full board object
+  //------------
+  static save(_subject){
+    console.log(`[SUBJECT] saving changes to ${_subject.name}...`);
+    return new Promise((resolve, reject) => {
+
+      //-- first we update the main subjects.json list
+      let subjects = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/data/subjects.json`))
+
+      let foundSubject = false
+      for(let s of subjects){
+        if(s.id == _subject.id){
+          foundSubject = true
+
+          if(s.name != _subject.name){
+            //-- now we need to rename the folders
+            console.log(`[SUBJECT] found a subject, and updating the name to ${_subject.name}...`);
+            fs.ensureDirSync(`${app.getPath('userData')}/app/imports/${_subject.name}`)
+            fs.copySync(`${app.getPath('userData')}/app/imports/${s.name}`, `${app.getPath('userData')}/app/imports/${_subject.name}`)
+            fs.removeSync(`${app.getPath('userData')}/app/imports/${s.name}`)
+          }
+
+          //-- make a deep copy into the current entry of subjects.json
+          Object.assign(s, _subject)
+          fs.writeFileSync(`${app.getPath('userData')}/data/subjects.json`, JSON.stringify(subjects))
+
+          break;
+        }
+      }
+
+      if(!foundSubject)
+        reject({
+          err: "Couldn't find a corresponding subject in the main list."
+        })
+
+      //-- then we need to update the subject reference inside the topics
+      //-- and update the topics inside the new subject
+      _subject.topics = []
+
+      let topics = fs.readdirSync(`${app.getPath('userData')}/app/imports/${_subject.name}/topics/`)
+      for(let t of topics){
+        let topic = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${_subject.name}/topics/${t}/topic.json`))
+
+        //-- we need this extra line to avoid copying over the subject.topics
+        //-- and avoid loop
+        topic.subject = {
+          name: _subject.name,
+          created: _subject.created,
+          path: _subject.path,
+          id: _subject.id,
+          description: _subject.description
+        }
+
+
+        _subject.topics.push(topic)
+
+        fs.writeFileSync(`${app.getPath('userData')}/app/imports/${_subject.name}/topics/${t}/topic.json`, JSON.stringify(topic))
+      }
+
+      //-- finally we update the local subject.json
+      fs.writeFileSync(`${app.getPath('userData')}/app/imports/${_subject.name}/subject.json`, JSON.stringify(_subject))
+
+      resolve(_subject)
+    })
+  }
+
+  //------------
   //-- removes a subject given
   //-- a name and an id
   //------------
