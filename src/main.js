@@ -251,7 +251,7 @@ ipc.on('import-subject', (event, _d) => {
 		let data = JSON.parse(fs.readFileSync(`${app.getPath('userData')}/app/imports/${filename}/subject.json`))
 		let s = new Subject(data)
 		console.log(`[MAIN] created subject: ${s}`)
-		
+
 
 		//-- we scan for any existing topics, and create as many topic instances as necessary
 		//-- we reuse the data variable since there is no asynchronous processing involved
@@ -370,7 +370,7 @@ ipc.on('exit-home', () => {
 	board.list()
 	replaceWindow('board')
 })
-
+console.log(app.getPath('userData'))
 //------------
 //-- start up the process the first time
 //-- handles making sure the necessary directories exist
