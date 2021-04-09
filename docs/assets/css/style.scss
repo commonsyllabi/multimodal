@@ -1,0 +1,138 @@
+---
+---
+// OVERRIDE SCSS VARIABLES
+// Breakpoints
+$large-breakpoint: 64em !default;
+$medium-breakpoint: 42em !default;
+
+// Headers
+$header-heading-color: #fff !default;
+$header-bg-color: #e77607;
+$header-bg-color-secondary: #daa638 !default;
+
+// Text
+$section-headings-color: #000 !default;
+$body-text-color: #414a4e !default;
+// $body-link-color: #1e6bb8 !default;
+$body-link-color: #000000 !default;
+$blockquote-text-color: #819198 !default;
+
+// Code
+$code-bg-color: #f3f6fa !default;
+$code-text-color: #567482 !default;
+
+// Borders
+$border-color: #dce6f0 !default;
+$table-border-color: #e9ebec !default;
+$hr-border-color: #eff0f1 !default;
+
+
+@import 'jekyll-theme-cayman';
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #606c71;
+}
+
+a {
+    border-bottom: 1px solid $header-bg-color;
+    margin-bottom: -1px;
+    &:hover {
+        text-decoration: none;
+        border-bottom: 2px solid $header-bg-color;
+        margin-bottom: -2px;
+    }
+}
+
+// Header sizing 
+.hero-image {
+    max-width: 8rem;
+    height: auto;
+    padding-bottom: 2rem;
+}
+.project-name {
+    margin-top: 0;
+    margin-bottom: 0.1rem;
+  
+    @include large {
+      font-size: 2.25rem;
+      max-width: 60rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    @include medium {
+      font-size: 2.25rem;
+    }
+  
+    @include small {
+      font-size: 1.75rem;
+    }
+  }
+  
+  .project-tagline {
+  
+    @include large {
+      font-size: 1.25rem;
+      max-width: 50rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    @include medium {
+      font-size: 1.15rem;
+    }
+  
+    @include small {
+      font-size: 1rem;
+    }
+  }
+
+// 'mo whitespace pls
+.main-content {
+
+  @include large {
+    max-width: 64rem;
+    padding: 2rem 6rem;
+    margin: 0 auto;
+    font-size: 1.1rem;
+  }
+
+  @include medium {
+    padding: 2rem 4rem;
+    font-size: 1.1rem;
+  }
+
+  @include small {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+    p {
+        margin-bottom: 2.4rem;
+    }
+    hr {
+        margin: 6rem 0;
+    }
+    ul {
+        margin-bottom: 4rem;
+    }
+    li {
+        margin-bottom: 1.2rem;
+    }
+
+}
+
+// style to-do lists
+.task-list {
+    list-style: none;
+    padding-left: 1rem;
+    .task-list-item input{
+        margin-right: 1rem;
+    }
+}
+
+
