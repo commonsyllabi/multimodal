@@ -23,15 +23,17 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 domain: opensyllabi.github.io       # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
 url: https://opensyllabi.github.io  # the base hostname and protocol for your site, e.g. http://example.com
-baseurl: /multimodal/      # place folder name if the site is served in a subfolder
+baseurl: /multimodal     # place folder name if the site is served in a subfolder
 
 twitter_username: jekyllrb
 github_username:  jekyll
 
 # Build settings
 markdown: kramdown
-theme: minima
+# theme: minima
+remote_theme: pages-themes/cayman@v0.2.0
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
 
 # Exclude from processing.
