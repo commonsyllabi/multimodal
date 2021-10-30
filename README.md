@@ -23,12 +23,12 @@ Multimodal is composed of a **BOARD PAGE**, in which you can see, create, edit a
 
 #### DISPLAY A SYLLABUS
 
-![main board page with topics](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_board_1.png)
+![main board page with topics](https://github.com/opensyllabi/multimodal/blob/master/docs/assets/tutorial_board_1.png)
 
 
 #### DISPLAY THE TOPICS AND SESSIONS
 
-![main board page](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_board_2.png)
+![main board page](https://github.com/opensyllabi/multimodal/blob/master/docs/assets/tutorial_board_2.png)
 
 ### TOPIC PAGE
 
@@ -36,11 +36,11 @@ To enter Edit Mode, click on `File > Toggle Edit...` or press `CMD+E`.
 
 #### DISPLAY MODE
 
-![topic page](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_topic_display.png)
+![topic page](https://github.com/opensyllabi/multimodal/blob/master/docs/assets/tutorial_topic_display.png)
 
 #### EDIT MODE
 
-![topic page in edit mode](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_topic.png)
+![topic page in edit mode](https://github.com/opensyllabi/multimodal/blob/master/docs/assets/tutorial_topic.png)
 
 ## Install
 
