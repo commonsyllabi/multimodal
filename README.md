@@ -23,12 +23,12 @@ Multimodal is composed of a **BOARD PAGE**, in which you can see, create, edit a
 
 #### DISPLAY A SYLLABUS
 
-![main board page with topics](https://github.com/periode/multimodal/blob/dev/docs/tutorial_board_1.png)
+![main board page with topics](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_board_1.png)
 
 
 #### DISPLAY THE TOPICS AND SESSIONS
 
-![main board page](https://github.com/periode/multimodal/blob/dev/docs/tutorial_board_2.png)
+![main board page](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_board_2.png)
 
 ### TOPIC PAGE
 
@@ -36,17 +36,17 @@ To enter Edit Mode, click on `File > Toggle Edit...` or press `CMD+E`.
 
 #### DISPLAY MODE
 
-![topic page](https://github.com/periode/multimodal/blob/dev/docs/tutorial_topic_display.png)
+![topic page](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_topic_display.png)
 
 #### EDIT MODE
 
-![topic page in edit mode](https://github.com/periode/multimodal/blob/dev/docs/tutorial_topic.png)
+![topic page in edit mode](https://github.com/opensyllabi/multimodal/blob/dev/docs/tutorial_topic.png)
 
 ## Install
 
 ### User
 
-Stable release coming soon. In the meantime, download the [latest beta version](https://github.com/periode/multimodal/releases) or subscribe to [the newsletter](https://mailchi.mp/aaf7085ab18a/multimodal) to receive the latest updates.
+Stable release coming soon. In the meantime, download the [latest beta version](https://github.com/opensyllabi/multimodal/releases) or start this repository to receive the latest updates.
 
 ### Developer
 
