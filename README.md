@@ -5,7 +5,7 @@ Desktop app for teaching
 
 ## ABOUT
 
-Please visit the Multimodal website at [https://multimodal.cc](https://multimodal.cc) to learn more about the project.
+Please visit the OpenSyllabi website at [https://opensyllabi.github.io/multimodal](https://opensyllabi.github.io/multimodal) to learn more about the project.
 
 ## FEATURES
 
