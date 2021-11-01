@@ -7,12 +7,12 @@ hero-image: assets/multimodal_icon.png
 
 ## Building Tools for Our Needs
 
-As educators ourselves, our motivation came out of disappointment with thae existing tools at our disposal.
+As educators ourselves, our motivation came out of disappointment with the existing tools at our disposal.
 
 ### Our frustration stems from:
 
 1. **not having access to our colleagues’ syllabi.**
-2. **not having tools that support the process of authoring and maintaining syllabi **
+2. **not having tools that support the process of authoring and maintaining syllabi**
 3. **having to utilize presentation software that fall short for educational purposes**
 
 ---
