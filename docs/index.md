@@ -17,7 +17,7 @@ As educators ourselves, our motivation came out of disappointment with thae exis
 
 ---
 
-## Knowledge Siloing
+## Siloed Knowledge
 
 ### **Hindered access to our colleagues’ syllabi.**
 
