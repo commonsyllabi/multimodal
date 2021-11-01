@@ -109,6 +109,12 @@ a {
     padding: 2rem 1rem;
     font-size: 1rem;
   }
+  h3 {
+    margin-top: 0.3rem;
+  }
+  h6 {
+    margin-bottom: 0;
+  }
   p {
     margin-bottom: 2.4rem;
   }
@@ -123,6 +129,17 @@ a {
   }
 }
 
+// Table
+.two-up-table {
+  display: flex;
+  flex-direction: row;
+  .table-cell {
+    width: 50%;
+    padding: 2rem;
+    border: 1px solid #ccc;
+  }
+}
+
 // style to-do lists
 .task-list {
   list-style: none;
@@ -130,4 +147,8 @@ a {
   .task-list-item input {
     margin-right: 1rem;
   }
+}
+
+footer {
+  display: none;
 }
