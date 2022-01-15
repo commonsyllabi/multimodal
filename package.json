@@ -91,7 +91,7 @@
     "lodash": "^4.17.19",
     "lodash.mergewith": "^4.6.2",
     "macaddress": "^0.2.9",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "mem": "^4.0.0",
     "mixin-deep": "^1.3.2",
     "object-path": "0.11.5",
