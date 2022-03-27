@@ -174,15 +174,15 @@ const ipc = require('electron').ipcRenderer
 const marked = require('marked')
 
 //-- setting links as target="_blank"
-let renderer = new marked.Renderer();
+const renderer = new marked.Renderer();
 renderer.link = function(href, title, text) {
     let link = marked.Renderer.prototype.link.apply(this, arguments);
     return link.replace("<a","<a target='_blank'");
 };
 
-marked.setOptions({
-    renderer: renderer
-});
+// marked.setOptions({
+//     renderer: renderer
+// });
 
 export default {
   props: {
@@ -214,7 +214,7 @@ export default {
   },
   computed: {
     markdown: function () {//-- parse the text as markdown and render as html
-      this.data.html = marked(this.data.text)
+      this.data.html = marked.parse(this.data.text, { renderer })
       return this.data.html
     }
   },

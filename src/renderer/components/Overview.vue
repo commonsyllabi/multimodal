@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     markdown: function() { //-- parse the text as markdown and render as html
-      this.overview.html = marked(this.overview.text)
+      this.overview.html = marked.parse(this.overview.text)
       return this.overview.html
     }
   },

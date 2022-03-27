@@ -405,7 +405,7 @@ export default {
   },
   methods: {
     markdown (_subject){
-      _subject.description.html = marked(_subject.description.text)
+      _subject.description.html = marked.parse(_subject.description.text)
       return  _subject.description.html
     },
     //------------

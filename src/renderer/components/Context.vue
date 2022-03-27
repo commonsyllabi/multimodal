@@ -160,7 +160,7 @@ export default {
   },
   computed: {
     markdown: function () {
-      this.data.html = marked(this.data.text)
+      this.data.html = marked.parse(this.data.text)
       return this.data.html
     }
   },

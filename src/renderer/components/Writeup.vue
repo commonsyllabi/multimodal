@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     markdown: function () {//-- parse the text as markdown and render as html
-      this.data.html = marked(this.data.text)
+      this.data.html = marked.parse(this.data.text)
       return this.data.html
     }
   },
