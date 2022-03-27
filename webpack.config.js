@@ -11,6 +11,7 @@ let targetPath = process.platform == 'linux' ?
   path.join(process.env.HOME, '/Library/Application Support/multimodal/app')
 
 module.exports = {
+  mode: 'development',
   entry: {
 	  topic:'./src/renderer/topic.js',
 	  main:'./src/renderer/main.js'
