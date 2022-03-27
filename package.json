@@ -84,7 +84,7 @@
     "ansi-html": "^0.0.8",
     "bufferutil": "^4.0.6",
     "dot-prop": "4.2.1",
-    "engine.io": "4.0.0",
+    "engine.io": "4.1.2",
     "fs-extra": "^8.1.0",
     "html-pdf": "^2.2.0",
     "is-svg": "4.3.0",
