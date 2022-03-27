@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 const electron = require('electron')
 const app = electron.app
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 //-- different target directories based on platforms
@@ -28,7 +28,7 @@ module.exports = {
           {
             test: /\.(woff|ttf|otf|eot|svg)$/,
             exclude: /node_modules/,
-            loader: 'url-loader',
+            loader: 'file-loader',
             options: {
               limit: 50000,
               name: 'fonts/[name].[ext]'
@@ -41,9 +41,6 @@ module.exports = {
       ]
   },
   plugins: [
-      new ExtractTextPlugin('style.css', {
-          allChunks: true
-      }),
       new VueLoaderPlugin()
   ],
   target: "electron-main",
