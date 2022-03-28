@@ -1,4 +1,5 @@
 const electron = require('electron')
+require('@electron/remote/main').initialize()
 const ipc = electron.ipcMain
 const app = electron.app
 const shell = electron.shell
@@ -12,6 +13,7 @@ const board = require('./board.js')
 
 const Subject = require('./subject.js')
 const Topic = require('./topic.js')
+const { webContents } = require('electron')
 
 let mainWindow
 
@@ -65,6 +67,9 @@ let createWindow = (_filename) => {
 				enableRemoteModule: true
 			}
 		})
+	
+	//-- TODO not sure if this is still needed since we're just using built-in IPC.handle() now
+	require('@electron/remote/main').enable(mainWindow.webContents)
 
 	//-- load the file created by generateHTML into the main window
 	mainWindow.loadURL(`file:///${app.getPath('userData')}/app/${_filename}.html`)
@@ -93,14 +98,14 @@ let replaceWindow = (_filename) => {
 //------------
 //-- opens the path to a local file
 //------------
-ipc.on('open-path', (event, _path) => {
+ipc.handle('open-path', (event, _path) => {
 	shell.openExternal(_path)
 })
 
 //------------
 //-- opens a URL in a web browser
 //------------
-ipc.on('open-url', (event, _url) => {
+ipc.handle('open-url', (event, _url) => {
 	shell.openExternal(_url)
 
 	//TODO one day have a URL open in a multimodal sub-window
@@ -123,7 +128,7 @@ ipc.on('open-url', (event, _url) => {
 //-- takes a JSON object
 //-- generates an HTML and loads it
 //------------
-ipc.on('open-topic', (event, _d) => {
+ipc.handle('open-topic', (event, _d) => {
 	generateHTML(_d.subject.name, _d.topic.name)
 	replaceWindow('topic')
 })
@@ -133,7 +138,7 @@ ipc.on('open-topic', (event, _d) => {
 //-- takes a JSON object,
 //-- and opens up the topic window immediately
 //------------
-ipc.on('create-subject', (event, _d) => {
+ipc.handle('create-subject', (event, _d) => {
 	let subject = new Subject(_d)
 
 	//-- by creating a new topic with a subject, it automatically gets associated with it
@@ -170,7 +175,7 @@ ipc.on('create-subject', (event, _d) => {
 //-- given a JSON object
 //-- and opens it up in the window
 //------------
-ipc.on('create-topic', (event, _d) => {
+ipc.handle('create-topic', (event, _d) => {
 	let topic = new Topic(_d)
 
 	generateHTML(topic.subject.name, topic.name)
@@ -181,7 +186,7 @@ ipc.on('create-topic', (event, _d) => {
 //-- saves the changes on a subject
 //-- given a JSON object
 //------------
-ipc.on('save-subject', (event, _d) => {
+ipc.handle('save-subject', (event, _d) => {
 	Subject.save(_d).then((_result) => {
 		console.log(`[MAIN] saved changes to ${_result.name}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved changes!', type: 'info'})
@@ -196,7 +201,7 @@ ipc.on('save-subject', (event, _d) => {
 //-- then sends a confirmation message
 //-- to the mainWindow
 //------------
-ipc.on('remove-topic', (event, _d) => {
+ipc.handle('remove-topic', (event, _d) => {
 	Topic.remove(_d).then(() => {
 		mainWindow.webContents.send('msg-log', {msg: 'topic deleted!', type: 'info'})
 
@@ -220,7 +225,7 @@ ipc.on('remove-topic', (event, _d) => {
 //-- then sends a confirmation message
 //-- to the mainWindow
 //------------
-ipc.on('remove-subject', (event, _d) => {
+ipc.handle('remove-subject', (event, _d) => {
 	Subject.remove(_d).then(() => {
 		mainWindow.webContents.send('msg-log', {msg: 'subject deleted!', type: 'info'})
 		setTimeout(() => {
@@ -242,7 +247,8 @@ ipc.on('remove-subject', (event, _d) => {
 //-- imports a subject
 //-- takes a JSON object with a 'path' attribute
 //------------
-ipc.on('import-subject', (event, _d) => {
+ipc.handle('import-subject', (event, _d) => {
+	console.log("we are called");
 	let path = JSON.parse(_d).path
 
 	Subject.importFrom(path).then((filename) => {
@@ -287,7 +293,7 @@ ipc.on('import-subject', (event, _d) => {
 //-- the subject name, the type of the export (pdf, html) and
 //-- where to write it to
 //------------
-ipc.on('export', (event, _d) => {
+ipc.handle('export', (event, _d) => {
 	let d = JSON.parse(_d)
 
 	if(d.format == 'subject'){
@@ -321,7 +327,7 @@ ipc.on('export', (event, _d) => {
 //-- opens a file or directory of exports
 //-- containing a type, a path and a subject name
 //------------
-ipc.on('open-export', (event, _d) => {
+ipc.handle('open-export', (event, _d) => {
 	let data = JSON.parse(_d) //-- this is ridiculous
 
 	if(data.type == 'html'){
@@ -354,7 +360,7 @@ ipc.on('open-export', (event, _d) => {
 //-- passes it to the Topic class
 //-- and passes the response back
 //------------
-ipc.on('save-topic', (event, _data) => {
+ipc.handle('save-topic', (event, _data) => {
 	Topic.save(_data).then((result) => {
 		console.log(`[SAVE TOPIC] ${result.name} to ${result.subject.path} at ${utils.time()}`)
 		mainWindow.webContents.send('msg-log', {msg: 'saved!', type: 'info'})
@@ -366,7 +372,7 @@ ipc.on('save-topic', (event, _data) => {
 //------------
 //-- replace the mainWindow with the board
 //------------
-ipc.on('exit-home', () => {
+ipc.handle('exit-home', () => {
 	board.list()
 	replaceWindow('board')
 })

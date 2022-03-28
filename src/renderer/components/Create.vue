@@ -132,7 +132,7 @@
 </style>
 
 <script>
-const {dialog} = require('electron').remote
+const { dialog } = require('@electron/remote')
 
 export default {
   data: function () {

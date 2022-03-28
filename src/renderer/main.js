@@ -2,6 +2,8 @@
 
 const ipc = require('electron').ipcRenderer
 
+console.log('hey');
+
 require('./sass/globals.scss')
 
 import * as utils from './utils.js'

@@ -124,7 +124,7 @@
       <div class="topics" v-if="viewSessions">
         <h1>My Topics</h1>
         <ul>
-          <li v-for="topic in current.subject.topics" v-bind:key="topic.id" class="topic">
+          <li v-for="topic in current.subject.topics" class="topic"> <!-- removed v-bind:key="topic.id" -->
           <div class="topic-name" @click="openTopic($event, topic.name)">
             {{topic.name}}
           </div>
@@ -371,7 +371,7 @@ h1{
 
 <script>
 const ipc = require('electron').ipcRenderer
-const {dialog} = require('electron').remote
+const { dialog } = require('@electron/remote')
 const marked = require('marked')
 
 import Create from './Create.vue'
@@ -479,7 +479,7 @@ export default {
       this.current.topic.name = _n
       if(this.current.topic == {}) return
 
-    	ipc.send('open-topic', this.current)
+    	ipc.invoke('open-topic', this.current)
     },
     //------------
     //-- opens a dialog box to import a .mmd file
@@ -491,9 +491,11 @@ export default {
         'properties':['openFile']
       }
 
-      dialog.showOpenDialog(options, (_path) => {
-    		ipc.send('import-subject', JSON.stringify({path: _path[0]}))
-    	})
+      dialog.showOpenDialog(options).then( (_path) => {
+    		ipc.invoke('import-subject', JSON.stringify({path: _path.filePaths[0]}))
+    	}).catch((err) => {
+        console.error('Error with dialog', err);
+      })
     },
     choosePath(evt, _subject){
       let options = {
@@ -523,21 +525,21 @@ export default {
     	}
 
     	dialog.showOpenDialog(options).then((result) => {
-    		ipc.send('export', JSON.stringify({info: this.current, path: result.filePaths[0], type: _type, format: _format}))
+    		ipc.invoke('export', JSON.stringify({info: this.current, path: result.filePaths[0], type: _type, format: _format}))
     	})
     },
     //------------
     //-- creates a topic, under a given subject
     //------------
     createTopic(_subject){
-      ipc.send('create-topic', {subject: _subject})
+      ipc.invoke('create-topic', {subject: _subject})
     },
     //------------
     //-- removes a given topic
     //------------
     removeTopic(_topic){
       msgbox.setMessage("are you sure you want to remove this topic?", [{fn: () => {
-        ipc.send('remove-topic', _topic)
+        ipc.invoke('remove-topic', _topic)
       }, name: "remove"}], null, true)
     },
     //------------
@@ -545,14 +547,14 @@ export default {
     //-- called from within the Create component
     //------------
     createSubject(_subject){
-      ipc.send('create-subject', _subject)
+      ipc.invoke('create-subject', _subject)
     },
     //------------
     //-- removes a given subject
     //------------
     removeSubject(_subject){
       msgbox.setMessage("are you sure you want to remove this subject?", [{fn: () => {
-        ipc.send('remove-subject', _subject)
+        ipc.invoke('remove-subject', _subject)
       }, name: "remove"}], null, true)
     }
   },
