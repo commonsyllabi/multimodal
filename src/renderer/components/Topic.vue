@@ -372,16 +372,16 @@ export default {
     //------------
     exitTopic() {
       if(!this.topicSaved)
-        msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.send('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
+        msgbox.setMessage("it seems you haven\'t saved this session. would you still like quit?", [{fn: () => {ipc.invoke('exit-home', {'coming':'back'})}, name: "exit"}], null, true)
       else
-        ipc.send('exit-home', {'coming':'back'})
+        ipc.invoke('exit-home', {'coming':'back'})
     },
     //------------
     //-- save topic
     //-- checks for all empty notes and skips them
     //-- sets all the remaining notes as `saved`
     //-- sets them as the data notes
-    //-- sends the data back to the main process
+    //-- invoke the procedure in the main process
     //------------
     saveTopic() {
       utils.setMessage('saving...', 'info')
@@ -401,7 +401,7 @@ export default {
     		}
     	}
 
-			ipc.send('save-topic', this.data)
+			ipc.invoke('save-topic', this.data)
       this.topicSaved = true
     },
     //------------

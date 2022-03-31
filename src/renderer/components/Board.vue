@@ -464,7 +464,7 @@ export default {
       this.setSubject(_e, _single.subject)
 
       if(_single.isEdit)
-        ipc.send('save-subject', this.current.subject)
+        ipc.invoke('save-subject', this.current.subject)
 
       for(let s of this.data.subjects)
         if(s.subject.id == _single.subject.id)
@@ -581,11 +581,11 @@ export default {
 
       msgbox.setMessage("export successful!", [{fn: () => {
         data.location = "folder"
-        ipc.send('open-export', JSON.stringify(data))
+        ipc.invoke('open-export', JSON.stringify(data))
       }, name: "show in folder"},
       {fn: () => {
         data.location = "show"
-        ipc.send('open-export', JSON.stringify(data))
+        ipc.invoke('open-export', JSON.stringify(data))
       }, name: "open file"}], null, true)
     })
   }
