@@ -65,7 +65,7 @@
     "@electron/remote": "^2.0.8",
     "@vue/devtools": "^5.3.3",
     "css-loader": "5.0.2",
-    "electron": "13.6.6",
+    "electron": "18.3.7",
     "electron-builder": "^20.15.1",
     "electron-webpack-plugin": "^2.0.0",
     "eslint": "^4.18.2",
